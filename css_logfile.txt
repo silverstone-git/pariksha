@@ -1,0 +1,4 @@
+### Method 11: Initialize State from System Preference
+
+-   **Action**: Updated the `useLocalStorage` hook to check for the user's system theme (`prefers-color-scheme`) when the theme value was not already in local storage.
+-   **Degree of Success**: **Partial Failure.** This correctly set the initial theme of the application to match the browser's theme. However, the toggle button still did not work. The application remained "stuck" in the initial theme, even though the logs confirmed the `dark` class was being correctly added and removed from the `<html>` element. This confirms the issue is a CSS specificity/build problem, where the browser's default theme styles are overriding the application's toggled styles.
