@@ -1,0 +1,75 @@
+[
+  {
+    "question": "An object is thrown straight up with an initial velocity of $20 \\, \\text{m/s}$. What is the maximum height it reaches? (Assume $g = 9.8 \\, \\text{m/s}^2$)",
+    "options": [
+      {"label": 1, "value": "Approximately $10.2 \\, \\text{m}$"},
+      {"label": 2, "value": "Approximately $20.4 \\, \\text{m}$"},
+      {"label": 3, "value": "Approximately $40.8 \\, \\text{m}$"},
+      {"label": 4, "value": "Approximately $9.8 \\, \\text{m}$"}
+    ],
+    "answer_label": 2,
+    "topic": "Physics - Kinematics",
+    "id": "q-1"
+  },
+  {
+    "question": "What is the integral of $f(x) = 3x^2 + 2x + 5$?",
+    "options": [
+      {"label": 1, "value": "$x^3 + x^2 + 5x + C$"},
+      {"label": 2, "value": "$6x + 2 + C$"},
+      {"label": 3, "value": "$3x^3 + 2x^2 + 5x + C$"},
+      {"label": 4, "value": "$x^2 + x + 5 + C$"}
+    ],
+    "answer_label": 1,
+    "id": "q-2",
+    "topic": "Math - Calculus"
+  },
+  {
+    "question": "According to Ohm's law, what is the voltage across a resistor if the current is $2.5 \\, \\text{A}$ and the resistance is $10 \\, \\Omega$?",
+    "options": [
+      {"label": 1, "value": "$4 \\, \\text{V}$"},
+      {"label": 2, "value": "$12.5 \\, \\text{V}$"},
+      {"label": 3, "value": "$25 \\, \\text{V}$"},
+      {"label": 4, "value": "$0.25 \\, \\text{V}$"}
+    ],
+    "answer_label": 3,
+    "id": "q-3",
+    "topic": "Physics - Circuits"
+  },
+  {
+    "question": "What are the roots of the quadratic equation $x^2 - 5x + 6 = 0$?",
+    "options": [
+      {"label": 1, "value": "$x=2$ and $x=3$"},
+      {"label": 2, "value": "$x=-2$ and $x=-3$"},
+      {"label": 3, "value": "$x=1$ and $x=6$"},
+      {"label": 4, "value": "$x=-1$ and $x=-6$"}
+    ],
+    "answer_label": 1,
+    "id": "q-4",
+    "topic": "Math - Algebra"
+  },
+  {
+    "question": "A force of $50 \\, \\text{N}$ is applied to an object with a mass of $5 \\, \\text{kg}$. What is the acceleration of the object?",
+    "options": [
+        {"label": 1, "value": "$250 \\, \\text{m/s}^2$"},
+        {"label": 2, "value": "$10 \\, \\text{m/s}^2$"},
+        {"label": 3, "value": "$0.1 \\, \\text{m/s}^2$"},
+        {"label": 4, "value": "$45 \\, \\text{m/s}^2$"}
+    ],
+    "answer_label": 2,
+    "id": "q-5",
+    "topic": "Physics - Dynamics"
+  },
+  {
+    "question": "What is the value of $\\sin(90^\\circ) + \\cos(0^\\circ)$?",
+    "options": [
+        {"label": 1, "value": "0"},
+        {"label": 2, "value": "1"},
+        {"label": 3, "value": "2"},
+        {"label": 4, "value": "-1"}
+    ],
+    "answer_label": 3,
+    "id": "q-6",
+    "topic": "Math - Trigonometry"
+  }
+]
+

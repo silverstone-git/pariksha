@@ -44,6 +44,8 @@ Pariksha is a modern, web-based exam simulator built with React, TypeScript, and
     ```
     The application will be available at `http://localhost:5173`.
 
+4. Upload an exam json file. Refer the `sample_paper.json` in the project root for the syntax. Enclose math in `$`-s to enable LaTeX
+
 ### Available Scripts
 
 -   `npm run dev`: Starts the development server.
