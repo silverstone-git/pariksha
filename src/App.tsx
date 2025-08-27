@@ -7,7 +7,6 @@ import {
   Upload,
   Download,
   Clock,
-  BarChart2,
   Home,
   FileText,
   History,
@@ -1035,7 +1034,7 @@ export default function App() {
     minutes: 30,
   });
   const [lastResult, setLastResult] = React.useState<ExamResult | null>(null);
-  const [examHistory, setExamHistory] = useLocalStorage<ExamResult[]>(
+  const [, setExamHistory] = useLocalStorage<ExamResult[]>(
     "examHistory",
     [],
   );
