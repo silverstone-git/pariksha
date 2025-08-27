@@ -33,6 +33,7 @@ interface Question {
   options: Option[];
   answer_label: number;
   topic: string;
+  explanation: string;
 }
 
 interface ShuffledQuestion extends Question {
@@ -298,7 +299,8 @@ const FileUploader: React.FC<{
           !Array.isArray(parsed) ||
           parsed.length === 0 ||
           !parsed[0].question ||
-          !parsed[0].options
+          !parsed[0].options ||
+          !parsed[0].explanation
         ) {
           throw new Error("Invalid JSON format.");
         }
@@ -1000,6 +1002,18 @@ const ResultsScreen: React.FC<{
                     );
                   })}
                 </div>
+                {reviewingQuestion.explanation && (
+                  <div
+                    className={`mt-4 p-3 rounded-lg ${
+                      reviewingAnswer.isCorrect
+                        ? "bg-green-50 dark:bg-green-900/50 text-green-700 dark:text-green-300"
+                        : "bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300"
+                    }`}
+                  >
+                    <h4 className="font-bold mb-2">Explanation</h4>
+                    <Latex>{reviewingQuestion.explanation}</Latex>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
