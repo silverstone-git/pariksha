@@ -77,6 +77,15 @@ interface SWOTAnalysis {
   threats: string[];
 }
 
+interface ServerExam {
+  exam_id: string;
+  exam_title: string;
+}
+
+interface ServerExamDetail extends ServerExam {
+    exam_json_str: string;
+}
+
 // --- UTILITY FUNCTIONS ---
 const shuffleArray = <T,>(array: T[]): T[] => {
   return [...array].sort(() => Math.random() - 0.5);
@@ -273,10 +282,105 @@ const Button: React.FC<{
   );
 };
 
+const UploadModal: React.FC<{
+  examJson: string;
+  fileName: string;
+  onClose: () => void;
+  onUpload: (config: ExamConfig) => void;
+}> = ({ examJson, fileName, onClose, onUpload }) => {
+  const [userName, setUserName] = React.useState("");
+  const [examTitle, setExamTitle] = React.useState(fileName.replace(".json", ""));
+  const [isPosting, setIsPosting] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+
+  const handlePost = async () => {
+    if (!userName.trim() || !examTitle.trim()) {
+      setError("Name and title are required.");
+      return;
+    }
+    setError(null);
+    setIsPosting(true);
+
+    try {
+      const response = await fetch("https://outsie.aryan.cfd/pariksha", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          exam_title: `${userName} - ${examTitle}`,
+          exam_json_str: examJson,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const parsedJson = JSON.parse(examJson);
+      onUpload({ name: examTitle, questions: parsedJson });
+      onClose();
+    } catch (err) {
+      setError("Failed to post exam. Please try again.");
+      console.error(err);
+    } finally {
+      setIsPosting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <Card className="w-full max-w-md">
+        <h2 className="text-2xl font-semibold mb-4">Upload Exam</h2>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
+              Your Name
+            </label>
+            <input
+              type="text"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value.slice(0, 50))}
+              maxLength={50}
+              className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
+              placeholder="Enter your name"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
+              Exam Title
+            </label>
+            <input
+              type="text"
+              value={examTitle}
+              onChange={(e) => setExamTitle(e.target.value)}
+              className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
+              placeholder="Enter exam title"
+            />
+          </div>
+        </div>
+        {error && <p className="text-red-500 mt-4 text-sm">{error}</p>}
+        <div className="mt-6 flex justify-end gap-4">
+          <Button onClick={onClose} variant="secondary" disabled={isPosting}>
+            Cancel
+          </Button>
+          <Button onClick={handlePost} disabled={isPosting}>
+            {isPosting ? "Posting..." : "Post and save in browser"}
+          </Button>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
 const FileUploader: React.FC<{
   onFileUpload: (config: ExamConfig) => void;
 }> = ({ onFileUpload }) => {
   const [error, setError] = React.useState<string | null>(null);
+  const [uploadData, setUploadData] = React.useState<{
+    examJson: string;
+    fileName: string;
+  } | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -304,10 +408,8 @@ const FileUploader: React.FC<{
         ) {
           throw new Error("Invalid JSON format.");
         }
-        const examName = file.name.replace(".json", "");
-        onFileUpload({ name: examName, questions: parsed });
+        setUploadData({ examJson: content, fileName: file.name });
         setError(null);
-        if (fileInputRef.current) fileInputRef.current.value = "";
       } catch (err) {
         setError("Failed to parse JSON file. Please check the format.");
         console.error(err);
@@ -318,6 +420,11 @@ const FileUploader: React.FC<{
 
   const handleClick = () => {
     fileInputRef.current?.click();
+  };
+
+  const handleCloseModal = () => {
+    setUploadData(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   return (
@@ -333,6 +440,13 @@ const FileUploader: React.FC<{
         <Upload size={20} /> Upload New Exam JSON
       </Button>
       {error && <p className="text-red-500 mt-2 text-sm">{error}</p>}
+      {uploadData && (
+        <UploadModal
+          {...uploadData}
+          onClose={handleCloseModal}
+          onUpload={onFileUpload}
+        />
+      )}
     </div>
   );
 };
@@ -407,9 +521,29 @@ const HomeScreen: React.FC<{
     "availableExams",
     [],
   );
+  const [serverExams, setServerExams] = React.useState<ServerExam[]>([]);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(1);
   const [examHistory] = useLocalStorage<ExamResult[]>("examHistory", []);
   const [hours, setHours] = React.useState(1);
   const [minutes, setMinutes] = React.useState(30);
+
+  React.useEffect(() => {
+    const fetchExams = async () => {
+      try {
+        const response = await fetch(`https://outsie.aryan.cfd/pariksha?page=${currentPage}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setServerExams(data.exams);
+        setTotalPages(data.total_pages);
+      } catch (error) {
+        console.error("Failed to fetch server exams:", error);
+      }
+    };
+    fetchExams();
+  }, [currentPage]);
 
   const handleFileUpload = (config: ExamConfig) => {
     if (!availableExams.some((exam) => exam.name === config.name)) {
@@ -419,10 +553,29 @@ const HomeScreen: React.FC<{
     }
   };
 
-  const startExam = (config: ExamConfig) => {
+  const startExam = async (configOrId: ExamConfig | string) => {
     setTimerConfig({ hours, minutes });
-    setExamConfig(config);
-    setScreen("exam");
+    if (typeof configOrId === 'string') {
+        try {
+            const response = await fetch(`https://outsie.aryan.cfd/pariksha/${configOrId}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const examDetail: ServerExamDetail = await response.json();
+            const examConfig: ExamConfig = {
+                name: examDetail.exam_title,
+                questions: JSON.parse(examDetail.exam_json_str)
+            };
+            setExamConfig(examConfig);
+            setScreen("exam");
+        } catch (error) {
+            console.error("Failed to fetch exam details:", error);
+            alert("Failed to load the exam. Please try again.");
+        }
+    } else {
+        setExamConfig(configOrId);
+        setScreen("exam");
+    }
   };
 
   return (
@@ -471,22 +624,45 @@ const HomeScreen: React.FC<{
             <FileText /> Available Exams
           </h2>
           <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
-            {availableExams.length > 0 ? (
-              availableExams.map((exam, index) => (
-                <div
-                  key={index}
-                  className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
-                >
-                  <span className="font-medium">{exam.name}</span>
-                  <Button onClick={() => startExam(exam)}>Start</Button>
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-500 dark:text-gray-400">
-                Upload an exam JSON to begin.
-              </p>
+            {availableExams.length > 0 && (
+                <>
+                <h3 className="font-semibold text-gray-600 dark:text-gray-400">Local Exams</h3>
+                {availableExams.map((exam, index) => (
+                    <div
+                    key={`local-${index}`}
+                    className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                    >
+                    <span className="font-medium">{exam.name}</span>
+                    <Button onClick={() => startExam(exam)}>Start</Button>
+                    </div>
+                ))}
+                </>
             )}
-          </div>
+            {serverExams.length > 0 && (
+                <>
+                <h3 className="font-semibold text-gray-600 dark:text-gray-400 mt-4">Server Exams</h3>
+                {serverExams.map((exam) => (
+                    <div
+                    key={exam.exam_id}
+                    className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                    >
+                    <span className="font-medium">{exam.exam_title}</span>
+                    <Button onClick={() => startExam(exam.exam_id)}>Start</Button>
+                    </div>
+                ))}
+                <div className="flex justify-center items-center gap-4 mt-4">
+                    <Button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}>Prev</Button>
+                    <span>Page {currentPage} of {totalPages}</span>
+                    <Button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}>Next</Button>
+                </div>
+                </>
+            )}
+            {availableExams.length === 0 && serverExams.length === 0 && (
+                <p className="text-gray-500 dark:text-gray-400">
+                Upload an exam JSON to begin.
+                </p>
+            )}
+            </div>
         </Card>
         <Card>
           <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2 text-gray-700 dark:text-gray-200">
