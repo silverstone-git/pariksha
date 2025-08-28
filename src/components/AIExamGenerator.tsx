@@ -2,7 +2,7 @@ import React from "react";
 import { Card } from "./Card";
 import { Button } from "./Button";
 import { X, Clipboard, Check } from "lucide-react";
-import { ExamConfig } from "../types";
+import type { ExamConfig } from "../types";
 import { isValidExamQuestions, robustJsonParse, API_BASE_URL } from "../utils";
 
 export const AIExamGenerator: React.FC<{
@@ -133,7 +133,9 @@ Please provide only the raw JSON array as the output.
 
   const handleSaveToLocal = () => {
     if (!llmOutput.trim()) {
-      setError("Please paste the output from the LLM.");
+      setError(
+        "Please paste the output from the LLM (Preferably Claude or ChatGPT).",
+      );
       return;
     }
 
@@ -159,7 +161,9 @@ Please provide only the raw JSON array as the output.
 
   const handlePostToCommunity = async () => {
     if (!llmOutput.trim()) {
-      setError("Please paste the output from the LLM.");
+      setError(
+        "Please paste the output from the LLM (Preferable Claude or Chatgpt).",
+      );
       return;
     }
     if (!userName.trim() || !examName.trim()) {
@@ -323,7 +327,7 @@ Please provide only the raw JSON array as the output.
               value={llmOutput}
               onChange={(e) => setLlmOutput(e.target.value)}
               className="w-full p-2 h-32 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
-              placeholder="Paste the JSON array from the LLM here."
+              placeholder="Paste the JSON array from the LLM (Preferably CLaude or ChatGPT) here."
             />
           </div>
 

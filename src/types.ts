@@ -29,12 +29,13 @@ export interface UserAnswer {
   timeSpent: number; // in seconds
 }
 
-export interface SWOTAnalysis {
+export type SWOTAnalysis = {
   strengths: string[];
   weaknesses: string[];
   opportunities: string[];
   threats: string[];
-}
+};
+
 
 export interface ExamResult {
   id: string;

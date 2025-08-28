@@ -24,14 +24,14 @@ import "katex/dist/katex.min.css";
 import { Latex } from "./components/Latex";
 import { AIExamGenerator } from "./components/AIExamGenerator";
 
-import {
+import type {
   ExamConfig,
   ExamResult,
-  Question,
   ServerExam,
   ServerExamDetail,
   ShuffledQuestion,
   SWOTAnalysis,
+  UserAnswer,
 } from "./types";
 
 import {
@@ -514,17 +514,16 @@ const HomeScreen: React.FC<{
   setTimerConfig: (config: { hours: number; minutes: number }) => void;
   viewResult: (result: ExamResult) => void;
   handleFileUpload: (config: ExamConfig) => void;
+  availableExams: ExamConfig[];
 }> = ({
   setExamConfig,
   setScreen,
   setTimerConfig,
   viewResult,
   handleFileUpload,
+  availableExams,
 }) => {
-  const [availableExams, setAvailableExams] = useLocalStorage<ExamConfig[]>(
-    "availableExams",
-    [],
-  );
+
   const [serverExams, setServerExams] = React.useState<ServerExam[]>([]);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(1);
@@ -1350,6 +1349,7 @@ export default function App() {
             setTimerConfig={setTimerConfig}
             viewResult={viewResult}
             handleFileUpload={handleFileUpload}
+            availableExams={availableExams}
           />
         );
     }
