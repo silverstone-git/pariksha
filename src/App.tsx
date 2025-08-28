@@ -87,9 +87,53 @@ interface ServerExamDetail extends ServerExam {
 }
 
 // --- UTILITY FUNCTIONS ---
+const API_BASE_URL = import.meta.env.DEV
+  ? "http://localhost:8671"
+  : "https://outsie.aryan.cfd";
+
 const shuffleArray = <T,>(array: T[]): T[] => {
   return [...array].sort(() => Math.random() - 0.5);
 };
+
+const robustJsonParse = (jsonString: string): any => {
+  try {
+    return JSON.parse(jsonString);
+  } catch (error) {
+    if (error instanceof SyntaxError && error.message.includes("at position")) {
+      const positionMatch = /at position (\d+)/.exec(error.message);
+      if (positionMatch && positionMatch[1]) {
+        const position = parseInt(positionMatch[1], 10);
+        const fixedJsonString =
+          jsonString.slice(0, position) +
+          '\\' +
+          jsonString.slice(position);
+        try {
+          return JSON.parse(fixedJsonString);
+        } catch (secondError) {
+          console.error("JSON parsing fix failed. Original error:", error);
+          throw error;
+        }
+      }
+    }
+    throw error;
+  }
+};
+
+const isValidExamQuestions = (questions: any): questions is Question[] => {
+  return (
+    Array.isArray(questions) &&
+    questions.length > 0 &&
+    questions.every(
+      (q) =>
+        typeof q.question === "string" &&
+        Array.isArray(q.options) &&
+        typeof q.answer_label === "number" &&
+        typeof q.topic === "string" &&
+        typeof q.explanation === "string",
+    )
+  );
+};
+
 
 const formatTime = (seconds: number): string => {
   if (isNaN(seconds) || seconds < 0) return "00:00:00";
@@ -185,7 +229,7 @@ function useLocalStorage<T>(
       console.log(`[LocalStorage] Reading key '${key}':`, item);
       // If a value is stored in localStorage, use it.
       if (item) {
-        return JSON.parse(item);
+        return robustJsonParse(item);
       }
       // If no value is stored, and we are setting the theme, check system preference.
       if (key === 'theme') {
@@ -302,7 +346,7 @@ const UploadModal: React.FC<{
     setIsPosting(true);
 
     try {
-      const response = await fetch("https://outsie.aryan.cfd/pariksha", {
+      const response = await fetch(`${API_BASE_URL}/pariksha`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -317,7 +361,7 @@ const UploadModal: React.FC<{
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const parsedJson = JSON.parse(examJson);
+      const parsedJson = robustJsonParse(examJson);
       onUpload({ name: examTitle, questions: parsedJson });
       onClose();
     } catch (err) {
@@ -398,7 +442,7 @@ const FileUploader: React.FC<{
         const content = e.target?.result;
         if (typeof content !== "string")
           throw new Error("Failed to read file content.");
-        const parsed = JSON.parse(content);
+        const parsed = robustJsonParse(content);
         if (
           !Array.isArray(parsed) ||
           parsed.length === 0 ||
@@ -472,7 +516,7 @@ const ResultUploader: React.FC<{
         const content = e.target?.result;
         if (typeof content !== "string")
           throw new Error("Failed to read file content.");
-        const parsed = JSON.parse(content);
+        const parsed = robustJsonParse(content);
         // Basic validation
         if (!parsed.id || !parsed.examName || !parsed.answers) {
           throw new Error("Invalid exam result JSON format.");
@@ -531,19 +575,28 @@ const HomeScreen: React.FC<{
   React.useEffect(() => {
     const fetchExams = async () => {
       try {
-        const response = await fetch(`https://outsie.aryan.cfd/pariksha?page=${currentPage}`);
+        const response = await fetch(`${API_BASE_URL}/pariksha?page=${currentPage}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setServerExams(data.exams);
-        setTotalPages(data.total_pages);
+        if (Array.isArray(data)) {
+          setServerExams(data);
+          setTotalPages(1);
+        } else {
+          setServerExams(data.exams || []);
+          setTotalPages(data.total_pages || 1);
+        }
       } catch (error) {
         console.error("Failed to fetch server exams:", error);
       }
     };
     fetchExams();
   }, [currentPage]);
+
+  React.useEffect(() => {
+    console.log("Server exams updated:", serverExams);
+  }, [serverExams]);
 
   const handleFileUpload = (config: ExamConfig) => {
     if (!availableExams.some((exam) => exam.name === config.name)) {
@@ -557,14 +610,20 @@ const HomeScreen: React.FC<{
     setTimerConfig({ hours, minutes });
     if (typeof configOrId === 'string') {
         try {
-            const response = await fetch(`https://outsie.aryan.cfd/pariksha/${configOrId}`);
+            const response = await fetch(`${API_BASE_URL}/pariksha/${configOrId}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const examDetail: ServerExamDetail = await response.json();
+            const questions = robustJsonParse(examDetail.exam_json_str);
+            
+            if (!isValidExamQuestions(questions)) {
+              throw new Error("Invalid exam question format from server.");
+            }
+
             const examConfig: ExamConfig = {
                 name: examDetail.exam_title,
-                questions: JSON.parse(examDetail.exam_json_str)
+                questions: questions
             };
             setExamConfig(examConfig);
             setScreen("exam");
