@@ -17,131 +17,30 @@ import {
   CheckCircle2,
   XCircle,
   Eye,
+  Bot,
 } from "lucide-react";
 import "katex/dist/katex.min.css";
 import "katex/dist/katex.min.css";
 import { Latex } from "./components/Latex";
+import { AIExamGenerator } from "./components/AIExamGenerator";
 
-// --- TYPESCRIPT INTERFACES ---
-interface Option {
-  label: number;
-  value: string;
-}
+import {
+  ExamConfig,
+  ExamResult,
+  Question,
+  ServerExam,
+  ServerExamDetail,
+  ShuffledQuestion,
+  SWOTAnalysis,
+} from "./types";
 
-interface Question {
-  question: string;
-  options: Option[];
-  answer_label: number;
-  topic: string;
-  explanation: string;
-}
-
-interface ShuffledQuestion extends Question {
-  shuffledOptions: Option[];
-  id: string;
-}
-
-interface ExamConfig {
-  name: string;
-  questions: Question[];
-}
-
-interface UserAnswer {
-  questionId: string;
-  selectedOptionLabel: number | null;
-  isCorrect: boolean;
-  timeSpent: number; // in seconds
-}
-
-interface ExamResult {
-  id: string;
-  examName: string;
-  date: number;
-  score: number;
-  totalQuestions: number;
-  correctAnswers: number;
-  incorrectAnswers: number;
-  accuracy: number;
-  totalTimeTaken: number; // in seconds
-  timePerTopic: Record<string, number>;
-  accuracyPerTopic: Record<string, number>;
-  swot: SWOTAnalysis;
-  answers: UserAnswer[];
-  originalQuestions: ShuffledQuestion[];
-}
-
-interface SWOTAnalysis {
-  strengths: string[];
-  weaknesses: string[];
-  opportunities: string[];
-  threats: string[];
-}
-
-interface ServerExam {
-  exam_id: string;
-  exam_title: string;
-}
-
-interface ServerExamDetail extends ServerExam {
-    exam_json_str: string;
-}
-
-// --- UTILITY FUNCTIONS ---
-const API_BASE_URL = import.meta.env.DEV
-  ? "http://localhost:8671"
-  : "https://outsie.aryan.cfd";
-
-const shuffleArray = <T,>(array: T[]): T[] => {
-  return [...array].sort(() => Math.random() - 0.5);
-};
-
-const robustJsonParse = (jsonString: string): any => {
-  try {
-    return JSON.parse(jsonString);
-  } catch (error) {
-    if (error instanceof SyntaxError && error.message.includes("at position")) {
-      const positionMatch = /at position (\d+)/.exec(error.message);
-      if (positionMatch && positionMatch[1]) {
-        const position = parseInt(positionMatch[1], 10);
-        const fixedJsonString =
-          jsonString.slice(0, position) +
-          '\\' +
-          jsonString.slice(position);
-        try {
-          return JSON.parse(fixedJsonString);
-        } catch (secondError) {
-          console.error("JSON parsing fix failed. Original error:", error);
-          throw error;
-        }
-      }
-    }
-    throw error;
-  }
-};
-
-const isValidExamQuestions = (questions: any): questions is Question[] => {
-  return (
-    Array.isArray(questions) &&
-    questions.length > 0 &&
-    questions.every(
-      (q) =>
-        typeof q.question === "string" &&
-        Array.isArray(q.options) &&
-        typeof q.answer_label === "number" &&
-        typeof q.topic === "string" &&
-        typeof q.explanation === "string",
-    )
-  );
-};
-
-
-const formatTime = (seconds: number): string => {
-  if (isNaN(seconds) || seconds < 0) return "00:00:00";
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  const s = Math.floor(seconds % 60);
-  return [h, m, s].map((v) => v.toString().padStart(2, "0")).join(":");
-};
+import {
+  formatTime,
+  isValidExamQuestions,
+  robustJsonParse,
+  shuffleArray,
+  API_BASE_URL,
+} from "./utils";
 
 const generateSwotAnalysis = (results: ExamResult): SWOTAnalysis => {
   const swot: SWOTAnalysis = {
@@ -221,7 +120,9 @@ function useLocalStorage<T>(
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [storedValue, setStoredValue] = React.useState<T>(() => {
     if (typeof window === "undefined") {
-      console.log(`[LocalStorage] Window is undefined. Using initial value for key: ${key}`);
+      console.log(
+        `[LocalStorage] Window is undefined. Using initial value for key: ${key}`,
+      );
       return initialValue;
     }
     try {
@@ -232,9 +133,13 @@ function useLocalStorage<T>(
         return robustJsonParse(item);
       }
       // If no value is stored, and we are setting the theme, check system preference.
-      if (key === 'theme') {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        console.log(`[LocalStorage] No theme in storage. System prefers dark mode: ${prefersDark}`);
+      if (key === "theme") {
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        console.log(
+          `[LocalStorage] No theme in storage. System prefers dark mode: ${prefersDark}`,
+        );
         return prefersDark as T;
       }
       // Otherwise, use the initialValue provided.
@@ -251,7 +156,10 @@ function useLocalStorage<T>(
         value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
       if (typeof window !== "undefined") {
-        console.log(`[LocalStorage] Writing to key '${key}':`, JSON.stringify(valueToStore));
+        console.log(
+          `[LocalStorage] Writing to key '${key}':`,
+          JSON.stringify(valueToStore),
+        );
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
     } catch (error) {
@@ -270,7 +178,12 @@ const ThemeToggle: React.FC<{
   return (
     <button
       onClick={() => {
-        console.log('[ThemeToggle] Button clicked. Current isDark:', isDark, 'Setting to:', !isDark);
+        console.log(
+          "[ThemeToggle] Button clicked. Current isDark:",
+          isDark,
+          "Setting to:",
+          !isDark,
+        );
         setIsDark(!isDark);
       }}
       className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
@@ -282,10 +195,10 @@ const ThemeToggle: React.FC<{
 };
 
 // --- UI COMPONENTS ---
-const Card: React.FC<{ children: React.ReactNode; className?: string }> = ({
-  children,
-  className = "",
-}) => (
+export const Card: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+}> = ({ children, className = "" }) => (
   <div
     className={`bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 transition-colors ${className}`}
   >
@@ -293,7 +206,7 @@ const Card: React.FC<{ children: React.ReactNode; className?: string }> = ({
   </div>
 );
 
-const Button: React.FC<{
+export const Button: React.FC<{
   onClick?: () => void;
   children: React.ReactNode;
   className?: string;
@@ -333,7 +246,9 @@ const UploadModal: React.FC<{
   onUpload: (config: ExamConfig) => void;
 }> = ({ examJson, fileName, onClose, onUpload }) => {
   const [userName, setUserName] = React.useState("");
-  const [examTitle, setExamTitle] = React.useState(fileName.replace(".json", ""));
+  const [examTitle, setExamTitle] = React.useState(
+    fileName.replace(".json", ""),
+  );
   const [isPosting, setIsPosting] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -439,9 +354,28 @@ const FileUploader: React.FC<{
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const content = e.target?.result;
+        let content = e.target?.result;
         if (typeof content !== "string")
           throw new Error("Failed to read file content.");
+
+        // Fault tolerance: find the first '{' or '[' and the last '}' or ']'
+        const firstBracket = content.indexOf("{");
+        const firstSquare = content.indexOf("[");
+
+        let start = -1;
+        if (firstBracket === -1) start = firstSquare;
+        else if (firstSquare === -1) start = firstBracket;
+        else start = Math.min(firstBracket, firstSquare);
+
+        const lastBracket = content.lastIndexOf("}");
+        const lastSquare = content.lastIndexOf("]");
+
+        let end = Math.max(lastBracket, lastSquare);
+
+        if (start !== -1 && end !== -1 && end > start) {
+          content = content.substring(start, end + 1);
+        }
+
         const parsed = robustJsonParse(content);
         if (
           !Array.isArray(parsed) ||
@@ -513,9 +447,28 @@ const ResultUploader: React.FC<{
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const content = e.target?.result;
+        let content = e.target?.result;
         if (typeof content !== "string")
           throw new Error("Failed to read file content.");
+
+        // Fault tolerance: find the first '{' or '[' and the last '}' or ']'
+        const firstBracket = content.indexOf("{");
+        const firstSquare = content.indexOf("[");
+
+        let start = -1;
+        if (firstBracket === -1) start = firstSquare;
+        else if (firstSquare === -1) start = firstBracket;
+        else start = Math.min(firstBracket, firstSquare);
+
+        const lastBracket = content.lastIndexOf("}");
+        const lastSquare = content.lastIndexOf("]");
+
+        let end = Math.max(lastBracket, lastSquare);
+
+        if (start !== -1 && end !== -1 && end > start) {
+          content = content.substring(start, end + 1);
+        }
+
         const parsed = robustJsonParse(content);
         // Basic validation
         if (!parsed.id || !parsed.examName || !parsed.answers) {
@@ -560,7 +513,14 @@ const HomeScreen: React.FC<{
   setScreen: (screen: "exam" | "results") => void;
   setTimerConfig: (config: { hours: number; minutes: number }) => void;
   viewResult: (result: ExamResult) => void;
-}> = ({ setExamConfig, setScreen, setTimerConfig, viewResult }) => {
+  handleFileUpload: (config: ExamConfig) => void;
+}> = ({
+  setExamConfig,
+  setScreen,
+  setTimerConfig,
+  viewResult,
+  handleFileUpload,
+}) => {
   const [availableExams, setAvailableExams] = useLocalStorage<ExamConfig[]>(
     "availableExams",
     [],
@@ -571,11 +531,14 @@ const HomeScreen: React.FC<{
   const [examHistory] = useLocalStorage<ExamResult[]>("examHistory", []);
   const [hours, setHours] = React.useState(1);
   const [minutes, setMinutes] = React.useState(30);
+  const [isAiModalOpen, setIsAiModalOpen] = React.useState(false);
 
   React.useEffect(() => {
     const fetchExams = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/pariksha?page=${currentPage}`);
+        const response = await fetch(
+          `${API_BASE_URL}/pariksha?page=${currentPage}`,
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -598,42 +561,34 @@ const HomeScreen: React.FC<{
     console.log("Server exams updated:", serverExams);
   }, [serverExams]);
 
-  const handleFileUpload = (config: ExamConfig) => {
-    if (!availableExams.some((exam) => exam.name === config.name)) {
-      setAvailableExams((prev) => [...prev, config]);
-    } else {
-      alert("An exam with this name already exists.");
-    }
-  };
-
   const startExam = async (configOrId: ExamConfig | string) => {
     setTimerConfig({ hours, minutes });
-    if (typeof configOrId === 'string') {
-        try {
-            const response = await fetch(`${API_BASE_URL}/pariksha/${configOrId}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const examDetail: ServerExamDetail = await response.json();
-            const questions = robustJsonParse(examDetail.exam_json_str);
-            
-            if (!isValidExamQuestions(questions)) {
-              throw new Error("Invalid exam question format from server.");
-            }
-
-            const examConfig: ExamConfig = {
-                name: examDetail.exam_title,
-                questions: questions
-            };
-            setExamConfig(examConfig);
-            setScreen("exam");
-        } catch (error) {
-            console.error("Failed to fetch exam details:", error);
-            alert("Failed to load the exam. Please try again.");
+    if (typeof configOrId === "string") {
+      try {
+        const response = await fetch(`${API_BASE_URL}/pariksha/${configOrId}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-    } else {
-        setExamConfig(configOrId);
+        const examDetail: ServerExamDetail = await response.json();
+        const questions = robustJsonParse(examDetail.exam_json_str);
+
+        if (!isValidExamQuestions(questions)) {
+          throw new Error("Invalid exam question format from server.");
+        }
+
+        const examConfig: ExamConfig = {
+          name: examDetail.exam_title,
+          questions: questions,
+        };
+        setExamConfig(examConfig);
         setScreen("exam");
+      } catch (error) {
+        console.error("Failed to fetch exam details:", error);
+        alert("Failed to load the exam. Please try again.");
+      }
+    } else {
+      setExamConfig(configOrId);
+      setScreen("exam");
     }
   };
 
@@ -673,9 +628,25 @@ const HomeScreen: React.FC<{
               />
             </div>
           </div>
-          <FileUploader onFileUpload={handleFileUpload} />
+          <div className="grid grid-cols-1 gap-4">
+            <FileUploader onFileUpload={handleFileUpload} />
+            <Button
+              onClick={() => setIsAiModalOpen(true)}
+              className="w-full"
+              variant="secondary"
+            >
+              <Bot size={20} /> Generate with AI
+            </Button>
+          </div>
         </div>
       </Card>
+
+      {isAiModalOpen && (
+        <AIExamGenerator
+          onClose={() => setIsAiModalOpen(false)}
+          onExamGenerated={handleFileUpload}
+        />
+      )}
 
       <div className="grid md:grid-cols-2 gap-8">
         <Card>
@@ -684,44 +655,70 @@ const HomeScreen: React.FC<{
           </h2>
           <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
             {availableExams.length > 0 && (
-                <>
-                <h3 className="font-semibold text-gray-600 dark:text-gray-400">Local Exams</h3>
+              <>
+                <h3 className="font-semibold text-gray-600 dark:text-gray-400">
+                  Local Exams
+                </h3>
                 {availableExams.map((exam, index) => (
-                    <div
+                  <div
                     key={`local-${index}`}
                     className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
-                    >
+                  >
                     <span className="font-medium">{exam.name}</span>
                     <Button onClick={() => startExam(exam)}>Start</Button>
-                    </div>
+                  </div>
                 ))}
-                </>
+              </>
             )}
             {serverExams.length > 0 && (
-                <>
-                <h3 className="font-semibold text-gray-600 dark:text-gray-400 mt-4">Server Exams</h3>
+              <>
+                <h3 className="font-semibold text-gray-600 dark:text-gray-400 mt-4">
+                  Community Exams
+                </h3>
                 {serverExams.map((exam) => (
-                    <div
+                  <div
                     key={exam.exam_id}
                     className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
-                    >
-                    <span className="font-medium">{exam.exam_title}</span>
-                    <Button onClick={() => startExam(exam.exam_id)}>Start</Button>
+                  >
+                    <div>
+                      <span className="font-medium">{exam.exam_title}</span>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        Uploaded:{" "}
+                        {new Date(exam.datetime_uploaded).toLocaleString()}
+                      </p>
                     </div>
+                    <Button onClick={() => startExam(exam.exam_id)}>
+                      Start
+                    </Button>
+                  </div>
                 ))}
                 <div className="flex justify-center items-center gap-4 mt-4">
-                    <Button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}>Prev</Button>
-                    <span>Page {currentPage} of {totalPages}</span>
-                    <Button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}>Next</Button>
+                  <Button
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                  >
+                    Prev
+                  </Button>
+                  <span>
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <Button
+                    onClick={() =>
+                      setCurrentPage((p) => Math.min(totalPages, p + 1))
+                    }
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </Button>
                 </div>
-                </>
+              </>
             )}
             {availableExams.length === 0 && serverExams.length === 0 && (
-                <p className="text-gray-500 dark:text-gray-400">
+              <p className="text-gray-500 dark:text-gray-400">
                 Upload an exam JSON to begin.
-                </p>
+              </p>
             )}
-            </div>
+          </div>
         </Card>
         <Card>
           <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2 text-gray-700 dark:text-gray-200">
@@ -1283,18 +1280,29 @@ export default function App() {
     minutes: 30,
   });
   const [lastResult, setLastResult] = React.useState<ExamResult | null>(null);
-  const [, setExamHistory] = useLocalStorage<ExamResult[]>(
-    "examHistory",
+  const [availableExams, setAvailableExams] = useLocalStorage<ExamConfig[]>(
+    "availableExams",
     [],
   );
+  const [, setExamHistory] = useLocalStorage<ExamResult[]>("examHistory", []);
+
+  const handleFileUpload = (config: ExamConfig) => {
+    if (!availableExams.some((exam) => exam.name === config.name)) {
+      setAvailableExams((prev) => [...prev, config]);
+    } else {
+      alert("An exam with this name already exists.");
+    }
+  };
 
   React.useEffect(() => {
-    console.log('[App useEffect] isDark changed:', isDark);
+    console.log("[App useEffect] isDark changed:", isDark);
     if (isDark) {
       console.log('[App useEffect] Adding "dark" class to documentElement.');
       document.documentElement.classList.add("dark");
     } else {
-      console.log('[App useEffect] Removing "dark" class from documentElement.');
+      console.log(
+        '[App useEffect] Removing "dark" class from documentElement.',
+      );
       document.documentElement.classList.remove("dark");
     }
   }, [isDark]);
@@ -1341,6 +1349,7 @@ export default function App() {
             setScreen={setScreen}
             setTimerConfig={setTimerConfig}
             viewResult={viewResult}
+            handleFileUpload={handleFileUpload}
           />
         );
     }

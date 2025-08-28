@@ -2,9 +2,11 @@
 
 ## Overview
 
-Pariksha is a web-based exam simulator built with React, TypeScript, and Vite. It provides a platform for users to take practice exams by uploading JSON files containing questions and answers. The application offers features like a timer, question shuffling, detailed results analysis, and exam history tracking.
+Pariksha is a feature-rich, web-based exam simulator built with a modern stack: React, TypeScript, and Vite. It provides a comprehensive platform for users to take practice exams. Users can upload their own JSON files, generate exams using AI, or select from a list of community-provided tests. The application offers key features like a session timer, question and option shuffling, detailed post-exam results analysis, and persistent exam history tracking.
 
 ## Project Structure
+
+The project structure has been updated to include new reusable UI components.
 
 ```
 /home/cyto/dev/pariksha/
@@ -15,6 +17,7 @@ Pariksha is a web-based exam simulator built with React, TypeScript, and Vite. I
 ├───package-lock.json
 ├───package.json
 ├───README.md
+├───sample_paper.json
 ├───tsconfig.app.json
 ├───tsconfig.json
 ├───tsconfig.node.json
@@ -31,6 +34,9 @@ Pariksha is a web-based exam simulator built with React, TypeScript, and Vite. I
     ├───assets/
     │   └───react.svg
     └───components/
+        ├───AIExamGenerator.tsx
+        ├───Button.tsx          // New
+        ├───Card.tsx            // New
         └───Latex.tsx
 ```
 
@@ -38,48 +44,45 @@ Pariksha is a web-based exam simulator built with React, TypeScript, and Vite. I
 
 -   **`public/`**: Contains static assets like `vite.svg`.
 -   **`src/`**: The main source code directory.
-    -   **`assets/`**: Contains static assets used in the application, such as `react.svg`.
     -   **`components/`**: Contains reusable React components.
+        -   `AIExamGenerator.tsx`: A modal component for generating exams using an AI service.
+        -   `Button.tsx`: A general-purpose button component with styling variants.
+        -   `Card.tsx`: A container component for displaying content in a styled card format.
         -   `Latex.tsx`: A component for rendering LaTeX expressions using KaTeX.
-    -   `App.css`: Styles for the main `App` component.
-    -   `App.tsx`: The core of the application, containing the main logic for the different screens (Home, Exam, Results).
-    -   `index.css`: Global styles for the application, including Tailwind CSS imports.
-    -   `main.tsx`: The entry point of the application, where the React app is mounted to the DOM.
--   **`package.json`**: Defines project metadata, dependencies, and scripts.
--   **`vite.config.ts`**: Configuration file for the Vite build tool, including Tailwind CSS setup.
--   **`css_logfile.txt`**: A log file detailing the troubleshooting steps taken to resolve the dark mode issue.
+    -   `App.tsx`: The core of the application. It manages state and renders the different screens (Home, Exam, Results). It contains the primary logic for the application's functionality.
+-   **`package.json`**: Defines project metadata, dependencies (like React, Tailwind CSS, Lucide), and scripts.
+-   **`css_logfile.txt`**: A log file detailing troubleshooting steps taken to resolve a persistent dark mode styling issue.
 
 ## Application Flow
 
 The application is a single-page application (SPA) with three main screens:
 
-1.  **Home Screen**: This is the initial screen where users can:
-    -   Upload a new exam configuration from a JSON file.
-    -   View a list of available exams.
-    -   Start an exam.
+1.  **Home Screen**: The main landing page where users can:
+    -   Upload a new exam configuration from a JSON file. The parser is fault-tolerant and can extract JSON from text that includes extraneous content.
+    -   Generate a new exam using an AI-powered modal.
+    -   View a list of available exams, including locally saved and community-uploaded exams.
+    -   Start an exam session.
     -   View their exam history.
-    -   **Upload a previously saved exam result JSON to review it.**
-    -   Set the timer for the exam.
+    -   Upload a previously saved exam result JSON to review it again.
+    -   Set the timer duration for the exam.
 
-2.  **Exam Screen**: This screen is displayed when an exam is in progress. It features:
-    -   A countdown timer.
+2.  **Exam Screen**: This screen is displayed when an exam is in progress. It features a clean, focused layout with:
+    -   A prominent countdown timer.
     -   The current question and shuffled multiple-choice options.
-    -   Navigation to move between questions.
-    -   A button to submit the exam.
+    -   Navigation controls to move between questions.
+    -   A button to submit the exam at any time.
 
-3.  **Results Screen**: After submitting an exam, the user is taken to this screen, which provides:
-    -   A summary of the exam performance (score, accuracy, total time).
-    -   A breakdown of performance by topic.
-    -   A SWOT (Strengths, Weaknesses, Opportunities, Threats) analysis.
-    -   An answer review section to see correct and incorrect answers.
-    -   An option to download the results as a JSON file.
+3.  **Results Screen**: After submitting an exam, the user is taken to this screen, which provides a detailed breakdown of their performance, including a SWOT analysis and an answer review section.
 
-## Core Components and Logic
+## Development Notes & Known Issues
 
--   **`App.tsx`**: This file is the heart of the application and manages the state for the current screen, exam configuration, and results. It contains the logic for switching between screens and passing data between them.
--   **State Management**: The application uses React's `useState` and a custom `useLocalStorage` hook for state management. The `useLocalStorage` hook is used to persist available exams and exam history.
--   **Styling**: The application is styled using Tailwind CSS for a modern and responsive user interface.
+### Development Log
 
-## Current Issues
+-   **Componentization**: Created `Card.tsx` and `Button.tsx` to standardize UI elements and improve code reusability, following the existing Tailwind CSS conventions.
+-   **Fault-Tolerant Parsing**: Implemented logic in `App.tsx` to make the JSON file upload process more robust. The code now finds the first and last square or curly bracket (`[`/`]` or `{`/`}`), extracts the content between them, and then attempts to parse it. This allows users to paste content directly, even if it's part of a larger text block, significantly improving usability.
+-   **UI Layout Adjustment**: Modified the layout of the Home Screen to stack the "Upload New Exam" and "Generate with AI" buttons vertically. This prevents the text from wrapping on smaller screens and provides a cleaner, more organized look.
+-   **Tooling Error Recovery**: During development, a `replace` tool call failed because the `old_string` argument did not perfectly match the target code in `App.tsx`. This was resolved by re-reading the file with `read_file` to get the exact, up-to-date content and then re-issuing the `replace` command with the correct context. This highlights the importance of ensuring context is precise when performing file modifications.
 
--   **Dark Mode Toggle**: The dark/light mode toggle is currently not functional. While the application state updates correctly and the `.dark` class is applied to the `<html>` element, the CSS styles do not update visually. The application appears to be "stuck" in the theme that matches the browser's default (`prefers-color-scheme`). A detailed log of the troubleshooting attempts can be found in `css_logfile.txt`.
+### Current Issues
+
+-   **Dark Mode Toggle**: The dark/light mode toggle remains a known issue. While the application state updates correctly and the `.dark` class is successfully applied to the `<html>` element, the Tailwind CSS styles do not update visually as expected. The application seems to be "stuck" in the theme that matches the browser's default `prefers-color-scheme`. The `css_logfile.txt` contains a detailed record of the debugging attempts. This seems to be a configuration issue between Tailwind CSS and Vite's HMR (Hot Module Replacement).

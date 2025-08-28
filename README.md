@@ -1,21 +1,23 @@
 # 📝 Pariksha - Exam Simulator
 
-Pariksha is a modern, web-based exam simulator built with React, TypeScript, and Vite. It provides a platform for users to take practice exams by uploading JSON files, offering features like a timer, question shuffling, detailed results analysis, and exam history tracking.
+Pariksha is a modern, web-based exam simulator built with React, TypeScript, and Vite. It provides a platform for users to take practice exams by uploading JSON files, offering features like a timer, question shuffling, detailed results analysis, and exam history tracking. The application is designed to be intuitive and flexible, allowing users to easily create, share, and take exams.
 
 ## ✨ Features
 
--   **JSON-based Exams**: Easily create and upload your own exams using a simple JSON format.
--   **Timed Sessions**: Set a custom timer for each exam session.
--   **Dynamic Content**: Questions and options are automatically shuffled for a different experience each time.
--   **LaTeX Support**: Renders mathematical notations beautifully using KaTeX.
--   **Detailed Results**: Get instant feedback with a comprehensive results page.
--   **Performance Analysis**:
-    -   Score and accuracy percentages.
-    -   Performance breakdown by topic.
-    -   In-depth SWOT (Strengths, Weaknesses, Opportunities, Threats) analysis.
--   **Answer Review**: Go through your answers to see where you went right or wrong.
--   **Persistent History**: Your exam history is saved locally in your browser.
--   **Import/Export**: Download your exam results as a JSON file and upload them later to review.
+-   **AI-Powered Exam Generation**: Automatically generate exams on any topic using AI.
+-   **Fault-Tolerant JSON Upload**: Easily upload your own exams using a simple JSON format. The parser is designed to be robust, tolerating extra text or formatting issues in the uploaded file.
+-   **Community-Sourced Exams**: Browse and take exams uploaded by other users.
+-   **Timed Sessions**: Set a custom timer for each exam session to simulate real exam conditions.
+-   **Dynamic Content**: Questions and their multiple-choice options are automatically shuffled for a different experience each time.
+-   **Full LaTeX Support**: Renders complex mathematical and scientific notations beautifully using KaTeX.
+-   **Detailed Results**: Get instant feedback with a comprehensive, multi-faceted results page.
+-   **In-Depth Performance Analysis**:
+    -   Overall score and accuracy percentages.
+    -   Performance breakdown by topic, including accuracy and time spent.
+    -   A detailed SWOT (Strengths, Weaknesses, Opportunities, Threats) analysis to pinpoint areas for improvement.
+-   **Answer Review**: Go through your answers question-by-question to understand mistakes and reinforce learning.
+-   **Persistent History**: Your exam history is saved locally in your browser for easy tracking of your progress.
+-   **Import/Export Results**: Download your exam results as a JSON file and upload them later to review them anytime.
 -   **Dark Mode**: A sleek, eye-friendly dark mode for late-night study sessions.
 
 ## 🚀 Getting Started
@@ -42,24 +44,27 @@ Pariksha is a modern, web-based exam simulator built with React, TypeScript, and
     ```bash
     npm run dev
     ```
-    The application will be available at `http://localhost:5173`.
+    The application will be available at `http://localhost:5173` (or the next available port).
 
-4. Upload an exam json file. Refer the `sample_paper.json` in the project root for the syntax. Enclose math in `$`-s to enable LaTeX
+4.  **Create or Upload an Exam**:
+    -   Click "Upload New Exam JSON" and select a valid JSON file. Refer to `sample_paper.json` in the project root for the required format.
+    -   Alternatively, click "Generate with AI" to create a new exam on the fly.
 
 ### Available Scripts
 
--   `npm run dev`: Starts the development server.
--   `npm run build`: Builds the application for production.
--   `npm run lint`: Lints the codebase using ESLint.
--   `npm run preview`: Serves the production build locally for preview.
+-   `npm run dev`: Starts the Vite development server with hot reloading.
+-   `npm run build`: Compiles and bundles the application for production.
+-   `npm run lint`: Lints the codebase using ESLint to ensure code quality.
+-   `npm run preview`: Serves the production build locally to preview before deploying.
 
 ## 🛠️ Technology Stack
 
 -   **Frontend**: [React](https://reactjs.org/) & [TypeScript](https://www.typescriptlang.org/)
 -   **Build Tool**: [Vite](https://vitejs.dev/)
 -   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
--   **Icons**: [Lucide React](https://lucide.dev/)
--   **LaTeX Rendering**: [KaTeX](https://katex.org/)
+-   **UI Components**: Custom-built, reusable components for Cards and Buttons.
+-   **Icons**: [Lucide React](https://lucide.dev/) for crisp, lightweight icons.
+-   **LaTeX Rendering**: [KaTeX](https://katex.org/) for high-performance math typesetting.
 
 ---
 
