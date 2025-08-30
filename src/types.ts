@@ -1,4 +1,3 @@
-
 export interface Option {
   label: number;
   value: string;
@@ -36,7 +35,6 @@ export type SWOTAnalysis = {
   threats: string[];
 };
 
-
 export interface ExamResult {
   id: string;
   examName: string;
@@ -61,5 +59,5 @@ export interface ServerExam {
 }
 
 export interface ServerExamDetail extends ServerExam {
-    exam_json_str: string;
+  exam_json_str: string;
 }

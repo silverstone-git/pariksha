@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  ChevronsLeft,
-  ChevronsRight,
   Moon,
   Sun,
   Upload,
@@ -19,8 +17,8 @@ import {
   Eye,
   Bot,
   RefreshCw,
+  Search,
 } from "lucide-react";
-import "katex/dist/katex.min.css";
 import "katex/dist/katex.min.css";
 import { Latex } from "./components/Latex";
 import { AIExamGenerator } from "./components/AIExamGenerator";
@@ -30,89 +28,14 @@ import type {
   ExamResult,
   ServerExam,
   ServerExamDetail,
-  ShuffledQuestion,
-  SWOTAnalysis,
-  UserAnswer,
 } from "./types";
 
 import {
   formatTime,
   isValidExamQuestions,
   robustJsonParse,
-  shuffleArray,
   API_BASE_URL,
 } from "./utils";
-
-const generateSwotAnalysis = (results: ExamResult): SWOTAnalysis => {
-  const swot: SWOTAnalysis = {
-    strengths: [],
-    weaknesses: [],
-    opportunities: [],
-    threats: [],
-  };
-  const topics = Object.keys(results.timePerTopic);
-
-  if (topics.length === 0) return swot;
-
-  const avgAccuracy = results.accuracy;
-  const avgTimePerQuestion =
-    results.totalQuestions > 0
-      ? results.totalTimeTaken / results.totalQuestions
-      : 0;
-
-  topics.forEach((topic) => {
-    const topicAccuracy = (results.accuracyPerTopic[topic] || 0) * 100;
-
-    const questionsInTopic = results.originalQuestions.filter(
-      (q) => q.topic === topic,
-    );
-    const numQuestionsInTopic = questionsInTopic.length;
-
-    const totalTimeForTopic = results.timePerTopic[topic] || 0;
-    const topicTimePerQuestion =
-      numQuestionsInTopic > 0 ? totalTimeForTopic / numQuestionsInTopic : 0;
-
-    const isAccurate = topicAccuracy > avgAccuracy + 5;
-    const isFast = topicTimePerQuestion < avgTimePerQuestion - 5;
-    const isSlow = topicTimePerQuestion > avgTimePerQuestion + 10;
-    const isInaccurate = topicAccuracy < avgAccuracy - 10;
-
-    if (isAccurate && isFast) {
-      swot.strengths.push(`${topic}: High accuracy with excellent speed.`);
-    } else if (isAccurate && !isFast) {
-      swot.opportunities.push(
-        `${topic}: Good accuracy, but speed can be improved.`,
-      );
-    } else if (isInaccurate && isSlow) {
-      swot.weaknesses.push(
-        `${topic}: Low accuracy and slow speed indicate a need for fundamental review.`,
-      );
-    } else if (isInaccurate && !isSlow) {
-      swot.threats.push(
-        `${topic}: Low accuracy with fast speed might suggest guessing or careless errors.`,
-      );
-    }
-  });
-
-  if (swot.strengths.length === 0)
-    swot.strengths.push(
-      "No standout strengths identified. Focus on overall improvement.",
-    );
-  if (swot.weaknesses.length === 0)
-    swot.weaknesses.push(
-      "No major weaknesses identified. Continue to practice consistently.",
-    );
-  if (swot.opportunities.length === 0)
-    swot.opportunities.push(
-      "Keep practicing all topics to improve speed and maintain accuracy.",
-    );
-  if (swot.threats.length === 0)
-    swot.threats.push(
-      "Be mindful of careless errors and avoid guessing. Review questions you are unsure about.",
-    );
-
-  return swot;
-};
 
 // --- LOCALSTORAGE HOOK ---
 function useLocalStorage<T>(
@@ -121,29 +44,19 @@ function useLocalStorage<T>(
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [storedValue, setStoredValue] = React.useState<T>(() => {
     if (typeof window === "undefined") {
-      console.log(
-        `[LocalStorage] Window is undefined. Using initial value for key: ${key}`,
-      );
       return initialValue;
     }
     try {
       const item = window.localStorage.getItem(key);
-      console.log(`[LocalStorage] Reading key '${key}':`, item);
-      // If a value is stored in localStorage, use it.
       if (item) {
         return robustJsonParse(item);
       }
-      // If no value is stored, and we are setting the theme, check system preference.
       if (key === "theme") {
         const prefersDark = window.matchMedia(
           "(prefers-color-scheme: dark)",
         ).matches;
-        console.log(
-          `[LocalStorage] No theme in storage. System prefers dark mode: ${prefersDark}`,
-        );
         return prefersDark as T;
       }
-      // Otherwise, use the initialValue provided.
       return initialValue;
     } catch (error) {
       console.error(`[LocalStorage] Error reading key '${key}':`, error);
@@ -157,10 +70,6 @@ function useLocalStorage<T>(
         value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
       if (typeof window !== "undefined") {
-        console.log(
-          `[LocalStorage] Writing to key '${key}':`,
-          JSON.stringify(valueToStore),
-        );
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
     } catch (error) {
@@ -179,15 +88,9 @@ const ThemeToggle: React.FC<{
   return (
     <button
       onClick={() => {
-        console.log(
-          "[ThemeToggle] Button clicked. Current isDark:",
-          isDark,
-          "Setting to:",
-          !isDark,
-        );
         setIsDark(!isDark);
       }}
-      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+      className="p-2 rounded-full text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
       aria-label="Toggle theme"
     >
       {isDark ? <Sun size={20} /> : <Moon size={20} />}
@@ -204,7 +107,7 @@ const Header: React.FC<{
   mainTimer: number;
 }> = ({ isDark, setIsDark, screen, examConfig, mainTimer }) => {
   return (
-    <header className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-md">
+    <header className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
       <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
         Pariksha
       </h1>
@@ -227,10 +130,17 @@ const Header: React.FC<{
 export const Card: React.FC<{
   children: React.ReactNode;
   className?: string;
-}> = ({ children, className = "" }) => (
+  title?: string;
+  icon?: React.ReactNode;
+}> = ({ children, className = "", title, icon }) => (
   <div
-    className={`bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 transition-colors ${className}`}
+    className={`bg-white dark:bg-gray-800 shadow-xl rounded-xl p-6 transition-all border border-gray-200 dark:border-gray-700 hover:shadow-2xl ${className}`}
   >
+    {(title || icon) && (
+      <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-200 flex items-center gap-2">
+        {icon} {title}
+      </h2>
+    )}
     {children}
   </div>
 );
@@ -249,14 +159,15 @@ export const Button: React.FC<{
   disabled = false,
 }) => {
   const baseClasses =
-    "px-6 py-3 font-semibold rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-300 ease-in-out transform flex items-center justify-center gap-2 hover:shadow-xl";
+    "px-6 py-3 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-300 ease-in-out transform flex items-center justify-center gap-2";
   const variantClasses = {
     primary: "bg-green-600 text-white hover:bg-green-700 focus:ring-green-500",
     secondary:
       "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 focus:ring-gray-500",
     danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
   };
-  const disabledClasses = "opacity-50 cursor-not-allowed hover:scale-100 hover:shadow-lg";
+  const disabledClasses =
+    "opacity-50 cursor-not-allowed hover:scale-100 hover:shadow-md";
   return (
     <button
       onClick={onClick}
@@ -317,7 +228,7 @@ const UploadModal: React.FC<{
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
       <Card className="w-full max-w-md">
         <h2 className="text-2xl font-semibold mb-4">Upload Exam</h2>
         <div className="space-y-4">
@@ -330,7 +241,7 @@ const UploadModal: React.FC<{
               value={userName}
               onChange={(e) => setUserName(e.target.value.slice(0, 50))}
               maxLength={50}
-              className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
+              className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
               placeholder="Enter your name"
             />
           </div>
@@ -342,7 +253,7 @@ const UploadModal: React.FC<{
               type="text"
               value={examTitle}
               onChange={(e) => setExamTitle(e.target.value)}
-              className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
+              className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
               placeholder="Enter exam title"
             />
           </div>
@@ -387,20 +298,15 @@ const FileUploader: React.FC<{
         if (typeof content !== "string")
           throw new Error("Failed to read file content.");
 
-        // Fault tolerance: find the first '{' or '[' and the last '}' or ']'
         const firstBracket = content.indexOf("{");
         const firstSquare = content.indexOf("[");
-
         let start = -1;
         if (firstBracket === -1) start = firstSquare;
         else if (firstSquare === -1) start = firstBracket;
         else start = Math.min(firstBracket, firstSquare);
-
         const lastBracket = content.lastIndexOf("}");
         const lastSquare = content.lastIndexOf("]");
-
-        let end = Math.max(lastBracket, lastSquare);
-
+        const end = Math.max(lastBracket, lastSquare);
         if (start !== -1 && end !== -1 && end > start) {
           content = content.substring(start, end + 1);
         }
@@ -480,26 +386,20 @@ const ResultUploader: React.FC<{
         if (typeof content !== "string")
           throw new Error("Failed to read file content.");
 
-        // Fault tolerance: find the first '{' or '[' and the last '}' or ']'
         const firstBracket = content.indexOf("{");
         const firstSquare = content.indexOf("[");
-
         let start = -1;
         if (firstBracket === -1) start = firstSquare;
         else if (firstSquare === -1) start = firstBracket;
         else start = Math.min(firstBracket, firstSquare);
-
         const lastBracket = content.lastIndexOf("}");
         const lastSquare = content.lastIndexOf("]");
-
-        let end = Math.max(lastBracket, lastSquare);
-
+        const end = Math.max(lastBracket, lastSquare);
         if (start !== -1 && end !== -1 && end > start) {
           content = content.substring(start, end + 1);
         }
 
         const parsed = robustJsonParse(content);
-        // Basic validation
         if (!parsed.id || !parsed.examName || !parsed.answers) {
           throw new Error("Invalid exam result JSON format.");
         }
@@ -535,6 +435,60 @@ const ResultUploader: React.FC<{
   );
 };
 
+const ExamListItem: React.FC<{
+  name: string;
+  source: string;
+  totalQuestions: number;
+  onStart: () => void;
+  date?: Date;
+}> = ({ name, source, totalQuestions, onStart, date }) => (
+  <div className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 transition-shadow duration-300 ease-in-out hover:shadow-lg hover:border-green-500">
+    <div>
+      <h3 className="font-semibold text-lg">{name}</h3>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        {source === "local"
+          ? `Total Questions: ${totalQuestions}`
+          : `Uploaded: ${date?.toLocaleString()}`}
+      </p>
+    </div>
+    <Button onClick={onStart} className="flex-shrink-0">
+      <Clock size={20} /> Start
+    </Button>
+  </div>
+);
+
+const ExamHistoryItem: React.FC<{
+  result: ExamResult;
+  onClick: () => void;
+}> = ({ result, onClick }) => (
+  <div
+    className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 cursor-pointer transition-shadow duration-300 ease-in-out hover:shadow-lg"
+    onClick={onClick}
+  >
+    <div className="flex justify-between items-center mb-2">
+      <span className="font-semibold text-lg">{result.examName}</span>
+      <span
+        className={`font-bold text-xl ${
+          result.accuracy > 70 ? "text-green-500" : "text-red-500"
+        }`}
+      >
+        {result.accuracy.toFixed(1)}%
+      </span>
+    </div>
+    <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2.5 mb-2">
+      <div
+        className={`h-2.5 rounded-full ${
+          result.accuracy > 70 ? "bg-green-600" : "bg-red-600"
+        }`}
+        style={{ width: `${result.accuracy}%` }}
+      ></div>
+    </div>
+    <p className="text-sm text-gray-500 dark:text-gray-400">
+      {new Date(result.date).toLocaleString()}
+    </p>
+  </div>
+);
+
 // --- SCREENS ---
 
 const HomeScreen: React.FC<{
@@ -552,7 +506,6 @@ const HomeScreen: React.FC<{
   handleFileUpload,
   availableExams,
 }) => {
-
   const [serverExams, setServerExams] = React.useState<ServerExam[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -561,6 +514,7 @@ const HomeScreen: React.FC<{
   const [hours, setHours] = React.useState(1);
   const [minutes, setMinutes] = React.useState(30);
   const [isAiModalOpen, setIsAiModalOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   const fetchExams = async () => {
     setIsLoading(true);
@@ -589,10 +543,6 @@ const HomeScreen: React.FC<{
   React.useEffect(() => {
     fetchExams();
   }, [currentPage]);
-
-  React.useEffect(() => {
-    console.log("Server exams updated:", serverExams);
-  }, [serverExams]);
 
   const startExam = async (configOrId: ExamConfig | string) => {
     setTimerConfig({ hours, minutes });
@@ -625,41 +575,53 @@ const HomeScreen: React.FC<{
     }
   };
 
+  const filteredLocalExams = availableExams.filter((exam) =>
+    exam.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+  const filteredServerExams = serverExams.filter((exam) =>
+    exam.exam_title.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   return (
-    <div className="max-w-5xl mx-auto p-4 md:p-8">
-      <Card className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
-          New Exam Session
-        </h2>
-        <div className="grid md:grid-cols-2 gap-6 items-center">
-          <div>
+    <div className="max-w-7xl mx-auto p-4 md:p-8">
+      <Card title="New Exam Session" className="mb-8">
+        <div className="grid md:grid-cols-3 gap-6 items-center">
+          <div className="md:col-span-1">
             <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">
               Set Timer
             </label>
-            <div className="flex gap-4">
-              <input
-                type="number"
-                value={hours}
-                onChange={(e) =>
-                  setHours(Math.max(0, parseInt(e.target.value) || 0))
-                }
-                className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
-                placeholder="Hours"
-                aria-label="Hours for timer"
-              />
-              <input
-                type="number"
-                value={minutes}
-                onChange={(e) =>
-                  setMinutes(Math.max(0, parseInt(e.target.value) || 0))
-                }
-                className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
-                placeholder="Minutes"
-                aria-label="Minutes for timer"
-              />
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <input
+                  type="number"
+                  value={hours}
+                  onChange={(e) =>
+                    setHours(Math.max(0, parseInt(e.target.value) || 0))
+                  }
+                  className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0 pr-12"
+                  aria-label="Hours for timer"
+                />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                  Hours
+                </span>
+              </div>
+              <div className="relative flex-1">
+                <input
+                  type="number"
+                  value={minutes}
+                  onChange={(e) =>
+                    setMinutes(Math.max(0, parseInt(e.target.value) || 0))
+                  }
+                  className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0 pr-12"
+                  aria-label="Minutes for timer"
+                />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                  Mins
+                </span>
+              </div>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:col-span-2">
             <FileUploader onFileUpload={handleFileUpload} />
             <Button
               onClick={() => setIsAiModalOpen(true)}
@@ -679,118 +641,119 @@ const HomeScreen: React.FC<{
         />
       )}
 
-      <div className="grid md:grid-cols-2 gap-8">
-        <Card>
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold flex items-center gap-2 text-gray-700 dark:text-gray-200">
-              <FileText /> Available Exams
-            </h2>
-            <Button onClick={fetchExams} variant="secondary" disabled={isLoading}>
-              <RefreshCw size={20} className={isLoading ? "animate-spin" : ""} />
-              {isLoading ? "Refreshing..." : "Refresh"}
+      <div className="grid lg:grid-cols-3 gap-8">
+        <Card
+          title="Available Exams"
+          icon={<FileText />}
+          className="lg:col-span-2"
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <div className="relative w-full">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full p-3 pl-10 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
+                placeholder="Search exams..."
+              />
+              <Search
+                size={20}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+              />
+            </div>
+            <Button
+              onClick={fetchExams}
+              variant="secondary"
+              disabled={isLoading}
+              className="px-4 py-3"
+            >
+              <RefreshCw
+                size={20}
+                className={isLoading ? "animate-spin" : ""}
+              />
             </Button>
           </div>
-          <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
-            {availableExams.length > 0 && (
+          <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
+            {filteredLocalExams.length > 0 && (
               <>
-                <h3 className="font-semibold text-gray-600 dark:text-gray-400">
+                <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-400 pt-2 border-t border-dashed border-gray-300 dark:border-gray-600">
                   Local Exams
                 </h3>
-                {availableExams.map((exam, index) => (
-                  <div
+                {filteredLocalExams.map((exam, index) => (
+                  <ExamListItem
                     key={`local-${index}`}
-                    className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
-                  >
-                    <span className="font-medium">{exam.name}</span>
-                    <Button onClick={() => startExam(exam)}>Start</Button>
-                  </div>
+                    name={exam.name}
+                    source="local"
+                    totalQuestions={exam.questions.length}
+                    onStart={() => startExam(exam)}
+                  />
                 ))}
               </>
             )}
-            <div>
-              <h3 className="font-semibold text-gray-600 dark:text-gray-400 mt-4">
-                Community Exams
-              </h3>
-              {isLoading ? (
-                <div className="flex justify-center items-center p-4">
-                  <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+            <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-400 pt-2 border-t border-dashed border-gray-300 dark:border-gray-600">
+              Community Exams
+            </h3>
+            {isLoading ? (
+              <div className="flex justify-center items-center p-4">
+                <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+              </div>
+            ) : filteredServerExams.length > 0 ? (
+              <>
+                {filteredServerExams.map((exam) => (
+                  <ExamListItem
+                    key={exam.exam_id}
+                    name={exam.exam_title}
+                    source="server"
+                    totalQuestions={0}
+                    date={new Date(exam.datetime_uploaded)}
+                    onStart={() => startExam(exam.exam_id)}
+                  />
+                ))}
+                <div className="flex justify-center items-center gap-4 mt-4">
+                  <Button
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    variant="secondary"
+                  >
+                    Prev
+                  </Button>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <Button
+                    onClick={() =>
+                      setCurrentPage((p) => Math.min(totalPages, p + 1))
+                    }
+                    disabled={currentPage === totalPages}
+                    variant="secondary"
+                  >
+                    Next
+                  </Button>
                 </div>
-              ) : serverExams.length > 0 ? (
-                <>
-                  {serverExams.map((exam) => (
-                    <div
-                      key={exam.exam_id}
-                      className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg mt-2"
-                    >
-                      <div>
-                        <span className="font-medium">{exam.exam_title}</span>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                          Uploaded:{" "}
-                          {new Date(exam.datetime_uploaded).toLocaleString()}
-                        </p>
-                      </div>
-                      <Button onClick={() => startExam(exam.exam_id)}>
-                        Start
-                      </Button>
-                    </div>
-                  ))}
-                  <div className="flex justify-center items-center gap-4 mt-4">
-                    <Button
-                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                      disabled={currentPage === 1}
-                    >
-                      Prev
-                    </Button>
-                    <span>
-                      Page {currentPage} of {totalPages}
-                    </span>
-                    <Button
-                      onClick={() =>
-                        setCurrentPage((p) => Math.min(totalPages, p + 1))
-                      }
-                      disabled={currentPage === totalPages}
-                    >
-                      Next
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <p className="text-gray-500 dark:text-gray-400 p-4">
-                  No community exams are uploaded.
-                </p>
-              )}
-            </div>
-            {availableExams.length === 0 && serverExams.length === 0 && !isLoading && (
-              <p className="text-gray-500 dark:text-gray-400">
-                Upload an exam JSON to begin.
+              </>
+            ) : (
+              <p className="text-gray-500 dark:text-gray-400 p-4">
+                No community exams are available or match your search.
               </p>
             )}
+            {filteredLocalExams.length === 0 &&
+              filteredServerExams.length === 0 &&
+              !isLoading && (
+                <p className="text-gray-500 dark:text-gray-400">
+                  No exams found. Upload an exam JSON to begin.
+                </p>
+              )}
           </div>
         </Card>
-        <Card>
-          <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2 text-gray-700 dark:text-gray-200">
-            <History /> Exam History
-          </h2>
-          <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
+        <Card title="Exam History" icon={<History />}>
+          <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
             {examHistory.length > 0 ? (
               examHistory.map((result) => (
-                <div
+                <ExamHistoryItem
                   key={result.id}
+                  result={result}
                   onClick={() => viewResult(result)}
-                  className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer transition-colors"
-                >
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium">{result.examName}</span>
-                    <span
-                      className={`font-bold ${result.accuracy > 70 ? "text-green-500" : "text-red-500"}`}
-                    >
-                      {result.accuracy.toFixed(1)}%
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    {new Date(result.date).toLocaleString()}
-                  </p>
-                </div>
+                />
               ))
             ) : (
               <p className="text-gray-500 dark:text-gray-400">
@@ -872,7 +835,9 @@ const ResultsScreen: React.FC<{
           <div>
             <p className="text-sm text-gray-500 dark:text-gray-400">Accuracy</p>
             <p
-              className={`text-3xl font-bold ${result.accuracy > 70 ? "text-green-500" : "text-red-500"}`}
+              className={`text-3xl font-bold ${
+                result.accuracy > 70 ? "text-green-500" : "text-red-500"
+              }`}
             >
               {result.accuracy.toFixed(1)}%
             </p>
@@ -900,17 +865,18 @@ const ResultsScreen: React.FC<{
       </Card>
 
       <div className="grid lg:grid-cols-2 gap-8">
-        <Card>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
-            Topic Performance
-          </h2>
+        <Card title="Topic Performance">
           <div className="space-y-4">
             {Object.keys(result.timePerTopic).map((topic) => (
               <div key={topic}>
                 <div className="flex justify-between items-center mb-1">
                   <span className="font-medium">{topic}</span>
                   <span
-                    className={`font-semibold ${result.accuracyPerTopic[topic] > 0.7 ? "text-green-500" : "text-red-500"}`}
+                    className={`font-semibold ${
+                      (result.accuracyPerTopic[topic] || 0) * 100 > 70
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
                   >
                     {((result.accuracyPerTopic[topic] || 0) * 100).toFixed(0)}%
                   </span>
@@ -930,10 +896,7 @@ const ResultsScreen: React.FC<{
             ))}
           </div>
         </Card>
-        <Card>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
-            SWOT Analysis
-          </h2>
+        <Card title="SWOT Analysis">
           <div className="space-y-4">
             <div>
               <h3 className="font-semibold flex items-center gap-2 mb-2 text-green-600 dark:text-green-400">
@@ -991,7 +954,11 @@ const ResultsScreen: React.FC<{
                 <div
                   key={q.id}
                   onClick={() => setReviewQuestionId(q.id)}
-                  className={`flex justify-between items-center p-3 rounded-lg cursor-pointer transition-colors ${reviewQuestionId === q.id ? "bg-green-100 dark:bg-green-900" : "hover:bg-gray-100 dark:hover:bg-gray-700"}`}
+                  className={`flex justify-between items-center p-3 rounded-lg cursor-pointer transition-colors ${
+                    reviewQuestionId === q.id
+                      ? "bg-green-100 dark:bg-green-900"
+                      : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                  }`}
                 >
                   <div className="flex items-center gap-3">
                     {answer?.isCorrect ? (
@@ -1052,8 +1019,11 @@ const ResultsScreen: React.FC<{
                 )}
               </div>
             ) : (
-              <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
-                <Eye size={24} className="mr-2" /> Select a question to review
+              <div className="flex flex-col items-center justify-center h-full text-gray-500 dark:text-gray-400 p-8 text-center">
+                <Eye size={48} className="mb-4" />
+                <span className="text-lg font-medium">
+                  Select a question to review its details and explanation.
+                </span>
               </div>
             )}
           </div>
@@ -1101,14 +1071,9 @@ export default function App() {
   const [mainTimer, setMainTimer] = React.useState(0);
 
   React.useEffect(() => {
-    console.log("[App useEffect] isDark changed:", isDark);
     if (isDark) {
-      console.log('[App useEffect] Adding "dark" class to documentElement.');
       document.documentElement.classList.add("dark");
     } else {
-      console.log(
-        '[App useEffect] Removing "dark" class from documentElement.',
-      );
       document.documentElement.classList.remove("dark");
     }
   }, [isDark]);
