@@ -18,6 +18,7 @@ import {
   XCircle,
   Eye,
   Bot,
+  RefreshCw,
 } from "lucide-react";
 import "katex/dist/katex.min.css";
 import "katex/dist/katex.min.css";
@@ -194,6 +195,34 @@ const ThemeToggle: React.FC<{
   );
 };
 
+// --- HEADER COMPONENT ---
+const Header: React.FC<{
+  isDark: boolean;
+  setIsDark: (value: boolean) => void;
+  screen: "home" | "exam" | "results";
+  examConfig: ExamConfig | null;
+  mainTimer: number;
+}> = ({ isDark, setIsDark, screen, examConfig, mainTimer }) => {
+  return (
+    <header className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-md">
+      <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+        Pariksha
+      </h1>
+      <div className="flex items-center gap-4">
+        {screen === "exam" && (
+          <div className="flex items-center gap-2 p-2 px-4 rounded-full bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200">
+            <Clock size={20} />
+            <span className="font-mono text-lg font-semibold">
+              {formatTime(mainTimer)}
+            </span>
+          </div>
+        )}
+        <ThemeToggle isDark={isDark} setIsDark={setIsDark} />
+      </div>
+    </header>
+  );
+};
+
 // --- UI COMPONENTS ---
 export const Card: React.FC<{
   children: React.ReactNode;
@@ -220,14 +249,14 @@ export const Button: React.FC<{
   disabled = false,
 }) => {
   const baseClasses =
-    "px-6 py-3 font-semibold rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 ease-in-out transform flex items-center justify-center gap-2";
+    "px-6 py-3 font-semibold rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-300 ease-in-out transform flex items-center justify-center gap-2 hover:shadow-xl";
   const variantClasses = {
     primary: "bg-green-600 text-white hover:bg-green-700 focus:ring-green-500",
     secondary:
       "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 focus:ring-gray-500",
     danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
   };
-  const disabledClasses = "opacity-50 cursor-not-allowed hover:scale-100";
+  const disabledClasses = "opacity-50 cursor-not-allowed hover:scale-100 hover:shadow-lg";
   return (
     <button
       onClick={onClick}
@@ -525,6 +554,7 @@ const HomeScreen: React.FC<{
 }) => {
 
   const [serverExams, setServerExams] = React.useState<ServerExam[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(1);
   const [examHistory] = useLocalStorage<ExamResult[]>("examHistory", []);
@@ -532,27 +562,31 @@ const HomeScreen: React.FC<{
   const [minutes, setMinutes] = React.useState(30);
   const [isAiModalOpen, setIsAiModalOpen] = React.useState(false);
 
-  React.useEffect(() => {
-    const fetchExams = async () => {
-      try {
-        const response = await fetch(
-          `${API_BASE_URL}/pariksha?page=${currentPage}`,
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        if (Array.isArray(data)) {
-          setServerExams(data);
-          setTotalPages(1);
-        } else {
-          setServerExams(data.exams || []);
-          setTotalPages(data.total_pages || 1);
-        }
-      } catch (error) {
-        console.error("Failed to fetch server exams:", error);
+  const fetchExams = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/pariksha?page=${currentPage}`,
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    };
+      const data = await response.json();
+      if (Array.isArray(data)) {
+        setServerExams(data);
+        setTotalPages(1);
+      } else {
+        setServerExams(data.exams || []);
+        setTotalPages(data.total_pages || 1);
+      }
+    } catch (error) {
+      console.error("Failed to fetch server exams:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  React.useEffect(() => {
     fetchExams();
   }, [currentPage]);
 
@@ -592,11 +626,7 @@ const HomeScreen: React.FC<{
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 md:p-8">
-      <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-8 text-center">
-        Exam Simulator
-      </h1>
-
+    <div className="max-w-5xl mx-auto p-4 md:p-8">
       <Card className="mb-8">
         <h2 className="text-2xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
           New Exam Session
@@ -615,6 +645,7 @@ const HomeScreen: React.FC<{
                 }
                 className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
                 placeholder="Hours"
+                aria-label="Hours for timer"
               />
               <input
                 type="number"
@@ -624,6 +655,7 @@ const HomeScreen: React.FC<{
                 }
                 className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
                 placeholder="Minutes"
+                aria-label="Minutes for timer"
               />
             </div>
           </div>
@@ -649,9 +681,15 @@ const HomeScreen: React.FC<{
 
       <div className="grid md:grid-cols-2 gap-8">
         <Card>
-          <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2 text-gray-700 dark:text-gray-200">
-            <FileText /> Available Exams
-          </h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-semibold flex items-center gap-2 text-gray-700 dark:text-gray-200">
+              <FileText /> Available Exams
+            </h2>
+            <Button onClick={fetchExams} variant="secondary" disabled={isLoading}>
+              <RefreshCw size={20} className={isLoading ? "animate-spin" : ""} />
+              {isLoading ? "Refreshing..." : "Refresh"}
+            </Button>
+          </div>
           <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
             {availableExams.length > 0 && (
               <>
@@ -669,50 +707,60 @@ const HomeScreen: React.FC<{
                 ))}
               </>
             )}
-            {serverExams.length > 0 && (
-              <>
-                <h3 className="font-semibold text-gray-600 dark:text-gray-400 mt-4">
-                  Community Exams
-                </h3>
-                {serverExams.map((exam) => (
-                  <div
-                    key={exam.exam_id}
-                    className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
-                  >
-                    <div>
-                      <span className="font-medium">{exam.exam_title}</span>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                        Uploaded:{" "}
-                        {new Date(exam.datetime_uploaded).toLocaleString()}
-                      </p>
+            <div>
+              <h3 className="font-semibold text-gray-600 dark:text-gray-400 mt-4">
+                Community Exams
+              </h3>
+              {isLoading ? (
+                <div className="flex justify-center items-center p-4">
+                  <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+                </div>
+              ) : serverExams.length > 0 ? (
+                <>
+                  {serverExams.map((exam) => (
+                    <div
+                      key={exam.exam_id}
+                      className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg mt-2"
+                    >
+                      <div>
+                        <span className="font-medium">{exam.exam_title}</span>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                          Uploaded:{" "}
+                          {new Date(exam.datetime_uploaded).toLocaleString()}
+                        </p>
+                      </div>
+                      <Button onClick={() => startExam(exam.exam_id)}>
+                        Start
+                      </Button>
                     </div>
-                    <Button onClick={() => startExam(exam.exam_id)}>
-                      Start
+                  ))}
+                  <div className="flex justify-center items-center gap-4 mt-4">
+                    <Button
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                    >
+                      Prev
+                    </Button>
+                    <span>
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    <Button
+                      onClick={() =>
+                        setCurrentPage((p) => Math.min(totalPages, p + 1))
+                      }
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
                     </Button>
                   </div>
-                ))}
-                <div className="flex justify-center items-center gap-4 mt-4">
-                  <Button
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                    disabled={currentPage === 1}
-                  >
-                    Prev
-                  </Button>
-                  <span>
-                    Page {currentPage} of {totalPages}
-                  </span>
-                  <Button
-                    onClick={() =>
-                      setCurrentPage((p) => Math.min(totalPages, p + 1))
-                    }
-                    disabled={currentPage === totalPages}
-                  >
-                    Next
-                  </Button>
-                </div>
-              </>
-            )}
-            {availableExams.length === 0 && serverExams.length === 0 && (
+                </>
+              ) : (
+                <p className="text-gray-500 dark:text-gray-400 p-4">
+                  No community exams are uploaded.
+                </p>
+              )}
+            </div>
+            {availableExams.length === 0 && serverExams.length === 0 && !isLoading && (
               <p className="text-gray-500 dark:text-gray-400">
                 Upload an exam JSON to begin.
               </p>
@@ -759,250 +807,7 @@ const HomeScreen: React.FC<{
   );
 };
 
-const ExamScreen: React.FC<{
-  config: ExamConfig;
-  timerConfig: { hours: number; minutes: number };
-  setScreen: (screen: "home" | "results") => void;
-  setLastResult: (result: ExamResult) => void;
-}> = ({ config, timerConfig, setScreen, setLastResult }) => {
-  const [questions, setQuestions] = React.useState<ShuffledQuestion[]>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
-  const [userAnswers, setUserAnswers] = React.useState<
-    Record<string, number | null>
-  >({});
-  const [mainTimer, setMainTimer] = React.useState(
-    timerConfig.hours * 3600 + timerConfig.minutes * 60,
-  );
-  const [questionTimers, setQuestionTimers] = React.useState<
-    Record<string, number>
-  >({});
-  const [topicTimers, setTopicTimers] = React.useState<Record<string, number>>(
-    {},
-  );
-
-  const startTimeRef = React.useRef(Date.now());
-  const questionStartTimeRef = React.useRef(Date.now());
-
-  React.useEffect(() => {
-    const shuffledQuestions = shuffleArray(config.questions).map(
-      (q, index) => ({
-        ...q,
-        id: `q-${index}`,
-        shuffledOptions: shuffleArray(q.options),
-      }),
-    );
-    setQuestions(shuffledQuestions);
-
-    const initialTopicTimers: Record<string, number> = {};
-    config.questions.forEach((q) => {
-      if (!initialTopicTimers[q.topic]) {
-        initialTopicTimers[q.topic] = 0;
-      }
-    });
-    setTopicTimers(initialTopicTimers);
-  }, [config]);
-
-  const updateQuestionTime = React.useCallback(() => {
-    if (questions.length === 0) return;
-    const currentQuestionId = questions[currentQuestionIndex].id;
-    const timeSpent = (Date.now() - questionStartTimeRef.current) / 1000;
-    setQuestionTimers((prev) => ({
-      ...prev,
-      [currentQuestionId]: (prev[currentQuestionId] || 0) + timeSpent,
-    }));
-    questionStartTimeRef.current = Date.now();
-  }, [currentQuestionIndex, questions]);
-
-  const submitExam = React.useCallback(() => {
-    updateQuestionTime();
-
-    let correctAnswers = 0;
-    const processedAnswers: UserAnswer[] = questions.map((q) => {
-      const selectedOptionLabel = userAnswers[q.id] ?? null;
-      const isCorrect = selectedOptionLabel === q.answer_label;
-      if (isCorrect) correctAnswers++;
-
-      return {
-        questionId: q.id,
-        selectedOptionLabel: selectedOptionLabel,
-        isCorrect,
-        timeSpent: questionTimers[q.id] || 0,
-      };
-    });
-
-    const accuracyPerTopic: Record<string, number> = {};
-    const questionsPerTopic: Record<string, number> = {};
-    questions.forEach((q) => {
-      const answer = processedAnswers.find((a) => a.questionId === q.id);
-      if (!questionsPerTopic[q.topic]) {
-        questionsPerTopic[q.topic] = 0;
-        accuracyPerTopic[q.topic] = 0;
-      }
-      questionsPerTopic[q.topic]++;
-      if (answer?.isCorrect) {
-        accuracyPerTopic[q.topic]++;
-      }
-    });
-
-    Object.keys(accuracyPerTopic).forEach((topic) => {
-      accuracyPerTopic[topic] =
-        questionsPerTopic[topic] > 0
-          ? accuracyPerTopic[topic] / questionsPerTopic[topic]
-          : 0;
-    });
-
-    const totalTimeTaken = (Date.now() - startTimeRef.current) / 1000;
-    const result: ExamResult = {
-      id: `res-${Date.now()}`,
-      examName: config.name,
-      date: Date.now(),
-      score: correctAnswers,
-      totalQuestions: questions.length,
-      correctAnswers,
-      incorrectAnswers: questions.length - correctAnswers,
-      accuracy:
-        questions.length > 0 ? (correctAnswers / questions.length) * 100 : 0,
-      totalTimeTaken,
-      timePerTopic: topicTimers,
-      accuracyPerTopic,
-      answers: processedAnswers,
-      originalQuestions: questions,
-      swot: { strengths: [], weaknesses: [], opportunities: [], threats: [] },
-    };
-    result.swot = generateSwotAnalysis(result);
-
-    setLastResult(result);
-    setScreen("results");
-  }, [
-    userAnswers,
-    questions,
-    questionTimers,
-    topicTimers,
-    config.name,
-    setLastResult,
-    setScreen,
-    updateQuestionTime,
-  ]);
-
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setMainTimer((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          submitExam();
-          return 0;
-        }
-        return prev - 1;
-      });
-
-      const currentQuestion = questions[currentQuestionIndex];
-      if (currentQuestion) {
-        setTopicTimers((prev) => ({
-          ...prev,
-          [currentQuestion.topic]: (prev[currentQuestion.topic] || 0) + 1,
-        }));
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [questions, currentQuestionIndex, submitExam]);
-
-  const handleOptionSelect = (optionLabel: number) => {
-    const currentQuestionId = questions[currentQuestionIndex].id;
-    setUserAnswers((prev) => ({ ...prev, [currentQuestionId]: optionLabel }));
-  };
-
-  const goToNext = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      updateQuestionTime();
-      setCurrentQuestionIndex((prev) => prev + 1);
-    }
-  };
-
-  const goToPrev = () => {
-    if (currentQuestionIndex > 0) {
-      updateQuestionTime();
-      setCurrentQuestionIndex((prev) => prev - 1);
-    }
-  };
-
-  if (questions.length === 0) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        Loading Exam...
-      </div>
-    );
-  }
-
-  const currentQuestion = questions[currentQuestionIndex];
-  const selectedOption = userAnswers[currentQuestion.id];
-  const optionLetters = ["A", "B", "C", "D", "E", "F"];
-
-  return (
-    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
-      <header className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-md">
-        <h1 className="text-xl font-bold">{config.name}</h1>
-        <div className="flex items-center gap-4 p-2 px-4 rounded-full bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200">
-          <Clock size={20} />
-          <span className="font-mono text-lg font-semibold">
-            {formatTime(mainTimer)}
-          </span>
-        </div>
-      </header>
-
-      <main className="flex-grow p-4 md:p-8 overflow-y-auto">
-        <div className="max-w-4xl mx-auto">
-          <div className="mb-6">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Question {currentQuestionIndex + 1} of {questions.length}
-            </p>
-            <div className="mt-2 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg text-lg leading-relaxed">
-              <Latex>{currentQuestion.question}</Latex>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {currentQuestion.shuffledOptions.map((option, index) => (
-              <button
-                key={option.label}
-                onClick={() => handleOptionSelect(option.label)}
-                className={`p-4 rounded-xl text-left transition-all duration-200 border-2 ${
-                  selectedOption === option.label
-                    ? "bg-green-100 dark:bg-green-900 border-green-500 ring-2 ring-green-500"
-                    : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-green-400 dark:hover:border-green-600"
-                }`}
-              >
-                <span className="font-bold mr-4">{optionLetters[index]}.</span>
-                <Latex>{option.value}</Latex>
-              </button>
-            ))}
-          </div>
-        </div>
-      </main>
-
-      <footer className="p-4 bg-white dark:bg-gray-800 shadow-inner mt-auto">
-        <div className="max-w-4xl mx-auto flex justify-between items-center">
-          <Button
-            onClick={goToPrev}
-            disabled={currentQuestionIndex === 0}
-            variant="secondary"
-          >
-            <ChevronsLeft size={20} /> Previous
-          </Button>
-          <Button onClick={submitExam} variant="danger">
-            Submit Exam
-          </Button>
-          <Button
-            onClick={goToNext}
-            disabled={currentQuestionIndex === questions.length - 1}
-            variant="secondary"
-          >
-            Next <ChevronsRight size={20} />
-          </Button>
-        </div>
-      </footer>
-    </div>
-  );
-};
+import { ExamScreen } from "./components/ExamScreen";
 
 const ResultsScreen: React.FC<{
   result: ExamResult;
@@ -1293,6 +1098,8 @@ export default function App() {
     }
   };
 
+  const [mainTimer, setMainTimer] = React.useState(0);
+
   React.useEffect(() => {
     console.log("[App useEffect] isDark changed:", isDark);
     if (isDark) {
@@ -1332,6 +1139,7 @@ export default function App() {
             timerConfig={timerConfig}
             setScreen={setScreen}
             setLastResult={handleSetLastResult}
+            setMainTimer={setMainTimer}
           />
         );
       case "results":
@@ -1357,9 +1165,13 @@ export default function App() {
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans transition-colors">
-      <div className="absolute top-4 right-4 z-10">
-        <ThemeToggle isDark={isDark} setIsDark={setIsDark} />
-      </div>
+      <Header
+        isDark={isDark}
+        setIsDark={setIsDark}
+        screen={screen}
+        examConfig={examConfig}
+        mainTimer={mainTimer}
+      />
       {renderScreen()}
     </div>
   );
