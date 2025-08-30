@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  Moon,
-  Sun,
   Upload,
   Download,
   Clock,
@@ -22,6 +20,8 @@ import {
 import "katex/dist/katex.min.css";
 import { Latex } from "./components/Latex";
 import { AIExamGenerator } from "./components/AIExamGenerator";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import { ThemeToggle } from "./components/ThemeToggle";
 
 import type {
   ExamConfig,
@@ -81,34 +81,33 @@ function useLocalStorage<T>(
 }
 
 // --- THEME MANAGEMENT ---
-const ThemeToggle: React.FC<{
-  isDark: boolean;
-  setIsDark: (value: boolean) => void;
-}> = ({ isDark, setIsDark }) => {
-  return (
-    <button
-      onClick={() => {
-        setIsDark(!isDark);
-      }}
-      className="p-2 rounded-full text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-      aria-label="Toggle theme"
-    >
-      {isDark ? <Sun size={20} /> : <Moon size={20} />}
-    </button>
-  );
-};
+
+// const ThemeToggle: React.FC<{
+//   isDark: boolean;
+//   setIsDark: (value: boolean) => void;
+// }> = ({ isDark, setIsDark }) => {
+//   return (
+//     <button
+//       onClick={() => {
+//         setIsDark(!isDark);
+//       }}
+//       className="p-2 rounded-full text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+//       aria-label="Toggle theme"
+//     >
+//       {isDark ? <Sun size={20} /> : <Moon size={20} />}
+//     </button>
+//   );
+// };
 
 // --- HEADER COMPONENT ---
 const Header: React.FC<{
-  isDark: boolean;
-  setIsDark: (value: boolean) => void;
   screen: "home" | "exam" | "results";
   examConfig: ExamConfig | null;
   mainTimer: number;
-}> = ({ isDark, setIsDark, screen, examConfig, mainTimer }) => {
+}> = ({ screen, examConfig, mainTimer }) => {
   return (
     <header className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-      <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white font-bebas">
         Pariksha
       </h1>
       <div className="flex items-center gap-4">
@@ -120,7 +119,7 @@ const Header: React.FC<{
             </span>
           </div>
         )}
-        <ThemeToggle isDark={isDark} setIsDark={setIsDark} />
+        <ThemeToggle />
       </div>
     </header>
   );
@@ -583,7 +582,7 @@ const HomeScreen: React.FC<{
   );
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-8">
+    <div className="max-w-7xl mx-auto p-4 md:p-8 dark:text-gray-300 text-gray-700">
       <Card title="New Exam Session" className="mb-8">
         <div className="grid md:grid-cols-3 gap-6 items-center">
           <div className="md:col-span-1">
@@ -658,7 +657,7 @@ const HomeScreen: React.FC<{
               />
               <Search
                 size={20}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+                className="absolute left-3 top-1/2 -translate-y-1/2"
               />
             </div>
             <Button
@@ -816,7 +815,7 @@ const ResultsScreen: React.FC<{
   );
 
   return (
-    <div className="max-w-5xl mx-auto p-4 md:p-8">
+    <div className="max-w-5xl mx-auto p-4 md:p-8 dark:text-gray-300 text-gray-700">
       <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-2 text-center">
         Exam Results
       </h1>
@@ -1044,7 +1043,6 @@ const ResultsScreen: React.FC<{
 
 // --- MAIN APP COMPONENT ---
 export default function App() {
-  const [isDark, setIsDark] = useLocalStorage("theme", false);
   const [screen, setScreen] = React.useState<"home" | "exam" | "results">(
     "home",
   );
@@ -1070,13 +1068,13 @@ export default function App() {
 
   const [mainTimer, setMainTimer] = React.useState(0);
 
-  React.useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [isDark]);
+  // React.useEffect(() => {
+  //   if (isDark) {
+  //     document.documentElement.classList.add("dark");
+  //   } else {
+  //     document.documentElement.classList.remove("dark");
+  //   }
+  // }, [isDark]);
 
   const handleSetLastResult = (result: ExamResult) => {
     setLastResult(result);
@@ -1129,15 +1127,11 @@ export default function App() {
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans transition-colors">
-      <Header
-        isDark={isDark}
-        setIsDark={setIsDark}
-        screen={screen}
-        examConfig={examConfig}
-        mainTimer={mainTimer}
-      />
-      {renderScreen()}
-    </div>
+    <ThemeProvider>
+      <div className="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans transition-colors">
+        <Header screen={screen} examConfig={examConfig} mainTimer={mainTimer} />
+        {renderScreen()}
+      </div>
+    </ThemeProvider>
   );
 }
