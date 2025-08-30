@@ -125,7 +125,7 @@ export const ExamScreen: React.FC<{
   timerConfig: { hours: number; minutes: number };
   setScreen: (screen: "home" | "results") => void;
   setLastResult: (result: ExamResult) => void;
-  setMainTimer: (time: number) => void;
+  setMainTimer: React.Dispatch<React.SetStateAction<number>>;
 }> = ({ config, timerConfig, setScreen, setLastResult, setMainTimer }) => {
   const [questions, setQuestions] = React.useState<ShuffledQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);

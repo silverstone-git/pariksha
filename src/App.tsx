@@ -102,9 +102,8 @@ function useLocalStorage<T>(
 // --- HEADER COMPONENT ---
 const Header: React.FC<{
   screen: "home" | "exam" | "results";
-  examConfig: ExamConfig | null;
   mainTimer: number;
-}> = ({ screen, examConfig, mainTimer }) => {
+}> = ({ screen, mainTimer }) => {
   return (
     <header className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
       <h1 className="text-3xl font-bold text-gray-800 dark:text-white font-bebas">
@@ -1129,7 +1128,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <div className="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans transition-colors">
-        <Header screen={screen} examConfig={examConfig} mainTimer={mainTimer} />
+        <Header screen={screen} mainTimer={mainTimer} />
         {renderScreen()}
       </div>
     </ThemeProvider>
