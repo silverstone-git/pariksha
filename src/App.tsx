@@ -526,7 +526,7 @@ const HomeScreen: React.FC<{
       const data = await response.json();
       if (Array.isArray(data)) {
         setServerExams(data);
-        setTotalPages(1);
+        setTotalPages(data.length === 10 ? currentPage + 1 : currentPage);
       } else {
         setServerExams(data.exams || []);
         setTotalPages(data.total_pages || 1);
