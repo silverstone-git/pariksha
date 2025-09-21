@@ -84,6 +84,7 @@ The application is a single-page application (SPA) with three main screens:
 -   **Tooling Error Recovery**: During development, a `replace` tool call failed because the `old_string` argument did not perfectly match the target code in `App.tsx`. This was resolved by re-reading the file with `read_file` to get the exact, up-to-date content and then re-issuing the `replace` command with the correct context. This highlights the importance of ensuring context is precise when performing file modifications.
 -   **AI Exam Generator UI/UX**: Improved the user experience in the "Generate Exam with AI" dialog. Replaced the single "Generate Prompt" button with three dedicated buttons: "Claude," "ChatGPT," and "Copy to Clipboard." This allows users to directly open their preferred AI tool in a new tab with the prompt pre-filled or copy it manually. Added a sparkle icon for better visual distinction.
 -   **Dark Mode Styling**: Fixed a styling bug in the AI Exam Generator where the dialog card would remain light in dark mode. Applied the correct Tailwind CSS classes (`dark:bg-gray-800` and `dark:text-gray-200`) to ensure the dialog adheres to the selected theme.
+-   **Enhanced AI Exam Generation**: Further improved the AI Exam Generator by adding a "Google AI" button for direct prompt generation. After copying a prompt, a persistent list of suggested AI chat links (including DuckDuckGo, Gemini, GLM-4.5, etc.) now appears, which can be manually closed by the user, replacing the previous auto-hiding behavior.
 
 ### Current Issues
 

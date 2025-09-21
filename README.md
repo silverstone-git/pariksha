@@ -5,6 +5,8 @@ Pariksha is a modern, web-based exam simulator built with React, TypeScript, and
 ## ✨ Features
 
 -   **AI-Powered Exam Generation**: Automatically generate exams on any topic using AI.
+    -   Provides direct prompt generation for Claude, ChatGPT, and Google AI.
+    -   Includes a "Copy to Clipboard" option and suggests other popular AI chat platforms for convenience, such as DuckDuckGo, Gemini, GLM-4.5, Qwen AI, and Deepseek.
 -   **Fault-Tolerant JSON Upload**: Easily upload your own exams using a simple JSON format. The parser is designed to be robust, tolerating extra text or formatting issues in the uploaded file.
 -   **Community-Sourced Exams**: Browse and take exams uploaded by other users.
 -   **Timed Sessions**: Set a custom timer for each exam session to simulate real exam conditions.

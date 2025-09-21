@@ -20,6 +20,7 @@ export const AIExamGenerator: React.FC<{
   const [error, setError] = React.useState<string | null>(null);
   const [isCopied, setIsCopied] = React.useState(false);
   const [isPosting, setIsPosting] = React.useState(false);
+  const [suggestionsVisible, setSuggestionsVisible] = React.useState(false);
 
   const generatePrompt = () => {
     if (!examName.trim()) {
@@ -130,6 +131,7 @@ Please provide only the raw JSON array as the output.
   const handleCopy = () => {
     navigator.clipboard.writeText(generatedPrompt);
     setIsCopied(true);
+    setSuggestionsVisible(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
 
@@ -305,7 +307,7 @@ Please provide only the raw JSON array as the output.
                   className="w-full p-2 h-32 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600"
                 />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
                 <Button
                   onClick={() =>
                     window.open(
@@ -335,6 +337,20 @@ Please provide only the raw JSON array as the output.
                   <Sparkles size={16} /> ChatGPT
                 </Button>
                 <Button
+                  onClick={() =>
+                    window.open(
+                      `https://www.google.com/search?udm=50&q=${encodeURIComponent(
+                        generatedPrompt,
+                      )}`,
+                      "_blank",
+                    )
+                  }
+                  variant="secondary"
+                  className="flex items-center justify-center gap-2"
+                >
+                  <Sparkles size={16} /> Google AI
+                </Button>
+                <Button
                   onClick={handleCopy}
                   variant="secondary"
                   className="flex items-center justify-center gap-2"
@@ -350,6 +366,81 @@ Please provide only the raw JSON array as the output.
                   )}
                 </Button>
               </div>
+              {suggestionsVisible && (
+                <div className="relative text-sm text-gray-600 dark:text-gray-400 mt-2 p-4 border rounded-lg bg-gray-50 dark:bg-gray-700">
+                  <button
+                    onClick={() => setSuggestionsVisible(false)}
+                    className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600"
+                  >
+                    <X size={16} />
+                  </button>
+                  <p className="font-semibold mb-2">
+                    Paste the copied prompt into one of these AI tools:
+                  </p>
+                  <ul className="list-disc list-inside space-y-1">
+                    <li>
+                      <a
+                        href="https://duckduckgo.com/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        DuckDuckGo
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://gemini.google.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        Gemini
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://huggingface.co/spaces/zai-org/GLM-4.5-Space"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        GLM-4.5
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://chat.qwen.ai"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        Qwen AI
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://chat.deepseek.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        Deepseek Official Portal
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://huggingface.co/spaces/deepseek-ai/deepseek-coder-33b-instruct"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        Deepseek Huggingface Space
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
           )}
 
