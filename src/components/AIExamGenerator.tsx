@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "./Card";
 import { Button } from "./Button";
-import { X, Clipboard, Check } from "lucide-react";
+import { X, Clipboard, Check, Sparkles } from "lucide-react";
 import type { ExamConfig } from "../types";
 import { isValidExamQuestions, robustJsonParse, API_BASE_URL } from "../utils";
 
@@ -15,6 +15,7 @@ export const AIExamGenerator: React.FC<{
   const [referenceExams, setReferenceExams] = React.useState("");
   const [numQuestions, setNumQuestions] = React.useState(10);
   const [generatedPrompt, setGeneratedPrompt] = React.useState("");
+  const [isPromptGenerated, setIsPromptGenerated] = React.useState(false);
   const [llmOutput, setLlmOutput] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
   const [isCopied, setIsCopied] = React.useState(false);
@@ -123,6 +124,7 @@ Even if JSON parses correctly, the **renderer** (e.g., MathJax, KaTeX) might fai
 Please provide only the raw JSON array as the output.
 `;
     setGeneratedPrompt(prompt.trim());
+    setIsPromptGenerated(true);
   };
 
   const handleCopy = () => {
@@ -212,7 +214,7 @@ Please provide only the raw JSON array as the output.
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4">
-      <Card className="w-full max-w-2xl max-h-[90vh] flex flex-col">
+      <Card className="w-full max-w-2xl max-h-[90vh] flex flex-col dark:bg-gray-800 dark:text-gray-200">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">Generate Exam with AI</h2>
           <button
@@ -290,31 +292,63 @@ Please provide only the raw JSON array as the output.
             </div>
           </div>
 
-          <Button onClick={generatePrompt} className="w-full mb-4">
-            Generate Prompt
-          </Button>
-
-          {generatedPrompt && (
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
-                Generated Prompt
-              </label>
+          {!isPromptGenerated ? (
+            <Button onClick={generatePrompt} className="w-full mb-4">
+              Generate Prompt
+            </Button>
+          ) : (
+            <div className="space-y-4 mb-4">
               <div className="relative">
                 <textarea
                   readOnly
                   value={generatedPrompt}
                   className="w-full p-2 h-32 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600"
                 />
-                <button
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                <Button
+                  onClick={() =>
+                    window.open(
+                      `https://claude.ai/new?q=${encodeURIComponent(
+                        generatedPrompt,
+                      )}`,
+                      "_blank",
+                    )
+                  }
+                  variant="secondary"
+                  className="flex items-center justify-center gap-2"
+                >
+                  <Sparkles size={16} /> Claude
+                </Button>
+                <Button
+                  onClick={() =>
+                    window.open(
+                      `https://chatgpt.com/?q=${encodeURIComponent(
+                        generatedPrompt,
+                      )}`,
+                      "_blank",
+                    )
+                  }
+                  variant="secondary"
+                  className="flex items-center justify-center gap-2"
+                >
+                  <Sparkles size={16} /> ChatGPT
+                </Button>
+                <Button
                   onClick={handleCopy}
-                  className="absolute top-2 right-2 p-2 rounded-lg bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500"
+                  variant="secondary"
+                  className="flex items-center justify-center gap-2"
                 >
                   {isCopied ? (
-                    <Check size={16} className="text-green-500" />
+                    <>
+                      <Check size={16} /> Copied
+                    </>
                   ) : (
-                    <Clipboard size={16} />
+                    <>
+                      <Clipboard size={16} /> Copy
+                    </>
                   )}
-                </button>
+                </Button>
               </div>
             </div>
           )}

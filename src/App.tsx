@@ -347,7 +347,7 @@ const FileUploader: React.FC<{
         className="hidden"
         ref={fileInputRef}
       />
-      <Button onClick={handleClick} className="w-full">
+      <Button onClick={handleClick} className="w-full" variant="secondary">
         <Upload size={20} /> Upload New Exam JSON
       </Button>
       {error && <p className="text-red-500 mt-2 text-sm">{error}</p>}
@@ -620,14 +620,13 @@ const HomeScreen: React.FC<{
             </div>
           </div>
           <div className="grid grid-cols-1 gap-4 md:col-span-2">
-            <FileUploader onFileUpload={handleFileUpload} />
             <Button
               onClick={() => setIsAiModalOpen(true)}
               className="w-full"
-              variant="secondary"
             >
               <Bot size={20} /> Generate with AI
             </Button>
+            <FileUploader onFileUpload={handleFileUpload} />
           </div>
         </div>
       </Card>
