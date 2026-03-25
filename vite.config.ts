@@ -26,7 +26,10 @@ export default defineConfig({
                 const pyPath = path.resolve(__dirname, 'cli', 'generate_question_bank.py');
                 const cwdPath = path.resolve(__dirname, 'cli');
                 
-                const py = spawn('python3', [pyPath, '--topic', topic, '--count', String(count), '--difficulty', difficulty], { cwd: cwdPath });
+                const venvPython = path.resolve(__dirname, 'cli', 'venv_pariksha', 'bin', 'python3');
+                const pythonCmd = fs.existsSync(venvPython) ? venvPython : 'python3';
+                
+                const py = spawn(pythonCmd, [pyPath, '--topic', topic, '--count', String(count), '--difficulty', difficulty], { cwd: cwdPath });
                 
                 py.stdout.on('data', data => {
                   res.write(data.toString());
@@ -81,7 +84,12 @@ export default defineConfig({
     },
     proxy: {
       '/pariksha': {
-        target: 'https://outsie.aryan.cfd',
+        target: process.env.VITE_API_BASE_URL || 'http://127.0.0.1:8671',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/api/question_bank': {
+        target: process.env.VITE_API_BASE_URL || 'http://127.0.0.1:8671',
         changeOrigin: true,
         secure: false,
       }

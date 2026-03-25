@@ -498,5 +498,642 @@
     "topic": "Action-Angle Variables",
     "explanation": "$J \\propto \\int \\sqrt{E - ax^4} dx$. Let $x = (E/a)^{1/4} u$. Then $dx = (E/a)^{1/4} du$. $J \\propto \\sqrt{E} (E/a)^{1/4} \\int \\sqrt{1-u^4} du \\propto E^{3/4}$. Since $1/T = \\nu = dE/dJ$, we have $T = dJ/dE \\propto \\frac{d}{dE}(E^{3/4}) \\propto E^{-1/4}$.",
     "image_path": ""
+  },
+  {
+    "type": "MSQ",
+    "question": "In a 1D Hamiltonian system with coordinates $(q, p)$, consider the transformation to $(Q, P)$ given by $Q = \\frac{1}{p}$ and $P = q p^2$. Which of the following generating functions correctly represent this canonical transformation?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$F_1(q, Q) = \\frac{q}{Q}$"
+      },
+      {
+        "label": 2,
+        "value": "$F_2(q, P) = 2\\sqrt{Pq}$"
+      },
+      {
+        "label": 3,
+        "value": "$F_3(p, Q) = -\\frac{p}{Q}$"
+      },
+      {
+        "label": 4,
+        "value": "$F_4(p, P) = \\frac{P}{p}$"
+      }
+    ],
+    "answer_labels": [
+      1,
+      2
+    ],
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "For $F_1(q, Q)$, $p = \\frac{\\partial F_1}{\\partial q} = \\frac{1}{Q}$ and $P = -\\frac{\\partial F_1}{\\partial Q} = \\frac{q}{Q^2}$. Substituting $Q=1/p$ gives $P = qp^2$, which matches. For $F_2(q, P)$, $p = \\frac{\\partial F_2}{\\partial q} = \\sqrt{\\frac{P}{q}}$ and $Q = \\frac{\\partial F_2}{\\partial P} = \\sqrt{\\frac{q}{P}}$. Rearranging $p = \\sqrt{P/q}$ gives $P = qp^2$, and $Q = \\sqrt{q/qp^2} = 1/p$, which also matches.",
+    "image_path": null
+  },
+  {
+    "type": "MSQ",
+    "question": "A bead of mass $m$ is constrained to move along a frictionless horizontal rod parallel to the $x$-axis. The rod itself moves vertically upward in the $z$-direction with a constant speed $v$ ($z = vt$). Which of the following statements regarding the Hamiltonian $H$ and the total energy $E$ are correct?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$H$ is not the total energy of the system ($H \\neq E$)"
+      },
+      {
+        "label": 2,
+        "value": "$H$ is the total energy of the system ($H = E$)"
+      },
+      {
+        "label": 3,
+        "value": "The Hamiltonian $H$ is conserved ($\u0001\bH/\u0001\bt = 0$)"
+      },
+      {
+        "label": 4,
+        "value": "The Hamiltonian $H$ is not conserved ($\u0001\bH/\u0001\bt \\neq 0$)"
+      }
+    ],
+    "answer_labels": [
+      1,
+      4
+    ],
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "The kinetic energy is $T = \\frac{1}{2}m(\\dot{x}^2 + v^2)$ and potential energy is $V = mgvt$. The Lagrangian is $L = T - V$. The conjugate momentum is $p_x = m\\dot{x}$. The Hamiltonian $H = p_x \\dot{x} - L = \\frac{p_x^2}{2m} - \\frac{1}{2}mv^2 + mgvt$. The total energy $E = T + V = \\frac{p_x^2}{2m} + \\frac{1}{2}mv^2 + mgvt$. Thus $H \\neq E$. Since $H$ depends explicitly on time through the potential term ($mgvt$), $dH/dt = \\partial H / \\partial t = mgv \\neq 0$, so $H$ is not conserved.",
+    "image_path": null
+  },
+  {
+    "type": "MSQ",
+    "question": "A relativistic particle of rest mass $m$ moves in a potential $V(x)$. If $p$ is the conjugate momentum and $c$ is the speed of light, which of the following expressions are correct for the Hamiltonian $H$ and the velocity $v$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$H = \\sqrt{p^2c^2 + m^2c^4} + V(x)$"
+      },
+      {
+        "label": 2,
+        "value": "$v = \\frac{pc^2}{\\sqrt{p^2c^2 + m^2c^4}}$"
+      },
+      {
+        "label": 3,
+        "value": "$L = -mc^2\\sqrt{1 - v^2/c^2} - V(x)$"
+      },
+      {
+        "label": 4,
+        "value": "$H = \\frac{p^2}{2m} + V(x)$"
+      }
+    ],
+    "answer_labels": [
+      1,
+      2,
+      3
+    ],
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "The relativistic Lagrangian is $L = -mc^2\\sqrt{1 - v^2/c^2} - V(x)$. The momentum $p = \\partial L/\\partial v = mv/\\sqrt{1-v^2/c^2}$. Solving for $v$ gives $v = pc^2/\\sqrt{p^2c^2 + m^2c^4}$. The Hamiltonian $H = pv - L$ simplifies to $\\sqrt{p^2c^2 + m^2c^4} + V(x)$. Option 4 is the non-relativistic limit.",
+    "image_path": null
+  },
+  {
+    "type": "NAT",
+    "question": "For a system governed by the Hamiltonian $H = \\frac{p^2}{2m} + \\frac{1}{2}m\\omega^2 q^2$, calculate the value of the Poisson bracket $\\{q^2, p^2\\}$ at the point $(q=2, p=3)$ in phase space.",
+    "answer_value": "24",
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "The Poisson bracket is defined as $\\{f, g\\} = \\frac{\\partial f}{\\partial q}\\frac{\\partial g}{\\partial p} - \\frac{\\partial f}{\\partial p}\\frac{\\partial g}{\\partial q}$. Here $f = q^2$ and $g = p^2$. Thus $\\{q^2, p^2\\} = (2q)(2p) - (0)(0) = 4qp$. At $q=2, p=3$, the value is $4 \\times 2 \\times 3 = 24$.",
+    "image_path": null
+  },
+  {
+    "type": "MCQ",
+    "question": "Consider a particle of mass $m$ and charge $q$ moving in a uniform magnetic field $\\vec{B} = 2B\\hat{k}$. Using the symmetric gauge $\\vec{A} = (-By, Bx, 0)$, what is the correct equation of motion for the conjugate momentum $p_x$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\dot{p}_x = \\frac{qB}{m}(p_y - qBx)$"
+      },
+      {
+        "label": 2,
+        "value": "$\\dot{p}_x = -\\frac{qB}{m}(p_x + qBy)$"
+      },
+      {
+        "label": 3,
+        "value": "$\\dot{p}_x = 0$"
+      },
+      {
+        "label": 4,
+        "value": "$\\dot{p}_x = qB\\dot{y}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "The Hamiltonian is $H = \\frac{1}{2m}[(p_x + qBy)^2 + (p_y - qBx)^2 + p_z^2]$. From Hamilton's equations, $\\dot{p}_x = -\\partial H/\\partial x$. Only the term $(p_y - qBx)^2$ depends on $x$. Thus $\\dot{p}_x = -\\frac{1}{2m} \\cdot 2(p_y - qBx)(-qB) = \\frac{qB}{m}(p_y - qBx)$.",
+    "image_path": "pariksha/bf9d3e87b18d725c67af6fbad780217d.webp"
+  },
+  {
+    "type": "NAT",
+    "question": "According to Liouville's Theorem, the phase space density $\\rho$ is conserved along the trajectories of the system. For a 2D phase space with coordinates $(q, p)$, if the velocity vector field is $\\vec{v} = (\\dot{q}, \\dot{p})$, calculate the value of the divergence $\\nabla \\cdot \\vec{v} = \\frac{\\partial \\dot{q}}{\\partial q} + \\frac{\\partial \\dot{p}}{\\partial p}$.",
+    "answer_value": "0",
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "From Hamilton's equations, $\\dot{q} = \\frac{\\partial H}{\\partial p}$ and $\\dot{p} = -\\frac{\\partial H}{\\partial q}$. The divergence is $\\frac{\\partial}{\\partial q}(\\frac{\\partial H}{\\partial p}) + \\frac{\\partial}{\\partial p}(-\\frac{\\partial H}{\\partial q}) = \\frac{\\partial^2 H}{\\partial q \\partial p} - \\frac{\\partial^2 H}{\\partial p \\partial q}$. Since the order of partial differentiation does not matter for smooth functions, the result is zero.",
+    "image_path": null
+  },
+  {
+    "type": "MCQ",
+    "question": "Which of the following defines the symplectic condition that a Jacobian matrix $M$ of a transformation $(q, p) \\to (Q, P)$ must satisfy to be canonical?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$M^T J M = J$, where $J = \\begin{pmatrix} 0 & I \\\\ -I & 0 \\end{pmatrix}$"
+      },
+      {
+        "label": 2,
+        "value": "$M J M^T = I$"
+      },
+      {
+        "label": 3,
+        "value": "$\\det(M) = 0$"
+      },
+      {
+        "label": 4,
+        "value": "$M^T M = I$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "A transformation is canonical if and only if its Jacobian matrix $M$ is symplectic, satisfying $M^T J M = J$. This condition preserves the form of Hamilton's equations and the fundamental Poisson brackets.",
+    "image_path": null
+  },
+  {
+    "type": "MSQ",
+    "question": "Which of the following algebraic properties of Poisson brackets are correct for any dynamical variables $A, B, C$ and constant $k$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\{A, BC\\} = \\{A, B\\}C + B\\{A, C\\}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\{A, \\{B, C\\}\\} + \\{B, \\{C, A\\}\\} + \\{C, \\{A, B\\}\\} = 0$"
+      },
+      {
+        "label": 3,
+        "value": "$\\{A, B\\} = \\{B, A\\}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\{k, A\\} = 0$"
+      }
+    ],
+    "answer_labels": [
+      1,
+      2,
+      4
+    ],
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "Option 1 is the Leibniz rule (distribution over products). Option 2 is the Jacobi identity. Option 4 is true because the derivative of a constant is zero. Option 3 is incorrect because Poisson brackets are anti-symmetric: $\\{A, B\\} = -\\{B, A\\}$.",
+    "image_path": null
+  },
+  {
+    "type": "NAT",
+    "question": "For a simple harmonic oscillator with Hamiltonian $H = \\frac{p^2}{2m} + \\frac{1}{2}m\\omega^2 q^2$, the action variable $J$ is defined as $J = \\frac{1}{2\\pi} \\oint p dq$. If the energy of the system is $E$, the relationship is $J = E/\\omega$. Find the value of $J$ (in units of $\\hbar$) for an oscillator in a state with energy $E = 3.5\\hbar\\omega$.",
+    "answer_value": "3.5",
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "Using the relation $J = E/\\omega$, substituting $E = 3.5\\hbar\\omega$ gives $J = 3.5\\hbar\\omega / \\omega = 3.5\\hbar$. The value in units of $\\hbar$ is 3.5.",
+    "image_path": null
+  },
+  {
+    "type": "MCQ",
+    "question": "In Hamilton-Jacobi theory, if the Hamiltonian $H$ is not explicitly dependent on time, we use Hamilton's characteristic function $W(q, \\alpha)$. The relation between the original momentum $p$ and $W$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$p_i = \\frac{\\partial W}{\\partial q_i}$"
+      },
+      {
+        "label": 2,
+        "value": "$p_i = -\\frac{\\partial W}{\\partial q_i}$"
+      },
+      {
+        "label": 3,
+        "value": "$Q_i = \\frac{\\partial W}{\\partial p_i}$"
+      },
+      {
+        "label": 4,
+        "value": "$p_i = \\frac{\\partial W}{\\partial \\alpha_i}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "Hamilton's characteristic function $W$ acts as a generating function of the second kind $F_2(q, P)$. Thus, the conjugate momentum is given by $p_i = \\partial W / \\partial q_i$.",
+    "image_path": null
+  },
+  {
+    "type": "MSQ",
+    "question": "A particle of mass $m$ is described by the Hamiltonian $H = \\frac{1}{2m}(p_x^2 + p_y^2) + a(x p_y - y p_x)$, where $a$ is a constant. Which of the following statements are correct regarding this system?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The angular momentum $L_z = x p_y - y p_x$ is a constant of motion."
+      },
+      {
+        "label": 2,
+        "value": "The Hamiltonian is explicitly time-independent, so $H$ is a constant of motion."
+      },
+      {
+        "label": 3,
+        "value": "The equations of motion are $\\\\dot{x} = \\\\frac{p_x}{m} - ay$ and $\\\\dot{y} = \\\\frac{p_y}{m} + ax$."
+      },
+      {
+        "label": 4,
+        "value": "The Poisson bracket $\\{x, p_x\\}$ is equal to $1$."
+      }
+    ],
+    "answer_labels": [
+      1,
+      2,
+      4
+    ],
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "1. $\\{L_z, H\\} = \\{L_z, \\\\frac{p^2}{2m} + a L_z\\} = \\\\{L_z, \\\\frac{p^2}{2m}\\\\} + a\\\\{L_z, L_z\\}$. Since $L_z$ commutes with the kinetic energy (rotational invariance) and itself, $L_z$ is conserved. 2. $\\\\partial H/\\\\partial t = 0$, so $H$ is conserved. 3. $\\\\dot{x} = \\\\partial H/\\\\partial p_x = p_x/m - ay$. (Wait, the term is $a(x p_y - y p_x)$, so $\\\\partial H/\\\\partial p_x = p_x/m - ay$. $\\\\dot{y} = \\\\partial H/\\\\partial p_y = p_y/m + ax$). 4. $\\{x, p_x\\} = 1$ is a fundamental bracket.",
+    "image_path": null
+  },
+  {
+    "type": "MCQ",
+    "question": "Based on the provided text context (Q.52), consider a bead of mass $m$ on a horizontal rod moving vertically upward with a constant speed $v_0$ starting from $z=0$ at $t=0$. If $p_x$ is the conjugate momentum for the horizontal motion, what is the relationship between the Hamiltonian $H$ and the total energy $E$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$H = E$"
+      },
+      {
+        "label": 2,
+        "value": "$H = E - mv_0^2$"
+      },
+      {
+        "label": 3,
+        "value": "$H = E + mv_0^2$"
+      },
+      {
+        "label": 4,
+        "value": "$H = E - 2mv_0^2$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "The Lagrangian is $L = \\\\frac{1}{2}m(\\\\dot{x}^2 + v_0^2) - mg(v_0 t)$. The conjugate momentum is $p_x = m\\\\dot{x}$. The Hamiltonian is $H = p_x \\\\dot{x} - L = \\\\frac{p_x^2}{m} - (\\\\frac{p_x^2}{2m} + \\\\frac{1}{2}mv_0^2 - mgv_0 t) = \\\\frac{p_x^2}{2m} - \\\\frac{1}{2}mv_0^2 + mgv_0 t$. The total energy is $E = T + V = \\\\frac{p_x^2}{2m} + \\\\frac{1}{2}mv_0^2 + mgv_0 t$. Thus, $H = E - mv_0^2$.",
+    "image_path": "pariksha/bf9d3e87b18d725c67af6fbad780217d.webp"
+  },
+  {
+    "type": "NAT",
+    "question": "A canonical transformation is generated by $F_3(p, Q) = - (e^Q - 1)^2 \\\\tan p$. Calculate the value of the Poisson bracket $\\{Q, P\\}$ in the new coordinate system.",
+    "answer_range": {
+      "min": 0.99,
+      "max": 1.01
+    },
+    "topic": "Canonical Transformations",
+    "explanation": "For any canonical transformation, the fundamental Poisson bracket between the new coordinate $Q$ and its conjugate momentum $P$ must be $\\{Q, P\\} = 1$.",
+    "image_path": null
+  },
+  {
+    "type": "MCQ",
+    "question": "For a system with Hamiltonian $H(q, p)$, if we apply a transformation $Q = q^2$ and $P = p / (2q)$, is this transformation canonical?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Yes, because the Poisson bracket $\\{Q, P\\} = 1$."
+      },
+      {
+        "label": 2,
+        "value": "No, because the Poisson bracket $\\{Q, P\\} = 2q$."
+      },
+      {
+        "label": 3,
+        "value": "Yes, because the Jacobian of the transformation is zero."
+      },
+      {
+        "label": 4,
+        "value": "No, because the transformation is not linear."
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Canonical Transformations",
+    "explanation": "Calculate $\\{Q, P\\} = \\\\frac{\\\\partial Q}{\\\\partial q} \\\\frac{\\\\partial P}{\\\\partial p} - \\\\frac{\\\\partial Q}{\\\\partial p} \\\\frac{\\\\partial P}{\\\\partial q} = (2q)(\\\\frac{1}{2q}) - (0)(...) = 1$. Since the bracket is 1, it is a canonical transformation.",
+    "image_path": null
+  },
+  {
+    "type": "NAT",
+    "question": "In a 1D system, the action variable is defined as $J = \\\\frac{1}{2\\\\pi} \\\\oint p dq$. For a particle of mass $m$ bouncing elastically in a uniform gravitational field $g$ (where $V(q) = mgq$ for $q > 0$ and $V(q) = \\\\infty$ for $q \\\\le 0$), the action $J$ scales with energy $E$ as $E^n$. Find the value of $n$.",
+    "answer_value": "1.5",
+    "topic": "Action-Angle Variables",
+    "explanation": "For a bouncing ball, $p = \\\\sqrt{2m(E - mgq)}$. The integral is $J = \\\\frac{1}{\\\\pi} \\\\int_0^{E/mg} \\\\sqrt{2m(E - mgq)} dq$. Letting $u = mgq/E$, $dq = (E/mg) du$. Then $J \\\\propto E \\\\cdot E^{1/2} \\\\int \\\\sqrt{1-u} du \\\\propto E^{3/2}$. Thus $n = 1.5$.",
+    "image_path": null
+  },
+  {
+    "type": "MSQ",
+    "question": "Consider the relativistic Hamiltonian provided in the text context (Q.54): $H = c \\\\sqrt{p^2 + m^2 c^2} + V(x)$. Which of the following relationships correctly describe the dynamics?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The velocity is $v = \\\\frac{pc^2}{\\\\sqrt{p^2 c^2 + m^2 c^4}}$."
+      },
+      {
+        "label": 2,
+        "value": "The Lagrangian is $L = -mc^2 \\\\sqrt{1 - v^2/c^2} - V(x)$."
+      },
+      {
+        "label": 3,
+        "value": "The momentum is $p = \\\\frac{mv}{\\\\sqrt{1 - v^2/c^2}}$."
+      },
+      {
+        "label": 4,
+        "value": "The Hamiltonian is $H = pv - L$."
+      }
+    ],
+    "answer_labels": [
+      2,
+      3,
+      4
+    ],
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "1. Using Hamilton's equation: $\\\\dot{x} = \\\\partial H/\\\\partial p = \\\\frac{pc}{\\\\sqrt{p^2 + m^2 c^2}}$, which differs from option 1 by a factor of $c$. 2. The standard relativistic Lagrangian is $L = -mc^2/\\\\gamma - V$. 3. $p = \\\\gamma m v$. 4. By definition $H = \\\\sum p_i \\\\dot{q}_i - L$.",
+    "image_path": null
+  },
+  {
+    "type": "NAT",
+    "question": "Calculate the value of the Poisson bracket $\\{q^2, p^2\\}$ for a 1D system.",
+    "answer_value": "4qp",
+    "topic": "Poisson Brackets",
+    "explanation": "Using the property $\\{A, BC\\} = \\{A, B\\}C + B\\{A, C\\}$: $\\{q^2, p^2\\} = \\\\frac{\\\\partial q^2}{\\\\partial q}\\\\frac{\\\\partial p^2}{\\\\partial p} - 0 = (2q)(2p) = 4qp$.",
+    "image_path": null
+  },
+  {
+    "type": "MCQ",
+    "question": "A system is described by the Lagrangian $L(q, \\\\dot{q}, t)$. If the transformation to the Hamiltonian $H(q, p, t)$ is performed, under what condition is $H$ numerically equal to the total energy $T+V$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "When the potential $V$ is velocity-independent and the kinetic energy $T$ is a homogeneous quadratic function of generalized velocities."
+      },
+      {
+        "label": 2,
+        "value": "When the Hamiltonian is not explicitly dependent on time."
+      },
+      {
+        "label": 3,
+        "value": "When all constraints are holonomic."
+      },
+      {
+        "label": 4,
+        "value": "When the coordinates are cyclic."
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "According to Euler's theorem on homogeneous functions, if $T = T_2$ (quadratic in $\\\\dot{q}$), then $\\\\sum p_i \\\\dot{q}_i = 2T_2$. Then $H = 2T_2 - (T_2 - V) = T_2 + V = E$.",
+    "image_path": null
+  },
+  {
+    "type": "NAT",
+    "question": "Consider a generating function of the first kind $F_1(q, Q) = k q Q$. If the transformation leads to $p = Q$ and $P = -q$, find the value of the constant $k$.",
+    "answer_value": "1",
+    "topic": "Canonical Transformations",
+    "explanation": "For $F_1(q, Q)$, we have $p = \\\\frac{\\\\partial F_1}{\\\\partial q} = k Q$ and $P = -\\\\frac{\\\\partial F_1}{\\\\partial Q} = -k q$. To satisfy $p = Q$ and $P = -q$, we must have $k = 1$.",
+    "image_path": null
+  },
+  {
+    "type": "MCQ",
+    "question": "Which of the following describes the 'Jacobi Identity' for three dynamical variables $A, B,$ and $C$ in the context of Poisson brackets?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\{A, \\{B, C\\}\\} + \\{B, \\{C, A\\}\\} + \\{C, \\{A, B\\}\\} = 0$"
+      },
+      {
+        "label": 2,
+        "value": "$\\{A, BC\\} = \\{A, B\\}C + B\\{A, C\\}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\{A, B\\} = -\\{B, A\\}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\frac{d}{dt}\\{A, B\\} = \\{\\\\dot{A}, B\\} + \\{A, \\\\dot{B}\\}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Poisson Brackets",
+    "explanation": "The Jacobi identity is a fundamental property of Lie algebras and Poisson brackets, stating that the cyclic sum of the nested brackets is zero.",
+    "image_path": null
+  },
+  {
+    "type": "MCQ",
+    "question": "A particle of mass $m$ moves in a one-dimensional potential $V(x, t) = V_0(x - vt)$, where $v$ is a constant velocity. Which of the following statements is true regarding the Hamiltonian $H$ and the total energy $E$ of the system?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$H$ is conserved and equals the total energy $E$."
+      },
+      {
+        "label": 2,
+        "value": "$H$ is not conserved, but it equals the total energy $E$."
+      },
+      {
+        "label": 3,
+        "value": "$H$ is conserved, but it does not equal the total energy $E$."
+      },
+      {
+        "label": 4,
+        "value": "Neither $H$ nor $E$ is conserved."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "Since the potential $V(x, t)$ depends explicitly on time ($\\partial V / \\partial t \\neq 0$), the Hamiltonian $H = T + V$ is not conserved ($dH/dt = \\partial H / \\partial t \\neq 0$). However, because the transformation from Cartesian coordinates to generalized coordinates is time-independent ($x=q$), the Hamiltonian still numerically equals the total energy $E = T + V$.",
+    "image_path": null
+  },
+  {
+    "type": "MSQ",
+    "question": "A canonical transformation $(q, p) \to (Q, P)$ is generated by a function $F$. Which of the following relationships between the generating functions and the variables are correct?",
+    "options": [
+      {
+        "label": 1,
+        "value": "For $F_1(q, Q)$, $p = \\frac{\\partial F_1}{\\partial q}$ and $P = -\\frac{\\partial F_1}{\\partial Q}$"
+      },
+      {
+        "label": 2,
+        "value": "For $F_2(q, P)$, $p = \\frac{\\partial F_2}{\\partial q}$ and $Q = \\frac{\\partial F_2}{\\partial P}$"
+      },
+      {
+        "label": 3,
+        "value": "For $F_3(p, Q)$, $q = -\\frac{\\partial F_3}{\\partial p}$ and $P = -\\frac{\\partial F_3}{\\partial Q}$"
+      },
+      {
+        "label": 4,
+        "value": "For $F_4(p, P)$, $q = -\\frac{\\partial F_4}{\\partial p}$ and $Q = \\frac{\\partial F_4}{\\partial P}$"
+      }
+    ],
+    "answer_labels": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "topic": "Canonical Transformations",
+    "explanation": "These are the standard relations derived from the Legendre transformations of the fundamental generating function $F_1(q, Q)$. All four options correctly describe the partial derivative relations for $F_1, F_2, F_3,$ and $F_4$.",
+    "image_path": null
+  },
+  {
+    "type": "NAT",
+    "question": "Calculate the value of the Poisson bracket $\\{L_x, p_y\\}$, where $L_x$ is the $x$-component of the angular momentum and $p_y$ is the linear momentum in the $y$-direction. Express your answer in terms of $p_z$. If the answer is $A \\cdot p_z$, what is the value of $A$?",
+    "answer_value": "1",
+    "topic": "Poisson Brackets",
+    "explanation": "$L_x = y p_z - z p_y$. The Poisson bracket is $\\{L_x, p_y\\} = \\{y p_z - z p_y, p_y\\} = \\{y p_z, p_y\\} - \\{z p_y, p_y\\}$. Since $\\{p_y, p_y\\} = 0$, we have $\\{y p_z, p_y\\} = p_z \\{y, p_y\\} = p_z(1) = p_z$. Thus $A=1$.",
+    "image_path": null
+  },
+  {
+    "type": "MCQ",
+    "question": "The Hamilton-Jacobi equation for a particle of mass $m$ moving in a 1D potential $V(q)$ is given by $\\frac{1}{2m} \\left( \\frac{\\partial S}{\\partial q} \\right)^2 + V(q) + \\frac{\\partial S}{\\partial t} = 0$. If $V(q) = 0$ (free particle), which of the following is a valid form for Hamilton's principal function $S(q, \\alpha, t)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$S = \\alpha q - \\frac{\\alpha^2}{2m} t$"
+      },
+      {
+        "label": 2,
+        "value": "$S = \\alpha q + \\frac{\\alpha^2}{2m} t$"
+      },
+      {
+        "label": 3,
+        "value": "$S = \\sqrt{2m\\alpha} q - \\alpha t$"
+      },
+      {
+        "label": 4,
+        "value": "$S = \\frac{m q^2}{2t}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Hamilton-Jacobi Theory",
+    "explanation": "For a free particle $V=0$, the HJ equation is $\\frac{1}{2m} (\\frac{\\partial S}{\\partial q})^2 + \\frac{\\partial S}{\\partial t} = 0$. Setting $S = W(q) - Et$, we get $\\frac{1}{2m} (W')^2 = E$. Thus $W = \\sqrt{2mE} q$. Letting $\\alpha = \\sqrt{2mE}$ as the constant momentum, $E = \\alpha^2/2m$. This leads to $S = \\alpha q - \\frac{\\alpha^2}{2m} t$.",
+    "image_path": null
+  },
+  {
+    "type": "NAT",
+    "question": "Consider a particle of mass $m=1/2$ (in arbitrary units) confined in a 1D infinite potential well of width $a=1$. The particle has energy $E = \\pi^2$. Calculate the value of the action variable $J = \\frac{1}{2\\pi} \\oint p dq$.",
+    "answer_value": "1",
+    "topic": "Action-Angle Variables",
+    "explanation": "For a 1D box, the momentum is $p = \\pm \\sqrt{2mE}$. The integral over a full cycle is $\\oint p dq = 2 \\int_0^a \\sqrt{2mE} dq = 2a\\sqrt{2mE}$. Thus, $J = \\frac{2a\\sqrt{2mE}}{2\\pi} = \\frac{a\\sqrt{2mE}}{\\pi}$. Plugging in $a=1, m=1/2, E=\\pi^2$: $J = \\frac{1 \\cdot \\sqrt{2(1/2)\\pi^2}}{\\pi} = \\frac{\\pi}{\\pi} = 1$.",
+    "image_path": null
+  },
+  {
+    "type": "MSQ",
+    "question": "A system is described by the Hamiltonian $H = \\frac{1}{2m}(p_r^2 + \\frac{p_\\theta^2}{r^2} + \\frac{p_\\phi^2}{r^2 \\sin^2\\theta}) + V(r)$. Which of the following are constants of motion?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The total energy $H$"
+      },
+      {
+        "label": 2,
+        "value": "The azimuthal momentum $p_\\phi$"
+      },
+      {
+        "label": 3,
+        "value": "The polar momentum $p_\\theta$"
+      },
+      {
+        "label": 4,
+        "value": "The square of the total angular momentum $L^2 = p_\\theta^2 + \\frac{p_\\phi^2}{\\sin^2\\theta}$"
+      }
+    ],
+    "answer_labels": [
+      1,
+      2,
+      4
+    ],
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "$H$ is a constant because $\\partial H / \\partial t = 0$. $\\phi$ is a cyclic coordinate, so $p_\\phi$ is conserved. $L^2$ is conserved for any central potential $V(r)$. However, $p_\\theta$ is not conserved because $H$ depends on $\\theta$ through the $\\sin^2\\theta$ term.",
+    "image_path": null
+  },
+  {
+    "type": "MCQ",
+    "question": "An infinitesimal canonical transformation is generated by $G(q, p)$. The change in a dynamical variable $f(q, p)$ under this transformation is given by $\\delta f = \\epsilon \\{f, G\\}$, where $\\epsilon$ is an infinitesimal parameter. If $G = p$, what physical transformation does this generate?",
+    "options": [
+      {
+        "label": 1,
+        "value": "A rotation in space"
+      },
+      {
+        "label": 2,
+        "value": "A translation in space"
+      },
+      {
+        "label": 3,
+        "value": "A time translation"
+      },
+      {
+        "label": 4,
+        "value": "A boost to a moving frame"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Canonical Transformations",
+    "explanation": "If $G = p$, then $\\delta q = \\epsilon \\{q, p\\} = \\epsilon$ and $\\delta p = \\epsilon \\{p, p\\} = 0$. This represents a uniform shift in the coordinate $q$ while keeping momentum constant, which is a spatial translation.",
+    "image_path": null
+  },
+  {
+    "type": "NAT",
+    "question": "A particle of mass $m=1$ moves in two dimensions with a Lagrangian $L = \\frac{1}{2}(\\dot{x}^2 + \\dot{y}^2) + (x\\dot{y} - y\\dot{x})$. Find the value of the Hamiltonian $H$ when $x=1, y=0, p_x=2, p_y=3$.",
+    "answer_value": "4",
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "Generalized momenta: $p_x = \\partial L / \\partial \\dot{x} = \\dot{x} - y \\implies \\dot{x} = p_x + y$. $p_y = \\partial L / \\partial \\dot{y} = \\dot{y} + x \\implies \\dot{y} = p_y - x$. The Hamiltonian is $H = p_x \\dot{x} + p_y \\dot{y} - L = \\frac{1}{2}(\\dot{x}^2 + \\dot{y}^2) = \\frac{1}{2}((p_x+y)^2 + (p_y-x)^2)$. For $x=1, y=0, p_x=2, p_y=3$: $H = \\frac{1}{2}((2+0)^2 + (3-1)^2) = \\frac{1}{2}(4 + 4) = 4$.",
+    "image_path": null
+  },
+  {
+    "type": "MSQ",
+    "question": "Regarding Liouville's Theorem and phase space, which of the following statements are correct?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The density of points in phase space remains constant in time in the vicinity of a moving system point."
+      },
+      {
+        "label": 2,
+        "value": "Phase space trajectories of a deterministic Hamiltonian system can never cross."
+      },
+      {
+        "label": 3,
+        "value": "Liouville's theorem implies that the shape of a phase space volume element remains invariant over time."
+      },
+      {
+        "label": 4,
+        "value": "The theorem applies even if the system is subject to dissipative forces like friction."
+      }
+    ],
+    "answer_labels": [
+      1,
+      2
+    ],
+    "topic": "Liouville's Theorem",
+    "explanation": "Statement 1 is the definition of the theorem ($d\\rho/dt = 0$). Statement 2 is true because the evolution is uniquely determined by the initial conditions $(q, p)$. Statement 3 is false: the *volume* is invariant, but the *shape* can be highly distorted (stretched/sheared). Statement 4 is false: the theorem requires the system to be Hamiltonian; dissipation breaks the symplectic structure and phase volume contracts.",
+    "image_path": null
+  },
+  {
+    "type": "MCQ",
+    "question": "A bead of mass $m$ is constrained to move on a horizontal rod that is rotating in the $xy$-plane with a constant angular velocity $\\omega$ about the $z$-axis. If $r$ is the distance from the axis, the Hamiltonian $H$ in terms of the conjugate momentum $p_r$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$H = \\frac{p_r^2}{2m} + \\frac{1}{2}m\\omega^2 r^2$"
+      },
+      {
+        "label": 2,
+        "value": "$H = \\frac{p_r^2}{2m} - \\frac{1}{2}m\\omega^2 r^2$"
+      },
+      {
+        "label": 3,
+        "value": "$H = \\frac{p_r^2}{2m}$"
+      },
+      {
+        "label": 4,
+        "value": "$H = \\frac{p_r^2}{2m} + m\\omega^2 r^2$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "The Lagrangian is $L = \\frac{1}{2}m(\\dot{r}^2 + r^2\\omega^2)$. Momentum $p_r = \\partial L / \\partial \\dot{r} = m\\dot{r} \\implies \\dot{r} = p_r/m$. The Hamiltonian is $H = p_r \\dot{r} - L = \\frac{p_r^2}{m} - [\\frac{1}{2}m(p_r/m)^2 + \\frac{1}{2}m\\omega^2 r^2] = \\frac{p_r^2}{2m} - \\frac{1}{2}m\\omega^2 r^2$. Note that $H \\neq E$ here because the constraint (rotation) is time-dependent in the laboratory frame coordinates.",
+    "image_path": null
   }
 ]

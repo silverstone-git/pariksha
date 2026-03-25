@@ -50,12 +50,15 @@ class R2Uploader:
             dotenv_path = Path(__file__).parent / ".env"
         load_dotenv(dotenv_path=dotenv_path)
 
-        self.account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
-        self.bucket_name = os.getenv("R2_BUCKET_NAME")
+        def _clean(val):
+            return val.strip(' "\'') if val else val
+
+        self.account_id = _clean(os.getenv("CLOUDFLARE_ACCOUNT_ID"))
+        self.bucket_name = _clean(os.getenv("R2_BUCKET_NAME"))
         # Support both S3 and R2 prefixed keys
-        self.access_key = os.getenv("R2_ACCESS_KEY_ID") or os.getenv("S3_ACCESS_KEY_ID")
-        self.secret_key = os.getenv("R2_SECRET_ACCESS_KEY") or os.getenv("S3_SECRET_ACCESS_KEY")
-        self.public_url = os.getenv("R2_PUBLIC_URL")
+        self.access_key = _clean(os.getenv("R2_ACCESS_KEY_ID") or os.getenv("S3_ACCESS_KEY_ID"))
+        self.secret_key = _clean(os.getenv("R2_SECRET_ACCESS_KEY") or os.getenv("S3_SECRET_ACCESS_KEY"))
+        self.public_url = _clean(os.getenv("R2_PUBLIC_URL"))
 
         if not all([self.account_id, self.bucket_name, self.access_key, self.secret_key]):
             logger.warning("R2 configuration incomplete. Check your .env file. Images will stay as local paths.")
@@ -91,7 +94,7 @@ class R2Uploader:
                 str(path), 
                 self.bucket_name, 
                 remote_name,
-                ExtraArgs={'ContentType': content_type}
+                ExtraArgs={'ContentType': content_type, 'ACL': 'public-read'}
             )
             
             if self.public_url:
@@ -137,7 +140,15 @@ class ExamGeneratorAgent:
 
     def _load_index(self):
         """Connect to ChromaDB and load the index"""
-        remote_db = chromadb.HttpClient(host=CHROMA_HOST, port=CHROMA_PORT)
+        try:
+            remote_db = chromadb.HttpClient(host=CHROMA_HOST, port=CHROMA_PORT)
+            remote_db.get_version() # Test connection to ensure server is running
+            logger.info(f"Connected to ChromaDB server at {CHROMA_HOST}:{CHROMA_PORT}")
+        except Exception:
+            logger.warning(f"Could not connect to ChromaDB server at {CHROMA_HOST}:{CHROMA_PORT}. Falling back to local PersistentClient.")
+            db_path = str(Path(__file__).parent / "chroma_db")
+            remote_db = chromadb.PersistentClient(path=db_path)
+
         text_collection = remote_db.get_or_create_collection(TEXT_COLLECTION_NAME)
         text_store = ChromaVectorStore(chroma_collection=text_collection)
         return VectorStoreIndex.from_vector_store(vector_store=text_store)
@@ -209,7 +220,7 @@ class ExamGeneratorAgent:
 
         system_prompt = f"""
 You are an expert educational content creator.
-Generate {self.config.num_questions} multiple-choice questions for: {self.config.name}
+Generate {self.config.num_questions} questions for: {self.config.name}
 Description: {self.config.description}
 Difficulty: {self.config.difficulty}
 
@@ -217,28 +228,42 @@ Use the provided text context and any attached images from the study materials.
 Attached images are diagrams/charts. Refer to them if they are relevant!
 
 STRICT RULES for JSON format:
-1. "options" MUST be an array of objects with "label" (1-4) and "value" (string).
-2. "answer_label" MUST be the integer label of the correct option (1, 2, 3, or 4).
-3. "topic" should be a specific string.
-4. Use LaTeX: $...$ for inline, $$...$$ for display.
-5. IF you see a relevant diagram in the "ATTACHED IMAGES" context, you MUST use it for at least one question.
-6. When using an image, add an "image_path" field with the filename ONLY (e.g., "diagram_01.webp"). The uploader will handle the rest.
-7. Return ONLY a valid JSON array. No other text.
+1. You can generate three types of questions: "MCQ" (Multiple Choice), "MSQ" (Multiple Select), and "NAT" (Numerical Answer Type).
+2. For MCQ: Include "options" (array of 4 objects with "label" and "value"), and "answer_label" (integer 1-4).
+3. For MSQ: Include "options" (array of 4 objects with "label" and "value"), and "answer_labels" (array of correct integers, e.g., [1, 3]).
+4. For NAT: Do NOT include "options". Include "answer_value" (exact string/number) or "answer_range" ({{"min": float, "max": float}}).
+5. All questions must have: "type" ("MCQ", "MSQ", or "NAT"), "question", "topic", and "explanation".
+6. Use LaTeX: $...$ for inline, $$...$$ for display.
+7. IF you see a relevant diagram in the "ATTACHED IMAGES" context, you MUST use it for at least one question. Add an "image_path" field with the filename ONLY.
+8. Return ONLY a valid JSON array. No other text.
 
-Example format:
+Example formats:
 [
   {{
+    "type": "MCQ",
     "question": "What is the value of $x$?",
-    "options": [
-      {{"label": 1, "value": "$x=1$"}},
-      {{"label": 2, "value": "$x=2$"}},
-      {{"label": 3, "value": "$x=3$"}},
-      {{"label": 4, "value": "$x=4$"}}
-    ],
+    "options": [{{"label": 1, "value": "$x=1$"}}, {{"label": 2, "value": "$x=2$"}}, {{"label": 3, "value": "$x=3$"}}, {{"label": 4, "value": "$x=4$"}}],
     "answer_label": 2,
     "topic": "Math",
     "explanation": "Because...",
-    "image_path": "path/to/img.webp"
+    "image_path": null
+  }},
+  {{
+    "type": "MSQ",
+    "question": "Which of these are true?",
+    "options": [{{"label": 1, "value": "A"}}, {{"label": 2, "value": "B"}}, {{"label": 3, "value": "C"}}, {{"label": 4, "value": "D"}}],
+    "answer_labels": [1, 3],
+    "topic": "Math",
+    "explanation": "A and C are true.",
+    "image_path": null
+  }},
+  {{
+    "type": "NAT",
+    "question": "Calculate the force.",
+    "answer_range": {{"min": 9.8, "max": 10.0}},
+    "topic": "Physics",
+    "explanation": "F = ma",
+    "image_path": null
   }}
 ]
 """

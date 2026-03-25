@@ -1,4 +1,4 @@
-import type { Question, ExamConfig, ExamPreset } from "./types";
+import type { Question, ExamConfig, ExamPreset, ExamSection, UserAnswer } from "./types";
 
 export const isLocalhost = (): boolean => {
   return (
@@ -8,7 +8,89 @@ export const isLocalhost = (): boolean => {
   );
 };
 
-export const API_BASE_URL = isLocalhost() ? "" : (import.meta.env.VITE_API_BASE_URL || "https://outsie.aryan.cfd").replace(/\/$/, "");
+export const API_BASE_URL = (
+  isLocalhost() ? "" : (import.meta.env.VITE_API_BASE_URL || "https://outsie.aryan.cfd")
+).replace(/\/$/, "");
+
+/**
+ * Converts legacy flat-question exams into the new section-based format.
+ * Ensures the rest of the application can assume a section-based structure.
+ */
+export const normalizeExamConfig = (config: ExamConfig): ExamConfig => {
+  if (config.sections && config.sections.length > 0) {
+    // If it already has sections, ensure every question has an ID and Type
+    const sections = config.sections.map((section) => ({
+      ...section,
+      questions: section.questions.map((q, idx) => ({
+        ...q,
+        id: q.id || `${section.id}-q-${idx}`,
+        type: q.type || "MCQ",
+      })),
+    }));
+    return { ...config, sections };
+  }
+
+  // Fallback for legacy format: Wrap flat questions into a single section
+  const legacyQuestions = config.questions || [];
+  const normalizedSection: ExamSection = {
+    id: "default-section",
+    name: "General",
+    questions: legacyQuestions.map((q, idx) => ({
+      ...q,
+      id: q.id || `q-${idx}`,
+      type: q.type || "MCQ",
+    })),
+    marking: {
+      positive: config.settings?.positiveMarking ?? 1,
+      negative: config.settings?.negativeMarking ?? 0,
+    },
+  };
+
+  return {
+    ...config,
+    sections: [normalizedSection],
+  };
+};
+
+/**
+ * Validates if an answer is correct based on its type.
+ */
+export const isQuestionCorrect = (question: Question, answer: { 
+  selectedOptionLabel?: number | null; 
+  selectedOptionLabels?: number[]; 
+  enteredAnswer?: string 
+}): boolean => {
+  const type = question.type || "MCQ";
+
+  switch (type) {
+    case "MCQ":
+      return answer.selectedOptionLabel === question.answer_label;
+    case "MSQ": {
+      if (!answer.selectedOptionLabels || !question.answer_labels) return false;
+      const userLabels = [...answer.selectedOptionLabels].sort();
+      const correctLabels = [...question.answer_labels].sort();
+      return (
+        userLabels.length === correctLabels.length &&
+        userLabels.every((val, index) => val === correctLabels[index])
+      );
+    }
+    case "NAT": {
+      if (!answer.enteredAnswer) return false;
+      const numAnswer = parseFloat(answer.enteredAnswer);
+      if (isNaN(numAnswer)) return false;
+      
+      if (question.answer_range) {
+        return numAnswer >= question.answer_range.min && numAnswer <= question.answer_range.max;
+      }
+      if (question.answer_value) {
+        return parseFloat(question.answer_value) === numAnswer;
+      }
+      return false;
+    }
+    default:
+      return false;
+  }
+};
 
 // --- Topic Mapping for Presets ---
 export const SUBJECT_GROUPS: Record<string, string[]> = {
@@ -76,68 +158,145 @@ export const generatePresetExam = async (preset: ExamPreset, customPattern?: Rec
     const topicsInGroup = SUBJECT_GROUPS[group] || [];
     if (topicsInGroup.length === 0) continue;
 
-    // Pick a random topic from this group to sample from
-    // (Or ideally, distribute across topics in group)
     const questionsPerTopic = Math.ceil(count / topicsInGroup.length);
     
     for (const topic of topicsInGroup) {
       try {
-        const fileName = topic.replace(/ /g, "_").toLowerCase() + ".json";
-        const response = await fetch(`/question_bank/${fileName}`);
-        if (!response.ok) continue;
+        const slug = topic.replace(/ /g, "_").toLowerCase();
+        // Use the new sampling API
+        const url = `${API_BASE_URL}/api/question_bank/sample?topic=${slug}&count=${questionsPerTopic}`;
+        const response = await fetch(url);
         
-        const bankQuestions: Question[] = await response.json();
-        const sampled = shuffleArray(bankQuestions).slice(0, questionsPerTopic);
+        if (!response.ok) {
+          // Fallback to local if remote fails (Backward compatibility / Local dev)
+          const fallbackResponse = await fetch(`/question_bank/${slug}.json`);
+          if (!fallbackResponse.ok) continue;
+          const bankQuestions: Question[] = await fallbackResponse.json();
+          allQuestions.push(...shuffleArray(bankQuestions).slice(0, questionsPerTopic));
+          continue;
+        }
+        
+        const sampled: Question[] = await response.json();
         allQuestions.push(...sampled);
       } catch (err) {
-        console.warn(`Could not fetch bank for topic: ${topic}`);
+        console.warn(`Could not fetch bank for topic: ${topic}`, err);
       }
     }
   }
 
-  // Shuffle the final set and trim to exact count if needed
-  const finalQuestions = shuffleArray(allQuestions).slice(0, Object.values(pattern).reduce((a, b) => a + b, 0));
+  // Shuffle all and slice to required count
+  const finalPool = shuffleArray(allQuestions).slice(0, Object.values(pattern).reduce((a, b) => a + b, 0));
 
+  if (preset === "GATE") {
+    // GATE Structure: Section A (General Aptitude - skipped here for physics), Section B (Physics)
+    // We'll split the 65 questions into 1-mark and 2-mark sections roughly
+    const q1Mark = finalPool.slice(0, 25);
+    const q2Mark = finalPool.slice(25, 65);
+
+    return {
+      name: "GATE Physics Mock Exam",
+      sections: [
+        {
+          id: "gate-physics-1m",
+          name: "Physics - 1 Mark Questions",
+          questions: q1Mark,
+          marking: { positive: 1, negative: 0.33 }
+        },
+        {
+          id: "gate-physics-2m",
+          name: "Physics - 2 Mark Questions",
+          questions: q2Mark,
+          marking: { positive: 2, negative: 0.66 }
+        }
+      ],
+      settings: { timerHours: 3, timerMinutes: 0, shuffleQuestions: true, shuffleOptions: true }
+    };
+  }
+
+  if (preset === "CSIR_NET") {
+    // CSIR NET: Part B (+3.5/-0.875) and Part C (+5/0 or -1.25)
+    // Part C usually has a choice (Answer 20 out of 30)
+    const partB = finalPool.slice(0, 20);
+    const partC = finalPool.slice(20, 50);
+
+    return {
+      name: "CSIR NET Physical Sciences Mock",
+      sections: [
+        {
+          id: "net-part-b",
+          name: "Part B (Core Physics)",
+          questions: partB,
+          marking: { positive: 3.5, negative: 0.875 }
+        },
+        {
+          id: "net-part-c",
+          name: "Part C (Advanced Physics)",
+          questions: partC,
+          marking: { positive: 5, negative: 1.25 },
+          maxAttempts: 20
+        }
+      ],
+      settings: { timerHours: 3, timerMinutes: 0, shuffleQuestions: true, shuffleOptions: true }
+    };
+  }
+
+  // Default fallback for others (Legacy or simple format)
   let defaultSettings: ExamSettings | undefined;
   if (preset === "BARC_OCES") {
     defaultSettings = { timerHours: 2, timerMinutes: 0, positiveMarking: 3, negativeMarking: 1, shuffleQuestions: true, shuffleOptions: true, questionCount: 100 };
-  } else if (preset === "GATE") {
-    // GATE is mixed (1 and 2 marks, some 0 negative). We set an average global config.
-    defaultSettings = { timerHours: 3, timerMinutes: 0, positiveMarking: 1.5, negativeMarking: 0.5, shuffleQuestions: true, shuffleOptions: true, questionCount: 65 };
   } else if (preset === "TIFR_GS") {
-    // TIFR is mixed (+3/-1 and +5/0). We set Section A defaults.
     defaultSettings = { timerHours: 3, timerMinutes: 0, positiveMarking: 3, negativeMarking: 1, shuffleQuestions: true, shuffleOptions: true, questionCount: 40 };
-  } else if (preset === "CSIR_NET") {
-    // CSIR NET is mixed. We set Part B defaults as an average.
-    defaultSettings = { timerHours: 3, timerMinutes: 0, positiveMarking: 3.5, negativeMarking: 0.875, shuffleQuestions: true, shuffleOptions: true, questionCount: 75 };
   }
 
   return {
     name: `${preset.replace("_", " ")} Physics Exam`,
-    questions: finalQuestions,
+    questions: finalPool,
     settings: defaultSettings,
   };
+};
+
+export const isValidQuestion = (q: any): q is Question => {
+  if (typeof q.question !== "string" || typeof q.topic !== "string" || typeof q.explanation !== "string") return false;
+  
+  const type = q.type || "MCQ";
+  if (type === "MCQ") {
+    return Array.isArray(q.options) && typeof q.answer_label === "number";
+  }
+  if (type === "MSQ") {
+    return Array.isArray(q.options) && Array.isArray(q.answer_labels);
+  }
+  if (type === "NAT") {
+    return typeof q.answer_value === "string" || (q.answer_range && typeof q.answer_range.min === "number" && typeof q.answer_range.max === "number");
+  }
+  return false;
+};
+
+export const isValidExamConfig = (config: any): config is ExamConfig => {
+  if (typeof config !== "object" || !config.name) return false;
+  
+  if (Array.isArray(config.sections)) {
+    return config.sections.every((s: any) => 
+      typeof s.id === "string" && 
+      typeof s.name === "string" && 
+      Array.isArray(s.questions) && 
+      s.questions.every(isValidQuestion) &&
+      typeof s.marking === "object" &&
+      typeof s.marking.positive === "number" &&
+      typeof s.marking.negative === "number"
+    );
+  }
+  
+  if (Array.isArray(config.questions)) {
+    return config.questions.every(isValidQuestion);
+  }
+  
+  return false;
 };
 
 export const isValidExamQuestions = (
   questions: any,
 ): questions is Question[] => {
-  return (
-    Array.isArray(questions) &&
-    questions.length > 0 &&
-    questions.every(
-      (q) =>
-        typeof q.question === "string" &&
-        Array.isArray(q.options) &&
-        q.options.every(
-          (opt: any) =>
-            typeof opt.label === "number" && typeof opt.value === "string",
-        ) &&
-        typeof q.answer_label === "number" &&
-        typeof q.topic === "string" &&
-        typeof q.explanation === "string",
-    )
-  );
+  return Array.isArray(questions) && questions.every(isValidQuestion);
 };
 
 export const robustJsonParse = (jsonString: string): any => {
@@ -180,6 +339,6 @@ export const resolveImagePath = (path: string | undefined): string => {
     return path;
   }
   
-  const publicUrl = import.meta.env.VITE_R2_PUBLIC_URL || "https://pub-274880572da940869a8b273d6e53a77f.r2.dev";
+  const publicUrl = import.meta.env.VITE_R2_PUBLIC_URL || "https://pub-682f1a94c94443278f61ec7ca3dadaec.r2.dev";
   return `${publicUrl.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
 };

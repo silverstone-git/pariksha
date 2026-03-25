@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronsLeft, ChevronsRight, AlertTriangle } from "lucide-react";
+import { ChevronsLeft, ChevronsRight, AlertTriangle, RefreshCw, CheckSquare, Square, Type } from "lucide-react";
 import { Latex } from "./Latex";
 import type {
   ExamConfig,
@@ -7,8 +7,9 @@ import type {
   ShuffledQuestion,
   UserAnswer,
   SWOTAnalysis,
+  QuestionType,
 } from "../types";
-import { shuffleArray, resolveImagePath } from "../utils";
+import { shuffleArray, resolveImagePath, normalizeExamConfig, isQuestionCorrect } from "../utils";
 import { Button } from "./Button";
 import { Card } from "../App";
 
@@ -22,11 +23,11 @@ const SubmitConfirmationModal: React.FC<{
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md p-6">
         <div className="flex flex-col items-center text-center">
           <AlertTriangle className="text-yellow-500 mb-4" size={48} />
           <h2 className="text-2xl font-bold mb-2">Confirm Submission</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-4">
+          <p className="text-slate-600 dark:text-slate-300 mb-4">
             You have{" "}
             <span className="font-bold text-yellow-600">
               {unattemptedCount} unattempted question
@@ -34,7 +35,7 @@ const SubmitConfirmationModal: React.FC<{
             </span>
             .
           </p>
-          <p className="mb-6">Are you sure you want to submit the exam?</p>
+          <p className="mb-6 text-slate-500">Are you sure you want to submit the exam?</p>
           <div className="flex justify-center gap-4 w-full">
             <Button onClick={onClose} variant="secondary" className="w-1/2">
               Cancel
@@ -120,24 +121,25 @@ const generateSwotAnalysis = (results: ExamResult): SWOTAnalysis => {
   return swot;
 };
 
+interface StructuredAnswer {
+  label?: number | null; // MCQ
+  labels?: number[]; // MSQ
+  text?: string; // NAT
+}
+
 export const ExamScreen: React.FC<{
   config: ExamConfig;
   timerConfig: { hours: number; minutes: number };
   setScreen: (screen: "home" | "results") => void;
   setLastResult: (result: ExamResult) => void;
   setMainTimer: React.Dispatch<React.SetStateAction<number>>;
-}> = ({ config, timerConfig, setScreen, setLastResult, setMainTimer }) => {
+}> = ({ config: rawConfig, timerConfig, setScreen, setLastResult, setMainTimer }) => {
+  const config = React.useMemo(() => normalizeExamConfig(rawConfig), [rawConfig]);
   const [questions, setQuestions] = React.useState<ShuffledQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
-  const [userAnswers, setUserAnswers] = React.useState<
-    Record<string, number | null>
-  >({});
-  const [questionTimers, setQuestionTimers] = React.useState<
-    Record<string, number>
-  >({});
-  const [topicTimers, setTopicTimers] = React.useState<Record<string, number>>(
-    {},
-  );
+  const [userAnswers, setUserAnswers] = React.useState<Record<string, StructuredAnswer>>({});
+  const [questionTimers, setQuestionTimers] = React.useState<Record<string, number>>({});
+  const [topicTimers, setTopicTimers] = React.useState<Record<string, number>>({});
   const [isSubmitModalOpen, setIsSubmitModalOpen] = React.useState(false);
 
   const startTimeRef = React.useRef(Date.now());
@@ -145,26 +147,34 @@ export const ExamScreen: React.FC<{
   const timerInitialized = React.useRef(false);
 
   React.useEffect(() => {
-    let baseQuestions = config.settings?.shuffleQuestions 
-      ? shuffleArray(config.questions) 
-      : [...config.questions];
+    // 1. Flatten questions from all sections for the main loop
+    let allQuestions: ShuffledQuestion[] = [];
     
-    // Sample if questionCount is set
-    if (config.settings?.questionCount && config.settings.questionCount < baseQuestions.length) {
-      baseQuestions = baseQuestions.slice(0, config.settings.questionCount);
+    config.sections?.forEach((section) => {
+      let sectionQuestions = config.settings?.shuffleQuestions
+        ? shuffleArray(section.questions)
+        : [...section.questions];
+
+      allQuestions.push(
+        ...sectionQuestions.map((q, idx) => ({
+          ...q,
+          id: q.id || `${section.id}-q-${idx}`,
+          shuffledOptions: (q.options && config.settings?.shuffleOptions)
+            ? shuffleArray(q.options)
+            : [...(q.options || [])],
+        }) as ShuffledQuestion)
+      );
+    });
+
+    // Handle global count limit if set (Legacy support)
+    if (config.settings?.questionCount && config.settings.questionCount < allQuestions.length) {
+      allQuestions = allQuestions.slice(0, config.settings.questionCount);
     }
 
-    const shuffledQuestions = baseQuestions.map(
-      (q, index) => ({
-        ...q,
-        id: `q-${index}`,
-        shuffledOptions: config.settings?.shuffleOptions ? shuffleArray(q.options) : [...q.options],
-      }),
-    );
-    setQuestions(shuffledQuestions);
+    setQuestions(allQuestions);
 
     const initialTopicTimers: Record<string, number> = {};
-    baseQuestions.forEach((q) => {
+    allQuestions.forEach((q) => {
       if (!initialTopicTimers[q.topic]) {
         initialTopicTimers[q.topic] = 0;
       }
@@ -187,30 +197,61 @@ export const ExamScreen: React.FC<{
     updateQuestionTime();
     setIsSubmitModalOpen(false);
 
-    let correctAnswers = 0;
+    let totalCorrect = 0;
     let totalScore = 0;
-    const posReward = config.settings?.positiveMarking || 1;
-    const negPenalty = config.settings?.negativeMarking || 0;
+    const sectionScores: Record<string, number> = {};
 
     const processedAnswers: UserAnswer[] = questions.map((q) => {
-      const selectedOptionLabel = userAnswers[q.id] ?? null;
-      const isCorrect = selectedOptionLabel === q.answer_label;
-      
-      if (selectedOptionLabel !== null) {
-        if (isCorrect) {
-          correctAnswers++;
-          totalScore += posReward;
-        } else {
-          totalScore -= negPenalty;
-        }
-      }
+      const answer = userAnswers[q.id] || {};
+      const isCorrect = isQuestionCorrect(q, {
+        selectedOptionLabel: answer.label,
+        selectedOptionLabels: answer.labels,
+        enteredAnswer: answer.text,
+      });
 
       return {
         questionId: q.id,
-        selectedOptionLabel: selectedOptionLabel,
+        type: q.type || "MCQ",
+        selectedOptionLabel: answer.label ?? null,
+        selectedOptionLabels: answer.labels,
+        enteredAnswer: answer.text,
         isCorrect,
         timeSpent: questionTimers[q.id] || 0,
       };
+    });
+
+    // Score calculation per section
+    config.sections?.forEach((section) => {
+      let sectionCorrect = 0;
+      let sectionScore = 0;
+      let attemptedInSection = 0;
+
+      // Filter processed answers belonging to this section
+      const sectionQuestionIds = section.questions.map(sq => sq.id);
+      const sectionAnswers = processedAnswers.filter(pa => sectionQuestionIds.includes(pa.questionId));
+
+      sectionAnswers.forEach((ans) => {
+        const isAttempted = ans.selectedOptionLabel !== null || (ans.selectedOptionLabels && ans.selectedOptionLabels.length > 0) || (ans.enteredAnswer !== undefined && ans.enteredAnswer !== "");
+        
+        if (isAttempted) {
+          // Check attempt cap
+          if (section.maxAttempts && attemptedInSection >= section.maxAttempts) {
+            return; // Skip grading after limit
+          }
+          
+          attemptedInSection++;
+          if (ans.isCorrect) {
+            sectionCorrect++;
+            sectionScore += section.marking.positive;
+          } else {
+            sectionScore -= section.marking.negative;
+          }
+        }
+      });
+
+      sectionScores[section.id] = sectionScore;
+      totalScore += sectionScore;
+      totalCorrect += sectionCorrect;
     });
 
     const accuracyPerTopic: Record<string, number> = {};
@@ -239,17 +280,17 @@ export const ExamScreen: React.FC<{
       id: `res-${Date.now()}`,
       examName: config.name,
       date: Date.now(),
-      score: totalScore, // Use calculated score with negative marking
+      score: totalScore,
       totalQuestions: questions.length,
-      correctAnswers,
-      incorrectAnswers: questions.length - correctAnswers,
-      accuracy:
-        questions.length > 0 ? (correctAnswers / questions.length) * 100 : 0,
+      correctAnswers: totalCorrect,
+      incorrectAnswers: questions.length - totalCorrect,
+      accuracy: questions.length > 0 ? (totalCorrect / questions.length) * 100 : 0,
       totalTimeTaken,
       timePerTopic: topicTimers,
       accuracyPerTopic,
       answers: processedAnswers,
       originalQuestions: questions,
+      sectionScores,
       swot: { strengths: [], weaknesses: [], opportunities: [], threats: [] },
     };
     result.swot = generateSwotAnalysis(result);
@@ -261,15 +302,18 @@ export const ExamScreen: React.FC<{
     questions,
     questionTimers,
     topicTimers,
-    config.name,
-    config.settings,
+    config,
     setLastResult,
     setScreen,
     updateQuestionTime,
   ]);
 
   const handleSubmitClick = () => {
-    const unattemptedCount = questions.length - Object.keys(userAnswers).length;
+    const attemptedCount = Object.keys(userAnswers).filter(id => {
+      const ans = userAnswers[id];
+      return ans.label !== undefined || (ans.labels && ans.labels.length > 0) || (ans.text !== undefined && ans.text !== "");
+    }).length;
+    const unattemptedCount = questions.length - attemptedCount;
     if (unattemptedCount > 0) {
       setIsSubmitModalOpen(true);
     } else {
@@ -305,9 +349,34 @@ export const ExamScreen: React.FC<{
     return () => clearInterval(interval);
   }, [questions, currentQuestionIndex, submitExam, timerConfig, setMainTimer]);
 
-  const handleOptionSelect = (optionLabel: number) => {
-    const currentQuestionId = questions[currentQuestionIndex].id;
-    setUserAnswers((prev) => ({ ...prev, [currentQuestionId]: optionLabel }));
+  const handleMCQSelect = (optionLabel: number) => {
+    const qId = questions[currentQuestionIndex].id;
+    setUserAnswers((prev) => ({ 
+      ...prev, 
+      [qId]: { ...prev[qId], label: optionLabel } 
+    }));
+  };
+
+  const handleMSQToggle = (optionLabel: number) => {
+    const qId = questions[currentQuestionIndex].id;
+    setUserAnswers((prev) => {
+      const currentLabels = prev[qId]?.labels || [];
+      const newLabels = currentLabels.includes(optionLabel)
+        ? currentLabels.filter(l => l !== optionLabel)
+        : [...currentLabels, optionLabel];
+      return { 
+        ...prev, 
+        [qId]: { ...prev[qId], labels: newLabels } 
+      };
+    });
+  };
+
+  const handleNATChange = (value: string) => {
+    const qId = questions[currentQuestionIndex].id;
+    setUserAnswers((prev) => ({ 
+      ...prev, 
+      [qId]: { ...prev[qId], text: value } 
+    }));
   };
 
   const goToNext = () => {
@@ -327,14 +396,19 @@ export const ExamScreen: React.FC<{
   if (questions.length === 0) {
     return (
       <div className="flex justify-center items-center h-full text-teal-500">
-        <RefreshCw className="animate-spin mr-2" /> Initializing Scientific Environment...
+        <RefreshCw className="animate-spin mr-2" /> Initializing Advanced Scientific Engine...
       </div>
     );
   }
 
   const currentQuestion = questions[currentQuestionIndex];
-  const selectedOption = userAnswers[currentQuestion.id];
+  const qId = currentQuestion.id;
+  const qType = currentQuestion.type || "MCQ";
+  const selectedAnswer = userAnswers[qId] || {};
   const optionLetters = ["A", "B", "C", "D", "E", "F"];
+
+  // Find current section name
+  const currentSection = config.sections?.find(s => s.questions.some(sq => sq.id === qId));
 
   return (
     <div
@@ -345,14 +419,20 @@ export const ExamScreen: React.FC<{
         <div className="max-w-4xl mx-auto">
           <div className="mb-6">
             <div className="flex justify-between items-center mb-4">
-              <span className="text-xs font-bold text-teal-500 uppercase tracking-widest bg-teal-500/10 px-3 py-1 rounded-full">
-                {currentQuestion.topic}
-              </span>
+              <div className="flex gap-2 items-center">
+                <span className="text-xs font-bold text-teal-500 uppercase tracking-widest bg-teal-500/10 px-3 py-1 rounded-full">
+                  {currentSection?.name || "General"}
+                </span>
+                <span className="text-[10px] font-medium text-slate-400 bg-slate-400/10 px-2 py-0.5 rounded italic">
+                  {qType}
+                </span>
+              </div>
               <p className="text-sm font-medium text-slate-500">
                 QUESTION <span className="text-slate-800 dark:text-white">{currentQuestionIndex + 1}</span> OF {questions.length}
               </p>
             </div>
             <div className="mt-2 p-8 glass rounded-3xl shadow-xl text-xl leading-relaxed border-t-4 border-teal-500">
+              <div className="text-xs font-mono text-teal-500/50 mb-4 tracking-tighter uppercase">{currentQuestion.topic}</div>
               <Latex>{currentQuestion.question}</Latex>
               {currentQuestion.image_path && (
                 <div className="mt-6 flex justify-center p-4 bg-slate-900/50 rounded-2xl border border-white/10">
@@ -366,22 +446,57 @@ export const ExamScreen: React.FC<{
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {currentQuestion.shuffledOptions.map((option, index) => (
-              <button
-                key={option.label}
-                onClick={() => handleOptionSelect(option.label)}
-                className={`p-6 rounded-2xl text-left transition-all duration-300 border-2 group relative overflow-hidden ${
-                  selectedOption === option.label
-                    ? "bg-teal-500/10 border-teal-500 ring-4 ring-teal-500/20"
-                    : "glass border-transparent hover:border-teal-500/30"
-                }`}
-              >
-                <div className={`absolute left-0 top-0 bottom-0 w-1 transition-all ${selectedOption === option.label ? "bg-teal-500" : "bg-transparent group-hover:bg-teal-500/30"}`}></div>
-                <span className={`font-bold mr-4 text-teal-500 ${selectedOption === option.label ? "scale-110" : "group-hover:scale-110"} transition-transform inline-block`}>{optionLetters[index]}.</span>
-                <Latex>{option.value}</Latex>
-              </button>
-            ))}
+          <div className="mt-8">
+            {qType === "NAT" ? (
+              <div className="glass p-8 rounded-3xl border-2 border-teal-500/30">
+                <div className="flex items-center gap-4 mb-4">
+                  <Type className="text-teal-500" />
+                  <span className="font-bold text-slate-500">Enter Numerical Answer</span>
+                </div>
+                <input
+                  type="number"
+                  step="any"
+                  value={selectedAnswer.text || ""}
+                  onChange={(e) => handleNATChange(e.target.value)}
+                  placeholder="e.g. 1.25"
+                  className="w-full bg-slate-100 dark:bg-slate-800 border-2 border-teal-500/20 rounded-xl p-4 text-2xl font-mono focus:border-teal-500 focus:outline-none transition-colors"
+                />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {currentQuestion.shuffledOptions.map((option, index) => {
+                  const isSelected = qType === "MCQ" 
+                    ? selectedAnswer.label === option.label
+                    : selectedAnswer.labels?.includes(option.label);
+
+                  return (
+                    <button
+                      key={option.label}
+                      onClick={() => qType === "MCQ" ? handleMCQSelect(option.label) : handleMSQToggle(option.label)}
+                      className={`p-6 rounded-2xl text-left transition-all duration-300 border-2 group relative overflow-hidden ${
+                        isSelected
+                          ? "bg-teal-500/10 border-teal-500 ring-4 ring-teal-500/20"
+                          : "glass border-transparent hover:border-teal-500/30"
+                      }`}
+                    >
+                      <div className={`absolute left-0 top-0 bottom-0 w-1 transition-all ${isSelected ? "bg-teal-500" : "bg-transparent group-hover:bg-teal-500/30"}`}></div>
+                      <div className="flex items-center gap-4">
+                        <div className="flex-shrink-0">
+                          {qType === "MSQ" ? (
+                            isSelected ? <CheckSquare className="text-teal-500" size={24} /> : <Square className="text-slate-400 group-hover:text-teal-500/50" size={24} />
+                          ) : (
+                            <span className={`font-bold text-teal-500 ${isSelected ? "scale-110" : "group-hover:scale-110"} transition-transform inline-block`}>
+                              {optionLetters[index]}.
+                            </span>
+                          )}
+                        </div>
+                        <Latex>{option.value}</Latex>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </main>
@@ -397,16 +512,20 @@ export const ExamScreen: React.FC<{
             <ChevronsLeft size={20} /> PREV
           </Button>
           
-          <div className="flex-1 flex justify-center gap-2">
-            {questions.map((_, i) => (
-              <div 
-                key={i} 
-                className={`h-1.5 rounded-full transition-all ${
-                  i === currentQuestionIndex ? "w-8 bg-teal-500" : 
-                  userAnswers[questions[i].id] !== undefined ? "w-2 bg-teal-500/40" : "w-2 bg-slate-300 dark:bg-slate-700"
-                }`}
-              ></div>
-            ))}
+          <div className="flex-1 flex justify-center gap-2 overflow-x-auto py-2">
+            {questions.map((q, i) => {
+              const ans = userAnswers[q.id];
+              const isAttempted = ans && (ans.label !== undefined || (ans.labels && ans.labels.length > 0) || (ans.text !== undefined && ans.text !== ""));
+              return (
+                <div 
+                  key={q.id} 
+                  className={`h-1.5 rounded-full flex-shrink-0 transition-all ${
+                    i === currentQuestionIndex ? "w-8 bg-teal-500" : 
+                    isAttempted ? "w-2 bg-teal-500/40" : "w-2 bg-slate-300 dark:bg-slate-700"
+                  }`}
+                ></div>
+              );
+            })}
           </div>
 
           <div className="flex gap-4 flex-1 justify-end">
@@ -428,7 +547,10 @@ export const ExamScreen: React.FC<{
         isOpen={isSubmitModalOpen}
         onClose={() => setIsSubmitModalOpen(false)}
         onConfirm={submitExam}
-        unattemptedCount={questions.length - Object.keys(userAnswers).length}
+        unattemptedCount={questions.length - Object.keys(userAnswers).filter(id => {
+          const ans = userAnswers[id];
+          return ans.label !== undefined || (ans.labels && ans.labels.length > 0) || (ans.text !== undefined && ans.text !== "");
+        }).length}
       />
     </div>
   );

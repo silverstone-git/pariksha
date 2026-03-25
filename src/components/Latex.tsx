@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import "katex/dist/katex.min.css";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -11,6 +11,12 @@ interface LatexProps {
 export const Latex = ({ children }: LatexProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
+  // Clean up double-escaped backslashes from LLM/JSON so KaTeX can read single backslash commands like \text
+  const cleanLatex = useMemo(() => {
+    if (typeof children !== "string") return children;
+    return children.replace(/\\\\/g, '\\');
+  }, [children]);
+
   useEffect(() => {
     if (ref.current) {
       renderMathInElement(ref.current, {
@@ -21,7 +27,7 @@ export const Latex = ({ children }: LatexProps) => {
         throwOnError: false,
       });
     }
-  }, [children]);
+  }, [cleanLatex]);
 
-  return <div ref={ref}>{children}</div>;
+  return <div ref={ref}>{cleanLatex}</div>;
 };

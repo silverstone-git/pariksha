@@ -38,11 +38,13 @@ import type {
 import {
   formatTime,
   isValidExamQuestions,
+  isValidExamConfig,
   robustJsonParse,
   API_BASE_URL,
   generatePresetExam,
   isLocalhost,
   SUBJECT_GROUPS,
+  resolveImagePath,
 } from "./utils";
 
 // --- LOCALSTORAGE HOOK ---
@@ -203,23 +205,39 @@ const UploadModal: React.FC<{
     setIsPosting(true);
 
     try {
+      const parsedJson = robustJsonParse(examJson);
+      const payload: any = {
+        exam_title: `${userName} - ${examTitle}`,
+        exam_json_str: examJson,
+      };
+
+      // NEW: Support for sections architecture in POST
+      if (parsedJson.sections) {
+        payload.sections = parsedJson.sections.map((s: any) => ({
+          name: s.name,
+          questions: s.questions.map((q: any) => q.id).filter(Boolean), // IDs only
+          marking: s.marking,
+          max_attempts: s.maxAttempts
+        }));
+      }
+
       const response = await fetch(`${API_BASE_URL}/pariksha`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          exam_title: `${userName} - ${examTitle}`,
-          exam_json_str: examJson,
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const parsedJson = robustJsonParse(examJson);
-      onUpload({ name: examTitle, questions: parsedJson });
+      // If it's a full config, use it; otherwise wrap questions in a basic config
+      const finalConfig: ExamConfig = (parsedJson.sections || parsedJson.questions)
+        ? { ...parsedJson, name: examTitle }
+        : { name: examTitle, questions: parsedJson };
+      onUpload(finalConfig);
       onClose();
     } catch (err) {
       setError("Failed to post exam. Please try again.");
@@ -314,14 +332,8 @@ const FileUploader: React.FC<{
         }
 
         const parsed = robustJsonParse(content);
-        if (
-          !Array.isArray(parsed) ||
-          parsed.length === 0 ||
-          !parsed[0].question ||
-          !parsed[0].options ||
-          !parsed[0].explanation
-        ) {
-          throw new Error("Invalid JSON format.");
+        if (!isValidExamConfig(parsed)) {
+          throw new Error("Invalid JSON format. Expected an ExamConfig object or an array of Questions.");
         }
         setUploadData({ examJson: content, fileName: file.name });
         setError(null);
@@ -517,11 +529,16 @@ const ExamConfigModal: React.FC<{
   const [posMarking, setPosMarking] = React.useState(exam.settings?.positiveMarking ?? 1);
   const [negMarking, setNegMarking] = React.useState(exam.settings?.negativeMarking ?? 0);
   
+  // Safe calculation of total questions
+  const totalQuestions = exam.questions 
+    ? exam.questions.length 
+    : (exam.sections?.reduce((sum, section) => sum + section.questions.length, 0) || 0);
+
   // Use actual question count from settings if present and less than total fetched
-  const initialQCount = exam.settings?.questionCount && exam.settings.questionCount <= exam.questions.length 
-    ? exam.settings.questionCount 
-    : exam.questions.length;
-    
+  const initialQCount = exam.settings?.questionCount && exam.settings.questionCount <= totalQuestions
+    ? exam.settings.questionCount
+    : totalQuestions;
+
   const [qCount, setQCount] = React.useState(initialQCount);
 
   if (!isOpen) return null;
@@ -530,8 +547,7 @@ const ExamConfigModal: React.FC<{
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex justify-center items-center z-[60] p-4">
       <Card title="Exam Configuration" className="w-full max-w-lg shadow-2xl border-teal-500/50">
         <div className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-slate-500 mb-2 uppercase tracking-wider">Duration</label>
+          <div>            <label className="block text-sm font-medium text-slate-500 mb-2 uppercase tracking-wider">Duration</label>
             <div className="flex gap-4">
               <div className="flex-1">
                 <input 
@@ -591,10 +607,10 @@ const ExamConfigModal: React.FC<{
 
           <div>
             <label className="block text-sm font-medium text-slate-500 mb-2 uppercase tracking-wider">Number of Questions</label>
-            <input 
-              type="range" 
-              min="1" 
-              max={exam.questions.length} 
+            <input
+              type="range"
+              min="1"
+              max={totalQuestions}
               value={qCount}
               onChange={(e) => setQCount(parseInt(e.target.value))}
               className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-teal-500"
@@ -602,10 +618,9 @@ const ExamConfigModal: React.FC<{
             <div className="flex justify-between text-xs text-slate-500 mt-2">
               <span>1</span>
               <span className="font-bold text-teal-500 text-base">{qCount}</span>
-              <span>{exam.questions.length}</span>
+              <span>{totalQuestions}</span>
             </div>
-          </div>
-
+            </div>
           <div className="flex gap-4 pt-4">
             <Button onClick={onClose} variant="secondary" className="flex-1">Cancel</Button>
             <Button 
@@ -658,6 +673,20 @@ const PhysicsExamGeneratorModal: React.FC<{
   });
 
   if (!isOpen) return null;
+
+  if (isGenerating) {
+    return (
+      <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex justify-center items-center z-[60] p-4">
+        <Card className="w-full max-w-sm border-blue-500/50 shadow-2xl shadow-blue-500/20 flex flex-col items-center justify-center p-12 text-center">
+          <RefreshCw className="animate-spin text-blue-500 mb-6" size={48} />
+          <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-2">Generating Exam</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+            Fetching topic distributions and sampling scientific questions from the database...
+          </p>
+        </Card>
+      </div>
+    );
+  }
 
   const presets: { id: ExamPreset; name: string; desc: string }[] = [
     { id: "GATE", name: "GATE Physics", desc: "65 Questions | 180 Mins | Precise Pattern" },
@@ -838,11 +867,24 @@ const HomeScreen: React.FC<{
         const response = await fetch(`${API_BASE_URL}/pariksha/${configOrId}`);
         if (!response.ok) throw new Error("Failed to fetch exam");
         const examDetail: ServerExamDetail = await response.json();
-        const questions = robustJsonParse(examDetail.exam_json_str);
-        if (!isValidExamQuestions(questions)) throw new Error("Invalid format");
-        setConfigExam({ name: examDetail.exam_title, questions });
+
+        // NEW: Check for modern structured sections first
+        if (examDetail.sections && examDetail.sections.length > 0) {
+          // Normalize section naming (max_attempts vs maxAttempts handled by UI usually, but mapping is safer)
+          const sections = (examDetail as any).sections.map((s: any) => ({
+            ...s,
+            maxAttempts: s.max_attempts || s.maxAttempts
+          }));
+          setConfigExam({ name: examDetail.exam_title, sections });
+        } else {
+          // Legacy Fallback
+          const questions = robustJsonParse(examDetail.exam_json_str);
+          if (!isValidExamQuestions(questions)) throw new Error("Invalid format");
+          setConfigExam({ name: examDetail.exam_title, questions });
+        }
       } catch (error) {
-        alert("Failed to load exam");
+        console.error("Failed to load exam:", error);
+        alert("Failed to load exam from server.");
       }
     } else {
       setConfigExam(configOrId);
@@ -971,16 +1013,21 @@ const HomeScreen: React.FC<{
                     <div className="w-2 h-2 rounded-full bg-teal-500"></div> Local Exams
                   </h3>
                   <div className="grid gap-3 mb-6">
-                    {filteredLocalExams.map((exam, index) => (
-                      <ExamListItem
-                        key={`local-${index}`}
-                        name={exam.name}
-                        source="local"
-                        totalQuestions={exam.questions.length}
-                        onStart={() => handleExamClick(exam)}
-                        onDelete={() => handleDeleteExam(exam.name)}
-                      />
-                    ))}
+                    {filteredLocalExams.map((exam, index) => {
+                      const tCount = exam.questions 
+                        ? exam.questions.length 
+                        : (exam.sections?.reduce((s, sec) => s + sec.questions.length, 0) || 0);
+                      return (
+                        <ExamListItem
+                          key={`local-${index}`}
+                          name={exam.name}
+                          source="local"
+                          totalQuestions={tCount}
+                          onStart={() => handleExamClick(exam)}
+                          onDelete={() => handleDeleteExam(exam.name)}
+                        />
+                      );
+                    })}
                   </div>
                 </>
               )}
@@ -1086,7 +1133,7 @@ const ResultsScreen: React.FC<{
   setScreen: (screen: "home") => void;
 }> = ({ result, setScreen }) => {
   const [reviewQuestionId, setReviewQuestionId] = React.useState<string | null>(
-    null,
+    result.originalQuestions[0]?.id || null,
   );
 
   const downloadResults = () => {
@@ -1133,7 +1180,7 @@ const ResultsScreen: React.FC<{
         {result.examName}
       </p>
 
-      <Card className="mb-8">
+      <Card className="mb-8 overflow-hidden relative border-b-4 border-teal-500">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           <div>
             <p className="text-sm text-slate-500 uppercase tracking-wider mb-1">Final Score</p>
@@ -1145,7 +1192,7 @@ const ResultsScreen: React.FC<{
             </p>
           </div>
           <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Accuracy</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Accuracy</p>
             <p
               className={`text-3xl font-bold ${
                 result.accuracy > 70 ? "text-green-500" : "text-red-500"
@@ -1155,7 +1202,7 @@ const ResultsScreen: React.FC<{
             </p>
           </div>
           <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
               Total Time
             </p>
             <p className="text-3xl font-bold">
@@ -1163,7 +1210,7 @@ const ResultsScreen: React.FC<{
             </p>
           </div>
           <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
               Avg. Time/Q
             </p>
             <p className="text-3xl font-bold">
@@ -1176,8 +1223,21 @@ const ResultsScreen: React.FC<{
         </div>
       </Card>
 
+      {result.sectionScores && Object.keys(result.sectionScores).length > 1 && (
+        <Card title="Section Breakdown" className="mb-8" icon={<Activity />}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Object.entries(result.sectionScores).map(([id, score]) => (
+              <div key={id} className="p-4 bg-slate-100 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-white/10">
+                <p className="text-xs font-bold text-teal-500 uppercase tracking-tighter mb-1">Section ID: {id}</p>
+                <p className="text-2xl font-bold">{score.toFixed(2)}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
+
       <div className="grid lg:grid-cols-2 gap-8">
-        <Card title="Topic Performance">
+        <Card title="Topic Performance" icon={<Activity />}>
           <div className="space-y-4">
             {Object.keys(result.timePerTopic).map((topic) => (
               <div key={topic}>
@@ -1195,7 +1255,7 @@ const ResultsScreen: React.FC<{
                 </div>
                 <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
                   <div
-                    className="bg-green-600 h-2.5 rounded-full"
+                    className="bg-teal-500 h-2.5 rounded-full"
                     style={{
                       width: `${(result.accuracyPerTopic[topic] || 0) * 100}%`,
                     }}
@@ -1208,7 +1268,7 @@ const ResultsScreen: React.FC<{
             ))}
           </div>
         </Card>
-        <Card title="SWOT Analysis">
+        <Card title="SWOT Analysis" icon={<Bot />}>
           <div className="space-y-4">
             <div>
               <h3 className="font-semibold flex items-center gap-2 mb-2 text-green-600 dark:text-green-400">
@@ -1254,34 +1314,31 @@ const ResultsScreen: React.FC<{
         </Card>
       </div>
 
-      <Card className="mt-8">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
-          Answer Review
-        </h2>
+      <Card className="mt-8" title="Answer Review" icon={<Eye />}>
         <div className="grid md:grid-cols-2 gap-6">
-          <div className="max-h-96 overflow-y-auto space-y-2 pr-2">
+          <div className="max-h-[600px] overflow-y-auto space-y-2 pr-2 custom-scrollbar">
             {result.originalQuestions.map((q, index) => {
               const answer = result.answers.find((a) => a.questionId === q.id);
               return (
                 <div
                   key={q.id}
                   onClick={() => setReviewQuestionId(q.id)}
-                  className={`flex justify-between items-center p-3 rounded-lg cursor-pointer transition-colors ${
+                  className={`flex justify-between items-center p-3 rounded-xl cursor-pointer transition-all border-l-4 ${
                     reviewQuestionId === q.id
-                      ? "bg-green-100 dark:bg-green-900"
-                      : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                      ? "bg-teal-500/10 border-teal-500 shadow-lg"
+                      : "hover:bg-slate-100 dark:hover:bg-slate-800 border-transparent"
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     {answer?.isCorrect ? (
-                      <CheckCircle2 className="text-green-500" />
+                      <CheckCircle2 className="text-green-500" size={20} />
                     ) : (
-                      <XCircle className="text-red-500" />
+                      <XCircle className="text-red-500" size={20} />
                     )}
-                    <span className="font-medium">Question {index + 1}</span>
+                    <span className="font-medium text-sm">Question {index + 1}</span>
                   </div>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                    {q.topic}
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+                    {q.type || "MCQ"}
                   </span>
                 </div>
               );
@@ -1289,52 +1346,75 @@ const ResultsScreen: React.FC<{
           </div>
           <div>
             {reviewingQuestion && reviewingAnswer ? (
-              <div>
-                <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg mb-4">
+              <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+                <div className="p-6 bg-slate-100 dark:bg-slate-800/80 rounded-2xl mb-6 border border-slate-200 dark:border-white/5 shadow-inner">
+                  <div className="text-[10px] font-bold text-teal-500 mb-2 uppercase tracking-widest">{reviewingQuestion.topic}</div>
                   <Latex>{reviewingQuestion.question}</Latex>
+                  {reviewingQuestion.image_path && (
+                    <div className="mt-4 flex justify-center p-2 bg-white/5 rounded-lg">
+                      <img src={resolveImagePath(reviewingQuestion.image_path)} alt="Review Illustration" className="max-w-full h-auto rounded" />
+                    </div>
+                  )}
                 </div>
-                <div className="space-y-2">
-                  {reviewingQuestion.options.map((option) => {
-                    const isCorrect =
-                      option.label === reviewingQuestion.answer_label;
-                    const isSelected =
-                      option.label === reviewingAnswer.selectedOptionLabel;
-                    let styles = "border-gray-300 dark:border-gray-600";
-                    if (isCorrect) {
-                      styles =
-                        "bg-green-100 dark:bg-green-900 border-green-500 ring-2 ring-green-500";
-                    } else if (isSelected && !isCorrect) {
-                      styles =
-                        "bg-red-100 dark:bg-red-900 border-red-500 ring-2 ring-red-500";
-                    }
-                    return (
-                      <div
-                        key={option.label}
-                        className={`p-3 border rounded-lg ${styles}`}
-                      >
-                        <Latex>{option.value}</Latex>
-                      </div>
-                    );
-                  })}
-                </div>
+
+                {reviewingQuestion.type === "NAT" ? (
+                  <div className="space-y-4">
+                    <div className="p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700">
+                      <p className="text-xs font-bold text-slate-400 mb-1">YOUR ANSWER</p>
+                      <p className="text-xl font-mono">{reviewingAnswer.enteredAnswer || "Unattempted"}</p>
+                    </div>
+                    <div className="p-4 rounded-xl border-2 border-green-500 bg-green-500/10">
+                      <p className="text-xs font-bold text-green-500 mb-1">CORRECT ANSWER</p>
+                      <p className="text-xl font-mono">
+                        {reviewingQuestion.answer_value || 
+                          `${reviewingQuestion.answer_range?.min} to ${reviewingQuestion.answer_range?.max}`}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {reviewingQuestion.options?.map((option) => {
+                      const isCorrect = reviewingQuestion.type === "MCQ" 
+                        ? option.label === reviewingQuestion.answer_label
+                        : reviewingQuestion.answer_labels?.includes(option.label);
+                      
+                      const isSelected = reviewingQuestion.type === "MCQ"
+                        ? option.label === reviewingAnswer.selectedOptionLabel
+                        : reviewingAnswer.selectedOptionLabels?.includes(option.label);
+
+                      let styles = "border-slate-200 dark:border-slate-700 text-slate-500";
+                      if (isCorrect) {
+                        styles = "bg-green-500/10 border-green-500 text-green-600 dark:text-green-400 font-medium";
+                      } else if (isSelected && !isCorrect) {
+                        styles = "bg-red-500/10 border-red-500 text-red-600 dark:text-red-400 font-medium";
+                      }
+                      
+                      return (
+                        <div key={option.label} className={`p-4 border-2 rounded-xl transition-all ${styles} flex gap-3`}>
+                          <span className="font-bold opacity-50">{String.fromCharCode(64 + option.label)}.</span>
+                          <Latex>{option.value}</Latex>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                
                 {reviewingQuestion.explanation && (
-                  <div
-                    className={`mt-4 p-3 rounded-lg ${
-                      reviewingAnswer.isCorrect
-                        ? "bg-green-50 dark:bg-green-900/50 text-green-700 dark:text-green-300"
-                        : "bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300"
-                    }`}
-                  >
-                    <h4 className="font-bold mb-2">Explanation</h4>
-                    <Latex>{reviewingQuestion.explanation}</Latex>
+                  <div className="mt-8 p-6 rounded-2xl bg-teal-500/5 border border-teal-500/20">
+                    <h4 className="font-bold mb-3 text-teal-500 flex items-center gap-2">
+                      <RefreshCw size={16} /> Explanation
+                    </h4>
+                    <div className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                      <Latex>{reviewingQuestion.explanation}</Latex>
+                    </div>
                   </div>
                 )}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center h-full text-gray-500 dark:text-gray-400 p-8 text-center">
-                <Eye size={48} className="mb-4" />
-                <span className="text-lg font-medium">
-                  Select a question to review its details and explanation.
+              <div className="flex flex-col items-center justify-center h-full text-slate-500 dark:text-slate-400 p-8 text-center bg-slate-100/50 dark:bg-slate-800/20 rounded-3xl border-2 border-dashed border-slate-200 dark:border-white/5">
+                <Eye size={48} className="mb-4 opacity-20" />
+                <span className="text-lg font-medium opacity-50">
+                  Select a question to review scientific details.
                 </span>
               </div>
             )}
@@ -1343,10 +1423,10 @@ const ResultsScreen: React.FC<{
       </Card>
 
       <div className="mt-8 flex justify-center gap-4">
-        <Button onClick={() => setScreen("home")} variant="secondary">
+        <Button onClick={() => setScreen("home")} variant="secondary" className="px-8">
           <Home size={20} /> Back to Home
         </Button>
-        <Button onClick={downloadResults}>
+        <Button onClick={downloadResults} className="px-8">
           <Download size={20} /> Download Results
         </Button>
       </div>

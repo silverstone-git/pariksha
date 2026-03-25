@@ -4,3 +4,5 @@ dist/
 
 cli/venv_pariksha
 cli/knowledge_base
+cli/.env
+cli/__pycache__/

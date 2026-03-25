@@ -1,41 +1,61 @@
+export type QuestionType = "MCQ" | "MSQ" | "NAT";
+
 export interface Option {
   label: number;
   value: string;
 }
 
 export interface Question {
+  id?: string; // Optional for backward compatibility
+  type?: QuestionType; // Defaults to MCQ if undefined
   question: string;
-  options: Option[];
-  answer_label: number;
+  options?: Option[]; // Null for NAT
+  answer_label?: number; // MCQ
+  answer_labels?: number[]; // MSQ
+  answer_range?: { min: number; max: number }; // NAT range
+  answer_value?: string; // NAT exact
   topic: string;
   explanation: string;
   image_path?: string;
 }
 
+export interface ExamSection {
+  id: string;
+  name: string;
+  questions: Question[];
+  marking: { positive: number; negative: number };
+  maxAttempts?: number; // e.g., "Answer 15/20"
+}
+
 export interface ShuffledQuestion extends Question {
   shuffledOptions: Option[];
-  id: string;
+  id: string; // Required for active exam sessions
 }
 
 export interface ExamConfig {
   name: string;
-  questions: Question[];
+  sections?: ExamSection[]; // New structure
+  questions?: Question[]; // Legacy structure
   settings?: ExamSettings;
 }
 
 export interface ExamSettings {
   timerMinutes: number;
   timerHours: number;
-  negativeMarking: number; // 0, 0.25, 0.33, etc.
-  positiveMarking: number; // 1, 2, 3, etc.
   shuffleQuestions: boolean;
   shuffleOptions: boolean;
   questionCount?: number;
+  // Legacy global marking
+  negativeMarking?: number;
+  positiveMarking?: number;
 }
 
 export interface UserAnswer {
   questionId: string;
-  selectedOptionLabel: number | null;
+  type: QuestionType;
+  selectedOptionLabel?: number | null; // MCQ
+  selectedOptionLabels?: number[]; // MSQ
+  enteredAnswer?: string; // NAT
   isCorrect: boolean;
   timeSpent: number; // in seconds
 }
@@ -62,6 +82,23 @@ export interface ExamResult {
   swot: SWOTAnalysis;
   answers: UserAnswer[];
   originalQuestions: ShuffledQuestion[];
+  sectionScores?: Record<string, number>;
+}
+
+  examName: string;
+  date: number;
+  score: number;
+  totalQuestions: number;
+  correctAnswers: number;
+  incorrectAnswers: number;
+  accuracy: number;
+  totalTimeTaken: number; // in seconds
+  timePerTopic: Record<string, number>;
+  accuracyPerTopic: Record<string, number>;
+  swot: SWOTAnalysis;
+  answers: UserAnswer[];
+  originalQuestions: ShuffledQuestion[];
+  sectionScores?: Record<string, number>;
 }
 
 export interface ServerExam {
@@ -72,6 +109,7 @@ export interface ServerExam {
 
 export interface ServerExamDetail extends ServerExam {
   exam_json_str: string;
+  sections?: ExamSection[];
 }
 
 export type ExamPreset = "GATE" | "CSIR_NET" | "TIFR_GS" | "BARC_OCES" | "CUSTOM";
