@@ -1,0 +1,242 @@
+[
+  {
+    "question": "Find the general solution to the second-order homogeneous linear differential equation: $$y'' - 5y' + 6y = 0$$",
+    "options": [
+      {
+        "label": 1,
+        "value": "$y(x) = c_1 e^{2x} + c_2 e^{3x}$"
+      },
+      {
+        "label": 2,
+        "value": "$y(x) = c_1 e^{-2x} + c_2 e^{-3x}$"
+      },
+      {
+        "label": 3,
+        "value": "$y(x) = e^{2.5x}(c_1 \\cos(0.5x) + c_2 \\sin(0.5x))$"
+      },
+      {
+        "label": 4,
+        "value": "$y(x) = c_1 e^{x} + c_2 e^{6x}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Homogeneous Equations - Constant Coefficients",
+    "explanation": "The characteristic equation is $r^2 - 5r + 6 = 0$. Factoring gives $(r-2)(r-3) = 0$, so the roots are $r_1 = 2$ and $r_2 = 3$. For distinct real roots, the general solution is $y = c_1 e^{r_1 x} + c_2 e^{r_2 x}$."
+  },
+  {
+    "question": "Which of the following is the correct form of the particular solution $Y_p(t)$ for the equation $y'' + 4y = 3t \\cos(2t)$ using the method of undetermined coefficients?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$Y_p(t) = (At + B)\\cos(2t) + (Ct + D)\\sin(2t)$"
+      },
+      {
+        "label": 2,
+        "value": "$Y_p(t) = t[(At + B)\\cos(2t) + (Ct + D)\\sin(2t)]$"
+      },
+      {
+        "label": 3,
+        "value": "$Y_p(t) = At^2 \\cos(2t) + Bt^2 \\sin(2t)$"
+      },
+      {
+        "label": 4,
+        "value": "$Y_p(t) = t(A \\cos(2t) + B \\sin(2t))$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Inhomogeneous Equations - Undetermined Coefficients",
+    "explanation": "The complementary solution for $y'' + 4y = 0$ is $y_c = c_1 \\cos(2t) + c_2 \\sin(2t)$. Since $g(t) = 3t \\cos(2t)$ contains $\\cos(2t)$, which is a solution to the homogeneous equation, we must multiply the standard guess $(At+B)\\cos(2t) + (Ct+D)\\sin(2t)$ by $t$ to avoid duplication with $y_c$."
+  },
+  {
+    "question": "For the differential equation $y'' + 2y' + y = e^{-t}$, what is the correct form for the particular solution?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$Y_p = Ae^{-t}$"
+      },
+      {
+        "label": 2,
+        "value": "$Y_p = Ate^{-t}$"
+      },
+      {
+        "label": 3,
+        "value": "$Y_p = At^2 e^{-t}$"
+      },
+      {
+        "label": 4,
+        "value": "$Y_p = (At^2 + Bt + C)e^{-t}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Inhomogeneous Equations - Repeated Roots",
+    "explanation": "The characteristic equation $r^2 + 2r + 1 = 0$ has a repeated root $r = -1$. The complementary solution is $y_c = c_1 e^{-t} + c_2 t e^{-t}$. Since both $e^{-t}$ and $te^{-t}$ are in the complementary solution, the particular solution guess must be multiplied by $t^2$, resulting in $Y_p = At^2 e^{-t}$."
+  },
+  {
+    "question": "Using the method of Variation of Parameters for $y'' + y = \\tan(t)$, if $y_1 = \\cos(t)$ and $y_2 = \\sin(t)$, what is the Wronskian $W(y_1, y_2)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$0$"
+      },
+      {
+        "label": 2,
+        "value": "$\\cos^2(t) - \\sin^2(t)$"
+      },
+      {
+        "label": 3,
+        "value": "$1$"
+      },
+      {
+        "label": 4,
+        "value": "$-1$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Inhomogeneous Equations - Variation of Parameters",
+    "explanation": "The Wronskian is $W = y_1 y_2' - y_2 y_1'$. Here, $W = (\\cos(t))(\\cos(t)) - (\\sin(t))(-\\sin(t)) = \\cos^2(t) + \\sin^2(t) = 1$."
+  },
+  {
+    "question": "Solve the initial value problem: $y'' + 4y' + 4y = 0, y(0) = 1, y'(0) = 1$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$y(t) = e^{-2t} + 3te^{-2t}$"
+      },
+      {
+        "label": 2,
+        "value": "$y(t) = e^{-2t} + te^{-2t}$"
+      },
+      {
+        "label": 3,
+        "value": "$y(t) = e^{2t} - 3te^{2t}$"
+      },
+      {
+        "label": 4,
+        "value": "$y(t) = 3e^{-2t} + te^{-2t}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Homogeneous Equations - IVP",
+    "explanation": "The characteristic equation is $(r+2)^2 = 0$, so $r = -2$ (repeated). General solution: $y = (c_1 + c_2 t)e^{-2t}$. $y(0) = c_1 = 1$. $y' = c_2 e^{-2t} - 2(c_1 + c_2 t)e^{-2t}$. $y'(0) = c_2 - 2c_1 = 1 \\implies c_2 - 2(1) = 1 \\implies c_2 = 3$. Thus $y = (1 + 3t)e^{-2t}$."
+  },
+  {
+    "question": "A mass-spring system is modeled by $y'' + 16y = 8 \\cos(4t)$. This system exhibits which physical phenomenon?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Overdamping"
+      },
+      {
+        "label": 2,
+        "value": "Critical damping"
+      },
+      {
+        "label": 3,
+        "value": "Pure resonance"
+      },
+      {
+        "label": 4,
+        "value": "Beating"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Analysis - Mechanical Vibrations",
+    "explanation": "The natural frequency is $\\omega_0 = \\sqrt{16} = 4$. The external force frequency is also $\\omega = 4$. Since there is no damping ($y'$ term is 0) and the frequencies match, the system undergoes pure resonance, where the amplitude of the solution grows linearly with time ($t \\sin(4t)$)."
+  },
+  {
+    "question": "Consider the equation $y'' - y' - 2y = 4x^2$. What is the particular solution $Y_p$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$-2x^2 + 2x - 3$"
+      },
+      {
+        "label": 2,
+        "value": "$2x^2 - 2x + 3$"
+      },
+      {
+        "label": 3,
+        "value": "$-2x^2 - 2x - 3$"
+      },
+      {
+        "label": 4,
+        "value": "$Ax^2 + Bx + C$ where $A=-2, B=2, C=-3$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Inhomogeneous Equations - Polynomials",
+    "explanation": "Let $Y_p = Ax^2 + Bx + C$. $Y_p' = 2Ax + B$, $Y_p'' = 2A$. Plug in: $2A - (2Ax+B) - 2(Ax^2+Bx+C) = 4x^2$. $-2A = 4 \\implies A = -2$. $-2A - 2B = 0 \\implies 4 - 2B = 0 \\implies B = 2$. $2A - B - 2C = 0 \\implies -4 - 2 - 2C = 0 \\implies -6 = 2C \\implies C = -3$."
+  },
+  {
+    "question": "In the method of Variation of Parameters, the particular solution is given by $Y_p = u_1 y_1 + u_2 y_2$. If $y'' + y = \\sec(t)$, which of the following expressions is correct for $u_1'$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$u_1' = -\\sin(t)\\sec(t)$"
+      },
+      {
+        "label": 2,
+        "value": "$u_1' = \\cos(t)\\sec(t)$"
+      },
+      {
+        "label": 3,
+        "value": "$u_1' = -\\tan(t)$"
+      },
+      {
+        "label": 4,
+        "value": "Both 1 and 3"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Analysis - Variation of Parameters",
+    "explanation": "For $y'' + y = \\sec(t)$, $y_1 = \\cos(t)$, $y_2 = \\sin(t)$, and $W=1$. $u_1' = -y_2 g(t) / W = -\\sin(t)\\sec(t) = -\\tan(t)$."
+  },
+  {
+    "question": "Which differential equation has the general solution $y = c_1 e^{-x} + c_2 e^{4x}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$y'' - 3y' - 4y = 0$"
+      },
+      {
+        "label": 2,
+        "value": "$y'' + 3y' - 4y = 0$"
+      },
+      {
+        "label": 3,
+        "value": "$y'' - 5y' + 4y = 0$"
+      },
+      {
+        "label": 4,
+        "value": "$y'' + 5y' + 4y = 0$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Conceptual - Characteristic Equation",
+    "explanation": "The roots are $r_1 = -1$ and $r_2 = 4$. The characteristic equation is $(r+1)(r-4) = r^2 - 3r - 4 = 0$, which corresponds to $y'' - 3y' - 4y = 0$."
+  },
+  {
+    "question": "When solving $y'' + p y' + q y = g(t)$, if $g(t) = e^{ax} \\sin(bx)$, and $a + bi$ is a root of the characteristic equation, what is the required form for $Y_p$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$e^{ax}(A \\cos(bx) + B \\sin(bx))$"
+      },
+      {
+        "label": 2,
+        "value": "$xe^{ax}(A \\cos(bx) + B \\sin(bx))$"
+      },
+      {
+        "label": 3,
+        "value": "$x^2 e^{ax}(A \\cos(bx) + B \\sin(bx))$"
+      },
+      {
+        "label": 4,
+        "value": "$e^{ax}(Ax \\cos(bx) + Bx \\sin(bx) + C \\cos(bx) + D \\sin(bx))$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Conceptual - Undetermined Coefficients",
+    "explanation": "If the complex number $a + bi$ associated with the forcing function is a root of the characteristic equation of multiplicity 1, the standard guess must be multiplied by $x$. This prevents the particular solution from being a solution to the homogeneous equation."
+  }
+]

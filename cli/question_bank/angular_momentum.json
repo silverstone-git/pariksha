@@ -1,0 +1,502 @@
+[
+  {
+    "question": "Consider the 'sliding lollipop' shown in the figure, consisting of a solid sphere of mass $m$ and radius $r$ on a frictionless surface. The sphere moves in a circle of radius $R$ with frequency $\\Omega$, but it slides such that the same point on the sphere always touches the ground. What is the normal force $N$ exerted by the ground on the sphere?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$N = mg$"
+      },
+      {
+        "label": 2,
+        "value": "$N = mg + mR\\Omega^2$"
+      },
+      {
+        "label": 3,
+        "value": "$N = mg + mr\\Omega^2$"
+      },
+      {
+        "label": 4,
+        "value": "$N = mg - mr\\Omega^2$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Rigid Body Dynamics",
+    "explanation": "Using the torque equation $\\\\boldsymbol{\\\\tau} = d\\\\mathbf{L}/dt$ about the pivot on the ground. The center of mass is at height $r$. The angular momentum has a component $L_z$ and a horizontal component. The change in the horizontal component of $L$ due to rotation $\\\\Omega$ requires a torque provided by the difference between gravity and the normal force. Detailed derivation shows $N = mg + mr\\\\Omega^2$, which is notably independent of $R$.",
+    "image_path": "pariksha/df054f45d90ef311f3b2a0fe9b04170e.webp"
+  },
+  {
+    "question": "In the 'rolling wheel and axle' system shown, a uniform disk of mass $m$ and radius $r$ rolls without slipping. The axle is inclined at an angle $\\\\theta$ and the contact point traces a circle with frequency $\\\\Omega$. What is the magnitude of the angular velocity $\\\\omega$ of the wheel?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\omega = \\\\Omega \\\\sin \\\\theta$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\omega = \\\\Omega / \\\\tan \\\\theta$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\omega = \\\\Omega \\\\cos \\\\theta$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\omega = \\\\Omega / \\\\cos \\\\theta$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Kinematics of Rotation",
+    "explanation": "For rolling without slipping, the velocity of the center of the wheel is $v = \\\\Omega (r / \\\\tan \\\\theta)$. Also, $v = \\\\omega r$ for a rolling wheel relative to its axle. Equating these gives $\\\\omega r = \\\\Omega r / \\\\tan \\\\theta$, hence $\\\\omega = \\\\Omega / \\\\tan \\\\theta$.",
+    "image_path": "pariksha/c23f4345faf076aad82edcb2fa0d97c1.webp"
+  },
+  {
+    "question": "A hollow ball ($I = \\\\frac{2}{3}mR^2$) rolls without slipping inside a fixed cone with a vertex angle of $60^\\\\circ$. If the contact point on the ball traces a circle of radius $R/2$ and the contact point on the cone traces a circle of radius $\\\\ell$, what condition must be met for the precession frequency $\\\\Omega$ to be constant?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The angular momentum vector must be constant in the rotating frame."
+      },
+      {
+        "label": 2,
+        "value": "The torque from gravity and the normal force must balance the rate of change of angular momentum $d\\\\mathbf{L}/dt$."
+      },
+      {
+        "label": 3,
+        "value": "The velocity of the center of mass must be zero."
+      },
+      {
+        "label": 4,
+        "value": "The ball must be a solid sphere ($I = \\\\frac{2}{5}mR^2$) for any $\\\\ell$."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "No-slip rolling",
+    "explanation": "In steady precession, the net torque about the vertex (from gravity and the normal force/friction) must equal the rate of change of the angular momentum vector $\\\\boldsymbol{\\\\tau} = \\\\mathbf{\\\\Omega} \\\\times \\\\mathbf{L}$.",
+    "image_path": "pariksha/fd6bec3e36a1a725a45c361e483e57df.webp"
+  },
+  {
+    "question": "A uniform stick of length $L$ is held at one end and struck with a hammer. At what distance from the held end should the blow occur so that the holder feels no 'sting' (the center of percussion)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$L/2$"
+      },
+      {
+        "label": 2,
+        "value": "$2L/3$"
+      },
+      {
+        "label": 3,
+        "value": "$3L/4$"
+      },
+      {
+        "label": 4,
+        "value": "$L/3$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Angular Impulse",
+    "explanation": "The center of percussion $b$ for a pivot at the end is $b = I_{pivot} / (m d_{cm})$. For a rod, $I_{pivot} = \\\\frac{1}{3}mL^2$ and $d_{cm} = L/2$. Thus $b = (\\\\frac{1}{3}mL^2) / (m L/2) = 2L/3$.",
+    "image_path": null
+  },
+  {
+    "question": "To make a pool ball of radius $R$ roll without slipping immediately after being struck horizontally, at what height $h$ above the table surface should the cue hit the ball?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$h = R$"
+      },
+      {
+        "label": 2,
+        "value": "$h = 1.2R$"
+      },
+      {
+        "label": 3,
+        "value": "$h = 1.4R$"
+      },
+      {
+        "label": 4,
+        "value": "$h = 1.5R$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Rotation & Translation",
+    "explanation": "Impulse $J = m \\\\Delta v$. Angular impulse relative to CM is $J(h-R) = I \\\\Delta \\\\omega$. For immediate rolling, $\\\\Delta v = R \\\\Delta \\\\omega$. Substituting $I = \\\\frac{2}{5}mR^2$: $m R \\\\Delta \\\\omega (h-R) = \\\\frac{2}{5}mR^2 \\\\Delta \\\\omega \\\\implies h-R = \\\\frac{2}{5}R \\\\implies h = \\\\frac{7}{5}R = 1.4R$.",
+    "image_path": null
+  },
+  {
+    "question": "A hockey puck (mass $m$, radius $R$) with translational speed $v$ and clockwise angular speed $\\\\omega$ strikes and sticks to the end of a rod (mass $m$, length $2R$). In the case where $v = R\\\\omega$, the contact point on the puck has zero velocity relative to the rod. Why is energy still lost in this collision?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Energy is not lost because the relative speed is zero."
+      },
+      {
+        "label": 2,
+        "value": "Energy is lost because the internal degrees of freedom of the rod are excited."
+      },
+      {
+        "label": 3,
+        "value": "Energy is lost because the objects must deform to become a single rigid body with a new moment of inertia."
+      },
+      {
+        "label": 4,
+        "value": "The assumption $v = R\\\\omega$ is physically impossible for a puck."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Conservation of Angular Momentum",
+    "explanation": "Even if the contact point speed is zero, the 'lollipop' system has a different moment of inertia and distribution of mass than the separate puck and rod. To constrain them into a single rigid body, internal impulsive forces do work, leading to energy dissipation.",
+    "image_path": null
+  },
+  {
+    "question": "A top undergoes uniform precession with its axis at a constant angle $\\\\theta$ below the horizontal (as shown in the figure). If the top's angular velocity vector $\\\\boldsymbol{\\\\omega}$ is always horizontal, what is the required frequency of precession $\\\\Omega$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\Omega = \\\\sqrt{mg\\\\ell / I}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\Omega = \\\\sqrt{mg\\\\ell / (I - I_3)}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\Omega = \\\\sqrt{mg\\\\ell \\\\sin \\\\theta / I}$"
+      },
+      {
+        "label": 4,
+        "value": "Motion with horizontal $\\\\omega$ is impossible."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Gyroscopic Motion",
+    "explanation": "For $\\\\boldsymbol{\\\\omega}$ to be horizontal, its vertical component must be zero. Using the components of $\\\\boldsymbol{\\\\omega}$ in terms of Euler angles, and the torque equation for a heavy symmetric top, the condition reduces to $\\\\Omega = \\\\sqrt{mg\\\\ell / (I - I_3)}$.",
+    "image_path": "pariksha/b9f858680ca949bc9ec09981f61a56d7.webp"
+  },
+  {
+    "question": "A solid sphere of mass $m$ and radius $r$ rolls without slipping on the ground, attached to a pivot by a horizontal massless stick. The sphere's center moves in a circle of radius $R$ with frequency $\\\\Omega$. Compared to the 'sliding lollipop' (where the sphere slides), the normal force $N$ in this rolling case is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Higher, because of the additional rotational energy."
+      },
+      {
+        "label": 2,
+        "value": "Lower, because the friction force assists in lifting the sphere."
+      },
+      {
+        "label": 3,
+        "value": "Modified by a term involving the moment of inertia $I = \\\\frac{2}{5}mr^2$ and the rolling frequency."
+      },
+      {
+        "label": 4,
+        "value": "Exactly the same, $N = mg + mr\\\\Omega^2$."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Normal Force in Rolling",
+    "explanation": "In the rolling case, the sphere has an additional angular momentum component due to its spin about the horizontal stick. This changes the $d\\\\mathbf{L}/dt$ term, which in turn alters the required torque and the normal force $N$.",
+    "image_path": "pariksha/ced5f06c4788dfef5beb528b71d5305c.webp"
+  },
+  {
+    "question": "A particle of mass $m$ and charge $q$ moves in a uniform magnetic field $2B$ in the $z$-direction. The Lagrangian is $L = \\\\frac{m}{2}v^2 + qB(xv_y - yv_x)$. What is the expression for the canonical angular momentum $L_z$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$L_z = m(xv_y - yv_x) + qB(x^2 + y^2)$"
+      },
+      {
+        "label": 2,
+        "value": "$L_z = m(xv_y - yv_x)$"
+      },
+      {
+        "label": 3,
+        "value": "$L_z = m(xv_y - yv_x) - qB(x^2 + y^2)$"
+      },
+      {
+        "label": 4,
+        "value": "$L_z = qB(x^2 + y^2)$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Lagrangian Mechanics",
+    "explanation": "The canonical momentum is $p_i = \\\\partial L / \\\\partial v_i$. $p_x = mv_x - qBy$ and $p_y = mv_y + qBx$. The angular momentum is $x p_y - y p_x = x(mv_y + qBx) - y(mv_x - qBy) = m(xv_y - yv_x) + qB(x^2 + y^2)$.",
+    "image_path": null
+  },
+  {
+    "question": "An electron is in a magnetic field along the $y$-axis with Hamiltonian $H = -\\\\hbar \\\\omega \\\\sigma_y$. If the electron starts in the spin-up state along the $z$-axis, what is the minimum time after which it will be in the spin-down state along the $x$-axis, $\\\\frac{1}{\\\\sqrt{2}}\\\\begin{pmatrix} 1 \\\\ -1 \\\\end{pmatrix}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\pi / 8\\\\omega$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\pi / 4\\\\omega$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\pi / 2\\\\omega$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\pi / \\\\omega$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Quantum Angular Momentum",
+    "explanation": "The Hamiltonian generates rotation about the $y$-axis with frequency $2\\\\omega$. A rotation from $+z$ to $-x$ requires an angle of $3\\\\pi/2$ (or $-\\\\pi/2$). The time $t$ is given by $2\\\\omega t = \\\\text{angle}$. For the specific state given, the phase evolution leads to $t = \\\\pi/4\\\\omega$.",
+    "image_path": "pariksha/fc4ec00352613b94f40ba9e7a1686da9.webp"
+  },
+  {
+    "question": "A top spins with its $x_3$ axis at angular speed $\\\\omega_3$. You apply an impulse that adds a perpendicular component $\\\\omega_{\\\\perp}$. If $I = 3I_3$, what value of $\\\\omega_{\\\\perp}$ makes the $\\\\omega$ vector dip as far as possible below the horizontal in the subsequent motion?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\omega_{\\\\perp} = \\\\omega_3$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\omega_{\\\\perp} = \\\\omega_3 / \\\\sqrt{3}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\omega_{\\\\perp} = \\\\sqrt{3} \\\\omega_3$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\omega_{\\\\perp} = \\\\omega_3 / 3$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Symmetric Tops",
+    "explanation": "This involves the torque-free motion of a symmetric top. The angular momentum $\\\\mathbf{L}$ is constant. The $\\\\omega$ vector precesses around $\\\\mathbf{L}$. To maximize the dip, one must analyze the geometry of the space cone and body cone. For $I = 3I_3$, the optimal ratio is $1/\\\\sqrt{3}$.",
+    "image_path": "pariksha/18adc9bffde82de432b7763096e6c16d.webp"
+  },
+  {
+    "question": "A pencil with a cross-section of six massless spokes of length $r$ and all mass $m$ on the axis rolls down a plane inclined at $\\\\theta$. If the pencil does not bounce or slip, why does it reach a terminal average velocity?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Air resistance balances gravity."
+      },
+      {
+        "label": 2,
+        "value": "Energy is lost each time a spoke hits the ground in an inelastic collision."
+      },
+      {
+        "label": 3,
+        "value": "The normal force does work against the motion."
+      },
+      {
+        "label": 4,
+        "value": "The angular momentum is not conserved due to the torque from gravity."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Dissipative Rotation",
+    "explanation": "As each spoke hits the plane, there is an impulsive change in the axis of rotation. Because the pencil does not bounce, the component of velocity perpendicular to the new spoke's contact is lost, which dissipates kinetic energy until the gain from gravity over one cycle matches the loss.",
+    "image_path": null
+  },
+  {
+    "question": "For the symmetric top in Fig. 9.66, which of the following is the correct equation for the precession frequency $\\\\Omega$ in the 'fast top' limit ($L_3 \\\\gg \\\\sqrt{4mglI \\\\sin \\\\theta}$)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\Omega \\\\approx mg\\\\ell / L_3$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\Omega \\\\approx L_3 / I$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\Omega \\\\approx \\\\sqrt{mg\\\\ell / I}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\Omega \\\\approx mg\\\\ell L_3 / I^2$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Gyroscopic Motion",
+    "explanation": "In the fast top limit, the torque $\\\\tau = mg\\\\ell \\\\sin \\\\theta$ is balanced by $\\\\Omega L_3 \\\\sin \\\\theta$. Solving for $\\\\Omega$ gives $\\\\Omega = mg\\\\ell / L_3$.",
+    "image_path": "pariksha/b9f858680ca949bc9ec09981f61a56d7.webp"
+  },
+  {
+    "question": "A uniform equilateral triangle of side $L$ is struck by a hammer blow. Where should the blow occur along the vertical axis of symmetry (measured from the top vertex) so the pivot at the vertex doesn't move?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$L/2$"
+      },
+      {
+        "label": 2,
+        "value": "$L/\\\\sqrt{3}$"
+      },
+      {
+        "label": 3,
+        "value": "$3L/4$"
+      },
+      {
+        "label": 4,
+        "value": "None of the above"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Center of Percussion",
+    "explanation": "The center of percussion depends on the moment of inertia and the distance to the CM. For a triangle, $d_{cm} = L/\\\\sqrt{3}$ from the vertex (if oriented appropriately). Using $I_{pivot} = I_{cm} + md_{cm}^2$ and $b = I_{pivot}/md_{cm}$ yields a specific fraction of the height, which is not $L/2$ or $L/\\\\sqrt{3}$.",
+    "image_path": null
+  },
+  {
+    "question": "A solid sphere rolls without slipping in a circle of radius $R$ while being pivoted. If the stick is massless and horizontal, and the sphere has radius $r$, what is the relationship between the spin $\\\\omega_s$ of the sphere and the precession $\\\\Omega$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\omega_s = \\\\Omega R/r$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\omega_s = \\\\Omega (R+r)/r$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\omega_s = \\\\Omega r/R$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\omega_s = \\\\Omega$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Kinematics of Rotation",
+    "explanation": "For rolling without slipping, the distance traveled by the center $2\\\\pi R$ must equal the distance rolled by the sphere $2\\\\pi r \\\\times (\\\\text{number of rotations})$. This gives $\\\\omega_s / \\\\Omega = R/r$.",
+    "image_path": "pariksha/ced5f06c4788dfef5beb528b71d5305c.webp"
+  },
+  {
+    "question": "Which of the following describes the condition for 'nutation' to be absent in a symmetric top?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The initial angular velocity must be zero."
+      },
+      {
+        "label": 2,
+        "value": "The initial precession rate must exactly match one of the two possible steady precession frequencies."
+      },
+      {
+        "label": 3,
+        "value": "The top must be spinning infinitely fast."
+      },
+      {
+        "label": 4,
+        "value": "Gravity must be zero."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Symmetric Tops",
+    "explanation": "Nutation occurs when the top's axis 'bobs' up and down. This is avoided if the initial conditions ($\\\\theta, \\\\dot{\\\\theta}, \\\\dot{\\\\phi}$) are set to a state of steady precession, where $\\\\dot{\\\\theta}=0$ and $\\\\dot{\\\\phi} = \\\\Omega_{\\\\text{steady}}$.",
+    "image_path": null
+  },
+  {
+    "question": "In the puck-rod collision (lollipop), if you want to lose the **minimum** amount of energy, what should the ratio $v/(R\\\\omega)$ be?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$1$"
+      },
+      {
+        "label": 2,
+        "value": "$6/5$"
+      },
+      {
+        "label": 3,
+        "value": "$5/6$"
+      },
+      {
+        "label": 4,
+        "value": "$3/2$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Conservation Laws",
+    "explanation": "By expressing the final energy in terms of initial $v$ and $\\\\omega$ (using conservation of $P$ and $L$), and minimizing the energy difference $\\\\Delta E$, one finds the optimal matching condition is $v = 6R\\\\omega/5$.",
+    "image_path": null
+  },
+  {
+    "question": "In the Hamiltonian $H = \\\\frac{A}{\\\\hbar^2} (\\\\vec{S}_1 + \\\\vec{S}_2) \\\\cdot \\\\vec{S}_3$, what are the possible eigenvalues of the energy?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$0$ and $A$"
+      },
+      {
+        "label": 2,
+        "value": "$A/2, -A, 0$"
+      },
+      {
+        "label": 3,
+        "value": "$A/4, -A/2$"
+      },
+      {
+        "label": 4,
+        "value": "None of the above"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Quantum Angular Momentum",
+    "explanation": "Let $\\\\vec{S}_{12} = \\\\vec{S}_1 + \\\\vec{S}_2$ and $\\\\vec{S}_{tot} = \\\\vec{S}_{12} + \\\\vec{S}_3$. Then $(\\\\vec{S}_1 + \\\\vec{S}_2) \\\\cdot \\\\vec{S}_3 = \\\\frac{1}{2}(S_{tot}^2 - S_{12}^2 - S_3^2)$. Using $s_1=s_2=s_3=1/2$, $S_{12}$ can be 0 or 1. If $S_{12}=0$, $S_{tot}=1/2$. If $S_{12}=1$, $S_{tot}=1/2$ or $3/2$. Calculating the values gives the specific spectrum.",
+    "image_path": null
+  },
+  {
+    "question": "If a heavy symmetric top is released with $\\\\dot{\\\\phi}=0$ from an angle $\\\\theta_0$, the top will:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Fall straight down to $\\\\theta = \\\\pi$."
+      },
+      {
+        "label": 2,
+        "value": "Precess steadily at $\\\\theta_0$."
+      },
+      {
+        "label": 3,
+        "value": "Exhibit cusplike nutation, dipping to a larger $\\\\theta$ before returning to $\\\\theta_0$."
+      },
+      {
+        "label": 4,
+        "value": "Exhibit circular nutation without changing $\\\\phi$."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Symmetric Tops",
+    "explanation": "Releasing from rest ($\\\\dot{\\\\phi}=0$) means the top must initially fall due to gravity. As it falls, it gains precession speed, which eventually provides the upward 'force' (via torque) to return it to the original height, forming a cusp in its path.",
+    "image_path": "pariksha/b9f858680ca949bc9ec09981f61a56d7.webp"
+  },
+  {
+    "question": "What is the principal moment of inertia $I_3$ of a solid sphere of mass $m$ and radius $r$ through its center?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\frac{1}{2}mr^2$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\frac{2}{5}mr^2$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\frac{2}{3}mr^2$"
+      },
+      {
+        "label": 4,
+        "value": "$mr^2$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Rigid Body Dynamics",
+    "explanation": "The standard moment of inertia for a solid sphere is $\\\\frac{2}{5}mr^2$.",
+    "image_path": null
+  }
+]

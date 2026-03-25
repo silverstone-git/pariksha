@@ -1,0 +1,602 @@
+[
+  {
+    "question": "Which of the following variables is an **intensive** property of a thermodynamic system?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Volume"
+      },
+      {
+        "label": 2,
+        "value": "Internal Energy"
+      },
+      {
+        "label": 3,
+        "value": "Temperature"
+      },
+      {
+        "label": 4,
+        "value": "Entropy"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Basics - Properties",
+    "explanation": "Intensive properties are independent of the mass or size of the system. Temperature, pressure, and density are intensive. Volume, Internal Energy, and Entropy are extensive properties as they depend on the system size."
+  },
+  {
+    "question": "The First Law of Thermodynamics is essentially a statement of:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Conservation of Momentum"
+      },
+      {
+        "label": 2,
+        "value": "Conservation of Energy"
+      },
+      {
+        "label": 3,
+        "value": "Conservation of Mass"
+      },
+      {
+        "label": 4,
+        "value": "Increase of Entropy"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Laws of Thermodynamics - First Law",
+    "explanation": "The First Law states that energy cannot be created or destroyed, only transformed. Mathematically, $\\delta Q = dU + \\delta W$, which represents the conservation of energy."
+  },
+  {
+    "question": "For a cyclic process, the change in internal energy ($dU$) of the system is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Always positive"
+      },
+      {
+        "label": 2,
+        "value": "Always negative"
+      },
+      {
+        "label": 3,
+        "value": "Zero"
+      },
+      {
+        "label": 4,
+        "value": "Infinite"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Laws of Thermodynamics - Basics",
+    "explanation": "Internal energy ($U$) is a state function. In a cyclic process, the system returns to its initial state, so the net change in any state function (including internal energy) is zero."
+  },
+  {
+    "question": "An ideal gas undergoes an **isothermal** expansion. Which of the following statements is true?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Temperature changes"
+      },
+      {
+        "label": 2,
+        "value": "Internal energy changes"
+      },
+      {
+        "label": 3,
+        "value": "Change in internal energy is zero"
+      },
+      {
+        "label": 4,
+        "value": "No heat is exchanged"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Basics - Processes",
+    "explanation": "For an ideal gas, internal energy $U$ depends only on temperature ($U = f(T)$). In an isothermal process, $T$ is constant, so $dT = 0$ and consequently $dU = 0$."
+  },
+  {
+    "question": "The efficiency of a Carnot engine operating between temperatures $T_1$ (Source) and $T_2$ (Sink) is given by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$1 - \\frac{T_1}{T_2}$"
+      },
+      {
+        "label": 2,
+        "value": "$1 - \\frac{T_2}{T_1}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{T_1}{T_2} - 1$"
+      },
+      {
+        "label": 4,
+        "value": "$1 + \\frac{T_2}{T_1}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Second Law and Heat Engines - Carnot Cycle",
+    "explanation": "The efficiency $\\eta$ of a Carnot engine is $\\eta = 1 - \\frac{T_{sink}}{T_{source}}$. Assuming $T_1$ is the source (higher temp) and $T_2$ is the sink, the formula is $1 - \\frac{T_2}{T_1}$."
+  },
+  {
+    "question": "According to the Clausius statement of the Second Law of Thermodynamics:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Heat cannot flow from cold to hot spontaneously"
+      },
+      {
+        "label": 2,
+        "value": "Heat cannot flow from hot to cold spontaneously"
+      },
+      {
+        "label": 3,
+        "value": "Efficiency of a heat engine can be 100%"
+      },
+      {
+        "label": 4,
+        "value": "Entropy of the universe decreases"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laws of Thermodynamics - Second Law",
+    "explanation": "Clausius statement: It is impossible to construct a device that operates in a cycle and produces no other effect than the transfer of heat from a lower-temperature body to a higher-temperature body (i.e., heat doesn't flow 'uphill' naturally)."
+  },
+  {
+    "question": "Which thermodynamic potential is minimized at equilibrium for a system at constant temperature and volume?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Internal Energy ($U$)"
+      },
+      {
+        "label": 2,
+        "value": "Enthalpy ($H$)"
+      },
+      {
+        "label": 3,
+        "value": "Helmholtz Free Energy ($F$)"
+      },
+      {
+        "label": 4,
+        "value": "Gibbs Free Energy ($G$)"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Thermodynamic Potentials",
+    "explanation": "The Helmholtz free energy $F = U - TS$ is the potential that is minimized for a system in equilibrium at constant Temperature ($T$) and Volume ($V$)."
+  },
+  {
+    "question": "The phase space of a system with $N$ particles moving in 3-dimensional space has how many dimensions?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$3N$"
+      },
+      {
+        "label": 2,
+        "value": "$6N$"
+      },
+      {
+        "label": 3,
+        "value": "$N$"
+      },
+      {
+        "label": 4,
+        "value": "$2N$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Phase Space - Dimensions",
+    "explanation": "Phase space consists of position coordinates and momentum coordinates. For $N$ particles in 3D, there are $3N$ position coordinates ($x, y, z$) and $3N$ momentum coordinates ($p_x, p_y, p_z$), totaling $6N$ dimensions."
+  },
+  {
+    "question": "In statistical mechanics, a **microstate** specifies:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The macroscopic variables (P, V, T) only"
+      },
+      {
+        "label": 2,
+        "value": "The precise state of every particle in the system"
+      },
+      {
+        "label": 3,
+        "value": "The average energy of the system"
+      },
+      {
+        "label": 4,
+        "value": "The total number of particles only"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Microstates and Macrostates",
+    "explanation": "A microstate is a specific detailed microscopic configuration of a system, specifying the position and momentum of every single particle. A macrostate is defined by bulk properties like P, V, and T."
+  },
+  {
+    "question": "Boltzmann's entropy formula relates entropy $S$ to the number of microstates $\\Omega$ as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$S = k_B \\ln \\Omega$"
+      },
+      {
+        "label": 2,
+        "value": "$S = k_B \\Omega$"
+      },
+      {
+        "label": 3,
+        "value": "$S = k_B \\Omega^2$"
+      },
+      {
+        "label": 4,
+        "value": "$S = \\frac{k_B}{\\ln \\Omega}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Statistical Mechanics - Entropy",
+    "explanation": "The Boltzmann entropy formula is $S = k_B \\ln \\Omega$, where $k_B$ is the Boltzmann constant and $\\Omega$ is the number of accessible microstates corresponding to a given macrostate."
+  },
+  {
+    "question": "For a first-order phase transition (like water boiling), which of the following is true regarding the Gibbs Free Energy ($G$)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$G$ is discontinuous"
+      },
+      {
+        "label": 2,
+        "value": "$G$ is continuous, but its first derivative is discontinuous"
+      },
+      {
+        "label": 3,
+        "value": "$G$ is continuous, and its first derivative is continuous"
+      },
+      {
+        "label": 4,
+        "value": "$G$ becomes zero"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Phase Transitions",
+    "explanation": "In a first-order phase transition, the chemical potential (molar Gibbs free energy) is continuous, but its first derivatives (entropy $S = -(\\partial G/\\partial T)_P$ and volume $V = (\\partial G/\\partial P)_T$) are discontinuous, leading to latent heat and volume change."
+  },
+  {
+    "question": "The **Clausius-Clapeyron equation** relates the slope of the phase boundary $\\frac{dP}{dT}$ to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Latent heat and Volume change"
+      },
+      {
+        "label": 2,
+        "value": "Internal Energy and Entropy"
+      },
+      {
+        "label": 3,
+        "value": "Temperature and Pressure only"
+      },
+      {
+        "label": 4,
+        "value": "Specific Heat Capacity"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Phase Transitions - Clausius-Clapeyron",
+    "explanation": "The Clausius-Clapeyron equation is $\\frac{dP}{dT} = \\frac{L}{T \\Delta V}$, where $L$ is latent heat and $\\Delta V$ is the change in volume during the transition."
+  },
+  {
+    "question": "Which of the following processes is **isentropic** (constant entropy)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Isothermal expansion"
+      },
+      {
+        "label": 2,
+        "value": "Adiabatic reversible process"
+      },
+      {
+        "label": 3,
+        "value": "Isochoric cooling"
+      },
+      {
+        "label": 4,
+        "value": "Free expansion"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamic Processes",
+    "explanation": "In an adiabatic process, there is no heat exchange ($dQ = 0$). If it is also reversible, then $dS = dQ_{rev}/T = 0$, making it isentropic (constant entropy)."
+  },
+  {
+    "question": "The **Third Law of Thermodynamics** states that as temperature approaches absolute zero:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The volume of a gas becomes zero"
+      },
+      {
+        "label": 2,
+        "value": "The entropy of a perfect crystal approaches zero"
+      },
+      {
+        "label": 3,
+        "value": "The specific heat becomes infinite"
+      },
+      {
+        "label": 4,
+        "value": "Molecular motion stops completely"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Laws of Thermodynamics - Third Law",
+    "explanation": "The Third Law states that the entropy of a perfect crystal at absolute zero temperature is exactly equal to zero."
+  },
+  {
+    "question": "In the canonical ensemble, the probability of finding a system in a state with energy $E_i$ is proportional to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$e^{-E_i / k_B T}$"
+      },
+      {
+        "label": 2,
+        "value": "$e^{E_i / k_B T}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\ln(E_i / k_B T)$"
+      },
+      {
+        "label": 4,
+        "value": "$1/E_i$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Statistical Mechanics - Distributions",
+    "explanation": "In the canonical ensemble (constant N, V, T), the probability $P_i$ is given by the Boltzmann factor: $P_i \\propto e^{-E_i / k_B T}$."
+  },
+  {
+    "question": "The partition function $Z$ in the canonical ensemble serves as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "A normalization constant for probabilities"
+      },
+      {
+        "label": 2,
+        "value": "The total energy of the system"
+      },
+      {
+        "label": 3,
+        "value": "The average pressure"
+      },
+      {
+        "label": 4,
+        "value": "The volume of phase space"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Statistical Mechanics - Partition Function",
+    "explanation": "The partition function $Z = \\sum_i e^{-E_i/k_B T}$ is the sum of Boltzmann factors and acts as the normalization constant ensuring that the sum of probabilities equals 1."
+  },
+  {
+    "question": "For an ideal gas, the compressibility factor $Z = \\frac{PV}{RT}$ is equal to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "0"
+      },
+      {
+        "label": 2,
+        "value": "1"
+      },
+      {
+        "label": 3,
+        "value": "Infinity"
+      },
+      {
+        "label": 4,
+        "value": "Variable depending on T"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Basics - Real vs Ideal Gas",
+    "explanation": "For an ideal gas, the equation of state is $PV = nRT$ (or $PV = RT$ for 1 mole). Thus, $Z = PV/RT = 1$."
+  },
+  {
+    "question": "Liouville's Theorem in statistical mechanics states that:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Entropy always increases"
+      },
+      {
+        "label": 2,
+        "value": "The density of system points in phase space is constant along a trajectory"
+      },
+      {
+        "label": 3,
+        "value": "Energy is conserved in all ensembles"
+      },
+      {
+        "label": 4,
+        "value": "Particles are indistinguishable"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Phase Space - Liouville's Theorem",
+    "explanation": "Liouville's theorem states that the phase space distribution function $\\rho$ is constant along the trajectories of the system (i.e., $d\\rho/dt = 0$), implying the 'incompressibility' of phase space flow."
+  },
+  {
+    "question": "The specific heat capacity at constant pressure ($C_P$) relates to the specific heat at constant volume ($C_V$) for an ideal gas as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$C_P = C_V$"
+      },
+      {
+        "label": 2,
+        "value": "$C_P < C_V$"
+      },
+      {
+        "label": 3,
+        "value": "$C_P > C_V$"
+      },
+      {
+        "label": 4,
+        "value": "$C_P \\cdot C_V = R$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Basics - Specific Heats",
+    "explanation": "For an ideal gas, Mayer's relation states $C_P - C_V = R$. Since $R > 0$, $C_P$ is always greater than $C_V$ because work is done during expansion at constant pressure."
+  },
+  {
+    "question": "Which law allows us to define **temperature**?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Zeroth Law of Thermodynamics"
+      },
+      {
+        "label": 2,
+        "value": "First Law of Thermodynamics"
+      },
+      {
+        "label": 3,
+        "value": "Second Law of Thermodynamics"
+      },
+      {
+        "label": 4,
+        "value": "Third Law of Thermodynamics"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laws of Thermodynamics - Zeroth Law",
+    "explanation": "The Zeroth Law states that if two systems are in thermal equilibrium with a third system, they are in thermal equilibrium with each other. This property allows the definition of temperature."
+  },
+  {
+    "question": "An adiabatic boundary allows the transfer of:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Heat only"
+      },
+      {
+        "label": 2,
+        "value": "Matter only"
+      },
+      {
+        "label": 3,
+        "value": "Work only (Energy as work)"
+      },
+      {
+        "label": 4,
+        "value": "Both Heat and Matter"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Basics - Boundaries",
+    "explanation": "An adiabatic boundary is insulating and does not allow heat transfer ($Q=0$). However, energy can still be transferred as work ($W$). It generally does not allow matter transfer either (closed system)."
+  },
+  {
+    "question": "In a **microcanonical ensemble**, the system is isolated, meaning:",
+    "options": [
+      {
+        "label": 1,
+        "value": "N, V, and T are constant"
+      },
+      {
+        "label": 2,
+        "value": "N, V, and E are constant"
+      },
+      {
+        "label": 3,
+        "value": "$μ$, V, and T are constant"
+      },
+      {
+        "label": 4,
+        "value": "P, V, and T are constant"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Statistical Mechanics - Ensembles",
+    "explanation": "The microcanonical ensemble represents an isolated system where the Number of particles ($N$), Volume ($V$), and Energy ($E$) are fixed constants."
+  },
+  {
+    "question": "The Maxwell Relations in thermodynamics are derived from:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The First Law only"
+      },
+      {
+        "label": 2,
+        "value": "The exact differential property of thermodynamic potentials"
+      },
+      {
+        "label": 3,
+        "value": "The Ideal Gas Law"
+      },
+      {
+        "label": 4,
+        "value": "The Third Law"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamic Relations",
+    "explanation": "Maxwell relations (e.g., $(\\partial T/\\partial V)_S = -(\\partial P/\\partial S)_V$) arise from the fact that thermodynamic potentials (U, H, F, G) are state functions and their second mixed partial derivatives are equal (Schwarz's theorem)."
+  },
+  {
+    "question": "What is the change in entropy for a reversible adiabatic process?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Positive"
+      },
+      {
+        "label": 2,
+        "value": "Negative"
+      },
+      {
+        "label": 3,
+        "value": "Zero"
+      },
+      {
+        "label": 4,
+        "value": "Depends on the gas"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Second Law - Entropy",
+    "explanation": "For a reversible process, $dS = dQ_{rev}/T$. Since an adiabatic process has $dQ = 0$, a reversible adiabatic process has $dS = 0$."
+  },
+  {
+    "question": "A heat pump is used to heat a house. If the coefficient of performance (COP) is 3 and the work input is 1000 J, how much heat is delivered to the house?",
+    "options": [
+      {
+        "label": 1,
+        "value": "333 J"
+      },
+      {
+        "label": 2,
+        "value": "1000 J"
+      },
+      {
+        "label": 3,
+        "value": "2000 J"
+      },
+      {
+        "label": 4,
+        "value": "3000 J"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Heat Engines and Pumps",
+    "explanation": "COP for a heat pump is defined as $Q_{hot} / W_{in}$. If COP = 3 and $W_{in} = 1000$ J, then $Q_{hot} = 3 \\times 1000 = 3000$ J."
+  }
+]

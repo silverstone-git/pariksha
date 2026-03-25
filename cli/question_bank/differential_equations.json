@@ -1,0 +1,502 @@
+[
+  {
+    "question": "Given the first-order differential equation $\\frac{dy}{dx} = 1 + \\frac{y}{x} - \\frac{y^2}{x^2}$ with the initial condition $y(1) = 0$, what is the value of $y(x)$ when $x = 2$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$y(2) = 0.6$"
+      },
+      {
+        "label": 2,
+        "value": "$y(2) = 1.2$"
+      },
+      {
+        "label": 3,
+        "value": "$y(2) = 1.5$"
+      },
+      {
+        "label": 4,
+        "value": "$y(2) = 0.8$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "First-Order ODEs",
+    "explanation": "Using the substitution $y=vx$, the equation becomes $v + x\\frac{dv}{dx} = 1 + v - v^2$, which simplifies to $\\frac{dv}{1-v^2} = \\frac{dx}{x}$. Integrating and applying $y(1)=0$ gives $y = \\frac{x(x^2-1)}{x^2+1}$. For $x=2$, $y(2) = \\frac{2(4-1)}{4+1} = \\frac{6}{5} = 1.2$.",
+    "image_path": null
+  },
+  {
+    "question": "Based on the relativistic Hamiltonian provided in the study materials, $H = c^2 \\sqrt{m^2 + \\frac{p^2}{c^2}} + V(x)$, which differential equation describes the rate of change of the conjugate momentum $p$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{dp}{dt} = -\\frac{\\partial V}{\\partial x}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{dp}{dt} = \\frac{pc}{\\sqrt{p^2 + m^2c^2}}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{dp}{dt} = \\frac{\\partial V}{\\partial x}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{dp}{dt} = -\\frac{p}{m}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "According to Hamilton's equations of motion, $\\dot{p} = -\\frac{\\partial H}{\\partial x}$. Since the kinetic term depends only on $p$, the derivative with respect to $x$ only affects the potential term $V(x)$.",
+    "image_path": "pariksha/bf9d3e87b18d725c67af6fbad780217d.webp"
+  },
+  {
+    "question": "A Riccati differential equation is given by $y' = q_0(x) + q_1(x)y + q_2(x)y^2$. Which substitution transforms this into a second-order linear homogeneous differential equation?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$y = -\\frac{u'}{u q_2}$"
+      },
+      {
+        "label": 2,
+        "value": "$y = u^2$"
+      },
+      {
+        "label": 3,
+        "value": "$y = e^u$"
+      },
+      {
+        "label": 4,
+        "value": "$y = \\frac{1}{u}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Non-linear ODEs",
+    "explanation": "The substitution $y = -\\frac{u'}{u q_2}$ is the standard method to linearize a Riccati equation, leading to a second-order linear equation for $u(x)$.",
+    "image_path": null
+  },
+  {
+    "question": "Consider the differential equation $x^2 y'' + 3xy' + (1+x)y = 0$. Using the Frobenius method, what is the indicial equation for the regular singular point at $x=0$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$r^2 + 2r + 1 = 0$"
+      },
+      {
+        "label": 2,
+        "value": "$r^2 + 3r + 1 = 0$"
+      },
+      {
+        "label": 3,
+        "value": "$r^2 + r + 1 = 0$"
+      },
+      {
+        "label": 4,
+        "value": "$r^2 - 1 = 0$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Series Solutions",
+    "explanation": "For $x^2 y'' + x p(x) y' + q(x) y = 0$, the indicial equation is $r(r-1) + p(0)r + q(0) = 0$. Here $p(x)=3$ and $q(x)=1+x$. At $x=0$, $p(0)=3$ and $q(0)=1$. So, $r^2 - r + 3r + 1 = r^2 + 2r + 1 = 0$.",
+    "image_path": null
+  },
+  {
+    "question": "If $y_1(x)$ and $y_2(x)$ are two linearly independent solutions of $y'' + P(x)y' + Q(x)y = 0$, and their Wronskian $W(x)$ satisfies $W(1) = 1$, what is $W(2)$ if $P(x) = 2/x$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$1/4$"
+      },
+      {
+        "label": 2,
+        "value": "$1/2$"
+      },
+      {
+        "label": 3,
+        "value": "$4$"
+      },
+      {
+        "label": 4,
+        "value": "$1$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Wronskian and Abel's Formula",
+    "explanation": "By Abel's Identity, $W(x) = W(x_0) e^{-\\int_{x_0}^x P(t) dt}$. Here, $W(2) = 1 \\cdot e^{-\\int_1^2 (2/t) dt} = e^{-2 \\ln(2)} = e^{\\ln(1/4)} = 1/4$.",
+    "image_path": null
+  },
+  {
+    "question": "Which of the following functions is a solution to the Bessel equation of order $1/2$: $x^2 y'' + xy' + (x^2 - 1/4)y = 0$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$y = x^{-1/2} \\sin x$"
+      },
+      {
+        "label": 2,
+        "value": "$y = x^{1/2} \\cos x$"
+      },
+      {
+        "label": 3,
+        "value": "$y = \\sin x$"
+      },
+      {
+        "label": 4,
+        "value": "$y = e^x / \\sqrt{x}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Special Functions",
+    "explanation": "The spherical Bessel functions of the first kind $J_{1/2}(x)$ are proportional to $\\frac{\\sin x}{\\sqrt{x}}$.",
+    "image_path": null
+  },
+  {
+    "question": "For the boundary value problem $y'' + \\lambda y = 0$ with $y(0) = 0$ and $y'(L) = 0$, what are the eigenvalues $\\lambda_n$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\lambda_n = \\left( \\frac{(2n-1)\\pi}{2L} \\right)^2, n=1,2,3...$"
+      },
+      {
+        "label": 2,
+        "value": "$\\lambda_n = \\left( \\frac{n\\pi}{L} \\right)^2, n=1,2,3...$"
+      },
+      {
+        "label": 3,
+        "value": "$\\lambda_n = \\left( \\frac{(2n+1)\\pi}{L} \\right)^2, n=0,1,2...$"
+      },
+      {
+        "label": 4,
+        "value": "$\\lambda_n = \\frac{n^2}{L^2}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Sturm-Liouville Theory",
+    "explanation": "General solution is $y = A \\sin(\\sqrt{\\lambda}x) + B \\cos(\\sqrt{\\lambda}x)$. $y(0)=0 \\implies B=0$. $y'(L) = A\\sqrt{\\lambda}\\cos(\\sqrt{\\lambda}L) = 0$. Thus $\\sqrt{\\lambda}L = (n - 1/2)\\pi$.",
+    "image_path": null
+  },
+  {
+    "question": "The partial differential equation $\\frac{\\partial^2 u}{\\partial x^2} - 4\\frac{\\partial^2 u}{\\partial x \\partial y} + 4\\frac{\\partial^2 u}{\\partial y^2} = 0$ is classified as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Parabolic"
+      },
+      {
+        "label": 2,
+        "value": "Elliptic"
+      },
+      {
+        "label": 3,
+        "value": "Hyperbolic"
+      },
+      {
+        "label": 4,
+        "value": "Ultra-hyperbolic"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Partial Differential Equations",
+    "explanation": "The classification depends on $B^2 - 4AC$. Here $A=1, B=-4, C=4$. $(-4)^2 - 4(1)(4) = 16 - 16 = 0$. Zero indicates a parabolic PDE.",
+    "image_path": null
+  },
+  {
+    "question": "Using the method of Variation of Parameters for the equation $y'' + y = \\sec x$, the particular solution $y_p$ is found using $u_1 y_1 + u_2 y_2$. What is the expression for $u_1'$ if $y_1 = \\cos x$ and $y_2 = \\sin x$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$u_1' = -\\tan x$"
+      },
+      {
+        "label": 2,
+        "value": "$u_1' = \\tan x$"
+      },
+      {
+        "label": 3,
+        "value": "$u_1' = -1$"
+      },
+      {
+        "label": 4,
+        "value": "$u_1' = \\sin x \\sec x$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Variation of Parameters",
+    "explanation": "$u_1' = -y_2 f(x) / W$. $W = 1$. $u_1' = -\\sin x \\sec x = -\\tan x$.",
+    "image_path": null
+  },
+  {
+    "question": "A system of linear differential equations is given by $\\dot{\\mathbf{x}} = A\\mathbf{x}$ where $A = \\begin{pmatrix} 0 & 1 \\\\ -4 & 0 \\end{pmatrix}$. The critical point at the origin is a:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Center"
+      },
+      {
+        "label": 2,
+        "value": "Saddle point"
+      },
+      {
+        "label": 3,
+        "value": "Stable node"
+      },
+      {
+        "label": 4,
+        "value": "Unstable spiral"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Systems of ODEs",
+    "explanation": "The eigenvalues are found from $\\lambda^2 + 4 = 0$, so $\\lambda = \\pm 2i$. Purely imaginary eigenvalues indicate a center.",
+    "image_path": null
+  },
+  {
+    "question": "What is the Green's function $G(x, \\xi)$ for the boundary value problem $\\frac{d^2 y}{dx^2} = f(x)$ with $y(0) = 0$ and $y(1) = 0$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$G(x, \\xi) = \\begin{cases} x(\\xi-1) & 0 \\le x < \\xi \\\\ \\xi(x-1) & \\xi < x \\le 1 \\end{cases}$"
+      },
+      {
+        "label": 2,
+        "value": "$G(x, \\xi) = \\begin{cases} x\\xi & 0 \\le x < \\xi \\\\ (x-1)(\\xi-1) & \\xi < x \\le 1 \\end{cases}$"
+      },
+      {
+        "label": 3,
+        "value": "$G(x, \\xi) = x - \\xi$"
+      },
+      {
+        "label": 4,
+        "value": "$G(x, \\xi) = \\frac{1}{2} |x - \\xi|$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Green's Functions",
+    "explanation": "The Green's function must satisfy $G(0, \\xi) = G(1, \\xi) = 0$ and be continuous at $x=\\xi$ with a jump in the derivative. The form $x(\\xi-1)$ for $x < \\xi$ and $\\xi(x-1)$ for $x > \\xi$ satisfies these conditions.",
+    "image_path": null
+  },
+  {
+    "question": "For the differential equation $y' = y^{1/3}$ with $y(0) = 0$, how many solutions exist for $x > 0$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Infinitely many"
+      },
+      {
+        "label": 2,
+        "value": "Exactly one"
+      },
+      {
+        "label": 3,
+        "value": "Exactly two"
+      },
+      {
+        "label": 4,
+        "value": "No solution"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Existence and Uniqueness",
+    "explanation": "The function $f(y) = y^{1/3}$ is not Lipschitz continuous at $y=0$. This leads to a failure of uniqueness; for example, $y=0$ is a solution, and $y = (2x/3)^{3/2}$ is another. Any solution can stay at zero for some time $c$ and then branch off.",
+    "image_path": null
+  },
+  {
+    "question": "Which integral transform is most appropriate for solving a differential equation with a non-periodic driving force $f(t)$ that is zero for $t < 0$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Laplace Transform"
+      },
+      {
+        "label": 2,
+        "value": "Fourier Transform"
+      },
+      {
+        "label": 3,
+        "value": "Mellin Transform"
+      },
+      {
+        "label": 4,
+        "value": "Hankel Transform"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Integral Transforms",
+    "explanation": "The Laplace transform is specifically designed for initial value problems and causal systems ($f(t)=0$ for $t<0$).",
+    "image_path": null
+  },
+  {
+    "question": "The Legendre differential equation $(1-x^2)y'' - 2xy' + n(n+1)y = 0$ has polynomial solutions $P_n(x)$. What is the value of $\\int_{-1}^1 P_n(x) P_m(x) dx$ for $n \\neq m$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$0$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{2}{2n+1}$"
+      },
+      {
+        "label": 3,
+        "value": "$1$"
+      },
+      {
+        "label": 4,
+        "value": "$(-1)^n$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Orthogonal Polynomials",
+    "explanation": "Legendre polynomials are orthogonal on the interval $[-1, 1]$ with respect to the weight function $w(x)=1$.",
+    "image_path": null
+  },
+  {
+    "question": "Solve the Euler-Cauchy equation $x^2 y'' - 2y = 0$. The general solution is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$y = c_1 x^2 + c_2 x^{-1}$"
+      },
+      {
+        "label": 2,
+        "value": "$y = c_1 x + c_2 x^{-2}$"
+      },
+      {
+        "label": 3,
+        "value": "$y = c_1 x^2 + c_2 x^2 \\ln x$"
+      },
+      {
+        "label": 4,
+        "value": "$y = c_1 e^{2x} + c_2 e^{-x}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Euler-Cauchy Equations",
+    "explanation": "Substitute $y=x^r$: $r(r-1) - 2 = 0 \\implies r^2 - r - 2 = 0 \\implies (r-2)(r+1) = 0$. Solutions are $r=2, -1$.",
+    "image_path": null
+  },
+  {
+    "question": "In the context of the Heat Equation $\\frac{\\partial u}{\\partial t} = \\alpha \\frac{\\partial^2 u}{\\partial x^2}$, if the steady-state temperature distribution is reached, what type of differential equation does $u(x)$ satisfy?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Laplace Equation"
+      },
+      {
+        "label": 2,
+        "value": "Wave Equation"
+      },
+      {
+        "label": 3,
+        "value": "Poisson Equation"
+      },
+      {
+        "label": 4,
+        "value": "Bernoulli Equation"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "PDE Steady State",
+    "explanation": "Steady state means $\\partial u / \\partial t = 0$, reducing the heat equation to $\\frac{\\partial^2 u}{\\partial x^2} = 0$, which is the 1D version of the Laplace equation.",
+    "image_path": null
+  },
+  {
+    "question": "What is the integrating factor for the non-exact differential equation $(3xy + y^2)dx + (x^2 + xy)dy = 0$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$x$"
+      },
+      {
+        "label": 2,
+        "value": "$y$"
+      },
+      {
+        "label": 3,
+        "value": "$e^x$"
+      },
+      {
+        "label": 4,
+        "value": "$1/x$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Exact Equations",
+    "explanation": "$M = 3xy + y^2, N = x^2 + xy$. $\\partial M / \\partial y = 3x + 2y$, $\\partial N / \\partial x = 2x + y$. $(\\partial M/\\partial y - \\partial N/\\partial x)/N = (x+y)/(x(x+y)) = 1/x$. Integrating factor $\\mu = e^{\\int (1/x) dx} = x$.",
+    "image_path": null
+  },
+  {
+    "question": "For a second-order Runge-Kutta method (like the Improved Euler method), the local truncation error is of order:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$O(h^3)$"
+      },
+      {
+        "label": 2,
+        "value": "$O(h^2)$"
+      },
+      {
+        "label": 3,
+        "value": "$O(h^4)$"
+      },
+      {
+        "label": 4,
+        "value": "$O(h)$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Numerical Methods",
+    "explanation": "A $k$-th order Runge-Kutta method has a global error of $O(h^k)$ and a local truncation error of $O(h^{k+1})$. For $k=2$, local error is $O(h^3)$.",
+    "image_path": null
+  },
+  {
+    "question": "Which of the following describes the behavior of solutions to $y'' + 4y = 0$ in the phase plane $(y, y')$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Concentric ellipses"
+      },
+      {
+        "label": 2,
+        "value": "Hyperbolas"
+      },
+      {
+        "label": 3,
+        "value": "Spirals moving outward"
+      },
+      {
+        "label": 4,
+        "value": "Straight lines"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Phase Space Analysis",
+    "explanation": "The equation represents a simple harmonic oscillator. The conserved energy $E = \\frac{1}{2}(y')^2 + 2y^2$ defines ellipses in the phase plane.",
+    "image_path": null
+  },
+  {
+    "question": "The Laplace transform of $f(t) = t \\cos(at)$ is given by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{s^2 - a^2}{(s^2 + a^2)^2}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{2as}{(s^2 + a^2)^2}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{s}{s^2 + a^2}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{s^2 + a^2}{(s^2 - a^2)^2}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transforms",
+    "explanation": "Using the property $\\mathcal{L}\\{t f(t)\\} = -\\frac{d}{ds}F(s)$, where $F(s) = \\frac{s}{s^2+a^2}$. Derivative gives $\\frac{s^2 - a^2}{(s^2 + a^2)^2}$.",
+    "image_path": null
+  }
+]

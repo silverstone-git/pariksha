@@ -1,0 +1,482 @@
+[
+  {
+    "question": "The Laplace transform of the function $f(t) = t^2 e^{-2t} \\cos(t)$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$\\frac{2(s+2)^3 - 6(s+2)}{((s+2)^2 + 1)^3}$$"
+      },
+      {
+        "label": 2,
+        "value": "$$\\frac{2(s+2)^2 - 2}{((s+2)^2 + 1)^3}$$"
+      },
+      {
+        "label": 3,
+        "value": "$$\\frac{2(s+2)((s+2)^2 - 3)}{((s+2)^2 + 1)^3}$$"
+      },
+      {
+        "label": 4,
+        "value": "$$\\frac{(s+2)^3 - 3(s+2)}{((s+2)^2 + 1)^3}$$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Laplace Transform - Properties",
+    "explanation": "We use the property $\\mathcal{L}\\{t^n f(t)\\} = (-1)^n \\frac{d^n}{ds^n} F(s)$ and the shifting theorem $\\mathcal{L}\\{e^{-at}g(t)\\} = G(s+a)$. First, find $\\mathcal{L}\\{\\cos t\\} = \\frac{s}{s^2+1}$. \nApplying the frequency shift for $e^{-2t}$, we get $G(s) = \\frac{s+2}{(s+2)^2+1}$. \nNow apply multiplication by $t^2$, which corresponds to $\\frac{d^2}{ds^2} G(s)$. \nThe first derivative is $\\frac{1 - (s+2)^2}{((s+2)^2+1)^2}$. \nThe second derivative simplifies to $\\frac{2(s+2)((s+2)^2-3)}{((s+2)^2+1)^3}$."
+  },
+  {
+    "question": "Which of the following represents the inverse Laplace transform of $F(s) = \\ln\\left(\\frac{s^2+1}{s(s+1)}\\right)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$\\frac{2\\cos t - 1 - e^{-t}}{t}$$"
+      },
+      {
+        "label": 2,
+        "value": "$$\\frac{1 + e^{-t} - 2\\cos t}{t}$$"
+      },
+      {
+        "label": 3,
+        "value": "$$\\frac{2(1 - \\cos t - e^{-t})}{t}$$"
+      },
+      {
+        "label": 4,
+        "value": "$$\\frac{e^{-t} + \\cos t}{t}$$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Laplace Transform - Inverse",
+    "explanation": "Use the property $\\mathcal{L}\\{f(t)\\} = F(s) \\implies \\mathcal{L}\\{t f(t)\\} = -F'(s)$, or equivalently $\\mathcal{L}^{-1}\\{F(s)\\} = -\\frac{1}{t} \\mathcal{L}^{-1}\\{F'(s)\\}$.\nHere $F(s) = \\ln(s^2+1) - \\ln(s) - \\ln(s+1)$.\nDifferentiating w.r.t $s$: $F'(s) = \\frac{2s}{s^2+1} - \\frac{1}{s} - \\frac{1}{s+1}$.\nThe inverse transform of $F'(s)$ is $2\\cos t - 1 - e^{-t}$.\nTherefore, $f(t) = -\\frac{1}{t} (2\\cos t - 1 - e^{-t}) = \\frac{1 + e^{-t} - 2\\cos t}{t}$."
+  },
+  {
+    "question": "Find the Laplace transform of the periodic square wave $f(t)$ defined by: $f(t) = 1$ for $0 < t < a$ and $f(t) = -1$ for $a < t < 2a$, with period $T=2a$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$\\frac{1}{s} \\tanh\\left(\\frac{as}{2}\\right)$$"
+      },
+      {
+        "label": 2,
+        "value": "$$\\frac{1}{s} \\coth\\left(\\frac{as}{2}\\right)$$"
+      },
+      {
+        "label": 3,
+        "value": "$$\\frac{1}{s} \\tanh(as)$$"
+      },
+      {
+        "label": 4,
+        "value": "$$\\frac{1}{s} (1 - e^{-as})$$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transform - Periodic Functions",
+    "explanation": "For a periodic function with period $T$, $L\\{f(t)\\} = \\frac{1}{1-e^{-sT}} \\int_0^T e^{-st}f(t) dt$. Here $T=2a$.\nThe integral is $\\int_0^a e^{-st}(1) dt + \\int_a^{2a} e^{-st}(-1) dt = \\left[\\frac{e^{-st}}{-s}\\right]_0^a - \\left[\\frac{e^{-st}}{-s}\\right]_a^{2a}$.\nThis evaluates to $\\frac{1}{s}(1-e^{-as}) - \\frac{1}{s}(e^{-as}-e^{-2as}) = \\frac{1}{s}(1 - e^{-as})^2$.\nThe denominator is $1 - e^{-2as} = (1-e^{-as})(1+e^{-as})$.\nThus, $F(s) = \\frac{1}{s} \\frac{(1-e^{-as})^2}{(1-e^{-as})(1+e^{-as})} = \\frac{1}{s} \\frac{1-e^{-as}}{1+e^{-as}} = \\frac{1}{s} \\tanh(\\frac{as}{2})$."
+  },
+  {
+    "question": "Solve for the final value $f(\\infty)$ of the function whose Laplace transform is $F(s) = \\frac{s+1}{s(s^2 + s + 1)}$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "1"
+      },
+      {
+        "label": 2,
+        "value": "0"
+      },
+      {
+        "label": 3,
+        "value": "Infinite"
+      },
+      {
+        "label": 4,
+        "value": "Undefined"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transform - Theorems",
+    "explanation": "The Final Value Theorem states $\\lim_{t\\to\\infty} f(t) = \\lim_{s\\to 0} sF(s)$, provided all poles of $sF(s)$ lie in the left half of the s-plane.\nMultiplying by $s$, we get $sF(s) = \\frac{s+1}{s^2+s+1}$.\nThe poles of $s^2+s+1$ are at $-\\frac{1}{2} \\pm i\\frac{\\sqrt{3}}{2}$, which have negative real parts, so the system is stable and FVT applies.\n$\\lim_{s\\to 0} \\frac{s+1}{s^2+s+1} = \\frac{0+1}{0+0+1} = 1$."
+  },
+  {
+    "question": "Calculate the value of the integral $\\int_0^\\infty t e^{-2t} \\sin(t) dt$ using Laplace transforms.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$4/25$$"
+      },
+      {
+        "label": 2,
+        "value": "$$3/25$$"
+      },
+      {
+        "label": 3,
+        "value": "$$2/125$$"
+      },
+      {
+        "label": 4,
+        "value": "$$1/5$$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transform - Applications",
+    "explanation": "The integral is of the form $\\int_0^\\infty e^{-st} f(t) dt$ where $s=2$ and $f(t) = t \\sin t$.\nFirst, find $L\\{t \\sin t\\}$.\nSince $L\\{\\sin t\\} = \\frac{1}{s^2+1}$, then $L\\{t \\sin t\\} = -\\frac{d}{ds}\\left(\\frac{1}{s^2+1}\\right) = \\frac{2s}{(s^2+1)^2}$.\nNow evaluate this transform at $s=2$: $F(2) = \\frac{2(2)}{(2^2+1)^2} = \\frac{4}{25}$."
+  },
+  {
+    "question": "Determine the inverse Laplace transform of $F(s) = \\frac{1}{(s^2+a^2)^2}$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$\\frac{1}{2a^2} (\\sin at - at \\cos at)$$"
+      },
+      {
+        "label": 2,
+        "value": "$$\\frac{1}{2a^3} (\\sin at - at \\cos at)$$"
+      },
+      {
+        "label": 3,
+        "value": "$$\\frac{1}{2a^3} (\\sin at + at \\cos at)$$"
+      },
+      {
+        "label": 4,
+        "value": "$$\\frac{1}{2a} t \\sin at$$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Laplace Transform - Inverse",
+    "explanation": "We can use the convolution theorem: $L^{-1}\\{F(s)G(s)\\} = f(t) * g(t)$. Let $F(s)=G(s)=\\frac{1}{s^2+a^2}$, so $f(t)=g(t)=\\frac{1}{a}\\sin at$.\nAlternatively, use the property $L\\{t \\cos at\\} = \\frac{s^2-a^2}{(s^2+a^2)^2}$ and $L\\{\\sin at\\} = \\frac{a}{s^2+a^2}$. This path is harder.\nA better approach is using the derivative property involving parameter $a$: $L\\{\\sin at\\} = \\frac{a}{s^2+a^2}$.\nDifferentiate w.r.t $a$: $\\frac{d}{da} \\left(\\frac{a}{s^2+a^2}\\right) = \\frac{1(s^2+a^2) - a(2a)}{(s^2+a^2)^2} = \\frac{s^2-a^2}{(s^2+a^2)^2}$. This doesn't isolate the term.\nStandard result derived from convolution of $\\sin(at)$ with itself: $\\frac{1}{a^2} (\\sin at * \\sin at) = \\frac{1}{2a^3}(\\sin at - at \\cos at)$."
+  },
+  {
+    "question": "The transfer function of a system is $H(s) = \\frac{1}{s^2 - 4}$. If the system is non-causal and stable, what is the Region of Convergence (ROC)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$\\text{Re}(s) > 2$$"
+      },
+      {
+        "label": 2,
+        "value": "$$\\text{Re}(s) < -2$$"
+      },
+      {
+        "label": 3,
+        "value": "$$-2 < \\text{Re}(s) < 2$$"
+      },
+      {
+        "label": 4,
+        "value": "$$\\text{Re}(s) \\neq \\pm 2$$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Signals and Systems - ROC",
+    "explanation": "The poles are at $s = 2$ and $s = -2$. \nFor stability, the ROC must include the $j\\omega$ axis (i.e., $\\text{Re}(s) = 0$).\nFor a system to be stable, the ROC must be a strip containing the imaginary axis.\nThe possible ROCs are $\\text{Re}(s) > 2$ (causal, unstable), $\\text{Re}(s) < -2$ (anti-causal, unstable), and $-2 < \\text{Re}(s) < 2$ (non-causal, stable).\nThus, the stable ROC is $-2 < \\text{Re}(s) < 2$."
+  },
+  {
+    "question": "Solve the integral equation $y(t) = t + \\int_0^t y(\\tau)\\sin(t-\\tau)d\\tau$ for $y(t)$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$y(t) = t + \\frac{t^3}{6}$$"
+      },
+      {
+        "label": 2,
+        "value": "$$y(t) = \\sin t$$"
+      },
+      {
+        "label": 3,
+        "value": "$$y(t) = t$$"
+      },
+      {
+        "label": 4,
+        "value": "$$y(t) = t + \\frac{t^2}{2}$$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transform - Integral Equations",
+    "explanation": "Take the Laplace transform of both sides. The integral is a convolution $y(t) * \\sin(t)$.\n$Y(s) = \\frac{1}{s^2} + Y(s) \\frac{1}{s^2+1}$.\n$Y(s) \\left(1 - \\frac{1}{s^2+1}\\right) = \\frac{1}{s^2}$.\n$Y(s) \\left(\\frac{s^2}{s^2+1}\\right) = \\frac{1}{s^2}$.\n$Y(s) = \\frac{s^2+1}{s^4} = \\frac{1}{s^2} + \\frac{1}{s^4}$.\nInverse Laplace: $y(t) = t + \\frac{t^3}{6}$ (since $L^{-1}\\{1/s^4\\} = t^3/3!$)."
+  },
+  {
+    "question": "What is the Laplace transform of the function $f(t) = \\delta(t-2) + t^2 u(t-1)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$e^{-2s} + e^{-s}\\left(\\frac{2}{s^3} + \\frac{2}{s^2} + \\frac{1}{s}\\right)$$"
+      },
+      {
+        "label": 2,
+        "value": "$$e^{-2s} + e^{-s}\\left(\\frac{1}{s^3} + \\frac{1}{s^2}\\right)$$"
+      },
+      {
+        "label": 3,
+        "value": "$$e^{-2s} + e^{-s}\\left(\\frac{2}{s^3} + \\frac{1}{s}\\right)$$"
+      },
+      {
+        "label": 4,
+        "value": "$$e^{-2s} + e^{-s}\\frac{2}{s^3}$$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transform - Special Functions",
+    "explanation": "$L\\{\\delta(t-2)\\} = e^{-2s}$.\nFor $t^2 u(t-1)$, let $g(t) = t^2$. We need to express it in terms of $(t-1)$.\n$t^2 = ((t-1)+1)^2 = (t-1)^2 + 2(t-1) + 1$.\nSo $f_2(t) = [(t-1)^2 + 2(t-1) + 1]u(t-1)$.\nUsing the shifting property $L\\{h(t-a)u(t-a)\\} = e^{-as}H(s)$:\nHere $h(t) = t^2 + 2t + 1$, so $H(s) = \\frac{2}{s^3} + \\frac{2}{s^2} + \\frac{1}{s}$.\nThus, the transform is $e^{-2s} + e^{-s}(\\frac{2}{s^3} + \\frac{2}{s^2} + \\frac{1}{s})$."
+  },
+  {
+    "question": "Given $F(s) = \\frac{e^{-2s}}{s^2 + 4s + 5}$, find $f(t)$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$e^{-2(t-2)} \\sin(t-2) u(t-2)$$"
+      },
+      {
+        "label": 2,
+        "value": "$$e^{-2t} \\sin(t) u(t-2)$$"
+      },
+      {
+        "label": 3,
+        "value": "$$e^{-2(t-2)} \\cos(t-2) u(t-2)$$"
+      },
+      {
+        "label": 4,
+        "value": "$$e^{-(t-2)} \\sin(2(t-2)) u(t-2)$$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transform - Inverse Shifting",
+    "explanation": "First, complete the square in the denominator: $s^2+4s+5 = (s+2)^2 + 1$.\nLet $G(s) = \\frac{1}{(s+2)^2+1}$. The inverse of $\\frac{1}{s^2+1}$ is $\\sin t$.\nWith the shift $s \\to s+2$, $g(t) = e^{-2t} \\sin t$.\nThe term $e^{-2s}$ represents a time delay of 2 seconds.\nSo $f(t) = g(t-2)u(t-2) = e^{-2(t-2)} \\sin(t-2) u(t-2)$."
+  },
+  {
+    "question": "If $\\mathcal{L}\\{f(t)\\} = \\frac{s^2 - s + 1}{(2s+1)^2(s-1)}$, then $\\lim_{t\\to\\infty} f(t)$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$0$$"
+      },
+      {
+        "label": 2,
+        "value": "$$1$$"
+      },
+      {
+        "label": 3,
+        "value": "$$\\infty$$"
+      },
+      {
+        "label": 4,
+        "value": "$$1/4$$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Laplace Transform - Theorems",
+    "explanation": "Check the poles of the function. The denominator has a pole at $s=1$ and a double pole at $s=-1/2$.\nSince there is a pole at $s=1$ (in the Right Half Plane), the system is unstable and the function $f(t)$ grows exponentially.\nThe Final Value Theorem cannot be applied here because of the pole in the RHP.\nTherefore, the limit is $\\infty$ (or undefined/unbounded)."
+  },
+  {
+    "question": "The inverse Laplace transform of $e^{-3s}$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$\\delta(t-3)$$"
+      },
+      {
+        "label": 2,
+        "value": "$$u(t-3)$$"
+      },
+      {
+        "label": 3,
+        "value": "$$e^{-3t}u(t)$$"
+      },
+      {
+        "label": 4,
+        "value": "$$0$$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transform - Impulse",
+    "explanation": "We know that $\\mathcal{L}\\{\\delta(t)\\} = 1$. \nUsing the time-shifting property $\\mathcal{L}\\{f(t-a)\\} = e^{-as}F(s)$ (assuming causal signals). \nHere $F(s)=1$, so $f(t)=\\delta(t)$. \nThus, $\\mathcal{L}^{-1}\\{e^{-3s} \\cdot 1\\} = \\delta(t-3)$."
+  },
+  {
+    "question": "Compute $\\mathcal{L}^{-1} \\left\\{ \\frac{1}{\\sqrt{s}} \\right\\}$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$\\frac{1}{\\sqrt{\\pi t}}$$"
+      },
+      {
+        "label": 2,
+        "value": "$$\\sqrt{\\frac{t}{\\pi}}$$"
+      },
+      {
+        "label": 3,
+        "value": "$$\\frac{1}{\\sqrt{t}}$$"
+      },
+      {
+        "label": 4,
+        "value": "$$2\\sqrt{\\frac{t}{\\pi}}$$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transform - Fractional Powers",
+    "explanation": "We use the standard Gamma function result: $\\mathcal{L}\\{t^n\\} = \\frac{\\Gamma(n+1)}{s^{n+1}}$.\nHere we have $1/s^{1/2}$, so $n+1 = 1/2 \\implies n = -1/2$.\nThen $f(t) = \\frac{t^{-1/2}}{\\Gamma(1/2)}$.\nSince $\\Gamma(1/2) = \\sqrt{\\pi}$, we get $f(t) = \\frac{1}{\\sqrt{\\pi t}}$."
+  },
+  {
+    "question": "Find the Laplace transform of the rectified sine wave $f(t) = |\\sin t|$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$\\frac{1}{s^2+1} \\coth\\left(\\frac{\\pi s}{2}\\right)$$"
+      },
+      {
+        "label": 2,
+        "value": "$$\\frac{1}{s^2+1} \\frac{1 + e^{-\\pi s}}{1 - e^{-\\pi s}}$$"
+      },
+      {
+        "label": 3,
+        "value": "$$\\frac{1}{s^2+1} \\tanh\\left(\\frac{\\pi s}{2}\\right)$$"
+      },
+      {
+        "label": 4,
+        "value": "$$\\frac{1}{s^2+1} (1 + e^{-\\pi s})$$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transform - Periodic Functions",
+    "explanation": "$|\\sin t|$ is a periodic function with period $\\pi$ (not $2\\pi$).\n$L\\{f(t)\\} = \\frac{1}{1-e^{-\\pi s}} \\int_0^\\pi e^{-st} \\sin t dt$.\nUsing $\\int e^{at}\\sin(bt) = \\frac{e^{at}}{a^2+b^2}(a\\sin bt - b\\cos bt)$:\n$\\int_0^\\pi e^{-st} \\sin t dt = \\left[ \\frac{e^{-st}}{s^2+1}(-s\\sin t - \\cos t) \\right]_0^\\pi$\n$= \\frac{e^{-\\pi s}}{s^2+1}(1) - \\frac{1}{s^2+1}(-1) = \\frac{1+e^{-\\pi s}}{s^2+1}$.\nTotal transform $F(s) = \\frac{1}{s^2+1} \\frac{1+e^{-\\pi s}}{1-e^{-\\pi s}} = \\frac{1}{s^2+1} \\coth(\\frac{\\pi s}{2})$."
+  },
+  {
+    "question": "Solve the initial value problem $y'' + 2y' + 5y = 0$ with $y(0)=2, y'(0)=-4$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$2e^{-t} \\cos 2t - e^{-t} \\sin 2t$$"
+      },
+      {
+        "label": 2,
+        "value": "$$2e^{-t} \\cos 2t$$"
+      },
+      {
+        "label": 3,
+        "value": "$$2e^{-t} \\sin 2t$$"
+      },
+      {
+        "label": 4,
+        "value": "$$e^{-t} (2\\cos 2t - \\sin 2t)$$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transform - Differential Equations",
+    "explanation": "$s^2Y - sy(0) - y'(0) + 2(sY - y(0)) + 5Y = 0$.\n$s^2Y - 2s + 4 + 2sY - 4 + 5Y = 0$.\n$(s^2+2s+5)Y - 2s = 0 \\implies Y = \\frac{2s}{s^2+2s+5}$.\nComplete square: $s^2+2s+5 = (s+1)^2 + 4$.\n$Y = \\frac{2s}{(s+1)^2+4} = \\frac{2(s+1) - 2}{(s+1)^2+4}$.\n$Y = 2 \\frac{s+1}{(s+1)^2+4} - \\frac{2}{(s+1)^2+4}$.\nInverse Laplace: $y(t) = 2e^{-t}\\cos 2t - e^{-t}\\sin 2t$."
+  },
+  {
+    "question": "What is the Laplace transform of $f(t) = \\frac{\\sin at}{t}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$\\tan^{-1}\\left(\\frac{a}{s}\\right)$$"
+      },
+      {
+        "label": 2,
+        "value": "$$\\tan^{-1}\\left(\\frac{s}{a}\\right)$$"
+      },
+      {
+        "label": 3,
+        "value": "$$\\cot^{-1}\\left(\\frac{a}{s}\\right)$$"
+      },
+      {
+        "label": 4,
+        "value": "$$\\frac{1}{a} \\tan^{-1}\\left(\\frac{s}{a}\\right)$$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transform - Division by t",
+    "explanation": "Property: $\\mathcal{L}\\{\\frac{f(t)}{t}\\} = \\int_s^\\infty F(u) du$.\nHere $f(t) = \\sin at$, so $F(s) = \\frac{a}{s^2+a^2}$.\nIntegral is $\\int_s^\\infty \\frac{a}{u^2+a^2} du = [\\tan^{-1}(u/a)]_s^\\infty = \\frac{\\pi}{2} - \\tan^{-1}(s/a) = \\cot^{-1}(s/a) = \\tan^{-1}(a/s)$."
+  },
+  {
+    "question": "Find $\\mathcal{L}^{-1} \\left\\{ \\frac{s}{(s^2+1)(s^2+4)} \\right\\}$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$\\frac{1}{3} (\\cos t - \\cos 2t)$$"
+      },
+      {
+        "label": 2,
+        "value": "$$\\frac{1}{3} (\\cos 2t - \\cos t)$$"
+      },
+      {
+        "label": 3,
+        "value": "$$\\frac{1}{3} (\\sin 2t - \\sin t)$$"
+      },
+      {
+        "label": 4,
+        "value": "$$\\frac{1}{3} (\\sin t - \\sin 2t)$$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transform - Partial Fractions",
+    "explanation": "Partial fractions: $\\frac{s}{(s^2+1)(s^2+4)} = \\frac{A s + B}{s^2+1} + \\frac{C s + D}{s^2+4}$.\n$s = (As+B)(s^2+4) + (Cs+D)(s^2+1)$.\nCompare coefficients. $A+C=0$, $B+D=0$, $4A+C=1$, $4B+D=0$.\n$B=D=0$. $A = 1/3, C = -1/3$.\n$F(s) = \\frac{1}{3} \\frac{s}{s^2+1} - \\frac{1}{3} \\frac{s}{s^2+4}$.\nInverse transform: $\\frac{1}{3} \\cos t - \\frac{1}{3} \\cos 2t$."
+  },
+  {
+    "question": "Which property is described by the equation $\\mathcal{L} \\{ e^{-at} f(t) \\} = F(s+a)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Time Shifting"
+      },
+      {
+        "label": 2,
+        "value": "Frequency Shifting"
+      },
+      {
+        "label": 3,
+        "value": "Time Scaling"
+      },
+      {
+        "label": 4,
+        "value": "Frequency Scaling"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Laplace Transform - Properties",
+    "explanation": "This is the First Shifting Theorem, also known as Frequency Shifting or s-shifting, where multiplying by an exponential in the time domain results in a shift in the s-domain."
+  },
+  {
+    "question": "For the function $f(t) = \\frac{1}{\\sqrt{t}}e^{-t}$, the Laplace transform is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$\\sqrt{\\frac{\\pi}{s+1}}$$"
+      },
+      {
+        "label": 2,
+        "value": "$$\\sqrt{\\frac{\\pi}{s}}$$"
+      },
+      {
+        "label": 3,
+        "value": "$$\\frac{1}{\\sqrt{s+1}}$$"
+      },
+      {
+        "label": 4,
+        "value": "$$\\sqrt{\\frac{s+1}{\\pi}}$$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laplace Transform - Gamma Function",
+    "explanation": "We know $L\\{t^{-1/2}\\} = \\sqrt{\\pi/s}$.\nUsing the frequency shifting property with $e^{-t}$ (shift $s \\to s+1$): \n$L\\{e^{-t} t^{-1/2}\\} = \\sqrt{\\frac{\\pi}{s+1}}$."
+  },
+  {
+    "question": "If the Laplace transform of $f(t)$ is $F(s)$, then the Laplace transform of $f(at)$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$$a F(as)$$"
+      },
+      {
+        "label": 2,
+        "value": "$$\\frac{1}{a} F\\left(\\frac{s}{a}\\right)$$"
+      },
+      {
+        "label": 3,
+        "value": "$$F\\left(\\frac{s}{a}\\right)$$"
+      },
+      {
+        "label": 4,
+        "value": "$$\\frac{1}{a} F(as)$$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Laplace Transform - Scaling",
+    "explanation": "By definition $\\int_0^\\infty e^{-st} f(at) dt$. Let $u=at, du=a dt, t=u/a$.\nIntegral becomes $\\int_0^\\infty e^{-s(u/a)} f(u) \\frac{du}{a} = \\frac{1}{a} \\int_0^\\infty e^{-(s/a)u} f(u) du = \\frac{1}{a} F(s/a)$."
+  }
+]

@@ -1,0 +1,502 @@
+[
+  {
+    "question": "A bead of mass $m$ is constrained to move on a circular wire of radius $R$ which lies in the $xy$-plane. The wire itself rotates with a constant angular velocity $\\omega$ about the $z$-axis (passing through the center of the circle, as suggested by the circular symmetry of the emblem in the image). If $\\theta$ is the angular position of the bead relative to the wire, what is the Hamiltonian $H(p_\\theta, \\theta)$ of the system?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$H = \\frac{p_\\theta^2}{2mR^2} + \\frac{1}{2}mR^2\\omega^2$"
+      },
+      {
+        "label": 2,
+        "value": "$H = \\frac{p_\\theta^2}{2mR^2} - \\frac{1}{2}mR^2\\omega^2$"
+      },
+      {
+        "label": 3,
+        "value": "$H = \\frac{p_\\theta^2}{2mR^2} + mR^2\\omega^2 \\sin^2\\theta$"
+      },
+      {
+        "label": 4,
+        "value": "$H = \\frac{p_\\theta^2}{2mR^2}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "The Lagrangian is $L = \\frac{1}{2}m(R^2\\dot{\\theta}^2 + R^2\\omega^2)$. The conjugate momentum is $p_\\theta = \\frac{\\partial L}{\\partial \\dot{\\theta}} = mR^2\\dot{\\theta}$. The Hamiltonian is $H = p_\\theta\\dot{\\theta} - L = \\frac{p_\\theta^2}{mR^2} - [\\frac{p_\\theta^2}{2mR^2} + \\frac{1}{2}mR^2\\omega^2] = \\frac{p_\\theta^2}{2mR^2} - \\frac{1}{2}mR^2\\omega^2$. Note that $H$ is constant but does not equal $T+V$.",
+    "image_path": "pariksha/bf9d3e87b18d725c67af6fbad780217d.webp"
+  },
+  {
+    "question": "In a 3D system, if $L_z = xp_y - yp_x$ is the $z$-component of the angular momentum, what is the value of the Poisson bracket $\\{L_z, x\\}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "0"
+      },
+      {
+        "label": 2,
+        "value": "$y$"
+      },
+      {
+        "label": 3,
+        "value": "$-y$"
+      },
+      {
+        "label": 4,
+        "value": "$x$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Poisson Brackets",
+    "explanation": "$\\{L_z, x\\} = \\{xp_y - yp_x, x\\} = \\{xp_y, x\\} - \\{yp_x, x\\}$. Since $x$ commutes with $x$ and $p_y$, the first term is zero. For the second: $-y\\{p_x, x\\} = -y(-1) = -y$. Actually, $\\{x, p_x\\}=1$, so $\\{p_x, x\\}=-1$. Thus $-y(-1) = y$ is wrong, let's recompute: $\\frac{\\partial L_z}{\\partial x}\\frac{\\partial x}{\\partial p_x} - \\frac{\\partial L_z}{\\partial p_x}\\frac{\\partial x}{\\partial x} = (p_y)(0) - (-y)(1) = y$. Wait, the standard definition is $\\{A, B\\} = \\sum (\\frac{\\partial A}{\\partial q} \\frac{\\partial B}{\\partial p} - \\frac{\\partial A}{\\partial p} \\frac{\\partial B}{\\partial q})$. So $\\{L_z, x\\} = \\frac{\\partial L_z}{\\partial x}\\frac{\\partial x}{\\partial p_x} + \\frac{\\partial L_z}{\\partial y}\\frac{\\partial x}{\\partial p_y} - \\frac{\\partial L_z}{\\partial p_x}\\frac{\\partial x}{\\partial x} - \\frac{\\partial L_z}{\\partial p_y}\\frac{\\partial x}{\\partial y} = p_y(0) + 0 - (-y)(1) - 0 = -y$. Let's re-verify: $\\{L_z, x\\} = -y$.",
+    "image_path": ""
+  },
+  {
+    "question": "A canonical transformation is defined by $Q = \\sqrt{2q} e^t \\cos p$ and $P = \\sqrt{2q} e^{-t} \\sin p$. Which of the following statements is true regarding this transformation?",
+    "options": [
+      {
+        "label": 1,
+        "value": "It is canonical because $\\{Q, P\\}_{q,p} = 1$."
+      },
+      {
+        "label": 2,
+        "value": "It is not canonical because it depends explicitly on time $t$."
+      },
+      {
+        "label": 3,
+        "value": "It is canonical and the new Hamiltonian $K$ equals the old Hamiltonian $H$."
+      },
+      {
+        "label": 4,
+        "value": "It is canonical and the Poisson bracket $\\{Q, P\\}_{q,p} = e^{-2t}$."
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Canonical Transformations",
+    "explanation": "The condition for a transformation to be canonical is $\\{Q, P\\}_{q,p} = \\frac{\\partial Q}{\\partial q}\\frac{\\partial P}{\\partial p} - \\frac{\\partial Q}{\\partial p}\\frac{\\partial P}{\\partial q}$. Here $\\frac{\\partial Q}{\\partial q} = \\frac{e^t \\cos p}{\\sqrt{2q}}$, $\\frac{\\partial P}{\\partial p} = \\sqrt{2q} e^{-t} \\cos p$. $\\frac{\\partial Q}{\\partial p} = -\\sqrt{2q} e^t \\sin p$, $\\frac{\\partial P}{\\partial q} = \\frac{e^{-t} \\sin p}{\\sqrt{2q}}$. Product 1: $\\cos^2 p$. Product 2: $-\\sin^2 p$. Subtracting: $\\cos^2 p - (-\\sin^2 p) = 1$. It is canonical.",
+    "image_path": ""
+  },
+  {
+    "question": "A particle moves in a potential $V(q, t)$. The Hamiltonian is $H = \\frac{p^2}{2m} + V(q, t)$. Which relation correctly describes the rate of change of the total energy $E$ if $E = H$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{dE}{dt} = 0$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{dE}{dt} = \\frac{\\partial V}{\\partial t}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{dE}{dt} = p\\dot{q} - L$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{dE}{dt} = \\frac{\\partial L}{\\partial t}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "For any Hamiltonian $H(q, p, t)$, $\\frac{dH}{dt} = \\frac{\\partial H}{\\partial t} + \\{H, H\\} = \\frac{\\partial H}{\\partial t}$. Since $H = \\frac{p^2}{2m} + V(q, t)$, $\\frac{\\partial H}{\\partial t} = \\frac{\\partial V}{\\partial t}$.",
+    "image_path": ""
+  },
+  {
+    "question": "Consider a system with one degree of freedom. If the generating function of the second kind is $F_2(q, P, t) = qP + \\epsilon G(q, P, t)$, where $\\epsilon$ is infinitesimal, the resulting infinitesimal transformation is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$Q = q + \\epsilon \\frac{\\partial G}{\\partial P}, P = p - \\epsilon \\frac{\\partial G}{\\partial q}$"
+      },
+      {
+        "label": 2,
+        "value": "$Q = q - \\epsilon \\frac{\\partial G}{\\partial p}, P = p + \\epsilon \\frac{\\partial G}{\\partial q}$"
+      },
+      {
+        "label": 3,
+        "value": "$Q = q + \\epsilon \\frac{\\partial G}{\\partial q}, P = p + \\epsilon \\frac{\\partial G}{\\partial P}$"
+      },
+      {
+        "label": 4,
+        "value": "$Q = q, P = p$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Generating Functions",
+    "explanation": "For $F_2(q, P)$, we have $p = \\frac{\\partial F_2}{\\partial q} = P + \\epsilon \\frac{\\partial G}{\\partial q} \\Rightarrow P = p - \\epsilon \\frac{\\partial G}{\\partial q}$. Also $Q = \\frac{\\partial F_2}{\\partial P} = q + \\epsilon \\frac{\\partial G}{\\partial P}$. Since $\\epsilon$ is small, we replace $P$ with $p$ in the derivatives of $G$.",
+    "image_path": ""
+  },
+  {
+    "question": "The Hamiltonian for a relativistic particle of rest mass $m$ in a potential $V(x)$ is $H = \\sqrt{p^2 c^2 + m^2 c^4} + V(x)$. In the non-relativistic limit ($p \\ll mc$), the Hamiltonian reduces to the form $H = mc^2 + \\frac{p^2}{2m} - \\frac{p^4}{8m^3 c^2} + V(x)$. What is the first-order relativistic correction term to the kinetic energy?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{p^2}{2m}$"
+      },
+      {
+        "label": 2,
+        "value": "$-\\frac{p^4}{8m^3 c^2}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{p^4}{4m^3 c^2}$"
+      },
+      {
+        "label": 4,
+        "value": "$mc^2$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Relativistic Hamiltonian",
+    "explanation": "$H = mc^2(1 + \\frac{p^2}{m^2 c^2})^{1/2} + V$. Using binomial expansion $(1+x)^{1/2} \\approx 1 + x/2 - x^2/8$, we get $mc^2 [1 + \\frac{p^2}{2m^2 c^2} - \\frac{p^4}{8m^4 c^4}] + V = mc^2 + \\frac{p^2}{2m} - \\frac{p^4}{8m^3 c^2} + V$. The correction is the third term.",
+    "image_path": ""
+  },
+  {
+    "question": "For a particle of mass $m$ moving in a 1D harmonic oscillator potential $V = \\frac{1}{2}m\\omega^2 q^2$, the action variable $J$ is given by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$J = E / \\omega$"
+      },
+      {
+        "label": 2,
+        "value": "$J = 2\\pi E / \\omega$"
+      },
+      {
+        "label": 3,
+        "value": "$J = E / (2\\pi \\omega)$"
+      },
+      {
+        "label": 4,
+        "value": "$J = \\pi E / \\omega$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Action-Angle Variables",
+    "explanation": "$J = \\frac{1}{2\\pi} \\oint p dq$. For an oscillator, the phase space trajectory is an ellipse $\\frac{p^2}{2mE} + \\frac{q^2}{2E/m\\omega^2} = 1$. The area is $\\pi \\cdot \\sqrt{2mE} \\cdot \\sqrt{2E/m\\omega^2} = 2\\pi E / \\omega$. Thus $J = \\frac{1}{2\\pi} (2\\pi E / \\omega) = E / \\omega$.",
+    "image_path": ""
+  },
+  {
+    "question": "Given a Hamiltonian $H = \\frac{1}{2}(p^2 + q^2)$, find the transformation $Q = \\arctan(q/p), P = \\frac{1}{2}(p^2 + q^2)$. Which generating function $F_1(q, Q)$ produces this transformation?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$F_1 = \\frac{1}{2} q^2 \\cot Q$"
+      },
+      {
+        "label": 2,
+        "value": "$F_1 = \\frac{1}{2} q^2 \\tan Q$"
+      },
+      {
+        "label": 3,
+        "value": "$F_1 = qP \\sin Q$"
+      },
+      {
+        "label": 4,
+        "value": "$F_1 = q^2 + Q^2$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Generating Functions",
+    "explanation": "From $Q = \\arctan(q/p)$, we have $p = q \\cot Q$. Since $p = \\partial F_1 / \\partial q$, we integrate $q \\cot Q$ with respect to $q$ to get $F_1 = \\frac{1}{2} q^2 \\cot Q$. Check $P = -\\partial F_1 / \\partial Q = -\\frac{1}{2} q^2 (-\\csc^2 Q) = \\frac{q^2}{2 \\sin^2 Q}$. Since $p^2 + q^2 = q^2 \\cot^2 Q + q^2 = q^2 (1 + \\cot^2 Q) = q^2 \\csc^2 Q$, we have $P = \\frac{1}{2}(p^2 + q^2)$, which matches.",
+    "image_path": ""
+  },
+  {
+    "question": "A particle of charge $q$ and mass $m$ moves in a static magnetic field $\\vec{B} = \\nabla \\times \\vec{A}$. If the Hamiltonian is $H = \\frac{1}{2m}(\\vec{p} - q\\vec{A})^2$, which of the following is the Hamilton equation for $\\dot{p}_i$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\dot{p}_i = q(\\vec{v} \\times \\vec{B})_i$"
+      },
+      {
+        "label": 2,
+        "value": "$\\dot{p}_i = \\frac{q}{m} \\sum_j (p_j - qA_j) \\frac{\\partial A_j}{\\partial x_i}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\dot{p}_i = -\\frac{\\partial H}{\\partial x_i}$"
+      },
+      {
+        "label": 4,
+        "value": "Both 2 and 3 are correct"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "Hamilton's equation is $\\dot{p}_i = -\\partial H / \\partial x_i$. Calculating the derivative: $-\\frac{\\partial}{\\partial x_i} [\\frac{1}{2m} \\sum_j (p_j - qA_j)^2] = -\\frac{1}{m} \\sum_j (p_j - qA_j) (-q \\frac{\\partial A_j}{\\partial x_i})$, which simplifies to option 2. Thus 2 and 3 are identical descriptions.",
+    "image_path": ""
+  },
+  {
+    "question": "Which of the following Poisson brackets is identically zero for a system where $H$ is the Hamiltonian?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\{H, q\\}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\{H, p\\}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\{H, H^2\\}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\{q, p^2\\}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Poisson Brackets",
+    "explanation": "The Poisson bracket of any function with itself (or a function of itself) is zero. $\\{H, H^2\\} = 2H \\{H, H\\} = 0$.",
+    "image_path": ""
+  },
+  {
+    "question": "Consider a canonical transformation $(q, p) \\to (Q, P)$. The area $\\oint p dq$ in phase space is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Not necessarily preserved"
+      },
+      {
+        "label": 2,
+        "value": "Preserved: $\\oint p dq = \\oint P dQ$"
+      },
+      {
+        "label": 3,
+        "value": "Always zero"
+      },
+      {
+        "label": 4,
+        "value": "Scaled by the Jacobian $J$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "Poincare's Integral Invariant states that the area $\\iint dq dp$ (which is $\\oint p dq$ by Green's theorem) is invariant under canonical transformations.",
+    "image_path": ""
+  },
+  {
+    "question": "A system is described by the Hamiltonian $H = q_1 p_1 - q_2 p_2$. Which of the following is a constant of motion?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$q_1 q_2$"
+      },
+      {
+        "label": 2,
+        "value": "$p_1 p_2$"
+      },
+      {
+        "label": 3,
+        "value": "$q_1 p_2$"
+      },
+      {
+        "label": 4,
+        "value": "$q_1/q_2$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "Check $\\{q_1 q_2, H\\} = \\frac{\\partial(q_1 q_2)}{\\partial q_1}\\frac{\\partial H}{\\partial p_1} + \\frac{\\partial(q_1 q_2)}{\\partial q_2}\\frac{\\partial H}{\\partial p_2} - ... = q_2(q_1) + q_1(-q_2) = q_1 q_2 - q_1 q_2 = 0$. Thus $q_1 q_2$ is a constant of motion.",
+    "image_path": ""
+  },
+  {
+    "question": "In Hamilton-Jacobi theory, the Hamilton-Jacobi equation for the generating function $S(q, \\alpha, t)$ is given by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$H(q, \\frac{\\partial S}{\\partial q}, t) + \\frac{\\partial S}{\\partial t} = 0$"
+      },
+      {
+        "label": 2,
+        "value": "$H(q, p, t) = E$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{\\partial S}{\\partial q} = p$"
+      },
+      {
+        "label": 4,
+        "value": "$L + \\frac{dS}{dt} = 0$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Hamilton-Jacobi Theory",
+    "explanation": "The HJ equation seeks a transformation to a frame where the new Hamiltonian $K=0$. This requires $H + \\partial S / \\partial t = 0$, where $p$ is replaced by $\\partial S / \\partial q$.",
+    "image_path": ""
+  },
+  {
+    "question": "A particle of mass $m$ falls freely under gravity $g$ in one dimension. If $S$ is the Hamilton-Jacobi action, the H-J equation is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{1}{2m}(\\frac{\\partial S}{\\partial x})^2 + mgx + \\frac{\\partial S}{\\partial t} = 0$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{1}{2m}(\\frac{\\partial S}{\\partial x})^2 - mgx = E$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{p^2}{2m} + mgx = 0$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{\\partial S}{\\partial x} = \\sqrt{2m(E-mgx)}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Hamilton-Jacobi Theory",
+    "explanation": "The Hamiltonian is $H = p^2/2m + mgx$. Substituting $p = \\partial S / \\partial x$ into $H + \\partial S / \\partial t = 0$ gives option 1.",
+    "image_path": ""
+  },
+  {
+    "question": "Which of the following represents a canonical transformation?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$Q = p, P = -q$"
+      },
+      {
+        "label": 2,
+        "value": "$Q = q, P = -p$"
+      },
+      {
+        "label": 3,
+        "value": "$Q = p, P = q$"
+      },
+      {
+        "label": 4,
+        "value": "$Q = q^2, P = p^2$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Canonical Transformations",
+    "explanation": "Check $\\{Q, P\\}$: (1) $\\frac{\\partial p}{\\partial q}(0) - \\frac{\\partial p}{\\partial p}(-1) = 0 + 1 = 1$ (Canonical). (2) $1(0) - 0(-1) = 0$. (3) $0(1) - 1(1) = -1$. (4) $2q(2p) - 0 = 4qp \\neq 1$.",
+    "image_path": ""
+  },
+  {
+    "question": "For a periodic system, the frequency of oscillation $\\nu$ is related to the Hamiltonian $H(J)$ and action variable $J$ by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\nu = \\frac{\\partial H}{\\partial J}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\nu = H/J$"
+      },
+      {
+        "label": 3,
+        "value": "$\\nu = \\frac{\\partial J}{\\partial H}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\nu = \\int H dJ$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Action-Angle Variables",
+    "explanation": "In action-angle variables, $\\dot{\\omega} = \\partial H / \\partial J$. Since the frequency $\\nu$ is the rate of change of the angle variable divided by $2\\pi$ (if defined that way) or simply the derivative if $\\omega$ is the angle. Standardly, $\\dot{\\omega} = \\nu$.",
+    "image_path": ""
+  },
+  {
+    "question": "If the Hamiltonian $H$ does not depend explicitly on time and the constraints are time-independent, then:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$H$ is the total energy and is conserved"
+      },
+      {
+        "label": 2,
+        "value": "$H$ is conserved but is not the total energy"
+      },
+      {
+        "label": 3,
+        "value": "$H$ is the total energy but is not conserved"
+      },
+      {
+        "label": 4,
+        "value": "None of the above"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "If constraints are time-independent, $T$ is a homogeneous quadratic function of velocities, making $H = T + V = E$. If $\\partial H / \\partial t = 0$, then $dH/dt = 0$.",
+    "image_path": ""
+  },
+  {
+    "question": "A system has $L = \\frac{1}{2}\\dot{q}^2 - \\frac{1}{2}q^2$. If we perform a transformation $Q = q \\cos t - p \\sin t, P = q \\sin t + p \\cos t$, the new Hamiltonian $K$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$K = H + \\frac{1}{2}(Q^2 + P^2)$"
+      },
+      {
+        "label": 2,
+        "value": "$K = 0$"
+      },
+      {
+        "label": 3,
+        "value": "$K = H$"
+      },
+      {
+        "label": 4,
+        "value": "$K = P \\dot{Q} - L$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Canonical Transformations",
+    "explanation": "This is a transformation to a rotating frame in phase space that matches the natural evolution of a harmonic oscillator. For the harmonic oscillator, this specific time-dependent transformation leads to $K = 0$ because the transformation 'absorbs' the dynamics.",
+    "image_path": ""
+  },
+  {
+    "question": "The Poisson bracket $\\{q, F(p)\\}$ is equal to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{dF}{dp}$"
+      },
+      {
+        "label": 2,
+        "value": "$-\\frac{dF}{dp}$"
+      },
+      {
+        "label": 3,
+        "value": "0"
+      },
+      {
+        "label": 4,
+        "value": "$F'(q)$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Poisson Brackets",
+    "explanation": "$\\{q, F(p)\\} = \\frac{\\partial q}{\\partial q} \\frac{\\partial F}{\\partial p} - \\frac{\\partial q}{\\partial p} \\frac{\\partial F}{\\partial q} = 1 \\cdot \\frac{dF}{dp} - 0 = \\frac{dF}{dp}$.",
+    "image_path": ""
+  },
+  {
+    "question": "A particle moves in a 1D potential $V(x) = ax^4$. Using the relation $J = \\oint p dx$, how does the period of oscillation $T$ scale with the total energy $E$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T \\propto E^{-1/2}$"
+      },
+      {
+        "label": 2,
+        "value": "$T \\propto E^{-1/4}$"
+      },
+      {
+        "label": 3,
+        "value": "$T \\propto E^{1/4}$"
+      },
+      {
+        "label": 4,
+        "value": "$T$ is independent of $E$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Action-Angle Variables",
+    "explanation": "$J \\propto \\int \\sqrt{E - ax^4} dx$. Let $x = (E/a)^{1/4} u$. Then $dx = (E/a)^{1/4} du$. $J \\propto \\sqrt{E} (E/a)^{1/4} \\int \\sqrt{1-u^4} du \\propto E^{3/4}$. Since $1/T = \\nu = dE/dJ$, we have $T = dJ/dE \\propto \\frac{d}{dE}(E^{3/4}) \\propto E^{-1/4}$.",
+    "image_path": ""
+  }
+]

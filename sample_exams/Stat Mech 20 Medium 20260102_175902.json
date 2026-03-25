@@ -1,0 +1,482 @@
+[
+  {
+    "question": "In the microcanonical ensemble, which of the following thermodynamic variables are kept fixed for a system?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Temperature ($T$), Volume ($V$), Number of particles ($N$)"
+      },
+      {
+        "label": 2,
+        "value": "Energy ($E$), Volume ($V$), Number of particles ($N$)"
+      },
+      {
+        "label": 3,
+        "value": "Temperature ($T$), Pressure ($P$), Number of particles ($N$)"
+      },
+      {
+        "label": 4,
+        "value": "Energy ($E$), Pressure ($P$), Chemical Potential ($\\mu$)"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Ensembles - Microcanonical",
+    "explanation": "The microcanonical ensemble represents an isolated system where the total energy $E$, volume $V$, and number of particles $N$ are fixed. The system cannot exchange energy or matter with the surroundings."
+  },
+  {
+    "question": "For a system in the microcanonical ensemble with $\\Omega(E,V,N)$ accessible microstates, the Boltzmann entropy $S$ is given by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$S = -k_B \\sum P_i \\ln P_i$"
+      },
+      {
+        "label": 2,
+        "value": "$S = k_B \\ln \\Omega$"
+      },
+      {
+        "label": 3,
+        "value": "$S = k_B T \\frac{\\partial \\ln \\Omega}{\\partial T}$"
+      },
+      {
+        "label": 4,
+        "value": "$S = k_B \\Omega$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - Entropy",
+    "explanation": "In the microcanonical ensemble, the fundamental postulate of statistical mechanics states that all accessible microstates are equally probable. The entropy is defined by the Boltzmann formula $S = k_B \\ln \\Omega$, where $\\Omega$ is the number of accessible microstates."
+  },
+  {
+    "question": "The canonical partition function $Z$ for a system with discrete energy levels $E_i$ at temperature $T$ is defined as (where $\\beta = 1/k_B T$):",
+    "options": [
+      {
+        "label": 1,
+        "value": "$Z = \\sum_i e^{\\beta E_i}$"
+      },
+      {
+        "label": 2,
+        "value": "$Z = \\sum_i e^{-\\beta E_i}$"
+      },
+      {
+        "label": 3,
+        "value": "$Z = \\prod_i e^{-\\beta E_i}$"
+      },
+      {
+        "label": 4,
+        "value": "$Z = \\frac{1}{N!} \\sum_i e^{-\\beta E_i}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Ensembles - Canonical",
+    "explanation": "The canonical partition function acts as a normalization factor for the Boltzmann distribution and is defined as the sum of Boltzmann factors over all possible states: $Z = \\sum_i e^{-\\beta E_i}$."
+  },
+  {
+    "question": "Which of the following relations correctly connects the Helmholtz free energy $F$ to the canonical partition function $Z$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$F = k_B T \\ln Z$"
+      },
+      {
+        "label": 2,
+        "value": "$F = -k_B T \\ln Z$"
+      },
+      {
+        "label": 3,
+        "value": "$F = -k_B T^2 \\ln Z$"
+      },
+      {
+        "label": 4,
+        "value": "$F = -\\frac{1}{k_B T} \\ln Z$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - Potentials",
+    "explanation": "The bridge between the canonical ensemble and thermodynamics is provided by the relation $F = -k_B T \\ln Z$, where $F$ is the Helmholtz free energy. This allows all other thermodynamic quantities to be derived from $Z$."
+  },
+  {
+    "question": "Consider a system of $N$ distinguishable non-interacting particles. If the single-particle partition function is $\\zeta$, what is the total partition function $Z_N$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$Z_N = N \\zeta$"
+      },
+      {
+        "label": 2,
+        "value": "$Z_N = \\zeta^N$"
+      },
+      {
+        "label": 3,
+        "value": "$Z_N = \\frac{\\zeta^N}{N!}$"
+      },
+      {
+        "label": 4,
+        "value": "$Z_N = N! \\zeta^N$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Statistical Physics - Particle Statistics",
+    "explanation": "For distinguishable independent particles, the microstate of the total system is specified by the state of each individual particle. The total partition function is the product of individual partition functions: $Z_N = \\zeta^N$."
+  },
+  {
+    "question": "To resolve the Gibbs Paradox for a classical ideal gas of indistinguishable particles, the partition function must be divided by a factor of:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$N$"
+      },
+      {
+        "label": 2,
+        "value": "$N^2$"
+      },
+      {
+        "label": 3,
+        "value": "$N!$"
+      },
+      {
+        "label": 4,
+        "value": "$h^{3N}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Statistical Physics - Gibbs Paradox",
+    "explanation": "The Gibbs Paradox arises when calculating the entropy of mixing for identical gases if distinguishability is assumed. To correct for indistinguishability in the classical limit, one must divide the partition function by $N!$, representing the permutations of identical particles."
+  },
+  {
+    "question": "The average internal energy $\\langle E \\rangle$ of a system in the canonical ensemble is given by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\langle E \\rangle = -\\frac{\\partial \\ln Z}{\\partial \\beta}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\langle E \\rangle = \\frac{\\partial \\ln Z}{\\partial \\beta}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\langle E \\rangle = -k_B T \\frac{\\partial \\ln Z}{\\partial T}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\langle E \\rangle = k_B T^2 \\frac{\\partial Z}{\\partial T}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Ensembles - Canonical",
+    "explanation": "The average energy is calculated as $\\langle E \\rangle = \\sum E_i P_i = \\frac{1}{Z} \\sum E_i e^{-\\beta E_i}$. This can be rewritten using the derivative of the partition function as $\\langle E \\rangle = -\\frac{\\partial \\ln Z}{\\partial \\beta}$."
+  },
+  {
+    "question": "Consider a simple two-level system with energies $0$ and $\\epsilon$. The partition function $Z$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$1 - e^{-\\beta \\epsilon}$"
+      },
+      {
+        "label": 2,
+        "value": "$1 + e^{-\\beta \\epsilon}$"
+      },
+      {
+        "label": 3,
+        "value": "$e^{-\\beta \\epsilon}$"
+      },
+      {
+        "label": 4,
+        "value": "$e^{\\beta \\epsilon} + e^{-\\beta \\epsilon}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Statistical Physics - Two Level System",
+    "explanation": "The partition function is the sum of Boltzmann factors for all states. For levels $E_1=0$ and $E_2=\\epsilon$, we have $Z = e^{-\\beta(0)} + e^{-\\beta \\epsilon} = 1 + e^{-\\beta \\epsilon}$."
+  },
+  {
+    "question": "For the two-level system with energies $0$ and $\\epsilon$, what is the probability of finding the system in the excited state $\\epsilon$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{1}{1 + e^{\\beta \\epsilon}}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{e^{-\\beta \\epsilon}}{1 + e^{-\\beta \\epsilon}}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{1}{1 - e^{-\\beta \\epsilon}}$"
+      },
+      {
+        "label": 4,
+        "value": "$e^{-\\beta \\epsilon}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Statistical Physics - Two Level System",
+    "explanation": "The probability of a state with energy $E_i$ is $P_i = \\frac{e^{-\\beta E_i}}{Z}$. Here, $Z = 1 + e^{-\\beta \\epsilon}$, so $P(\\epsilon) = \\frac{e^{-\\beta \\epsilon}}{1 + e^{-\\beta \\epsilon}} = \\frac{1}{e^{\\beta \\epsilon} + 1}$."
+  },
+  {
+    "question": "The heat capacity $C_V$ of a system is related to the energy fluctuations in the canonical ensemble by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\langle (\\Delta E)^2 \\rangle = k_B T C_V$"
+      },
+      {
+        "label": 2,
+        "value": "$\\langle (\\Delta E)^2 \\rangle = k_B T^2 C_V$"
+      },
+      {
+        "label": 3,
+        "value": "$\\langle (\\Delta E)^2 \\rangle = C_V / k_B T$"
+      },
+      {
+        "label": 4,
+        "value": "$\\langle (\\Delta E)^2 \\rangle = T C_V$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Fluctuations",
+    "explanation": "The mean square fluctuation in energy is given by $\\langle (\\Delta E)^2 \\rangle = \\langle E^2 \\rangle - \\langle E \\rangle^2 = \\frac{\\partial^2 \\ln Z}{\\partial \\beta^2} = -\\frac{\\partial U}{\\partial \\beta}$. Using $\\frac{\\partial U}{\\partial \\beta} = \\frac{\\partial U}{\\partial T} \\frac{\\partial T}{\\partial \\beta} = C_V (-k_B T^2)$, we get $\\langle (\\Delta E)^2 \\rangle = k_B T^2 C_V$."
+  },
+  {
+    "question": "The partition function of a 1D quantum harmonic oscillator with frequency $\\omega$ is given by (summing from $n=0$ to $\\infty$):",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{e^{-\\beta \\hbar \\omega/2}}{1 - e^{-\\beta \\hbar \\omega}}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{1}{1 - e^{-\\beta \\hbar \\omega}}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{e^{\\beta \\hbar \\omega}}{e^{\\beta \\hbar \\omega} - 1}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{1}{2 \\sinh(\\beta \\hbar \\omega)}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Statistical Physics - Harmonic Oscillator",
+    "explanation": "The energies are $E_n = \\hbar \\omega(n + 1/2)$. $Z = \\sum_{n=0}^{\\infty} e^{-\\beta \\hbar \\omega(n + 1/2)} = e^{-\\beta \\hbar \\omega/2} \\sum_{n=0}^{\\infty} (e^{-\\beta \\hbar \\omega})^n$. This is a geometric series summing to $\\frac{e^{-\\beta \\hbar \\omega/2}}{1 - e^{-\\beta \\hbar \\omega}}$."
+  },
+  {
+    "question": "In the high-temperature limit ($\\beta \\hbar \\omega \\ll 1$), the average energy of a 1D quantum harmonic oscillator approaches:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{1}{2} \\hbar \\omega$"
+      },
+      {
+        "label": 2,
+        "value": "$\\hbar \\omega$"
+      },
+      {
+        "label": 3,
+        "value": "$k_B T$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{3}{2} k_B T$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Statistical Physics - Equipartition",
+    "explanation": "At high temperatures, the quantum harmonic oscillator behaves classically. By the equipartition theorem, a 1D oscillator has 2 quadratic degrees of freedom (kinetic + potential), each contributing $\\frac{1}{2} k_B T$, so total energy is $k_B T$."
+  },
+  {
+    "question": "For a system of $N$ classical particles in 3 dimensions, the volume of the fundamental cell in phase space is proportional to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$h$"
+      },
+      {
+        "label": 2,
+        "value": "$h^3$"
+      },
+      {
+        "label": 3,
+        "value": "$h^{3N}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\hbar^{N}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Classical Statistical Mechanics - Phase Space",
+    "explanation": "In semi-classical statistical mechanics, the phase space is divided into cells of volume $h^{f}$, where $f$ is the number of degrees of freedom. For $N$ particles in 3D, $f=3N$, so the elementary volume is $h^{3N}$."
+  },
+  {
+    "question": "The Stirling approximation for $\\ln N!$ when $N$ is large is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$N \\ln N - N$"
+      },
+      {
+        "label": 2,
+        "value": "$N \\ln N + N$"
+      },
+      {
+        "label": 3,
+        "value": "$\\ln N - N$"
+      },
+      {
+        "label": 4,
+        "value": "$N^2 \\ln N$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Mathematical Methods",
+    "explanation": "Stirling's approximation is a crucial tool in statistical mechanics for dealing with large factorials. It states that $\\ln N! \\approx N \\ln N - N$ for large $N$."
+  },
+  {
+    "question": "A system of $N$ non-interacting spins ($s=1/2$) in a magnetic field $B$ has a partition function $Z = (2 \\cosh(\\beta \\mu B))^N$. The magnetization $M$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$N \\mu \\tanh(\\beta \\mu B)$"
+      },
+      {
+        "label": 2,
+        "value": "$N \\mu \\coth(\\beta \\mu B)$"
+      },
+      {
+        "label": 3,
+        "value": "$N \\mu \\sinh(\\beta \\mu B)$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{N \\mu}{\\tanh(\\beta \\mu B)}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Statistical Physics - Paramagnetism",
+    "explanation": "Magnetization $M = -\\left(\\frac{\\partial F}{\\partial B}\\right)_T = k_B T \\frac{\\partial \\ln Z}{\\partial B}$. With $\\ln Z = N \\ln(2 \\cosh(\\beta \\mu B))$, the derivative gives $N \\frac{1}{2 \\cosh(\\beta \\mu B)} (2 \\sinh(\\beta \\mu B)) (\\beta \\mu) k_B T = N \\mu \\tanh(\\beta \\mu B)$."
+  },
+  {
+    "question": "The chemical potential $\\mu$ is related to the partition function $Z$ (in the large N limit) by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\mu = -k_B T \\left(\\frac{\\partial \\ln Z}{\\partial N}\\right)_{V,T}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\mu = k_B T \\left(\\frac{\\partial Z}{\\partial N}\\right)_{V,T}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\mu = -\\frac{1}{T} \\left(\\frac{\\partial \\ln Z}{\\partial N}\\right)_{V,T}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\mu = \\left(\\frac{\\partial F}{\\partial N}\\right)_{S,V}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamics - Chemical Potential",
+    "explanation": "From the relation $F = -k_B T \\ln Z$ and the thermodynamic definition $\\mu = \\left(\\frac{\\partial F}{\\partial N}\\right)_{V,T}$, we find that $\\mu = -k_B T \\left(\\frac{\\partial \\ln Z}{\\partial N}\\right)_{V,T}$."
+  },
+  {
+    "question": "What is the pressure $P$ of a system expressed in terms of the canonical partition function $Z$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$P = k_B T \\left(\\frac{\\partial \\ln Z}{\\partial V}\\right)_{T,N}$"
+      },
+      {
+        "label": 2,
+        "value": "$P = -k_B T \\left(\\frac{\\partial \\ln Z}{\\partial V}\\right)_{T,N}$"
+      },
+      {
+        "label": 3,
+        "value": "$P = k_B T \\left(\\frac{\\partial Z}{\\partial V}\\right)_{T,N}$"
+      },
+      {
+        "label": 4,
+        "value": "$P = \\frac{1}{Z} \\left(\\frac{\\partial Z}{\\partial V}\\right)_{T,N}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamics - Pressure",
+    "explanation": "Using $F = -k_B T \\ln Z$ and $P = -\\left(\\frac{\\partial F}{\\partial V}\\right)_{T,N}$, we have $P = - (-k_B T) \\left(\\frac{\\partial \\ln Z}{\\partial V}\\right) = k_B T \\left(\\frac{\\partial \\ln Z}{\\partial V}\\right)_{T,N}$."
+  },
+  {
+    "question": "For a classical ideal gas, the single-particle partition function is proportional to volume $V$. How does the pressure $P$ depend on $V$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$P \\propto V$"
+      },
+      {
+        "label": 2,
+        "value": "$P \\propto V^2$"
+      },
+      {
+        "label": 3,
+        "value": "$P \\propto 1/V$"
+      },
+      {
+        "label": 4,
+        "value": "$P$ is independent of $V$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Statistical Physics - Ideal Gas",
+    "explanation": "Since $Z_N \\propto V^N$, $\\ln Z \\sim N \\ln V$. Using $P = k_B T (\\partial \\ln Z / \\partial V)$, we get $P = k_B T (N/V)$, which is the ideal gas law $PV = N k_B T$. Thus $P \\propto 1/V$."
+  },
+  {
+    "question": "In the microcanonical ensemble, the temperature is defined by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{1}{T} = \\left(\\frac{\\partial S}{\\partial E}\\right)_{V,N}$"
+      },
+      {
+        "label": 2,
+        "value": "$T = \\left(\\frac{\\partial S}{\\partial E}\\right)_{V,N}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{1}{T} = \\left(\\frac{\\partial E}{\\partial S}\\right)_{V,N}$"
+      },
+      {
+        "label": 4,
+        "value": "$T = k_B \\ln \\Omega$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamics - Definitions",
+    "explanation": "The thermodynamic definition of temperature in terms of entropy is $1/T = (\\partial S / \\partial E)_{V,N}$. This relates the statistical quantity $S(E)$ to the thermodynamic observable $T$."
+  },
+  {
+    "question": "The specific heat capacity of a two-level system (Schottky anomaly) typically shows a peak at a temperature $T$ where $k_B T$ is approximately:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\epsilon$ (the energy gap)"
+      },
+      {
+        "label": 2,
+        "value": "Much greater than $\\epsilon$"
+      },
+      {
+        "label": 3,
+        "value": "0"
+      },
+      {
+        "label": 4,
+        "value": "$\\sim 0.42 \\epsilon$"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Statistical Physics - Two Level System",
+    "explanation": "The heat capacity of a two-level system $C_V = k_B (\\beta \\epsilon)^2 \\frac{e^{\\beta \\epsilon}}{(1+e^{\\beta \\epsilon})^2}$ vanishes at both low and high $T$. It exhibits a maximum (Schottky peak) when $k_B T \\approx 0.42 \\epsilon$."
+  }
+]

@@ -1,0 +1,76 @@
+[
+  {
+    "question": "Suppose $S = \{v_1, v_2, \dots, v_n\}$ is a set of vectors in a vector space $V$. If one vector $v_i$ can be written as a linear 
+combination of the other vectors in $S$, which of the following statements must be true?",
+    "options": [
+      {"label": 1, "value": "The set $S$ is linearly independent."},
+      {"label": 2, "value": "The span of $S$ is equal to the span of $S \setminus \{v_i\}$."},
+      {"label": 3, "value": "The set $S$ forms a basis for $V$."},
+      {"label": 4, "value": "The dimension of $V$ is exactly $n-1$."}
+    ],
+    "answer_label": 2,
+    "topic": "Vector Calculus - Linear Independence and Span",
+    "explanation": "If a vector $v_i$ is a linear combination of the other vectors in $S$, then $v_i$ is redundant in terms of the span. Removing $v_i$ does
+not change the set of all possible linear combinations that can be formed, so $\text{span}(S) = \text{span}(S \setminus \{v_i\})$. This also implies the set
+$S$ is linearly dependent."
+  },
+  {
+    "question": "In an inner product space $V$, let $u$ and $v$ be two vectors. If $\|u\| = 3$, $\|v\| = 4$, and the inner product $\langle u, v \rangle = 
+0$, what is the value of $\|u + v\|$, and what does the condition $\langle u, v \rangle = 0$ imply?",
+    "options": [
+      {"label": 1, "value": "$\|u + v\| = 7$; the vectors are parallel."},
+      {"label": 2, "value": "$\|u + v\| = 5$; the vectors are orthogonal."},
+      {"label": 3, "value": "$\|u + v\| = 1$; the vectors are orthonormal."},
+      {"label": 4, "value": "$\|u + v\| = 25$; the vectors are linearly dependent."}
+    ],
+    "answer_label": 2,
+    "topic": "Vector Calculus - Inner Product Spaces",
+    "explanation": "The condition $\langle u, v \rangle = 0$ defines orthogonality. By the Pythagorean Theorem in inner product spaces, $\|u + v\|^2 = 
+\|u\|^2 + \|v\|^2 + 2\langle u, v \rangle$. Since $\langle u, v \rangle = 0$, $\|u + v\|^2 = 3^2 + 4^2 = 25$, so $\|u + v\| = 5$."
+  },
+  {
+    "question": "Given a basis $\{u_1, u_2\}$ for a subspace of $\mathbb{R}^3$ where $u_1 = (1, 1, 0)$ and $u_2 = (1, 0, 1)$. Using the Gram-Schmidt 
+process, what is the first orthogonal vector $v_1$ and the second orthogonal vector $v_2$ before normalization?",
+    "options": [
+      {"label": 1, "value": "$v_1 = (1, 1, 0), v_2 = (0.5, -0.5, 1)$"},
+      {"label": 2, "value": "$v_1 = (1, 1, 0), v_2 = (1, 0, 1)$"},
+      {"label": 3, "value": "$v_1 = (1, 0, 0), v_2 = (0, 1, 0)$"},
+      {"label": 4, "value": "$v_1 = (1, 1, 0), v_2 = (0, -1, 1)$"}
+    ],
+    "answer_label": 1,
+    "topic": "Vector Calculus - Gram-Schmidt Orthonormalization",
+    "explanation": "In Gram-Schmidt, $v_1 = u_1 = (1, 1, 0)$. Then $v_2 = u_2 - \text{proj}_{v_1}(u_2) = u_2 - \frac{\langle u_2, v_1 \rangle}{\langle v_1, 
+v_1 \rangle}v_1$. $\langle u_2, v_1 \rangle = (1)(1) + (0)(1) + (1)(0) = 1$. $\langle v_1, v_1 \rangle = 1^2 + 1^2 + 0^2 = 2$. So $v_2 = (1, 0, 1) - 
+\frac{1}{2}(1, 1, 0) = (0.5, -0.5, 1)$."
+  },
+  {
+    "question": "Which of the following is a required property for a function $\langle \cdot, \cdot \rangle: V \times V \to \mathbb{R}$ to be considered a 
+valid inner product on a real vector space $V$?",
+    "options": [
+      {"label": 1, "value": "$\langle u, v \rangle = -\langle v, u \rangle$ for all $u, v \in V$."},
+      {"label": 2, "value": "$\langle u, u \rangle \geq 0$ for all $u \in V$, and $\langle u, u \rangle = 0$ if and only if $u = 0$."},
+      {"label": 3, "value": "$\langle u, v + w \rangle = \langle u, v \rangle \cdot \langle u, w \rangle$ for all $u, v, w \in V$."},
+      {"label": 4, "value": "$\langle ku, v \rangle = \frac{1}{k} \langle u, v \rangle$ for any scalar $k \neq 0$."}
+    ],
+    "answer_label": 2,
+    "topic": "Vector Calculus - Inner Product Spaces",
+    "explanation": "A valid inner product must satisfy four axioms: Symmetry ($\langle u, v \rangle = \langle v, u \rangle$), Linearity in the first 
+argument ($\langle au+bv, w \rangle = a\langle u, w \rangle + b\langle v, w \rangle$), and Positive-Definiteness ($\langle u, u \rangle \geq 0$ and $\langle
+u, u \rangle = 0 \iff u = 0$)."
+  },
+  {
+    "question": "If a set of vectors $\{v_1, v_2, \dots, v_k\}$ in a vector space $V$ is orthonormal, what can be concluded about their linear 
+independence?",
+    "options": [
+      {"label": 1, "value": "They are always linearly dependent because they are related by the inner product."},
+      {"label": 2, "value": "They are linearly independent only if the dimension of $V$ is exactly $k$."},
+      {"label": 3, "value": "Any orthonormal set of vectors is necessarily linearly independent."},
+      {"label": 4, "value": "They are linearly independent only if they span $V$."}
+    ],
+    "answer_label": 3,
+    "topic": "Vector Calculus - Orthonormalization and Basis",
+    "explanation": "Orthonormal vectors are orthogonal and have unit length. Any set of non-zero orthogonal vectors is linearly independent. If $\sum c_i 
+v_i = 0$, taking the inner product with $v_j$ gives $\langle \sum c_i v_i, v_j \rangle = c_j \langle v_j, v_j \rangle = c_j(1) = 0$, implying all 
+coefficients $c_j$ must be zero."
+  }
+]

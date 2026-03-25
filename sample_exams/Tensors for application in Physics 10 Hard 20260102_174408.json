@@ -1,0 +1,242 @@
+[
+  {
+    "question": "Which of the following identities correctly expresses the product of two Levi-Civita symbols $\\\\epsilon_{ijk}\\\\epsilon_{lmk}$ (summed over $k$) in terms of Kronecker deltas?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\delta_{il}\\\\delta_{jm} + \\delta_{im}\\\\delta_{jl}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\delta_{il}\\\\delta_{jm} - \\delta_{im}\\\\delta_{jl}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\delta_{im}\\\\delta_{jl} - \\delta_{il}\\\\delta_{jm}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\delta_{ij}\\\\delta_{lm} - \\delta_{il}\\\\delta_{jm}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Vector Analysis - Levi-Civita Identity",
+    "explanation": "The contraction of two Levi-Civita tensors on one index is given by the determinant of a matrix of Kronecker deltas. Specifically, $\\\\epsilon_{ijk}\\\\epsilon_{lmk} = \\\\epsilon_{ijk}\\\\epsilon_{klm} = \\\\delta_{il}\\\\delta_{jm} - \\\\delta_{im}\\\\delta_{jl}$. This is a fundamental identity used to simplify vector cross products."
+  },
+  {
+    "question": "For a metric tensor $g_{ij}$ in orthogonal curvilinear coordinates given by the line element $ds^2 = (dx^1)^2 + (x^1)^2(dx^2)^2 + (dx^3)^2$, what is the value of the non-zero Christoffel symbol $\\\\Gamma^1_{22}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$x^1$"
+      },
+      {
+        "label": 2,
+        "value": "$-x^1$"
+      },
+      {
+        "label": 3,
+        "value": "$1/x^1$"
+      },
+      {
+        "label": 4,
+        "value": "$-(x^1)^2$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Differential Geometry - Christoffel Symbols",
+    "explanation": "Here coordinates are cylindrical-like ($r, \\\\theta, z$) where $x^1=r, x^2=\\\\theta$. Metric components are $g_{11}=1, g_{22}=(x^1)^2, g_{33}=1$. The formula is $\\\\Gamma^1_{22} = \\\\frac{1}{2}g^{11}(\\\\partial_2 g_{12} + \\\\partial_2 g_{21} - \\\\partial_1 g_{22})$. Since $g$ is diagonal, $g^{11}=1$. only $\\\\partial_1 g_{22}$ is non-zero. $\\\\partial_1 ((x^1)^2) = 2x^1$. Thus $\\\\Gamma^1_{22} = \\\\frac{1}{2}(1)(-2x^1) = -x^1$."
+  },
+  {
+    "question": "Consider the Inertia Tensor $\\\\mathbf{I}$ for a rigid body. If the tensor components in a Cartesian basis are given by $I_{ij} = \\\\begin{pmatrix} 4 & 0 & 0 \\\\ 0 & 5 & -1 \\\\ 0 & -1 & 5 \\\\end{pmatrix}$, what are the principal moments of inertia?",
+    "options": [
+      {
+        "label": 1,
+        "value": "4, 5, 5"
+      },
+      {
+        "label": 2,
+        "value": "4, 4, 6"
+      },
+      {
+        "label": 3,
+        "value": "3, 5, 6"
+      },
+      {
+        "label": 4,
+        "value": "4, 6, 6"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Classical Mechanics - Inertia Tensor",
+    "explanation": "The principal moments are the eigenvalues of the inertia matrix. One eigenvalue is obviously 4 (from the first row/col). For the $2\\\\times2$ block $\\\\begin{pmatrix} 5 & -1 \\\\ -1 & 5 \\\\end{pmatrix}$, the characteristic equation is $(5-\\\\lambda)^2 - 1 = 0 \\\\Rightarrow 5-\\\\lambda = \\\\pm 1$. So $\\\\lambda = 4$ and $\\\\lambda = 6$. The set of eigenvalues is 4, 4, 6."
+  },
+  {
+    "question": "Which of the following expressions represents the Divergence of a vector field $A^\\\\mu$ in terms of the metric determinant $g$ and partial derivatives?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\partial_\\\\mu A^\\\\mu$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\frac{1}{\\\\sqrt{g}} \\\\partial_\\\\mu (\\\\sqrt{g} A^\\\\mu)$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\sqrt{g} \\\\partial_\\\\mu (\\\\frac{1}{\\\\sqrt{g}} A^\\\\mu)$"
+      },
+      {
+        "label": 4,
+        "value": "$g^{\\\\mu\\\\nu} \\\\partial_\\\\mu A_\\\\nu$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Vector Analysis - Covariant Divergence",
+    "explanation": "The covariant divergence $\\\\nabla_\\\\mu A^\\\\mu$ accounts for the curvature of the coordinate system. Using the formula for the contraction of the Christoffel symbols $\\\\Gamma^\\\\lambda_{\\\\mu\\\\lambda} = \\\\frac{1}{\\\\sqrt{g}}\\\\partial_\\\\mu(\\\\sqrt{g})$, the expression simplifies to $\\\\frac{1}{\\\\sqrt{g}} \\\\partial_\\\\mu (\\\\sqrt{g} A^\\\\mu)$."
+  },
+  {
+    "question": "The Electromagnetic Field Tensor $F^{\\\\mu\\\\nu}$ is defined such that $F^{0i} = -E^i/c$ and $F^{ij} = -\\\\epsilon^{ijk}B_k$ (in Gaussian units, Minkowski metric $+---$). Which of the following is a Lorentz Invariant scalar constructed from $F^{\\\\mu\\\\nu}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$|\\\\mathbf{E}|^2 + |\\\\mathbf{B}|^2$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\mathbf{E} \\\\times \\\\mathbf{B}$"
+      },
+      {
+        "label": 3,
+        "value": "$|\\\\mathbf{B}|^2 - |\\\\mathbf{E}|^2$"
+      },
+      {
+        "label": 4,
+        "value": "$|\\\\mathbf{E}| + |\\\\mathbf{B}|$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Electrodynamics - EM Tensor",
+    "explanation": "The quantity $F_{\\\\mu\\\\nu}F^{\\\\mu\\\\nu}$ is a Lorentz scalar (invariant). When expanded in terms of fields, $F_{\\\\mu\\\\nu}F^{\\\\mu\\\\nu} \\\\propto (B^2 - E^2)$. Another invariant is $\\\\det(F^{\\\\mu\\\\nu})$ or $\\\\epsilon_{\\\\mu\\\\nu\\\\rho\\\\sigma}F^{\\\\mu\\\\nu}F^{\\\\rho\\\\sigma} \\\\propto \\\\mathbf{E}\\\\cdot\\\\mathbf{B}$. The sum of squares $E^2+B^2$ corresponds to energy density and is not a Lorentz invariant (it transforms as the 00 component of the stress-energy tensor)."
+  },
+  {
+    "question": "According to the Quotient Law in tensor analysis, if a set of quantities $T_{ij}$ satisfies the equation $T_{ij} A^j = B_i$ for an arbitrary contravariant vector $A^j$ and $B_i$ is known to be a covariant vector, then:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T_{ij}$ is a scalar"
+      },
+      {
+        "label": 2,
+        "value": "$T_{ij}$ is a covariant vector"
+      },
+      {
+        "label": 3,
+        "value": "$T_{ij}$ is a covariant tensor of rank 2"
+      },
+      {
+        "label": 4,
+        "value": "$T_{ij}$ is a mixed tensor of rank 2"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Tensor Analysis - Quotient Law",
+    "explanation": "The Quotient Law states that if the inner product of an entity with an arbitrary tensor yields a tensor, the entity itself is a tensor. Here, $T_{ij}$ contracts with a contravariant vector ($A^j$, rank 1) to produce a covariant vector ($B_i$, rank 1). To balance the indices and transformation properties: $Covariant = T \\\\times Contravariant$. $T$ must provide two lower indices to result in one lower index after canceling the upper index of $A$. Thus $T_{ij}$ is a second-rank covariant tensor."
+  },
+  {
+    "question": "Which of the following correctly describes the transformation of the partial derivative operator $\\\\frac{\\\\partial}{\\\\partial x^\\\\mu}$ under a coordinate transformation $x \\\\to x'$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "It transforms as a contravariant vector"
+      },
+      {
+        "label": 2,
+        "value": "It transforms as a covariant vector"
+      },
+      {
+        "label": 3,
+        "value": "It transforms as a scalar invariant"
+      },
+      {
+        "label": 4,
+        "value": "It does not transform linearly"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Tensor Analysis - Coordinate Transformations",
+    "explanation": "Using the chain rule, $\\\\frac{\\\\partial}{\\\\partial x'^\\\\mu} = \\\\frac{\\\\partial x^\\\\nu}{\\\\partial x'^\\\\mu} \\\\frac{\\\\partial}{\\\\partial x^\\\\nu}$. This matches the definition of a covariant vector transformation (where the Jacobian matrix is the inverse of the coordinate transformation matrix used for contravariant vectors). Therefore, the gradient operator $\\\\partial_\\\\mu$ is a covariant vector."
+  },
+  {
+    "question": "Calculate the trace of the tensor $T^\\\\mu_\\\\nu = A^\\\\mu B_\\\\nu$ in 4-dimensional spacetime, where $A^\\\\mu = (1, 0, 0, 0)$ and $B_\\\\mu = (1, 0, 0, 0)$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "0"
+      },
+      {
+        "label": 2,
+        "value": "1"
+      },
+      {
+        "label": 3,
+        "value": "4"
+      },
+      {
+        "label": 4,
+        "value": "-1"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Tensor Algebra - Trace",
+    "explanation": "The trace of a mixed tensor $T^\\\\mu_\\\\nu$ is the contraction $T^\\\\mu_\\\\mu$. substituting the definition, Trace $= A^\\\\mu B_\\\\mu = A^0 B_0 + A^1 B_1 + A^2 B_2 + A^3 B_3$. Given the components, Trace $= (1)(1) + 0 + 0 + 0 = 1$."
+  },
+  {
+    "question": "Which of the following tensor expressions is equivalent to the vector identity $\\\\mathbf{C} = \\\\nabla \\\\times (\\\\mathbf{A} \\\\times \\\\mathbf{B})$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$C_i = \\\\epsilon_{ijk} \\\\partial_j (\\\\epsilon_{klm} A_l B_m)$"
+      },
+      {
+        "label": 2,
+        "value": "$C_i = \\\\epsilon_{ijk} \\\\epsilon_{klm} (\\\\partial_j A_l) B_m$"
+      },
+      {
+        "label": 3,
+        "value": "$C_i = A_j (\\\\partial_i B_j)$"
+      },
+      {
+        "label": 4,
+        "value": "$C_i = \\\\partial_i (A_j B_j)$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Vector Analysis - Tensor Notation",
+    "explanation": "The cross product of $\\\\mathbf{A} \\\\times \\\\mathbf{B}$ is $(\\\\mathbf{A} \\\\times \\\\mathbf{B})_k = \\\\epsilon_{klm} A_l B_m$. The curl of this vector is $\\\\epsilon_{ijk} \\\\partial_j (\\\\text{vector})_k$. Substituting the first expression into the second gives $C_i = \\\\epsilon_{ijk} \\\\partial_j (\\\\epsilon_{klm} A_l B_m)$. This is the starting point for proving the expansion of $\\\\nabla \\\\times (\\\\mathbf{A} \\\\times \\\\mathbf{B})$."
+  },
+  {
+    "question": "In 3D spherical polar coordinates $(r, \\\\theta, \\\\phi)$, the metric tensor is diagonal with components $(1, r^2, r^2\\\\sin^2\\\\theta)$. What is the value of the determinant $g$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$r^2 \\\\sin\\\\theta$"
+      },
+      {
+        "label": 2,
+        "value": "$r^4 \\\\sin^2\\\\theta$"
+      },
+      {
+        "label": 3,
+        "value": "$r^2 \\\\sin^2\\\\theta$"
+      },
+      {
+        "label": 4,
+        "value": "$r^3 \\\\sin\\\\theta$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Differential Geometry - Metric Tensor",
+    "explanation": "The determinant $g = \\\\det(g_{ij})$. Since the matrix is diagonal, the determinant is the product of diagonal elements: $g = 1 \\\\cdot r^2 \\\\cdot (r^2\\\\sin^2\\\\theta) = r^4 \\\\sin^2\\\\theta$. Note: The volume element is $\\\\sqrt{g} d^3x = \\\\sqrt{r^4\\\\sin^2\\\\theta} dr d\\\\theta d\\\\phi = r^2 \\\\sin\\\\theta dr d\\\\theta d\\\\phi$."
+  }
+]

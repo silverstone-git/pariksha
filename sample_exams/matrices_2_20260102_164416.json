@@ -1,0 +1,242 @@
+[
+    {
+      "question": "Given a $2 \\times 2$ matrix $A = \\begin{pmatrix} 4 & 2 \\\\ 1 & 3 \\end{pmatrix}$, find its eigenvalues.",
+      "options": [
+        {
+          "label": 1,
+          "value": "$\\lambda_1 = 4, \\lambda_2 = 3$"
+        },
+        {
+          "label": 2,
+          "value": "$\\lambda_1 = 2, \\lambda_2 = 5$"
+        },
+        {
+          "label": 3,
+          "value": "$\\lambda_1 = 6, \\lambda_2 = 1$"
+        },
+        {
+          "label": 4,
+          "value": "$\\lambda_1 = 0, \\lambda_2 = 7$"
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Matrices - Eigenvalues Calculation",
+      "explanation": "To find the eigenvalues, solve the characteristic equation $\\det(A - \\lambda I) = 0$. For $A$, this is $(4-\\lambda)(3-\\lambda) - (2)(1) = \\lambda^2 - 7\\lambda + 12 - 2 = \\lambda^2 - 7\\lambda + 10 = 0$. Factoring the quadratic gives $(\\lambda-2)(\\lambda-5) = 0$, so $\\lambda = 2, 5$."
+    },
+    {
+      "question": "If a square matrix $A$ has eigenvalues $\\lambda_1 = 1, \\lambda_2 = 3,$ and $\\lambda_3 = 5$, what are the eigenvalues of the matrix $A^3$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "1, 3, 5"
+        },
+        {
+          "label": 2,
+          "value": "3, 9, 15"
+        },
+        {
+          "label": 3,
+          "value": "1, 27, 125"
+        },
+        {
+          "label": 4,
+          "value": "1, 9, 25"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Matrices - Properties of Eigenvalues",
+      "explanation": "If $\\lambda$ is an eigenvalue of $A$, then $\\lambda^n$ is an eigenvalue of $A^n$. For $n=3$, the eigenvalues are $1^3=1$, $3^3=27$, and $5^3=125$."
+    },
+    {
+      "question": "Which of the following statements is ALWAYS true for a real symmetric matrix?",
+      "options": [
+        {
+          "label": 1,
+          "value": "All eigenvalues are positive."
+        },
+        {
+          "label": 2,
+          "value": "All eigenvalues are real."
+        },
+        {
+          "label": 3,
+          "value": "The matrix must be invertible."
+        },
+        {
+          "label": 4,
+          "value": "All eigenvalues are distinct."
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Matrices - Symmetric Matrix Properties",
+      "explanation": "A fundamental property of real symmetric matrices is that all their eigenvalues are real numbers. They do not have to be positive (can be zero or negative), and they do not have to be distinct."
+    },
+    {
+      "question": "A $2 \\times 2$ matrix $A$ has $\\text{trace}(A) = 4$ and $\\det(A) = 6$. What is the $\\text{trace}(A^2)$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "16"
+        },
+        {
+          "label": 2,
+          "value": "10"
+        },
+        {
+          "label": 3,
+          "value": "4"
+        },
+        {
+          "label": 4,
+          "value": "22"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Matrices - Trace and Determinant Relations",
+      "explanation": "Let eigenvalues be $\\lambda_1, \\lambda_2$. $\\lambda_1 + \\lambda_2 = \\text{trace}(A) = 4$ and $\\lambda_1\\lambda_2 = \\det(A) = 6$. The eigenvalues of $A^2$ are $\\lambda_1^2, \\lambda_2^2$. $\\text{trace}(A^2) = \\lambda_1^2 + \\lambda_2^2 = (\\lambda_1 + \\lambda_2)^2 - 2\\lambda_1\\lambda_2 = 4^2 - 2(6) = 16 - 12 = 4$."
+    },
+    {
+      "question": "If $\\lambda = 0$ is an eigenvalue of a matrix $A$, which of the following must be true?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$A$ is the zero matrix."
+        },
+        {
+          "label": 2,
+          "value": "$A$ is singular (non-invertible)."
+        },
+        {
+          "label": 3,
+          "value": "$A$ is symmetric."
+        },
+        {
+          "label": 4,
+          "value": "The trace of $A$ is zero."
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Matrices - Eigenvalues and Invertibility",
+      "explanation": "The determinant of a matrix is the product of its eigenvalues. If one eigenvalue is 0, the determinant $\\det(A) = 0$, which means the matrix is singular and cannot be inverted."
+    },
+    {
+      "question": "For a triangular matrix, the eigenvalues are always:",
+      "options": [
+        {
+          "label": 1,
+          "value": "The entries on the main diagonal."
+        },
+        {
+          "label": 2,
+          "value": "All equal to 1."
+        },
+        {
+          "label": 3,
+          "value": "The sums of each row."
+        },
+        {
+          "label": 4,
+          "value": "The squares of the diagonal entries."
+        }
+      ],
+      "answer_label": 1,
+      "topic": "Matrices - Triangular Matrix Eigenvalues",
+      "explanation": "For any upper or lower triangular matrix, the characteristic polynomial $\\det(A - \\lambda I)$ is simply the product of terms $(a_{ii} - \\lambda)$. Thus, the roots (eigenvalues) are the diagonal elements $a_{11}, a_{22}, \\dots, a_{nn}$."
+    },
+    {
+      "question": "Given the matrix $A = \\begin{pmatrix} 2 & 3 \\\\ x & y \\end{pmatrix}$ with eigenvalues 4 and 8, find the values of $x$ and $y$.",
+      "options": [
+        {
+          "label": 1,
+          "value": "$x = -4, y = 10$"
+        },
+        {
+          "label": 2,
+          "value": "$x = 4, y = 10$"
+        },
+        {
+          "label": 3,
+          "value": "$x = 5, y = 8$"
+        },
+        {
+          "label": 4,
+          "value": "$x = -3, y = 9$"
+        }
+      ],
+      "answer_label": 1,
+      "topic": "Matrices - Parameter Determination",
+      "explanation": "Trace property: $2 + y = 4 + 8 = 12 \\Rightarrow y = 10$. Determinant property: $2y - 3x = 4 \\times 8 = 32$. Substituting $y=10$: $20 - 3x = 32 \\Rightarrow -3x = 12 \\Rightarrow x = -4$."
+    },
+    {
+      "question": "If $v = \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}$ is an eigenvector of $A = \\begin{pmatrix} 1 & -1 \\\\ 2 & p \\end{pmatrix}$, what is the corresponding eigenvalue $\\lambda$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$\\lambda = 1$"
+        },
+        {
+          "label": 2,
+          "value": "$\\lambda = 2$"
+        },
+        {
+          "label": 3,
+          "value": "$\\lambda = 3$"
+        },
+        {
+          "label": 4,
+          "value": "$\\lambda = -1$"
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Matrices - Eigenvectors and Eigenvalues",
+      "explanation": "By definition $Av = \\lambda v$. $\\begin{pmatrix} 1 & -1 \\\\ 2 & p \\end{pmatrix} \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix} = \\begin{pmatrix} 1 - (-1) \\\\ 2 - p \\end{pmatrix} = \\begin{pmatrix} 2 \\\\ 2 - p \\end{pmatrix}$. For this to be $\\lambda \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}$, we must have $\\lambda(1) = 2$, so $\\lambda = 2$."
+    },
+    {
+      "question": "What are the eigenvalues of a skew-symmetric matrix with real entries?",
+      "options": [
+        {
+          "label": 1,
+          "value": "Always real."
+        },
+        {
+          "label": 2,
+          "value": "Always positive."
+        },
+        {
+          "label": 3,
+          "value": "Either zero or purely imaginary."
+        },
+        {
+          "label": 4,
+          "value": "Always $\\pm 1$."
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Matrices - Skew-Symmetric Matrix Properties",
+      "explanation": "Real skew-symmetric matrices ($A^T = -A$) have eigenvalues that are either zero or purely imaginary (of the form $bi$ where $b \\in \\mathbb{R}$)."
+    },
+    {
+      "question": "Suppose $A$ is an invertible matrix with eigenvalue $\\lambda$ and eigenvector $x$. Which of the following is true for $A^{-1}$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$\\lambda$ is an eigenvalue of $A^{-1}$ with eigenvector $x$."
+        },
+        {
+          "label": 2,
+          "value": "$1/\\lambda$ is an eigenvalue of $A^{-1}$ with eigenvector $x$."
+        },
+        {
+          "label": 3,
+          "value": "$-\\lambda$ is an eigenvalue of $A^{-1}$ with eigenvector $x$."
+        },
+        {
+          "label": 4,
+          "value": "$\\lambda^2$ is an eigenvalue of $A^{-1}$ with eigenvector $x$."
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Matrices - Inverse Matrix Eigenvalues",
+      "explanation": "If $Ax = \\lambda x$ and $A$ is invertible, then $x = A^{-1}(\\lambda x) = \\lambda(A^{-1}x)$. Dividing by $\\lambda$ (which cannot be zero for an invertible matrix), we get $A^{-1}x = (1/\\lambda)x$. Thus $1/\\lambda$ is the eigenvalue."
+    }
+  ]

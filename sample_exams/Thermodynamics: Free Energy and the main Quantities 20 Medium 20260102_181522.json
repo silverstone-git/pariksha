@@ -1,0 +1,482 @@
+[
+  {
+    "question": "Which of the following represents the Maxwell relation derived from the Helmholtz free energy $F(T, V)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\left(\\\\frac{\\partial S}{\\partial V}\\\\right)_T = \\\\left(\\\\frac{\\partial P}{\\partial T}\\\\right)_V$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\left(\\\\frac{\\partial S}{\\partial V}\\\\right)_T = -\\\\left(\\\\frac{\\partial P}{\\partial T}\\\\right)_V$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\left(\\\\frac{\\partial T}{\\partial V}\\\\right)_S = -\\\\left(\\\\frac{\\partial P}{\\partial S}\\\\right)_V$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\left(\\\\frac{\\partial T}{\\partial P}\\\\right)_S = \\\\left(\\\\frac{\\partial V}{\\partial S}\\\\right)_P$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamics - Maxwell Relations",
+    "explanation": "The fundamental thermodynamic relation for Helmholtz free energy is $dF = -SdT - PdV$. Since $dF$ is an exact differential, we apply the Euler reciprocity relation $\\\\left(\\\\frac{\\partial M}{\\partial y}\\\\right)_x = \\\\left(\\\\frac{\\partial N}{\\partial x}\\\\right)_y$ to $dF = Mdx + Ndy$. Here $M=-S, x=T, N=-P, y=V$. Thus, $\\\\left(\\\\frac{\\partial (-S)}{\\partial V}\\\\right)_T = \\\\left(\\\\frac{\\partial (-P)}{\\partial T}\\\\right)_V$, which simplifies to $\\\\left(\\\\frac{\\partial S}{\\partial V}\\\\right)_T = \\\\left(\\\\frac{\\partial P}{\\partial T}\\\\right)_V$."
+  },
+  {
+    "question": "For a simple compressible system, the internal energy $U$ can be expressed as a function of entropy $S$ and volume $V$. Which of the following relations is correct?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\left(\\\\frac{\\partial U}{\\partial S}\\\\right)_V = P$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\left(\\\\frac{\\partial U}{\\partial V}\\\\right)_S = T$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\left(\\\\frac{\\partial U}{\\partial S}\\\\right)_V = T$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\left(\\\\frac{\\partial U}{\\partial V}\\\\right)_T = -P$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Thermodynamics - Thermodynamic Potentials",
+    "explanation": "From the combined first and second law of thermodynamics, $dU = TdS - PdV$. By definition of partial derivatives, $\\\\left(\\\\frac{\\partial U}{\\partial S}\\\\right)_V$ is the coefficient of $dS$, which is Temperature $T$. Similarly, $\\\\left(\\\\frac{\\partial U}{\\partial V}\\\\right)_S = -P$."
+  },
+  {
+    "question": "The Gibbs-Helmholtz equation is useful for calculating the change in Gibbs free energy with temperature. Which of the following is its correct form?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\left(\\\\frac{\\partial (G/T)}{\\partial T}\\\\right)_P = \\\\frac{H}{T^2}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\left(\\\\frac{\\partial (G/T)}{\\partial T}\\\\right)_P = -\\\\frac{H}{T^2}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\left(\\\\frac{\\partial G}{\\partial T}\\\\right)_P = -S$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\left(\\\\frac{\\partial (G/T)}{\\partial (1/T)}\\right)_P = -H$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - Gibbs-Helmholtz Equation",
+    "explanation": "The Gibbs-Helmholtz equation relates the temperature dependence of $G/T$ to enthalpy $H$. Starting from $G = H - TS$, we can derive that $\\\\left(\\\\frac{\\partial (G/T)}{\\partial T}\\\\right)_P = -\\\\frac{H}{T^2}$. This is crucial for studying equilibrium constants' variation with temperature."
+  },
+  {
+    "question": "Which thermodynamic potential provides the criterion for spontaneity and equilibrium for a system undergoing a process at constant temperature and pressure?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Internal Energy ($U$)"
+      },
+      {
+        "label": 2,
+        "value": "Enthalpy ($H$)"
+      },
+      {
+        "label": 3,
+        "value": "Helmholtz Free Energy ($F$)"
+      },
+      {
+        "label": 4,
+        "value": "Gibbs Free Energy ($G$)"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Thermodynamics - Spontaneity Criteria",
+    "explanation": "For a process at constant temperature ($dT=0$) and pressure ($dP=0$), the condition for spontaneity is $dG < 0$, and the condition for equilibrium is $dG = 0$. Helmholtz free energy applies to constant $T$ and $V$."
+  },
+  {
+    "question": "The difference between the heat capacities at constant pressure and constant volume, $C_p - C_v$, is given by which of the following expressions involving the volume expansivity $\\\\beta$ (or $\\\\alpha$) and isothermal compressibility $\\\\kappa_T$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\frac{TV\\\\beta^2}{\\\\kappa_T}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\frac{TV^2\\\\beta}{\\\\kappa_T}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\frac{T\\\\beta^2}{V\\\\kappa_T}$"
+      },
+      {
+        "label": 4,
+        "value": "$TV\\\\beta\\\\kappa_T$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamics - Heat Capacities",
+    "explanation": "Using thermodynamic relations, specifically the general relation $C_p - C_v = -T \\\\left(\\\\frac{\\partial V}{\\partial T}\\\\right)_P^2 \\\\left(\\\\frac{\\partial P}{\\partial V}\\\\right)_T$, and substituting the definitions $\\\\beta = \\\\frac{1}{V}\\\\left(\\\\frac{\\partial V}{\\partial T}\\\\right)_P$ and $\\\\kappa_T = -\\\\frac{1}{V}\\\\left(\\\\frac{\\partial V}{\\partial P}\\\\right)_T$, we arrive at $C_p - C_v = \\\\frac{TV\\\\beta^2}{\\\\kappa_T}$."
+  },
+  {
+    "question": "For an ideal gas, the Joule-Thomson coefficient $\\\\mu_{JT} = \\\\left(\\\\frac{\\partial T}{\\partial P}\\\\right)_H$ is equal to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "1"
+      },
+      {
+        "label": 2,
+        "value": "-1"
+      },
+      {
+        "label": 3,
+        "value": "0"
+      },
+      {
+        "label": 4,
+        "value": "Infinite"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Thermodynamics - Joule-Thomson Effect",
+    "explanation": "The Joule-Thomson coefficient is given by $\\\\mu_{JT} = \\\\frac{1}{C_p} \\\\left[ T \\\\left(\\\\frac{\\partial V}{\\partial T}\\\\right)_P - V \\\\right]$. For an ideal gas, $PV=RT$, so $\\\\left(\\\\frac{\\partial V}{\\partial T}\\\\right)_P = \\\\frac{R}{P} = \\\\frac{V}{T}$. Substituting this into the equation gives $\\\\mu_{JT} = \\\\frac{1}{C_p} [ T(V/T) - V ] = 0$. Ideal gases do not change temperature during throttling."
+  },
+  {
+    "question": "Which of the following expressions represents the thermodynamic equation of state relating internal energy to pressure, volume, and temperature?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\left(\\\\frac{\\partial U}{\\partial V}\\\\right)_T = T\\\\left(\\\\frac{\\partial P}{\\partial T}\\\\right)_V - P$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\left(\\\\frac{\\partial U}{\\partial V}\\\\right)_T = P - T\\\\left(\\\\frac{\\partial P}{\\partial T}\\\\right)_V$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\left(\\\\frac{\\partial U}{\\partial P}\\\\right)_T = V - T\\\\left(\\\\frac{\\partial V}{\\partial T}\\\\right)_P$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\left(\\\\frac{\\partial H}{\\partial P}\\\\right)_T = V - T\\\\left(\\\\frac{\\partial V}{\\partial T}\\\\right)_P$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamics - Thermodynamic Relations",
+    "explanation": "This is often called the 'Energy Equation'. It is derived from the first TdS equation: $TdS = dU + PdV$. Dividing by $dV$ at constant $T$ and using the Maxwell relation $\\\\left(\\\\frac{\\partial S}{\\partial V}\\\\right)_T = \\\\left(\\\\frac{\\partial P}{\\partial T}\\\\right)_V$, we get $\\\\left(\\\\frac{\\partial U}{\\partial V}\\\\right)_T = T\\\\left(\\\\frac{\\partial P}{\\partial T}\\\\right)_V - P$."
+  },
+  {
+    "question": "The Clapeyron equation, which describes the slope of the phase boundary on a $P-T$ diagram, is given by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\frac{dP}{dT} = \\\\frac{L}{T(v_2 - v_1)}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\frac{dP}{dT} = \\\\frac{T(v_2 - v_1)}{L}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\frac{dP}{dT} = \\\\frac{L}{v_2 - v_1}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\frac{dP}{dT} = \\\\frac{L}{T^2(v_2 - v_1)}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamics - Phase Transitions",
+    "explanation": "The Clapeyron equation relates the slope of the coexistence curve $\\\\frac{dP}{dT}$ to the latent heat $L$ (or $\\\\Delta H$) and the volume change $\\\\Delta v = v_2 - v_1$ at the transition temperature $T$. The correct form is $\\\\frac{dP}{dT} = \\\\frac{\\\\Delta S}{\\\\Delta v} = \\\\frac{L}{T\\\\Delta v}$."
+  },
+  {
+    "question": "If the Gibbs free energy of a system is given by $G(T, P)$, which of the following relations gives the Entropy ($S$)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$S = \\\\left(\\\\frac{\\partial G}{\\partial T}\\\\right)_P$"
+      },
+      {
+        "label": 2,
+        "value": "$S = -\\\\left(\\\\frac{\\partial G}{\\partial T}\\\\right)_P$"
+      },
+      {
+        "label": 3,
+        "value": "$S = \\\\left(\\\\frac{\\partial G}{\\partial P}\\\\right)_T$"
+      },
+      {
+        "label": 4,
+        "value": "$S = -\\\\left(\\\\frac{\\partial G}{\\partial P}\\\\right)_T$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - Thermodynamic Potentials",
+    "explanation": "Using the fundamental relation $dG = VdP - SdT$. At constant pressure ($dP=0$), this reduces to $dG = -SdT$, which implies $S = -\\\\left(\\\\frac{\\partial G}{\\partial T}\\\\right)_P$."
+  },
+  {
+    "question": "For a van der Waals gas with the equation of state $(P + a/V_m^2)(V_m - b) = RT$, the term $\\\\left(\\\\frac{\\partial U}{\\partial V}\\\\right)_T$ (internal pressure) is equal to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "0"
+      },
+      {
+        "label": 2,
+        "value": "$a/V_m^2$"
+      },
+      {
+        "label": 3,
+        "value": "$-a/V_m^2$"
+      },
+      {
+        "label": 4,
+        "value": "$RT/(V_m-b)$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - Real Gases",
+    "explanation": "Using the thermodynamic equation of state $\\\\left(\\\\frac{\\partial U}{\\partial V}\\\\right)_T = T\\\\left(\\\\frac{\\partial P}{\\partial T}\\\\right)_V - P$. For a van der Waals gas, $P = \\\\frac{RT}{V_m-b} - \\\\frac{a}{V_m^2}$. The derivative $\\\\left(\\\\frac{\\partial P}{\\partial T}\\\\right)_V = \\\\frac{R}{V_m-b}$. Substituting this back: $T\\\\left(\\\\frac{R}{V_m-b}\\\\right) - \\\\left(\\\\frac{RT}{V_m-b} - \\\\frac{a}{V_m^2}\\\\right) = \\\\frac{a}{V_m^2}$."
+  },
+  {
+    "question": "Identify the natural variables for the Enthalpy $H$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "Entropy ($S$) and Volume ($V$)"
+      },
+      {
+        "label": 2,
+        "value": "Temperature ($T$) and Volume ($V$)"
+      },
+      {
+        "label": 3,
+        "value": "Entropy ($S$) and Pressure ($P$)"
+      },
+      {
+        "label": 4,
+        "value": "Temperature ($T$) and Pressure ($P$)"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Thermodynamics - Natural Variables",
+    "explanation": "The fundamental relation for Enthalpy is derived from $H = U + PV$. Differentiating gives $dH = dU + PdV + VdP = (TdS - PdV) + PdV + VdP = TdS + VdP$. Thus, $H$ is a function of its natural variables $S$ and $P$."
+  },
+  {
+    "question": "The change in Helmholtz free energy $\\\\Delta F$ for a reversible isothermal process represents:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The total heat exchanged"
+      },
+      {
+        "label": 2,
+        "value": "The maximum work done by the system"
+      },
+      {
+        "label": 3,
+        "value": "The maximum non-expansion work done by the system"
+      },
+      {
+        "label": 4,
+        "value": "The change in internal energy"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - Physical Significance of Potentials",
+    "explanation": "Since $F = U - TS$, at constant temperature, $\\\\Delta F = \\\\Delta U - T\\\\Delta S$. From the first law $\\\\Delta U = q + w$, and second law $q_{rev} = T\\\\Delta S$, we get $\\\\Delta F = q_{rev} + w_{rev} - q_{rev} = w_{rev}$. Thus, the decrease in Helmholtz free energy equals the maximum work done by the system (or minimum work done on it)."
+  },
+  {
+    "question": "Which of the following is NOT a Maxwell relation?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\left(\\\\frac{\\partial T}{\\partial V}\\\\right)_S = -\\\\left(\\\\frac{\\partial P}{\\partial S}\\\\right)_V$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\left(\\\\frac{\\partial T}{\\partial P}\\\\right)_S = \\\\left(\\\\frac{\\partial V}{\\partial S}\\\\right)_P$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\left(\\\\frac{\\partial P}{\\partial T}\\\\right)_V = \\\\left(\\\\frac{\\partial S}{\\partial V}\\\\right)_T$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\left(\\\\frac{\\partial V}{\\partial T}\\\\right)_P = \\\\left(\\\\frac{\\partial S}{\\partial P}\\\\right)_T$"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Thermodynamics - Maxwell Relations",
+    "explanation": "The correct Maxwell relation derived from Gibbs free energy ($dG = VdP - SdT$) is $\\\\left(\\\\frac{\\partial V}{\\partial T}\\\\right)_P = -\\\\left(\\\\frac{\\partial S}{\\partial P}\\\\right)_T$. Option 4 misses the negative sign."
+  },
+  {
+    "question": "The chemical potential $\\\\mu$ of a component in a single-component system is defined as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\left(\\\\frac{\\partial U}{\\partial n}\\\\right)_{S, V}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\left(\\\\frac{\\partial H}{\\partial n}\\\\right)_{S, P}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\left(\\\\frac{\\partial G}{\\partial n}\\\\right)_{T, P}$"
+      },
+      {
+        "label": 4,
+        "value": "All of the above"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Thermodynamics - Chemical Potential",
+    "explanation": "The chemical potential $\\\\mu$ can be defined as the partial derivative of any thermodynamic potential ($U, H, F, G$) with respect to the number of moles $n$, provided the natural variables of that potential are held constant. $\\\\mu = (\\\\partial G/\\\\partial n)_{T,P} = (\\\\partial U/\\\\partial n)_{S,V} = (\\\\partial H/\\\\partial n)_{S,P} = (\\\\partial F/\\\\partial n)_{T,V}$."
+  },
+  {
+    "question": "For a reversible adiabatic process involving an ideal gas, which of the following remains constant?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Temperature"
+      },
+      {
+        "label": 2,
+        "value": "Entropy"
+      },
+      {
+        "label": 3,
+        "value": "Enthalpy"
+      },
+      {
+        "label": 4,
+        "value": "Internal Energy"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - Processes",
+    "explanation": "An adiabatic process is one where there is no heat exchange ($dq = 0$). If the process is also reversible, $dS = dq_{rev}/T = 0$. Therefore, entropy remains constant (isentropic)."
+  },
+  {
+    "question": "The coefficient of volume expansion (expansivity) $\\\\alpha$ is defined as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\frac{1}{V}\\\\left(\\\\frac{\\partial V}{\\partial T}\\\\right)_P$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\frac{1}{P}\\\\left(\\\\frac{\\partial P}{\\partial T}\\\\right)_V$"
+      },
+      {
+        "label": 3,
+        "value": "$-\\\\frac{1}{V}\\\\left(\\\\frac{\\partial V}{\\partial P}\\\\right)_T$"
+      },
+      {
+        "label": 4,
+        "value": "$T\\\\left(\\\\frac{\\partial P}{\\partial T}\\\\right)_V$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamics - Coefficients",
+    "explanation": "The coefficient of volume expansion $\\\\alpha$ (or $\\\\beta$) measures the fractional change in volume per degree change in temperature at constant pressure. $\\\\alpha = \\\\frac{1}{V}\\\\left(\\\\frac{\\partial V}{\\partial T}\\\\right)_P$."
+  },
+  {
+    "question": "Using the 'Thermodynamic Square' (or Born Square) mnemonic, which potential is flanked by the variables $S$ and $P$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$U$"
+      },
+      {
+        "label": 2,
+        "value": "$F$"
+      },
+      {
+        "label": 3,
+        "value": "$G$"
+      },
+      {
+        "label": 4,
+        "value": "$H$"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Thermodynamics - Mnemonics",
+    "explanation": "In the standard Thermodynamic Square configuration (Good Physicists Have Studied Under Very Ambitious Teachers), $H$ (Enthalpy) is placed between $S$ (Entropy) and $P$ (Pressure), corresponding to its natural variables $H(S,P)$."
+  },
+  {
+    "question": "What is the value of the derivative $\\\\left(\\\\frac{\\partial C_P}{\\partial P}\\\\right)_T$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$-T\\\\left(\\\\frac{\\partial^2 V}{\\partial T^2}\\\\right)_P$"
+      },
+      {
+        "label": 2,
+        "value": "$T\\\\left(\\\\frac{\\partial^2 P}{\\partial T^2}\\\\right)_V$"
+      },
+      {
+        "label": 3,
+        "value": "$-T\\\\left(\\\\frac{\\partial^2 S}{\\partial T^2}\\\\right)_P$"
+      },
+      {
+        "label": 4,
+        "value": "0"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamics - Thermodynamic Relations",
+    "explanation": "Start with $C_P = T\\\\left(\\\\frac{\\partial S}{\\partial T}\\\\right)_P$. Differentiate with respect to $P$: $\\\\left(\\\\frac{\\partial C_P}{\\partial P}\\\\right)_T = T\\\\frac{\\partial}{\\partial P}\\\\left(\\\\left(\\\\frac{\\partial S}{\\partial T}\\\\right)_P\\\\right)_T$. Using Schwarz's theorem, swap order: $T\\\\frac{\\partial}{\\partial T}\\\\left(\\\\left(\\\\frac{\\partial S}{\\partial P}\\\\right)_T\\\\right)_P$. Use Maxwell relation $\\\\left(\\\\frac{\\partial S}{\\partial P}\\\\right)_T = -\\\\left(\\\\frac{\\partial V}{\\partial T}\\\\right)_P$. The result is $-T\\\\left(\\\\frac{\\partial^2 V}{\\partial T^2}\\\\right)_P$."
+  },
+  {
+    "question": "During a first-order phase transition (like boiling water), which of the following quantities is continuous?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Entropy ($S$)"
+      },
+      {
+        "label": 2,
+        "value": "Volume ($V$)"
+      },
+      {
+        "label": 3,
+        "value": "Gibbs Free Energy ($G$)"
+      },
+      {
+        "label": 4,
+        "value": "Heat Capacity ($C_p$)"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Thermodynamics - Phase Transitions",
+    "explanation": "In a first-order phase transition, the chemical potential (and thus molar Gibbs Free Energy) of the two phases is equal at equilibrium ($G_1 = G_2$). However, the first derivatives of $G$ (which correspond to $S$ and $V$) are discontinuous, leading to latent heat and volume change."
+  },
+  {
+    "question": "The Third Law of Thermodynamics implies that for a perfectly crystalline substance at absolute zero temperature:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The internal energy is zero"
+      },
+      {
+        "label": 2,
+        "value": "The entropy is zero"
+      },
+      {
+        "label": 3,
+        "value": "The heat capacity is infinite"
+      },
+      {
+        "label": 4,
+        "value": "The volume is zero"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - Third Law",
+    "explanation": "The Third Law states that the entropy of a perfect crystal at absolute zero (0 K) is exactly equal to zero. This provides a reference point for calculating absolute entropies."
+  }
+]

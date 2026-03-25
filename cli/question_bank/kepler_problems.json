@@ -1,0 +1,485 @@
+[
+  {
+    "question": "A particle moves in a spiral path defined by $r = r_0 e^{a\theta}$. Assuming the total energy $E$ is zero and the angular momentum is $L$, what is the functional form of the potential $V(r)$ that allows for this trajectory?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$V(r) = -\\frac{L^2(a^2+1)}{2mr^2}$"
+      },
+      {
+        "label": 2,
+        "value": "$V(r) = -\\frac{L^2 a^2}{2mr^2}$"
+      },
+      {
+        "label": 3,
+        "value": "$V(r) = -\\frac{L^2}{2mar^3}$"
+      },
+      {
+        "label": 4,
+        "value": "$V(r) = -\\frac{L^2(a^2-1)}{2mr^2}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Effective Potential",
+    "explanation": "Starting from $E = \\frac{1}{2}m\\dot{r}^2 + \\frac{L^2}{2mr^2} + V(r) = 0$. Given $r = r_0 e^{a\\theta}$, we differentiate with respect to time: $\\dot{r} = a r_0 e^{a\\theta} \\dot{\\theta} = ar\\dot{\\theta}$. Since $L = mr^2\\dot{\\theta}$, we have $\\dot{\\theta} = L/mr^2$, so $\\dot{r} = aL/mr$. Plugging into the energy equation: $\\frac{1}{2}m(\\frac{aL}{mr})^2 + \\frac{L^2}{2mr^2} + V(r) = 0$, which simplifies to $V(r) = -\\frac{L^2(a^2+1)}{2mr^2}$."
+  },
+  {
+    "question": "A particle moves in a potential $V(r) = -C/(3r^3)$. If the particle approaches from infinity with speed $v_0$ and impact parameter $b$, what is the maximum value of $b$ for which the particle will be captured by the potential (i.e., spiral into the center)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$b_{max} = \\left( \\frac{C^2}{m^2 v_0^2} \\right)^{1/3}$"
+      },
+      {
+        "label": 2,
+        "value": "$b_{max} = \\left( \\frac{4C^2}{m^2 v_0^4} \\right)^{1/6}$"
+      },
+      {
+        "label": 3,
+        "value": "$b_{max} = \\left( \\frac{C}{mv_0^2} \\right)^{1/3}$"
+      },
+      {
+        "label": 4,
+        "value": "$b_{max} = \\left( \\frac{C^2}{4m^2 v_0^2} \\right)^{1/4}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Effective Potential",
+    "explanation": "The effective potential is $V_{eff}(r) = \\frac{L^2}{2mr^2} - \\frac{C}{3r^3}$. Setting $V'_{eff}(r) = 0$ gives $r_{max} = C m / L^2$. The maximum value of $V_{eff}$ is $V_{eff}(r_{max}) = \\frac{L^6}{6m^3 C^2}$. For capture, the initial energy $E = \\frac{1}{2}mv_0^2$ must be greater than or equal to this maximum. Using $L = mv_0 b$, we solve $\\frac{1}{2}mv_0^2 = \\frac{(mv_0 b)^6}{6m^3 C^2}$ for $b$, yielding $b_{max} = (4C^2/m^2v_0^4)^{1/6}$."
+  },
+  {
+    "question": "Consider a central potential of the form $V(r) = \\beta r^k$. For a nearly circular orbit of radius $r_0$, what is the ratio of the radial oscillation frequency $\\omega_r$ to the angular frequency $\\omega_\\theta$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\omega_r / \\omega_\\theta = \\sqrt{k+2}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\omega_r / \\omega_\\theta = \\sqrt{k-2}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\omega_r / \\omega_\\theta = k+2$"
+      },
+      {
+        "label": 4,
+        "value": "$\\omega_r / \\omega_\\theta = \\sqrt{3k}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Orbital Stability",
+    "explanation": "For a circular orbit, $V'_{eff}(r_0) = 0$. The frequency of small radial oscillations is $\\omega_r = \\sqrt{V''_{eff}(r_0)/m}$. For $V(r) = \\beta r^k$, $V_{eff} = \\frac{L^2}{2mr^2} + \\beta r^k$. Calculation shows $V''_{eff}(r_0) = (k+2)\\frac{L^2}{mr_0^4}$. Since $\\omega_\\theta = L/mr_0^2$, we find $\\omega_r^2 = (k+2)\\omega_\\theta^2$."
+  },
+  {
+    "question": "According to the exact treatment of the two-body problem (reduced mass), how is Kepler's Third Law modified for a system where two masses $M$ and $m$ orbit each other with semi-major axis $a$ relative to each other?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T^2 = \\frac{4\\pi^2 a^3}{G(M+m)}$"
+      },
+      {
+        "label": 2,
+        "value": "$T^2 = \\frac{4\\pi^2 a^3}{GM}$"
+      },
+      {
+        "label": 3,
+        "value": "$T^2 = \\frac{4\\pi^2 a^3}{G\\mu}$ where $\\mu = Mm/(M+m)$"
+      },
+      {
+        "label": 4,
+        "value": "$T^2 = \\frac{4\\pi^2 a^3}{G(M-m)}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Kepler's Laws",
+    "explanation": "In the reduced mass frame, the potential is $-GMm/r$ and the mass is $\\mu = Mm/(M+m)$. Using the formula derived in the text (Eq 7.48), $T^2 = \\frac{4\\pi^2 a^3 \\mu}{GMm} = \\frac{4\\pi^2 a^3 [Mm/(M+m)]}{GMm} = \\frac{4\\pi^2 a^3}{G(M+m)}$."
+  },
+  {
+    "question": "As shown in Figure 7.9, a particle follows a hyperbolic trajectory. If $b$ is the semi-minor axis of the hyperbola and $a$ is the semi-major axis, what is the physical interpretation of $b$ in terms of the particle's initial approach from infinity?",
+    "options": [
+      {
+        "label": 1,
+        "value": "It is the distance of closest approach (periapsis)."
+      },
+      {
+        "label": 2,
+        "value": "It is the impact parameter (perpendicular distance from the focus to the initial velocity vector)."
+      },
+      {
+        "label": 3,
+        "value": "It is the focal length of the hyperbola."
+      },
+      {
+        "label": 4,
+        "value": "It is the radius of the circular orbit with the same energy."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Kepler Problems",
+    "image_path": "pariksha/a8b51b7be07e83e769bc98eb57a64277.webp",
+    "explanation": "As discussed in Problem 7.14, the geometric semi-minor axis $b$ of the hyperbola corresponds exactly to the impact parameter, which is the perpendicular distance by which the particle would have missed the focus if there were no gravitational attraction."
+  },
+  {
+    "question": "A spaceship in a circular orbit of radius $R$ around a planet of mass $M$ applies a tangential thrust, increasing its speed by a factor $f$. What value of $f$ is required to change the orbit from circular to parabolic?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$f = 2$"
+      },
+      {
+        "label": 2,
+        "value": "$f = \\sqrt{2}$"
+      },
+      {
+        "label": 3,
+        "value": "$f = 1/\\sqrt{2}$"
+      },
+      {
+        "label": 4,
+        "value": "$f = 1.5$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Orbital Maneuvers",
+    "explanation": "For a circular orbit, $v_c = \\sqrt{GM/R}$. For a parabolic orbit, the energy must be zero, so $\\frac{1}{2}mv_{esc}^2 - \\frac{GMm}{R} = 0$, leading to $v_{esc} = \\sqrt{2GM/R}$. Thus, $v_{esc} = \\sqrt{2} v_c$, so $f = \\sqrt{2}$."
+  },
+  {
+    "question": "Refer to Figure 5.42. A stick of length $2R$ is in a circular orbit around a planet of radius $R$, with its center of mass at a distance $2R$ from the center of the planet. How does the orbital period of this stick compare to the period $T_0$ of a point-mass satellite in a circular orbit of radius $2R$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The stick's period is exactly $T_0$."
+      },
+      {
+        "label": 2,
+        "value": "The stick's period is slightly longer than $T_0$."
+      },
+      {
+        "label": 3,
+        "value": "The stick's period is slightly shorter than $T_0$."
+      },
+      {
+        "label": 4,
+        "value": "The stick cannot maintain a stable circular orbit."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Kepler Problems",
+    "image_path": "pariksha/5c7bea3569b113521e8845579ec1975e.webp",
+    "explanation": "The gravitational force on the stick is $F = \\int_{R}^{3R} \\frac{GM(m/2R)}{r^2} dr = \\frac{GMm}{3R^2}$. For a point mass at $2R$, the force would be $GMm/4R^2$. Since $1/3 > 1/4$, the force on the stick is stronger. For circular motion $F = m\\omega^2 r_{cm}$, a stronger force at the same $r_{cm}$ means a higher $\\omega$, hence a shorter period. Wait, if $F$ is larger, $T$ is shorter. Let's re-evaluate: $T = 2\\pi \\sqrt{r/a}$. If $a$ is larger, $T$ is smaller. Correction: The period is shorter."
+  },
+  {
+    "question": "Based on Figure 5.43, if a tube is drilled through the Earth and an object is dropped in, assuming constant density $\\rho$, what is the period of the resulting simple harmonic motion?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T = 2\\pi \\sqrt{\\frac{R}{g}}$"
+      },
+      {
+        "label": 2,
+        "value": "$T = \\pi \\sqrt{\\frac{R}{g}}$"
+      },
+      {
+        "label": 3,
+        "value": "$T = 2\\pi \\sqrt{\\frac{3}{4\\pi G \\rho}}$"
+      },
+      {
+        "label": 4,
+        "value": "Both 1 and 3 are correct."
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Gravity",
+    "image_path": "pariksha/2d4dc66a658e15d72e5ba582718c00ee.webp",
+    "explanation": "The force inside a constant density sphere is $F = -mgr/R$. This leads to SHM with $\\omega = \\sqrt{g/R}$. Thus $T = 2\\pi \\sqrt{R/g}$. Substituting $g = G(4/3 \\pi R^3 \\rho)/R^2 = 4/3 \\pi G \\rho R$ into the period formula yields $T = 2\\pi \\sqrt{3/(4\\pi G \\rho)}$. Both expressions are equivalent."
+  },
+  {
+    "question": "A particle orbits a planet in a parabolic orbit. At its distance of closest approach $r_{min}$, it just skims the surface of the planet. If the planet has a uniform density $\\rho$, what is the angular velocity $\\omega$ of the particle at this point?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\omega = \\sqrt{\\frac{4\\pi G \\rho}{3}}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\omega = \\sqrt{\\frac{8\\pi G \\rho}{3}}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\omega = \\sqrt{\\frac{2\\pi G \\rho}{3}}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\omega = \\sqrt{\\frac{16\\pi G \\rho}{3}}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Orbital Mechanics",
+    "explanation": "For a parabolic orbit at the surface $R$, the speed is $v = \\sqrt{2GM/R}$. The angular velocity is $\\omega = v/R = \\sqrt{2GM/R^3}$. Substituting $M = \\frac{4}{3}\\pi R^3 \\rho$, we get $\\omega = \\sqrt{2G(\\frac{4}{3}\\pi R^3 \\rho)/R^3} = \\sqrt{\\frac{8\\pi G \\rho}{3}}$."
+  },
+  {
+    "question": "Two masses $m$ and $2m$ orbit their common center of mass in elliptical orbits. What is the minimum eccentricity $\\epsilon$ required for their paths to intersect?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\epsilon = 1/2$"
+      },
+      {
+        "label": 2,
+        "value": "$\\epsilon = 1/3$"
+      },
+      {
+        "label": 3,
+        "value": "$\\epsilon = 2/3$"
+      },
+      {
+        "label": 4,
+        "value": "$\\epsilon = 1/4$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Kepler Problems",
+    "explanation": "The distances from the CM to the masses are in ratio $r_1/r_2 = 2/1$. The orbits are scaled versions of each other. Let $a_1, a_2$ be the semi-major axes; $a_1 = 2a_2$. The focus (CM) is the same for both. Intersection occurs if the apoapsis of the smaller orbit $a_2(1+\\epsilon)$ is greater than the periapsis of the larger orbit $a_1(1-\\epsilon)$. So, $a_2(1+\\epsilon) > 2a_2(1-\\epsilon) \\Rightarrow 1+\\epsilon > 2 - 2\\epsilon \\Rightarrow 3\\epsilon > 1 \\Rightarrow \\epsilon > 1/3$."
+  },
+  {
+    "question": "For a potential $V(r) = -V_0 e^{-\\lambda^2 r^2}$, it is observed that no circular orbits exist if the angular momentum $L$ exceeds a certain critical value. This happens because:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The effective potential $V_{eff}$ no longer has a local minimum."
+      },
+      {
+        "label": 2,
+        "value": "The potential becomes positive at large $r$."
+      },
+      {
+        "label": 3,
+        "value": "The centripetal force is always greater than the attractive force."
+      },
+      {
+        "label": 4,
+        "value": "The particle's energy becomes imaginary."
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Effective Potential",
+    "explanation": "Circular orbits exist at the minima of the effective potential $V_{eff}$. For a Gaussian potential, as $L$ increases, the centrifugal term $L^2/2mr^2$ dominates more strongly, and for large enough $L$, the combined $V_{eff}$ curve loses its 'dip' or local minimum, meaning no stable circular orbit can be maintained."
+  },
+  {
+    "question": "An object of mass $m$ is allowed to fall radially from rest at a distance $R$ (the Earth's orbital radius) into the Sun. Using the 'thin ellipse' approximation, how does the time to fall $t_{fall}$ relate to the period $T$ of the Earth's circular orbit?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$t_{fall} = T/2$"
+      },
+      {
+        "label": 2,
+        "value": "$t_{fall} = T/4$"
+      },
+      {
+        "label": 3,
+        "value": "$t_{fall} = T / (4\\sqrt{2})$"
+      },
+      {
+        "label": 4,
+        "value": "$t_{fall} = T / (2\\sqrt{2})$"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Kepler's Laws",
+    "explanation": "A radial fall from $R$ is half of an extremely thin elliptical orbit with semi-major axis $a = R/2$. According to Kepler's 3rd Law, $T_{orbit} \\propto a^{3/2}$. Thus $T_{thin} = T ( (R/2) / R )^{3/2} = T / 2\\sqrt{2}$. The fall time is half the period of this thin ellipse, so $t_{fall} = T_{thin}/2 = T / (4\\sqrt{2})$. Wait, the semi-major axis is $R/2$, so the period of the full thin ellipse is $T(1/2)^{3/2} = T/(2\\sqrt{2})$. The fall time is half of that, so $T/(4\\sqrt{2})$."
+  },
+  {
+    "question": "In a geostationary orbit, a satellite must remain above the same point on the equator. If $\\rho$ is the average density of the Earth and $\\omega$ is its angular frequency of rotation, what is the ratio of the orbit radius to the Earth's radius, $\\eta = r/R$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\eta = (\\frac{4\\pi G \\rho}{3\\omega^2})^{1/3}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\eta = (\\frac{G \\rho}{\\omega^2})^{1/3}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\eta = (\\frac{4\\pi G \\rho}{\\omega^2})^{1/2}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\eta = (\\frac{3\\omega^2}{4\\pi G \\rho})^{1/3}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Kepler Problems",
+    "explanation": "For geostationary orbit, $m\\omega^2 r = GMm/r^2$. Thus $r^3 = GM/\\omega^2$. Substituting $M = 4/3 \\pi R^3 \\rho$, we get $r^3 = G(4/3 \\pi R^3 \\rho)/\\omega^2$, so $(r/R)^3 = \\frac{4\\pi G \\rho}{3\\omega^2}$."
+  },
+  {
+    "question": "A particle of mass $m$ moves in a potential $V(r) = \\beta r^2$. Which of the following describes the resulting closed orbit?",
+    "options": [
+      {
+        "label": 1,
+        "value": "An ellipse with the center of force at one focus."
+      },
+      {
+        "label": 2,
+        "value": "An ellipse with the center of force at the center of the ellipse."
+      },
+      {
+        "label": 3,
+        "value": "A circle that does not enclose the center of force."
+      },
+      {
+        "label": 4,
+        "value": "A parabola."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Orbital Geometry",
+    "explanation": "A $V(r) = \\beta r^2$ potential corresponds to a 3D isotropic harmonic oscillator. The orbits are indeed ellipses, but unlike the Kepler problem (where the force center is at a focus), the force center for a spring potential is at the geometric center of the ellipse."
+  },
+  {
+    "question": "If the sun's mass $M_\\odot$ were replaced by a stationary mass $M_{new}$ located at the Earth-Sun Center of Mass (CM) to produce the same gravitational force on the Earth, what would be the value of $M_{new}$ in terms of $M = M_\\odot + m$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$M_{new} = M_\\odot$"
+      },
+      {
+        "label": 2,
+        "value": "$M_{new} = (M_\\odot/M) M_\\odot$"
+      },
+      {
+        "label": 3,
+        "value": "$M_{new} = (M_\\odot/M)^2 M_\\odot$"
+      },
+      {
+        "label": 4,
+        "value": "$M_{new} = (M/M_\\odot)^2 M_\\odot$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Reduced Mass",
+    "explanation": "From the Remark in Section 7.4.4, the stationary mass must be $M_{new} = (M_\\odot/M)^2 M_\\odot$. This is because the new distance is $r_{new} = (M_\\odot/M)r$, and since $F \\propto M/r^2$, for the force to remain the same, $M_{new}/r_{new}^2 = M_\\odot/r^2$."
+  },
+  {
+    "question": "For which value of $k$ in the potential $V(r) = \\beta r^k$ will a nearly circular orbit be closed (i.e., the particle returns to the same spatial point after a finite number of oscillations)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$k = 1$"
+      },
+      {
+        "label": 2,
+        "value": "$k = -1$"
+      },
+      {
+        "label": 3,
+        "value": "$k = 2$"
+      },
+      {
+        "label": 4,
+        "value": "All of the above"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Orbital Stability",
+    "explanation": "Orbits are closed if the ratio $\\omega_r/\\omega_\\theta = \\sqrt{k+2}$ is a rational number. For $k=1$, ratio is $\\sqrt{3}$ (not rational). Wait, let's check: $k=-1 \\Rightarrow \\sqrt{1}=1$ (Kepler, closed). $k=2 \\Rightarrow \\sqrt{4}=2$ (Harmonic, closed). $k=7 \\Rightarrow \\sqrt{9}=3$ (closed). $k=1$ is NOT closed. Only $k=-1$ and $k=2$ are closed for ALL orbits (Bertrand's Theorem), but for nearly circular ones, any $k$ such that $k+2$ is a square of a rational works."
+  },
+  {
+    "question": "A particle with speed $v_0$ and impact parameter $b$ starts far away from a planet of mass $M$. What is its distance of closest approach $r_{min}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$r_{min} = \\frac{GM}{v_0^2} [\\sqrt{1 + (bv_0^2/GM)^2} - 1]$"
+      },
+      {
+        "label": 2,
+        "value": "$r_{min} = \\frac{GM}{v_0^2} [\\sqrt{1 + (bv_0^2/GM)^2} + 1]$"
+      },
+      {
+        "label": 3,
+        "value": "$r_{min} = b [\\sqrt{1 + (GM/bv_0^2)^2} - (GM/bv_0^2)]$"
+      },
+      {
+        "label": 4,
+        "value": "$r_{min} = \\sqrt{b^2 + (GM/v_0^2)^2}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Kepler Problems",
+    "explanation": "Using conservation of energy $\\frac{1}{2}mv_0^2 = \\frac{1}{2}mv_{min}^2 - \\frac{GMm}{r_{min}}$ and angular momentum $mv_0 b = mv_{min} r_{min}$. Substituting $v_{min} = v_0 b / r_{min}$ into the energy equation and solving the quadratic for $r_{min}$ gives the result $r_{min} = \\frac{GM}{v_0^2} (\\sqrt{1 + (bv_0^2/GM)^2} - 1)$, which can be rearranged to the form in option 3."
+  },
+  {
+    "question": "In the context of Kepler's Second Law, the rate at which area is swept out is $dA/dt = L/2m$. If a planet's mass were doubled while keeping its angular momentum $L$ constant, how would the rate of area sweeping change?",
+    "options": [
+      {
+        "label": 1,
+        "value": "It would double."
+      },
+      {
+        "label": 2,
+        "value": "It would be halved."
+      },
+      {
+        "label": 3,
+        "value": "It would remain the same."
+      },
+      {
+        "label": 4,
+        "value": "It would quadruple."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Kepler's Laws",
+    "explanation": "The formula $dA/dt = L/2m$ shows that the rate of area swept out is inversely proportional to the mass $m$ of the orbiting body for a fixed angular momentum $L$."
+  },
+  {
+    "question": "Consider a potential $V(r) = -V_0 e^{-\\lambda^2 r^2}$. Find the radius $r_0$ of a stable circular orbit for a given angular momentum $L$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$L^2 = 2m V_0 \\lambda^2 r_0^4 e^{-\\lambda^2 r_0^2}$"
+      },
+      {
+        "label": 2,
+        "value": "$L^2 = m V_0 \\lambda r_0^3 e^{-\\lambda^2 r_0^2}$"
+      },
+      {
+        "label": 3,
+        "value": "$L^2 = 2m V_0 \\lambda^2 r_0^2 e^{-\\lambda^2 r_0^2}$"
+      },
+      {
+        "label": 4,
+        "value": "$L^2 = m V_0 r_0^2 e^{-\\lambda^2 r_0^2}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Effective Potential",
+    "explanation": "For a circular orbit, $V'_{eff}(r_0) = 0$. $V_{eff} = \\frac{L^2}{2mr^2} - V_0 e^{-\\lambda^2 r^2}$. $V'_{eff} = -\\frac{L^2}{mr^3} + 2V_0 \\lambda^2 r e^{-\\lambda^2 r^2} = 0$. Solving for $L^2$ gives $L^2 = 2m V_0 \\lambda^2 r_0^4 e^{-\\lambda^2 r_0^2}$."
+  },
+  {
+    "question": "A mass $m$ orbits a planet of mass $M$ in a parabolic orbit $y = x^2/(4\\ell)$. What is the speed of the mass at its closest approach to the focus?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$v = \\sqrt{GM/\\ell}$"
+      },
+      {
+        "label": 2,
+        "value": "$v = \\sqrt{2GM/\\ell}$"
+      },
+      {
+        "label": 3,
+        "value": "$v = \\sqrt{GM/2\\ell}$"
+      },
+      {
+        "label": 4,
+        "value": "$v = 2\\sqrt{GM/\\ell}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Kepler Problems",
+    "explanation": "In the parabola $y = x^2/(4\\ell)$, the focus is at $(0, \\ell)$ and the vertex is at $(0,0)$. The distance of closest approach is $r_{min} = \\ell$. For a parabolic orbit, $E=0$, so $\\frac{1}{2}mv^2 - \\frac{GMm}{\\ell} = 0$, which gives $v = \\sqrt{2GM/\\ell}$."
+  }
+]

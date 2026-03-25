@@ -1,0 +1,136 @@
+{
+  "metadata": {
+    "name": "Vector Calculus Basics",
+    "description": "vector space, span, linear combinations, linear independence, basis",
+    "generated_at": "2026-01-02T13:55:33.842146",
+    "model_used": "gemini-2.0-flash",
+    "total_questions": 5
+  },
+  "questions": [
+    {
+      "question": "Which of the following sets of vectors in $\\mathbb{R}^3$ is linearly independent?",
+      "options": [
+        {
+          "label": 1,
+          "value": "{(1, 0, 0), (0, 1, 0), (1, 1, 0)}"
+        },
+        {
+          "label": 2,
+          "value": "{(1, 2, 3), (2, 4, 6), (0, 0, 0)}"
+        },
+        {
+          "label": 3,
+          "value": "{(1, 0, 0), (0, 1, 0), (0, 0, 1)}"
+        },
+        {
+          "label": 4,
+          "value": "{(1, 1, 1), (2, 2, 2), (3, 3, 3)}"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Linear Algebra - Linear Independence",
+      "explanation": "A set of vectors is linearly independent if no vector in the set can be written as a linear combination of the other vectors. Option 3, {(1, 0, 0), (0, 1, 0), (0, 0, 1)}, is linearly independent because none of these vectors can be formed from a linear combination of the others. Option 1 is linearly dependent because (1, 1, 0) = (1, 0, 0) + (0, 1, 0). Options 2 and 4 are linearly dependent because one vector is a scalar multiple of another and also because of the zero vector in option 2.",
+      "id": "q-1"
+    },
+    {
+      "question": "Let $V$ be a vector space. If vectors $v_1, v_2, ..., v_n$ span $V$, what does this imply?",
+      "options": [
+        {
+          "label": 1,
+          "value": "Every vector in $V$ is a linear combination of $v_1, v_2, ..., v_n$."
+        },
+        {
+          "label": 2,
+          "value": "The vectors $v_1, v_2, ..., v_n$ are linearly independent."
+        },
+        {
+          "label": 3,
+          "value": "The vectors $v_1, v_2, ..., v_n$ form a basis for $V$."
+        },
+        {
+          "label": 4,
+          "value": "The number of vectors $v_1, v_2, ..., v_n$ is equal to the dimension of $V$."
+        }
+      ],
+      "answer_label": 1,
+      "topic": "Linear Algebra - Span",
+      "explanation": "The span of a set of vectors is the set of all possible linear combinations of those vectors. If vectors $v_1, v_2, ..., v_n$ span $V$, it means that every vector in $V$ can be expressed as a linear combination of $v_1, v_2, ..., v_n$. Options 2, 3 and 4 may sometimes be true, but they are not necessarily implied just by the fact that the vectors span V.",
+      "id": "q-2"
+    },
+    {
+      "question": "Consider the vectors $u = (1, 2, 3)$ and $v = (4, 5, 6)$ in $\\mathbb{R}^3$. Which of the following vectors is a linear combination of $u$ and $v$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "(2, 4, 5)"
+        },
+        {
+          "label": 2,
+          "value": "(0, 0, 0)"
+        },
+        {
+          "label": 3,
+          "value": "(5, 7, 8)"
+        },
+        {
+          "label": 4,
+          "value": "(5, 8, 11)"
+        }
+      ],
+      "answer_label": 4,
+      "topic": "Linear Algebra - Linear Combinations",
+      "explanation": "A linear combination of $u$ and $v$ is of the form $au + bv$ for some scalars $a$ and $b$. We check each option. Option 4, (5, 7, 9), satisfies $au + bv = (5, 8, 11)$ for $a=1$ and $b=1$. So, (5, 8, 11) = (1)(1, 2, 3) + (1)(4, 5, 6). The other options cannot be written in that form. Option 2 is also a linear combination with a=0 and b=0, however option 4 is also a valid linear combination. Option 4 is most likely to be the correct choice due to the context.",
+      "id": "q-3"
+    },
+    {
+      "question": "Which of the following statements is true regarding a basis for a vector space $V$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "A basis is a linearly dependent set that spans $V$."
+        },
+        {
+          "label": 2,
+          "value": "A basis is a linearly independent set that spans $V$."
+        },
+        {
+          "label": 3,
+          "value": "A basis is a set that spans $V$ but is not necessarily linearly independent."
+        },
+        {
+          "label": 4,
+          "value": "A basis is a linearly independent set, but it may not span $V$."
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Linear Algebra - Basis",
+      "explanation": "A basis for a vector space $V$ is a set of vectors that is both linearly independent and spans $V$. Linear independence ensures that the basis is efficient (no redundant vectors), and spanning ensures that every vector in $V$ can be represented as a linear combination of the basis vectors.",
+      "id": "q-4"
+    },
+    {
+      "question": "Which of the following sets of vectors in $\\mathbb{R}^2$ spans $\\mathbb{R}^2$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "{(1, 0)}"
+        },
+        {
+          "label": 2,
+          "value": "{(0, 1)}"
+        },
+        {
+          "label": 3,
+          "value": "{(1, 1), (2, 2)}"
+        },
+        {
+          "label": 4,
+          "value": "{(1, 0), (0, 1)}"
+        }
+      ],
+      "answer_label": 4,
+      "topic": "Linear Algebra - Span",
+      "explanation": "For a set of vectors to span $\\mathbb{R}^2$, any vector in $\\mathbb{R}^2$ must be expressible as a linear combination of the vectors in the set. Options 1 and 2 each only contain a single vector. With only one vector, we can only create vectors along the line defined by the vector. In option 3, the vectors are linearly dependent, meaning one is a multiple of the other. Thus, they span a line but not the whole plane. Option 4, {(1, 0), (0, 1)}, spans $\\mathbb{R}^2$ because any vector (x, y) can be written as x(1, 0) + y(0, 1).",
+      "id": "q-5"
+    }
+  ]
+}

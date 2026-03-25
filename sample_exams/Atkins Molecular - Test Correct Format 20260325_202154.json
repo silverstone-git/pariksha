@@ -1,0 +1,50 @@
+[
+  {
+    "question": "The Rayleigh-Jeans law for the energy density of black-body radiation, $\\rho(\\lambda)$, represents the classical attempt to describe the spectrum of a radiator. According to the provided text, what is the functional dependence of $\\rho(\\lambda)$ on the wavelength $\\lambda$ that lead to the 'ultraviolet catastrophe'?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\rho(\\lambda) = \\frac{8\\pi kT}{\\lambda^2}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\rho(\\lambda) = \\frac{8\\pi kT}{\\lambda^4}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\rho(\\lambda) = \\frac{8\\pi hc}{\\lambda^5}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\rho(\\lambda) = \\frac{kT}{\\lambda^4 e^{\\lambda}}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Black-body radiation",
+    "explanation": "The Rayleigh-Jeans law is given in the text as $\\rho(\\lambda) = \\frac{8\\pi kT}{\\lambda^4}$. This formula implies that as the wavelength $\\lambda$ approaches zero (the ultraviolet region), the energy density tends toward infinity, a result known as the ultraviolet catastrophe."
+  },
+  {
+    "question": "Max Planck resolved the ultraviolet catastrophe by proposing the quantization of energy. According to the text, what specific condition did Planck impose on the oscillators of the electromagnetic field to derive the Planck distribution?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The wavelength of the oscillation must be an integer multiple of the radiator's dimensions."
+      },
+      {
+        "label": 2,
+        "value": "The temperature $T$ must be proportional to the frequency $\\nu$ of the oscillator."
+      },
+      {
+        "label": 3,
+        "value": "The oscillators can only be excited in discrete steps of energy of magnitude $h\\nu$."
+      },
+      {
+        "label": 4,
+        "value": "The energy of the oscillators must vary continuously to match the Rayleigh-Jeans law at high frequencies."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Planck distribution",
+    "explanation": "Planck suggested that an oscillation of frequency $\\nu$ could be excited only in steps of energy $h\\nu$, meaning the oscillator can have energies $0, h\\nu, 2h\\nu, \\dots$, and no other energy. This 'quantization' effectively suppresses high-frequency (short wavelength) oscillators, eliminating the infinite energy density predicted by classical physics."
+  }
+]

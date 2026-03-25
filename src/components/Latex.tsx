@@ -15,7 +15,7 @@ export const Latex = ({ children }: LatexProps) => {
     if (ref.current) {
       renderMathInElement(ref.current, {
         delimiters: [
-          { left: "$", right: "$", display: true },
+          { left: "$$", right: "$$", display: true },
           { left: "$", right: "$", display: false },
         ],
         throwOnError: false,

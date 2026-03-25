@@ -1,0 +1,502 @@
+[
+  {
+    "question": "A tube of mass $M$ and length $\\ell$ is pivoted at one end and free to swing. A small mass $m$ is placed inside at the pivot and released from a horizontal position. Let $\\eta$ be the fraction of the tube length traversed by the mass $m$ by the time the tube reaches a vertical orientation. Based on dimensional analysis, how does $\\eta$ scale with the length $\\ell$ of the tube?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\eta \\propto \\ell$"
+      },
+      {
+        "label": 2,
+        "value": "$\\eta \\propto \\ell^{1/2}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\eta \\propto \\ell^0$ (independent of $\\ell$)"
+      },
+      {
+        "label": 4,
+        "value": "$\\eta \\propto \\ell^{-1}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Dimensional Analysis",
+    "explanation": "The fraction $\\eta$ is a dimensionless quantity. The only parameters with dimensions of length are $\\ell$. Since $\\eta$ must be a function of dimensionless ratios, and there are no other independent length scales in the problem (assuming $M$ and $m$ are point-like or uniform), $\\eta$ must be independent of $\\ell$.",
+    "image_path": "pariksha/85fac6844f32cb9197f3b22bff9f14df.webp"
+  },
+  {
+    "question": "In the thermodynamic limit of a system with $N$ particles distributed between two energy levels $\\pm\\epsilon$ with total energy $E$, the inverse temperature $\\beta = 1/k_B T$ is derived using Stirling's approximation. Which of the following expressions correctly represents $\\beta$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{1}{2\\epsilon} \\ln \\left[ \\frac{N - E/\\epsilon}{N + E/\\epsilon} \\right]$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{1}{2\\epsilon} \\ln \\left[ \\frac{N\\epsilon - E}{N\\epsilon + E} \\right]$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{1}{\\epsilon} \\ln \\left[ \\frac{N - E/\\epsilon}{N + E/\\epsilon} \\right]$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{1}{2\\epsilon} \\ln \\left[ \\frac{N + E/\\epsilon}{N - E/\\epsilon} \\right]$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Approximation Methods in Statistical Mechanics",
+    "explanation": "Using $\\beta = \\frac{1}{k_B} \\frac{\\partial S}{\\partial E}$ and $S = k_B \\ln \\Omega$, with $\\Omega = \\frac{N!}{N_+! N_-!}$, $N_+ = (N + E/\\epsilon)/2$, and $N_- = (N - E/\\epsilon)/2$. Applying $\\ln N! \\approx N \\ln N - N$ leads to the logarithmic ratio of the populations.",
+    "image_path": null
+  },
+  {
+    "question": "For a one-dimensional simple harmonic oscillator with energy eigenstates $|n\\rangle$, the matrix element $\\langle m|\\hat{P}\\hat{X}|n\\rangle$ is evaluated. Under which condition is this matrix element non-zero?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$m = n \\pm 1$ only"
+      },
+      {
+        "label": 2,
+        "value": "$m = n \\pm 2$ only"
+      },
+      {
+        "label": 3,
+        "value": "$m = n$ or $m = n \\pm 2$"
+      },
+      {
+        "label": 4,
+        "value": "$m = n \\pm 3$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Perturbation Theory Matrix Elements",
+    "explanation": "Since $\\hat{X} \\propto (a + a^\\dagger)$ and $\\hat{P} \\propto (a - a^\\dagger)$, the product $\\hat{P}\\hat{X}$ involves terms like $a^2, (a^\\dagger)^2, aa^\\dagger, a^\\dagger a$. These operators connect state $|n\\rangle$ to $|n-2\\rangle, |n+2\\rangle$, and $|n\\rangle$ respectively.",
+    "image_path": null
+  },
+  {
+    "question": "A two-level system with unperturbed energies $E_1$ and $E_2$ is subjected to a perturbation $H' = \\lambda \\Delta \\sigma_x$. What is the second-order correction to the ground state energy $E_1$ (assume $E_1 < E_2$)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{\\lambda^2 \\Delta^2}{E_2 - E_1}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{\\lambda^2 \\Delta^2}{E_1 - E_2}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\lambda \\Delta$"
+      },
+      {
+        "label": 4,
+        "value": "0"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Time-Independent Perturbation Theory",
+    "explanation": "The second-order correction is given by $E_n^{(2)} = \\sum_{k \\neq n} \\frac{|\\langle k|H'|n\\rangle|^2}{E_n^{(0)} - E_k^{(0)}}$. For $n=1, k=2$: $H'_{21} = \\langle 2|\\lambda \\Delta \\sigma_x|1\\rangle = \\lambda \\Delta$. Thus, $E_1^{(2)} = \\frac{(\\lambda \\Delta)^2}{E_1 - E_2}$.",
+    "image_path": null
+  },
+  {
+    "question": "In the variational method, if we use a trial wavefunction $\\psi_{trial}$ to estimate the ground state energy $E_0$ of a Hamiltonian $H$, the Rayleigh ratio $\\mathcal{E} = \\frac{\\langle \\psi_{trial}|H|\\psi_{trial} \\rangle}{\\langle \\psi_{trial}|\\psi_{trial} \\rangle}$ satisfies which condition?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\mathcal{E} \\le E_0$"
+      },
+      {
+        "label": 2,
+        "value": "$\\mathcal{E} \\ge E_0$"
+      },
+      {
+        "label": 3,
+        "value": "$\\mathcal{E} = E_0$ always"
+      },
+      {
+        "label": 4,
+        "value": "$\\mathcal{E} \\ge E_1$ (first excited state)"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Variation Theory",
+    "explanation": "The variational principle states that the expectation value of the Hamiltonian for any trial function provides an upper bound to the true ground state energy.",
+    "image_path": null
+  },
+  {
+    "question": "Consider a particle of mass $m$ subject to a damping force $F = -bv^n$. Using dimensional analysis, for which value of $n$ does the stopping distance become independent of the initial velocity $V$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$n=0$"
+      },
+      {
+        "label": 2,
+        "value": "$n=1$"
+      },
+      {
+        "label": 3,
+        "value": "$n=2$"
+      },
+      {
+        "label": 4,
+        "value": "None of the above; it always depends on $V$"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Dimensional Analysis",
+    "explanation": "Dimensional analysis of $m \\frac{dv}{dt} = -bv^n$ shows the distance $x \\propto m V^{2-n}/b$. There is no integer $n$ (for standard damping) where $x$ is non-zero and independent of $V$ without leading to divergences or specific physical limits not captured by power laws alone.",
+    "image_path": null
+  },
+  {
+    "question": "The frequency $\\nu$ of a vibrating star depends on its radius $R$, mass density $\\rho$, and Newton's gravitational constant $G$. Using dimensional analysis, what is the functional form of $\\nu$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\nu \\propto \\sqrt{G\\rho}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\nu \\propto \\sqrt{G\\rho / R}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\nu \\propto G\\rho R$"
+      },
+      {
+        "label": 4,
+        "value": "$\\nu \\propto \\sqrt{G/\\rho}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Dimensional Analysis",
+    "explanation": "$[\\nu] = T^{-1}$, $[G] = M^{-1}L^3T^{-2}$, $[\\rho] = ML^{-3}$, $[R] = L$. Combining $G$ and $\\rho$ gives $[G\\rho] = T^{-2}$, so $\\nu \\propto \\sqrt{G\\rho}$. Radius $R$ drops out.",
+    "image_path": null
+  },
+  {
+    "question": "According to the Hellmann-Feynman theorem, the derivative of the energy $E_n(\\lambda)$ with respect to a parameter $\\lambda$ in the Hamiltonian $H(\\lambda)$ is equal to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\langle \\psi_n | \\frac{\\partial H}{\\partial \\lambda} | \\psi_n \\rangle$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{\\partial}{\\partial \\lambda} \\langle \\psi_n | H | \\psi_n \\rangle$ including the derivatives of the wavefunctions"
+      },
+      {
+        "label": 3,
+        "value": "$\\sum_{k} \\frac{|H'_{nk}|^2}{E_n - E_k}$"
+      },
+      {
+        "label": 4,
+        "value": "$E_n^{(1)}$ only if $\\lambda$ is small"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Hellmann-Feynman Theorem",
+    "explanation": "The theorem states $\\frac{dE}{d\\lambda} = \\langle \\psi(\\lambda) | \\frac{\\partial H}{\\partial \\lambda} | \\psi(\\lambda) \\rangle$, assuming the wavefunctions are normalized.",
+    "image_path": null
+  },
+  {
+    "question": "A particle in a 1D box of width $L$ is perturbed by a small potential $H' = V_0 \\sin(\\pi x / L)$. What is the first-order correction to the ground state energy?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2V_0/\\pi$"
+      },
+      {
+        "label": 2,
+        "value": "$8V_0/3\\pi$"
+      },
+      {
+        "label": 3,
+        "value": "$V_0/2$"
+      },
+      {
+        "label": 4,
+        "value": "0"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Time-Independent Perturbation Theory",
+    "explanation": " $E_1^{(1)} = \\langle \\psi_1 | H' | \\psi_1 \\rangle = \\int_0^L \\frac{2}{L} \\sin^2(\\frac{\\pi x}{L}) V_0 \\sin(\\frac{\\pi x}{L}) dx$. Using $\\sin^3 \\theta$ integration, the result is $\\frac{2V_0}{L} \\cdot \\frac{4L}{3\\pi} = \\frac{8V_0}{3\\pi}$.",
+    "image_path": null
+  },
+  {
+    "question": "In time-dependent perturbation theory, for a two-level system driven by an oscillating field at resonance, the probability of finding the system in the excited state follows which behavior?",
+    "options": [
+      {
+        "label": 1,
+        "value": "It increases linearly with time"
+      },
+      {
+        "label": 2,
+        "value": "It oscillates sinusoidally (Rabi oscillations)"
+      },
+      {
+        "label": 3,
+        "value": "It decays exponentially"
+      },
+      {
+        "label": 4,
+        "value": "It remains constant after a sudden jump"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Time-Dependent Perturbation Theory",
+    "explanation": "The solution to the two-level problem with an oscillating perturbation at resonance results in the Rabi formula, where the population oscillates between levels.",
+    "image_path": null
+  },
+  {
+    "question": "Which approximation method is most appropriate for calculating the transition rate of a particle from a bound state to a continuum of states under a constant perturbation?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Degenerate Perturbation Theory"
+      },
+      {
+        "label": 2,
+        "value": "Variational Method"
+      },
+      {
+        "label": 3,
+        "value": "Fermi's Golden Rule"
+      },
+      {
+        "label": 4,
+        "value": "WKB Approximation"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Time-Dependent Perturbation Theory",
+    "explanation": "Fermi's Golden Rule provides the transition rate to a continuum of states, typically denoted as $W_{i\\to f} = \\frac{2\\pi}{\\hbar} |H'_{fi}|^2 \\rho(E_f)$.",
+    "image_path": null
+  },
+  {
+    "question": "Consider a perturbation $H'$ applied to a degenerate energy level with two orthonormal states $|a\\rangle$ and $|b\\rangle$. If $\\langle a|H'|a\\rangle = \\langle b|H'|b\\rangle = 0$ and $\\langle a|H'|b\\rangle = V$, the first-order energy corrections are:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$0, 0$"
+      },
+      {
+        "label": 2,
+        "value": "$V, V$"
+      },
+      {
+        "label": 3,
+        "value": "$V, -V$"
+      },
+      {
+        "label": 4,
+        "value": "$V^2, -V^2$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Degenerate Perturbation Theory",
+    "explanation": "The secular equation is $\\text{det}\\begin{pmatrix} 0-E^{(1)} & V \\\\ V & 0-E^{(1)} \\end{pmatrix} = 0$, leading to $(E^{(1)})^2 - V^2 = 0$, so $E^{(1)} = \\pm V$.",
+    "image_path": null
+  },
+  {
+    "question": "For a ground state system, the second-order energy correction $E_0^{(2)}$ in non-degenerate perturbation theory is always:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Positive"
+      },
+      {
+        "label": 2,
+        "value": "Negative"
+      },
+      {
+        "label": 3,
+        "value": "Zero"
+      },
+      {
+        "label": 4,
+        "value": "Complex"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Time-Independent Perturbation Theory",
+    "explanation": "Since $E_0^{(2)} = \\sum_{k \\neq 0} \\frac{|H'_{0k}|^2}{E_0 - E_k}$ and $E_0 < E_k$ for all $k$, every term in the sum is negative.",
+    "image_path": null
+  },
+  {
+    "question": "The speed of waves in a fluid is assumed to depend on its density $\\rho$ and bulk modulus $B$ (pressure units). Dimensional analysis dictates the speed $v$ is proportional to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\sqrt{B/\\rho}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\sqrt{\\rho/B}$"
+      },
+      {
+        "label": 3,
+        "value": "$B\\rho$"
+      },
+      {
+        "label": 4,
+        "value": "$B/\\rho$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Dimensional Analysis",
+    "explanation": "$[B] = ML^{-1}T^{-2}$, $[\\rho] = ML^{-3}$. $[B/\\rho] = L^2T^{-2}$. Thus, $v \\propto \\sqrt{B/\\rho}$.",
+    "image_path": null
+  },
+  {
+    "question": "When applying the variational method to the Helium atom, using a trial wavefunction $\\psi(r_1, r_2) \\propto e^{-Z_{eff}(r_1+r_2)/a_0}$, the optimal $Z_{eff}$ is found to be $2 - 5/16$. This reduction from $Z=2$ physically accounts for:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Relativistic corrections"
+      },
+      {
+        "label": 2,
+        "value": "The exclusion principle"
+      },
+      {
+        "label": 3,
+        "value": "Screening of the nuclear charge by the other electron"
+      },
+      {
+        "label": 4,
+        "value": "Spin-orbit coupling"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Variation Theory",
+    "explanation": "The effective charge $Z_{eff}$ is less than the actual atomic number $Z$ because each electron 'screens' the nucleus, reducing the effective positive charge felt by the other electron.",
+    "image_path": null
+  },
+  {
+    "question": "Under the 'Sudden Approximation', if a Hamiltonian changes abruptly from $H_0$ to $H$ at $t=0$, the probability of the system remaining in the original ground state $|\\phi_0\\rangle$ of $H_0$ immediately after the change is given by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\sum_n |\\langle \\psi_n | \\phi_0 \\rangle|^2$ where $|\\psi_n\\rangle$ are states of $H$"
+      },
+      {
+        "label": 2,
+        "value": "$|\\langle \\psi_0 | \\phi_0 \\rangle|^2$ where $|\\psi_0\\rangle$ is the ground state of $H$"
+      },
+      {
+        "label": 3,
+        "value": "1"
+      },
+      {
+        "label": 4,
+        "value": "0"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Time-Dependent Perturbation Theory",
+    "explanation": "In the sudden approximation, the state vector does not have time to change. The probability of finding it in a specific eigenstate of the new Hamiltonian is the square of the overlap integral.",
+    "image_path": null
+  },
+  {
+    "question": "In the context of the WKB approximation for a potential barrier, the transmission coefficient $T$ is approximately proportional to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\exp\\left( -\\frac{2}{\\hbar} \\int \\sqrt{2m(V(x)-E)} dx \\right)$"
+      },
+      {
+        "label": 2,
+        "value": "$\\exp\\left( -\\frac{1}{\\hbar} \\int \\sqrt{2m(E-V(x))} dx \\right)$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{1}{V_0 - E}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\sin^2(kL)$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "WKB Approximation",
+    "explanation": "The semiclassical tunneling probability involves the exponential decay of the wavefunction through the classically forbidden region where $V(x) > E$.",
+    "image_path": null
+  },
+  {
+    "question": "Which of the following describes the 'Closure Approximation' often used in second-order perturbation calculations?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Ignoring all excited states"
+      },
+      {
+        "label": 2,
+        "value": "Replacing the energy denominators $(E_n - E_k)$ with an average energy value $\\Delta E$"
+      },
+      {
+        "label": 3,
+        "value": "Setting the perturbation $H' = 0$"
+      },
+      {
+        "label": 4,
+        "value": "Assuming the wavefunction is a delta function"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Time-Independent Perturbation Theory",
+    "explanation": "The closure approximation (or Unsöld's approximation) simplifies the second-order sum by pulling an average energy out of the denominator, allowing the use of the completeness relation $\\sum |k\\rangle\\langle k| = 1$.",
+    "image_path": null
+  },
+  {
+    "question": "A particle with mass $m$ and initial speed $V$ is subject to a constant damping force $F = -b$ ($n=0$ case). What is the stopping time $T$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T \\propto mV/b$"
+      },
+      {
+        "label": 2,
+        "value": "$T \\propto m/bV$"
+      },
+      {
+        "label": 3,
+        "value": "$T \\propto bV/m$"
+      },
+      {
+        "label": 4,
+        "value": "$T \\propto m/b$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Dimensional Analysis",
+    "explanation": "From $m \\frac{dv}{dt} = -b$, integrating gives $v(t) = V - (b/m)t$. Setting $v(T)=0$ gives $T = mV/b$.",
+    "image_path": null
+  },
+  {
+    "question": "In the adiabatic approximation, the condition for the system to remain in its instantaneous eigenstate $|n(t)\\rangle$ is that the rate of change of the Hamiltonian must be much smaller than:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The ground state energy"
+      },
+      {
+        "label": 2,
+        "value": "The square of the transition matrix element divided by the energy gap"
+      },
+      {
+        "label": 3,
+        "value": "The Bohr frequency $\\omega_{nm} = (E_n - E_m)/\\hbar$"
+      },
+      {
+        "label": 4,
+        "value": "The temperature of the surroundings"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Time-Dependent Perturbation Theory",
+    "explanation": "The adiabatic theorem requires that the external parameters change slowly compared to the internal timescales of the system (the inverse of the energy gaps).",
+    "image_path": null
+  }
+]

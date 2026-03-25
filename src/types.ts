@@ -9,6 +9,7 @@ export interface Question {
   answer_label: number;
   topic: string;
   explanation: string;
+  image_path?: string;
 }
 
 export interface ShuffledQuestion extends Question {
@@ -19,6 +20,17 @@ export interface ShuffledQuestion extends Question {
 export interface ExamConfig {
   name: string;
   questions: Question[];
+  settings?: ExamSettings;
+}
+
+export interface ExamSettings {
+  timerMinutes: number;
+  timerHours: number;
+  negativeMarking: number; // 0, 0.25, 0.33, etc.
+  positiveMarking: number; // 1, 2, 3, etc.
+  shuffleQuestions: boolean;
+  shuffleOptions: boolean;
+  questionCount?: number;
 }
 
 export interface UserAnswer {
@@ -61,3 +73,5 @@ export interface ServerExam {
 export interface ServerExamDetail extends ServerExam {
   exam_json_str: string;
 }
+
+export type ExamPreset = "GATE" | "CSIR_NET" | "TIFR_GS" | "BARC_OCES" | "CUSTOM";

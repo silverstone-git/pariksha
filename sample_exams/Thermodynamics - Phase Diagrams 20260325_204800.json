@@ -1,0 +1,52 @@
+[
+  {
+    "question": "In the context of phase diagrams for pure substances, which of the following statements regarding the phase boundaries and the critical point is correct?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The Clausius-Clapeyron equation, $\\frac{dP}{dT} = \\frac{L}{T \\Delta V}$, is only valid for the vaporization curve and cannot be applied to the melting curve."
+      },
+      {
+        "label": 2,
+        "value": "The vaporization curve terminates at a critical point, beyond which the distinction between the liquid and gas phases disappears."
+      },
+      {
+        "label": 3,
+        "value": "A critical point exists for the melting curve just as it does for the vaporization curve, allowing for a continuous transition from solid to liquid at high pressures."
+      },
+      {
+        "label": 4,
+        "value": "The slope of the melting curve ($dP/dT$) is typically much smaller than the slope of the vaporization curve because the latent heat of fusion is smaller than the latent heat of vaporization."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - Phase Diagrams",
+    "explanation": "The Clausius-Clapeyron equation is valid for any first-order phase transition where phases are in equilibrium, including melting and vaporization. The vaporization curve (liquid-gas boundary) ends at the critical point; beyond this temperature and pressure, the substance becomes a supercritical fluid. Crucially, the melting curve (solid-liquid boundary) does not typically have a critical point because solids and liquids have different symmetries (ordered vs. disordered), preventing a continuous transition. Additionally, because the volume change $\\Delta V$ during melting is much smaller than during vaporization, the slope $dP/dT$ of the melting curve is usually much steeper (larger) than that of the vaporization curve.",
+    "image_path": null
+  },
+  {
+    "question": "Referencing the provided Au-Si eutectic phase diagram, what occurs when a liquid mixture with a composition of $31\\%$ atomic silicon is cooled to exactly $370^\\circ\\text{C}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The mixture reaches its boiling point and begins to vaporize into a homogeneous gas phase."
+      },
+      {
+        "label": 2,
+        "value": "The liquid phase solidifies into a single-phase homogeneous solid solution of gold and silicon."
+      },
+      {
+        "label": 3,
+        "value": "The system reaches the eutectic point, where the liquid solidifies into a two-phase heterogeneous mixture of nearly pure gold and nearly pure silicon."
+      },
+      {
+        "label": 4,
+        "value": "The liquidus curve indicates that silicon will begin to precipitate while the remaining liquid becomes enriched in gold."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Thermodynamics - Phase Diagrams",
+    "explanation": "According to the diagram and text, $370^\\circ\\text{C}$ and $\\sim 31\\%$ atomic silicon represent the eutectic point. At this temperature and composition, the liquid phase is at its minimum stability temperature. Upon cooling, it undergoes a phase transition to form a heterogeneous mixture consisting of two separate solid phases (solid Au and solid Si). This is known as the eutectic reaction.",
+    "image_path": "pariksha/6ea8621b4c52689c9393ac8ef73706bb.webp"
+  }
+]

@@ -1,0 +1,242 @@
+[
+  {
+    "question": "For the function $f(z) = |z|^2$, which of the following statements is true regarding its differentiability?",
+    "options": [
+      {
+        "label": 1,
+        "value": "It is differentiable everywhere in the complex plane"
+      },
+      {
+        "label": 2,
+        "value": "It is differentiable only at $z=0$"
+      },
+      {
+        "label": 3,
+        "value": "It is analytic at $z=0$"
+      },
+      {
+        "label": 4,
+        "value": "It is nowhere differentiable"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Derivative of Complex Function - Differentiability",
+    "explanation": "Let $f(z) = |z|^2 = x^2 + y^2$. Here $u(x,y) = x^2+y^2$ and $v(x,y) = 0$. Using Cauchy-Riemann equations: $u_x = 2x, v_y = 0$ and $u_y = 2y, v_x = 0$. For $f(z)$ to be differentiable, we need $u_x = v_y$ and $u_y = -v_x$. This implies $2x = 0$ and $2y = 0$, which holds only at $(0,0)$. Thus, $f(z)$ is differentiable only at $z=0$. Note that it is not analytic at $z=0$ because analyticity requires differentiability in a neighborhood."
+  },
+  {
+    "question": "Consider the function $f(z) = u(x,y) + iv(x,y)$. If $f(z)$ is analytic, then $u(x,y)$ and $v(x,y)$ must satisfy the Cauchy-Riemann equations. Which of the following represents these equations correctly?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{\\partial u}{\\partial x} = \\frac{\\partial v}{\\partial y}$ and $\\frac{\\partial u}{\\partial y} = \\frac{\\partial v}{\\partial x}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{\\partial u}{\\partial x} = -\\frac{\\partial v}{\\partial y}$ and $\\frac{\\partial u}{\\partial y} = \\frac{\\partial v}{\\partial x}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{\\partial u}{\\partial x} = \\frac{\\partial v}{\\partial y}$ and $\\frac{\\partial u}{\\partial y} = -\\frac{\\partial v}{\\partial x}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{\\partial u}{\\partial x} = -\\frac{\\partial v}{\\partial x}$ and $\\frac{\\partial u}{\\partial y} = -\\frac{\\partial v}{\\partial y}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Cauchy-Riemann Equation - Definition",
+    "explanation": "The necessary condition for a complex function $f(z) = u + iv$ to be analytic is that the partial derivatives satisfy the Cauchy-Riemann equations: $u_x = v_y$ and $u_y = -v_x$. This corresponds to option 3."
+  },
+  {
+    "question": "Determine the values of real constants $a$ and $b$ such that the function $f(z) = (x^2 + ay^2) + i(bxy)$ is analytic everywhere.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$a = 1, b = 2$"
+      },
+      {
+        "label": 2,
+        "value": "$a = -1, b = 2$"
+      },
+      {
+        "label": 3,
+        "value": "$a = -1, b = 1$"
+      },
+      {
+        "label": 4,
+        "value": "$a = 1, b = -2$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Cauchy-Riemann Equation - Application",
+    "explanation": "For $f(z)$ to be analytic, CR equations must hold. Let $u = x^2 + ay^2$ and $v = bxy$. \n1) $u_x = v_y \\implies 2x = bx \\implies b=2$. \n2) $u_y = -v_x \\implies 2ay = -(by) \\implies 2a = -b$. Substituting $b=2$, we get $2a = -2 \\implies a = -1$. \nThus $a=-1, b=2$."
+  },
+  {
+    "question": "Evaluate the integral $I = \\oint_C \\frac{e^z}{z-2} dz$, where $C$ is the circle $|z|=1$ traversed counter-clockwise.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2\\pi i e^2$"
+      },
+      {
+        "label": 2,
+        "value": "$\\pi i e^2$"
+      },
+      {
+        "label": 3,
+        "value": "$0$"
+      },
+      {
+        "label": 4,
+        "value": "$2\\pi i$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Cauchy-Goursat Theorem - Singularity Outside",
+    "explanation": "The integrand $f(z) = \\frac{e^z}{z-2}$ has a singularity at $z=2$. The contour $C$ is the unit circle $|z|=1$. Since the singularity $z=2$ lies *outside* the contour $C$, the function is analytic everywhere on and inside $C$. By the Cauchy-Goursat Theorem, the integral is zero."
+  },
+  {
+    "question": "Using Cauchy's Integral Formula, evaluate $\\oint_C \\frac{z^2 + 1}{z^2 - 1} dz$ where $C$ is the circle $|z-1|=1$ oriented counter-clockwise.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2\\pi i$"
+      },
+      {
+        "label": 2,
+        "value": "$\\pi i$"
+      },
+      {
+        "label": 3,
+        "value": "$4\\pi i$"
+      },
+      {
+        "label": 4,
+        "value": "$0$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Cauchy's Integral Formula - Application",
+    "explanation": "Factor the denominator: $z^2 - 1 = (z-1)(z+1)$. The singularities are $z=1$ and $z=-1$. The contour $|z-1|=1$ is a circle centered at $1$ with radius $1$. \n- $z=1$ is inside $C$ (center).\n- $z=-1$ is outside $C$ (distance from center is 2). \nWe rewrite the integrand as $\\frac{g(z)}{z-1}$ where $g(z) = \\frac{z^2+1}{z+1}$. \nBy Cauchy's Integral Formula, the integral is $2\\pi i g(1)$. \n$g(1) = \\frac{1^2+1}{1+1} = \\frac{2}{2} = 1$. \nResult $= 2\\pi i (1) = 2\\pi i$."
+  },
+  {
+    "question": "Evaluate the integral $\\oint_C \\frac{\\cos z}{(z-\\pi)^3} dz$ where $C$ is the circle $|z-3|=1$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$0$"
+      },
+      {
+        "label": 2,
+        "value": "$-\\pi i$"
+      },
+      {
+        "label": 3,
+        "value": "$\\pi i$"
+      },
+      {
+        "label": 4,
+        "value": "$2\\pi i$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Cauchy's Integral Formula - Higher Derivatives",
+    "explanation": "The singularity is at $z=\\pi \\approx 3.14$. The circle is centered at $3$ with radius $1$. Since $|\\pi - 3| \\approx 0.14 < 1$, the singularity is inside $C$. \nWe use the Generalized Cauchy Integral Formula: $\\oint \\frac{f(z)}{(z-a)^{n+1}} dz = \\frac{2\\pi i}{n!} f^{(n)}(a)$. \nHere $f(z) = \\cos z$, $a = \\pi$, and $n=2$. \n$f'(z) = -\\sin z$, $f''(z) = -\\cos z$. \n$f''(\\pi) = -\\cos(\\pi) = -(-1) = 1$. \nIntegral $= \\frac{2\\pi i}{2!} (1) = \\pi i$."
+  },
+  {
+    "question": "If $u(x,y)$ is the real part of an analytic function $f(z)$, then $u(x,y)$ must satisfy which of the following differential equations?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{\\partial^2 u}{\\partial x^2} - \\frac{\\partial^2 u}{\\partial y^2} = 0$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{\\partial^2 u}{\\partial x\\partial y} = 0$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{\\partial^2 u}{\\partial x^2} + \\frac{\\partial^2 u}{\\partial y^2} = 0$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{\\partial u}{\\partial x} + \\frac{\\partial u}{\\partial y} = 0$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Cauchy-Riemann Equation - Harmonic Functions",
+    "explanation": "The real and imaginary parts of an analytic function satisfy Laplace's equation: $\\nabla^2 u = u_{xx} + u_{yy} = 0$. This means they are harmonic functions. Option 3 is the 2D Laplace equation."
+  },
+  {
+    "question": "Calculate the value of $\\oint_C \\frac{z}{z^2+4} dz$ where $C$ is the circle $|z-2i|=1$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\pi i$"
+      },
+      {
+        "label": 2,
+        "value": "$2\\pi i$"
+      },
+      {
+        "label": 3,
+        "value": "$-\\pi i$"
+      },
+      {
+        "label": 4,
+        "value": "$0$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Cauchy's Integral Formula - Partial Fractions/Contour Selection",
+    "explanation": "Roots of $z^2+4$ are $z = \\pm 2i$. \nThe contour $|z-2i|=1$ encloses $z=2i$ but not $z=-2i$. \nRewrite integrand: $\\frac{z}{(z-2i)(z+2i)} = \\frac{f(z)}{z-2i}$ where $f(z) = \\frac{z}{z+2i}$. \nApply CIF: $I = 2\\pi i f(2i)$. \n$f(2i) = \\frac{2i}{2i+2i} = \\frac{2i}{4i} = \\frac{1}{2}$. \n$I = 2\\pi i (\\frac{1}{2}) = \\pi i$."
+  },
+  {
+    "question": "Which of the following functions is analytic in the entire complex plane (an entire function)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$f(z) = e^{\\bar{z}}$"
+      },
+      {
+        "label": 2,
+        "value": "$f(z) = \\sin(z)$"
+      },
+      {
+        "label": 3,
+        "value": "$f(z) = \\ln(z)$"
+      },
+      {
+        "label": 4,
+        "value": "$f(z) = \\frac{1}{z}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Derivative of Complex Function - Entire Functions",
+    "explanation": "1) $e^{\\bar{z}}$ involves $\\bar{z}$, so it is nowhere analytic. \n2) $\\sin(z) = \\frac{e^{iz} - e^{-iz}}{2i}$ is composed of exponential functions which are entire, so it is analytic everywhere. \n3) $\\ln(z)$ has a branch cut and is not analytic on the negative real axis (and undefined at 0). \n4) $1/z$ is not analytic at $z=0$. \nThus, only $\\sin(z)$ is entire."
+  },
+  {
+    "question": "What is the value of $\\oint_C (z^3 + \\sin z + 3) dz$ where $C$ is the circle $|z|=5$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2\\pi i$"
+      },
+      {
+        "label": 2,
+        "value": "$6\\pi i$"
+      },
+      {
+        "label": 3,
+        "value": "$10$"
+      },
+      {
+        "label": 4,
+        "value": "$0$"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Cauchy-Goursat Theorem - Entire Functions",
+    "explanation": "The integrand $f(z) = z^3 + \\sin z + 3$ is a sum of polynomials and sine functions, all of which are entire (analytic everywhere in the complex plane). According to the Cauchy-Goursat theorem, the integral of an analytic function over any simple closed contour is zero."
+  }
+]

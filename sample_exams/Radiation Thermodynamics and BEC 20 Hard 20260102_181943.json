@@ -1,0 +1,482 @@
+[
+  {
+    "question": "For a black body radiation field (photon gas) in a $d$-dimensional universe, the spectral density of states $g(\\nu)$ is proportional to $\\nu^{d-1}$. Which of the following represents the dependence of the energy density $u$ on the absolute temperature $T$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$u \\propto T^d$"
+      },
+      {
+        "label": 2,
+        "value": "$u \\propto T^{d+1}$"
+      },
+      {
+        "label": 3,
+        "value": "$u \\propto T^{d-1}$"
+      },
+      {
+        "label": 4,
+        "value": "$u \\propto T^{4}$ independent of dimension"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Black Body Radiation - Thermodynamics",
+    "explanation": "The energy density $u(T)$ is the integral of the spectral density multiplied by the average energy per mode. $u = \\int_0^\\infty h\\nu g(\\nu) \\frac{1}{e^{\\beta h\\nu}-1} d\\nu$. Since $g(\\nu) \\propto \\nu^{d-1}$, the integrand scales as $\\nu^d$. Substituting $x = \\beta h\\nu$, we get $d\\nu \\propto T dx$ and $\\nu^d \\propto T^d$. Thus $u \\propto T^{d+1}$. In 3D, $d=3$, so $u \\propto T^4$."
+  },
+  {
+    "question": "Consider a photon gas contained in a volume $V$ in $d$ spatial dimensions. If the gas undergoes a reversible adiabatic expansion, which of the following relations holds true?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$V T^d = \\text{constant}$"
+      },
+      {
+        "label": 2,
+        "value": "$V T^{d+1} = \\text{constant}$"
+      },
+      {
+        "label": 3,
+        "value": "$V^{1/d} T = \\text{constant}$"
+      },
+      {
+        "label": 4,
+        "value": "$V T^3 = \\text{constant}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Black Body Radiation - Thermodynamics",
+    "explanation": "For a photon gas in $d$ dimensions, the entropy $S$ scales as $V u(T) / T$. Since $u(T) \\propto T^{d+1}$, we have $S \\propto V T^d$. In an adiabatic process, entropy is constant, so $V T^d = \\text{constant}$."
+  },
+  {
+    "question": "The radiation pressure $P$ of a photon gas in a $d$-dimensional space is related to the internal energy density $u = U/V$ by which of the following relations?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$P = u/3$"
+      },
+      {
+        "label": 2,
+        "value": "$P = u/d$"
+      },
+      {
+        "label": 3,
+        "value": "$P = u(d-1)/2$"
+      },
+      {
+        "label": 4,
+        "value": "$P = u$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Black Body Radiation - Pressure",
+    "explanation": "For a relativistic gas where energy $E = pc$, the virial theorem or stress-energy tensor analysis gives the relation $P = \\frac{u}{d}$ where $d$ is the spatial dimension. In 3D, $P=u/3$."
+  },
+  {
+    "question": "What is the dependence of the critical temperature $T_c$ on the particle number density $n$ and particle mass $m$ for a non-relativistic ideal Bose gas in 3 dimensions?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T_c \\propto n^{1/3} m^{-1}$"
+      },
+      {
+        "label": 2,
+        "value": "$T_c \\propto n^{2/3} m^{-1}$"
+      },
+      {
+        "label": 3,
+        "value": "$T_c \\propto n^{2/3} m^{-1/2}$"
+      },
+      {
+        "label": 4,
+        "value": "$T_c \\propto n^{1/2} m^{-1}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Ideal Bose Gas - Critical Temperature",
+    "explanation": "The critical temperature is determined by the condition $n\\lambda_{th}^3 = \\zeta(3/2)$, where $\\lambda_{th} \\propto (mT)^{-1/2}$. Solving for $T$, we get $T_c \\propto n^{2/3}/m$."
+  },
+  {
+    "question": "For an ideal Bose gas confined in a 3D harmonic trap potential $V(r) = \\frac{1}{2}m\\omega^2 r^2$, the density of states $g(\\epsilon)$ depends on energy $\\epsilon$ as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$g(\\epsilon) \\propto \\epsilon^{1/2}$"
+      },
+      {
+        "label": 2,
+        "value": "$g(\\epsilon) \\propto \\epsilon$"
+      },
+      {
+        "label": 3,
+        "value": "$g(\\epsilon) \\propto \\epsilon^2$"
+      },
+      {
+        "label": 4,
+        "value": "$g(\\epsilon) = \\text{constant}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "BEC in Harmonic Trap - Density of States",
+    "explanation": "In a $d$-dimensional harmonic oscillator, the density of states scales as $\\epsilon^{d-1}$. For 3D ($d=3$), $g(\\epsilon) \\propto \\epsilon^2$. This differs from the free particle case where $g(\\epsilon) \\propto \\epsilon^{1/2}$."
+  },
+  {
+    "question": "How does the condensate fraction $N_0/N$ depend on temperature $T$ for an ideal Bose gas in a 3D harmonic trap below the critical temperature $T_c$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$1 - (T/T_c)^{3/2}$"
+      },
+      {
+        "label": 2,
+        "value": "$1 - (T/T_c)^3$"
+      },
+      {
+        "label": 3,
+        "value": "$1 - (T/T_c)^2$"
+      },
+      {
+        "label": 4,
+        "value": "$1 - (T/T_c)^{5/2}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "BEC in Harmonic Trap - Condensate Fraction",
+    "explanation": "For a harmonic trap, the number of thermal particles $N_{th}$ scales as $T^3$ (due to $g(\\epsilon) \\propto \\epsilon^2$). Since $N_0 = N - N_{th}$, the fraction is $N_0/N = 1 - (N_{th}/N_{c}) = 1 - (T/T_c)^3$. This is distinct from the free gas case of $1 - (T/T_c)^{3/2}$."
+  },
+  {
+    "question": "The internal energy $E$ of an ideal Bose gas in a rigid box (free particles) below the critical temperature $T_c$ scales with temperature as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$E \\propto T^4$"
+      },
+      {
+        "label": 2,
+        "value": "$E \\propto T^{3/2}$"
+      },
+      {
+        "label": 3,
+        "value": "$E \\propto T^3$"
+      },
+      {
+        "label": 4,
+        "value": "$E \\propto T^{5/2}$"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Ideal Bose Gas - Thermodynamics",
+    "explanation": "Below $T_c$, the chemical potential $\\mu = 0$. The energy is integral of $\\epsilon g(\\epsilon) f(\\epsilon)$. For free particles $g(\\epsilon) \\propto \\epsilon^{1/2}$, so integrand is $\\epsilon^{3/2} f(\\epsilon)$. Scaling gives $E \\propto T^{3/2 + 1} = T^{5/2}$."
+  },
+  {
+    "question": "For an ideal Bose gas in a 3D harmonic trap, how does the critical temperature $T_c$ depend on the total number of particles $N$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T_c \\propto N^{2/3}$"
+      },
+      {
+        "label": 2,
+        "value": "$T_c \\propto N^{1/3}$"
+      },
+      {
+        "label": 3,
+        "value": "$T_c \\propto N^{-1/3}$"
+      },
+      {
+        "label": 4,
+        "value": "$T_c$ is independent of $N$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "BEC in Harmonic Trap - Critical Temperature",
+    "explanation": "For a harmonic trap, $N = \\int_0^\\infty g(\\epsilon) \\frac{1}{e^{\\beta \\epsilon}-1} d\\epsilon$ at $T_c$. Since $g(\\epsilon) \\propto \\epsilon^2$, $N \\propto (kT_c)^3$. Therefore, $T_c \\propto N^{1/3}$."
+  },
+  {
+    "question": "Which of the following statements regarding the heat capacity $C_V$ of an ideal Bose gas at the critical temperature $T_c$ is correct?",
+    "options": [
+      {
+        "label": 1,
+        "value": "It is continuous and smooth for both the box and the harmonic trap."
+      },
+      {
+        "label": 2,
+        "value": "It has a cusp (continuous but non-differentiable) for the box, and a discontinuity jump for the harmonic trap."
+      },
+      {
+        "label": 3,
+        "value": "It has a discontinuity jump for the box, and a cusp for the harmonic trap."
+      },
+      {
+        "label": 4,
+        "value": "It diverges to infinity for both cases."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Bose Gas & BEC - Heat Capacity",
+    "explanation": "For a 3D uniform gas (box), the derivative of $C_V$ is discontinuous (cusp). For a 3D harmonic trap, $C_V$ itself has a finite discontinuity (jump) at $T_c$."
+  },
+  {
+    "question": "Consider an ultra-relativistic ideal Bose gas where the energy-momentum relation is $\\epsilon = cp$ (similar to photons but with conserved number $N$). What is the dependence of the critical temperature $T_c$ on density $n$ in 3D?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T_c \\propto n^{2/3}$"
+      },
+      {
+        "label": 2,
+        "value": "$T_c \\propto n^{1/3}$"
+      },
+      {
+        "label": 3,
+        "value": "$T_c \\propto n$"
+      },
+      {
+        "label": 4,
+        "value": "BEC does not occur"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Relativistic Bose Gas",
+    "explanation": "For $\\epsilon = cp$, in 3D, $g(\\epsilon) \\propto \\epsilon^2$ (similar to harmonic trap scaling or photon density of states). The condition $N = \\int g(\\epsilon) f(\\epsilon)$ leads to $N \\propto T^3$. Thus $n \\propto T^3$, implying $T_c \\propto n^{1/3}$."
+  },
+  {
+    "question": "In $d$ spatial dimensions, what is the condition for the existence of a Bose-Einstein Condensate in an ideal gas of free particles?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$d \\ge 1$"
+      },
+      {
+        "label": 2,
+        "value": "$d > 1$"
+      },
+      {
+        "label": 3,
+        "value": "$d > 2$"
+      },
+      {
+        "label": 4,
+        "value": "$d \\ge 3$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Ideal Bose Gas - Dimensionality",
+    "explanation": "The integral for particle number $N = \\int \\frac{\\epsilon^{d/2-1}}{e^{\\beta\\epsilon}-1} d\\epsilon$ must converge at the lower limit $\\epsilon=0$ for a finite critical temperature to exist. The term $\\frac{1}{e^{\\beta\\epsilon}-1} \\approx \\frac{1}{\\beta\\epsilon}$. The integrand behaves as $\\epsilon^{d/2-2}$. Convergence requires $d/2 - 2 > -1 \\implies d > 2$."
+  },
+  {
+    "question": "For an ideal Bose gas confined in a 2D harmonic trap, does BEC occur at non-zero temperature?",
+    "options": [
+      {
+        "label": 1,
+        "value": "No, because $d=2$ is the lower critical dimension."
+      },
+      {
+        "label": 2,
+        "value": "Yes, because the density of states is constant."
+      },
+      {
+        "label": 3,
+        "value": "Yes, because the density of states is linear in $\\epsilon$."
+      },
+      {
+        "label": 4,
+        "value": "No, because the chemical potential cannot be zero."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "BEC in Harmonic Trap - 2D",
+    "explanation": "In a 2D harmonic trap, $g(\\epsilon) \\propto \\epsilon^{2-1} = \\epsilon$. The number integral $\\int_0 \\frac{\\epsilon}{e^{\\beta\\epsilon}-1} d\\epsilon$ converges (integrand approaches constant at 0). Thus, a finite saturation number exists, allowing BEC, unlike the 2D free gas case."
+  },
+  {
+    "question": "Below the condensation temperature $T_c$, the pressure $P$ of an ideal Bose gas in a 3D box depends on volume $V$ as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$P \\propto V^{-5/3}$"
+      },
+      {
+        "label": 2,
+        "value": "$P \\propto V^{-1}$"
+      },
+      {
+        "label": 3,
+        "value": "$P \\propto V^{-2/3}$"
+      },
+      {
+        "label": 4,
+        "value": "$P$ is independent of $V$"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Ideal Bose Gas - Equation of State",
+    "explanation": "Below $T_c$, the pressure is determined solely by the excited thermal states, whose density depends only on $T$ (since $\\mu=0$). The condensate occupies zero volume effectively and contributes no pressure. Thus $P = P(T)$ and is independent of $V$ (infinite compressibility)."
+  },
+  {
+    "question": "The spectral radiance $R(\\nu)$ of a black body peaks at frequency $\\nu_{max}$. If the temperature is doubled, how does $\\nu_{max}$ change?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Increases by a factor of 2"
+      },
+      {
+        "label": 2,
+        "value": "Increases by a factor of 4"
+      },
+      {
+        "label": 3,
+        "value": "Increases by a factor of 16"
+      },
+      {
+        "label": 4,
+        "value": "Remains constant"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Black Body Radiation - Wien's Law",
+    "explanation": "Wien's displacement law for frequency states that $\\nu_{max} / T = \\text{constant}$. Thus if $T$ doubles, $\\nu_{max}$ also doubles. (Note: $\\lambda_{max} T = \\text{const}$ implies $\\lambda_{max}$ halves)."
+  },
+  {
+    "question": "For a $d$-dimensional harmonic trap, the heat capacity $C(T)$ below $T_c$ scales as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T^d$"
+      },
+      {
+        "label": 2,
+        "value": "$T^{d+1}$"
+      },
+      {
+        "label": 3,
+        "value": "$T^{d-1}$"
+      },
+      {
+        "label": 4,
+        "value": "$T^{d/2}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "BEC in Harmonic Trap - Heat Capacity",
+    "explanation": "In a $d$-dimensional trap, $g(\\epsilon) \\propto \\epsilon^{d-1}$. The energy $E \\propto \\int \\epsilon \\cdot \\epsilon^{d-1} f(\\epsilon) d\\epsilon \\propto T^{d+1}$. The heat capacity $C = dE/dT \\propto T^d$."
+  },
+  {
+    "question": "The fluctuations in the number of particles $\\langle (\\Delta n)^2 \\rangle$ in a single quantum state for a Bose gas is given by (where $\\langle n \\rangle$ is the mean occupation):",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\langle n \\rangle$"
+      },
+      {
+        "label": 2,
+        "value": "$\\langle n \\rangle^2$"
+      },
+      {
+        "label": 3,
+        "value": "$\\langle n \\rangle + \\langle n \\rangle^2$"
+      },
+      {
+        "label": 4,
+        "value": "$\\langle n \\rangle (1 - \\langle n \\rangle)$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Bose Statistics - Fluctuations",
+    "explanation": "For Bose-Einstein statistics, the variance is super-Poissonian: $\\text{Var}(n) = \\langle n \\rangle + \\langle n \\rangle^2$. The $\\langle n \\rangle^2$ term represents the wave-like interference contribution (bunching)."
+  },
+  {
+    "question": "If the dispersion relation of an ideal boson gas is $E(k) \\propto k^s$ in $d$-dimensions, the density of states $g(E)$ is proportional to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$E^{d/s - 1}$"
+      },
+      {
+        "label": 2,
+        "value": "$E^{d/2 - 1}$"
+      },
+      {
+        "label": 3,
+        "value": "$E^{s/d - 1}$"
+      },
+      {
+        "label": 4,
+        "value": "$E^{d/s}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Density of States - General",
+    "explanation": "In $k$-space, volume $\\sim k^d$. Since $k \\sim E^{1/s}$, volume $\\sim E^{d/s}$. The density of states $g(E) = dN/dE \\propto \\frac{d}{dE}(E^{d/s}) \\propto E^{d/s - 1}$. For standard free particles ($s=2$), this gives $E^{d/2 - 1}$."
+  },
+  {
+    "question": "Consider the entropy of a photon gas. If the volume is halved adiabatically, the temperature increases by a factor of $2^{1/3}$ (in 3D). What happens to the number of photons $N$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$N$ remains constant"
+      },
+      {
+        "label": 2,
+        "value": "$N$ increases by $2^{1/3}$"
+      },
+      {
+        "label": 3,
+        "value": "$N$ decreases by factor of 2"
+      },
+      {
+        "label": 4,
+        "value": "$N$ doubles"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Photon Gas - Number Conservation",
+    "explanation": "In an adiabatic process for a photon gas, $VT^3 = \\text{const}$. The number of photons $N \\propto VT^3$. Since $VT^3$ is constant, the number of photons remains constant during adiabatic expansion/compression."
+  },
+  {
+    "question": "The ground state energy of a system of $N$ non-interacting bosons in a 3D harmonic trap is non-zero ($N \\frac{3}{2}\\hbar\\omega$). How does the condensate energy $E_0$ compare to the thermal energy $E_{th}$ at $T = 0.5 T_c$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$E_0 \\gg E_{th}$"
+      },
+      {
+        "label": 2,
+        "value": "$E_0 \\approx E_{th}$"
+      },
+      {
+        "label": 3,
+        "value": "$E_0 \\ll E_{th}$"
+      },
+      {
+        "label": 4,
+        "value": "$E_0 = 0$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "BEC - Energetics",
+    "explanation": "At $T = 0.5 T_c$, a significant fraction ($1 - 0.5^3 \\approx 0.875$) is in the condensate. However, condensate particles have the lowest ground state energy (effectively 0 compared to thermal excitations). The thermal energy scales as $T^4$. Even though $N_0$ is large, the energy is dominated by the excited states fraction unless $T$ is extremely close to 0. (Specifically, $E_0 \\sim N \\hbar \\omega$ while $E_{th} \\sim N k_B T (T/T_c)^3$. For large N, $E_{th} \\gg E_0$ typically)."
+  },
+  {
+    "question": "For a 1D harmonic trap ($d=1$), does an ideal Bose gas exhibit Bose-Einstein Condensation?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Yes, at any finite temperature."
+      },
+      {
+        "label": 2,
+        "value": "Yes, but only below a critical temperature depending on $N$."
+      },
+      {
+        "label": 3,
+        "value": "No, BEC is not possible in 1D traps."
+      },
+      {
+        "label": 4,
+        "value": "No, unless the particle number is infinite."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "BEC in Harmonic Trap - 1D",
+    "explanation": "For a 1D harmonic trap, the density of states is constant $g(\\epsilon) = \\text{const}$ (energy levels are equally spaced). The integral for particle number $\\int_0^\\infty \\frac{1}{e^{\\beta\\epsilon}-1} d\\epsilon$ diverges logarithmically at the lower limit. Thus, no saturation occurs, and BEC is not possible in a 1D harmonic trap in the thermodynamic limit."
+  }
+]

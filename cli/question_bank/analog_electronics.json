@@ -1,0 +1,502 @@
+[
+  {
+    "question": "In an operational amplifier circuit, a 5.1 V Zener diode is placed in the feedback loop in parallel with a $1\\text{ k}\\Omega$ resistor ($R_f$). The non-inverting input is connected to a $+1$ V signal, and the inverting input is connected to ground via a $1\\text{ k}\\Omega$ resistor ($R_1$). If the op-amp is powered by $\\pm 15$ V, what is the output voltage $V_{out}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$V_{out} = 1.0\\text{ V}$"
+      },
+      {
+        "label": 2,
+        "value": "$V_{out} = 2.0\\text{ V}$"
+      },
+      {
+        "label": 3,
+        "value": "$V_{out} = 5.1\\text{ V}$"
+      },
+      {
+        "label": 4,
+        "value": "$V_{out} = 0.7\\text{ V}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Operational Amplifiers",
+    "explanation": "This is a non-inverting amplifier configuration. The gain is given by $A_v = 1 + \\frac{R_f}{R_1} = 1 + \\frac{1\\text{k}}{1\\text{k}} = 2$. For an input of $+1$ V, the theoretical output is $V_{in} \\times A_v = 1\\text{ V} \\times 2 = 2\\text{ V}$. Since the Zener breakdown voltage is 5.1 V and the forward bias voltage is typically 0.7 V, the Zener diode remains non-conducting (off) because the output voltage (2 V) is less than the Zener breakdown (5.1 V). Thus, $V_{out} = 2.0$ V.",
+    "image_path": null
+  },
+  {
+    "question": "A BJT circuit is biased with $\\beta_{DC} = 400$ and $V_{BE} = 0.7\\text{ V}$. If the base resistance $R_B = 465\\text{ k}\\Omega$ and the supply voltage $V_{CC} = 10\\text{ V}$ is applied to the base through $R_B$ (fixed bias), calculate the base current $I_B$ in $\\mu\\text{A}$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$I_B = 20.0\\text{ }\\mu\\text{A}$"
+      },
+      {
+        "label": 2,
+        "value": "$I_B = 21.5\\text{ }\\mu\\text{A}$"
+      },
+      {
+        "label": 3,
+        "value": "$I_B = 2.0\\text{ }\\mu\\text{A}$"
+      },
+      {
+        "label": 4,
+        "value": "$I_B = 40.0\\text{ }\\mu\\text{A}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Transistor Biasing",
+    "explanation": "Using Kirchhoff's Voltage Law in the base-emitter loop: $V_{CC} - I_B R_B - V_{BE} = 0$. Rearranging for $I_B$: $I_B = \\frac{V_{CC} - V_{BE}}{R_B} = \\frac{10 - 0.7}{465 \\times 10^3} = \\frac{9.3}{465 \\times 10^3} = 20 \\times 10^{-6}\\text{ A} = 20.0\\text{ }\\mu\\text{A}$.",
+    "image_path": null
+  },
+  {
+    "question": "An operational amplifier has a Differential Gain $A_d = 10^5$ and a Common Mode Rejection Ratio (CMRR) of 80 dB. If the input signals are $v_1 = 1.01\\text{ V}$ and $v_2 = 0.99\\text{ V}$, calculate the common-mode output component $V_{ocm}$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$10\\text{ mV}$"
+      },
+      {
+        "label": 2,
+        "value": "$100\\text{ mV}$"
+      },
+      {
+        "label": 3,
+        "value": "$10\\text{ V}$"
+      },
+      {
+        "label": 4,
+        "value": "$1\\text{ V}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Operational Amplifiers",
+    "explanation": "CMRR in dB = $20\\log_{10}(\\frac{A_d}{A_c})$. Given 80 dB, $\\frac{A_d}{A_c} = 10^4$. Thus, $A_c = \\frac{A_d}{10^4} = \\frac{10^5}{10^4} = 10$. The common-mode input voltage is $v_{cm} = \\frac{v_1+v_2}{2} = \\frac{1.01+0.99}{2} = 1.0\\text{ V}$. The common-mode output is $V_{ocm} = A_c \\times v_{cm} = 10 \\times 1.0 = 10\\text{ V}$.",
+    "image_path": null
+  },
+  {
+    "question": "A Wein-Bridge oscillator uses a feedback network with $R = 10\\text{ k}\\Omega$ and $C = 1.59\\text{ nF}$. What is the frequency of oscillation, and what is the minimum gain required from the amplifier to sustain oscillations?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$f = 10\\text{ kHz}, A_v \\ge 3$"
+      },
+      {
+        "label": 2,
+        "value": "$f = 1\\text{ kHz}, A_v \\ge 29$"
+      },
+      {
+        "label": 3,
+        "value": "$f = 10\\text{ kHz}, A_v \\ge 29$"
+      },
+      {
+        "label": 4,
+        "value": "$f = 5\\text{ kHz}, A_v \\ge 3$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Oscillators",
+    "explanation": "Frequency $f = \\frac{1}{2\\pi RC} = \\frac{1}{2\\pi (10^4)(1.59 \\times 10^{-9})} \\approx 10,000\\text{ Hz} = 10\\text{ kHz}$. For a Wein-Bridge oscillator, the feedback attenuation $\\beta$ is $1/3$ at the resonant frequency, so the gain $A_v$ must be at least 3 to satisfy the Barkhausen criterion $A\\beta = 1$.",
+    "image_path": null
+  },
+  {
+    "question": "Consider an n-channel MOSFET in saturation. If the transconductance $g_m$ is $2\\text{ mA/V}$ and the output resistance $r_o$ is $50\\text{ k}\\Omega$, what is the intrinsic voltage gain of the device?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$25$"
+      },
+      {
+        "label": 2,
+        "value": "$100$"
+      },
+      {
+        "label": 3,
+        "value": "$200$"
+      },
+      {
+        "label": 4,
+        "value": "$400$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "MOSFET Characteristics",
+    "explanation": "The intrinsic voltage gain of a MOSFET is given by $A_v = g_m r_o$. Substituting the values: $A_v = (2 \\times 10^{-3}\\text{ S}) \\times (50 \\times 10^3\\text{ }\\Omega) = 100$.",
+    "image_path": null
+  },
+  {
+    "question": "Identify the type of feedback topology in a standard non-inverting operational amplifier circuit.",
+    "options": [
+      {
+        "label": 1,
+        "value": "Shunt-Series"
+      },
+      {
+        "label": 2,
+        "value": "Series-Shunt"
+      },
+      {
+        "label": 3,
+        "value": "Series-Series"
+      },
+      {
+        "label": 4,
+        "value": "Shunt-Shunt"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Feedback Theory",
+    "explanation": "In a non-inverting op-amp, the feedback voltage is sampled across the output (Shunt) and mixed in series with the input signal at the inverting terminal (Series). Thus, it is a Series-Shunt topology (Voltage-Series).",
+    "image_path": null
+  },
+  {
+    "question": "For a precision half-wave rectifier (Super Diode) using an ideal op-amp, which of the following statements is true regarding the diode's behavior when the input $V_{in}$ is negative?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The diode is forward biased and the op-amp is in closed loop."
+      },
+      {
+        "label": 2,
+        "value": "The diode is reverse biased and the op-amp output saturates at the negative rail."
+      },
+      {
+        "label": 3,
+        "value": "The diode acts as a short circuit and $V_{out} = V_{in}$."
+      },
+      {
+        "label": 4,
+        "value": "The diode is reverse biased and $V_{out}$ is clamped to ground."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Diode Circuits",
+    "explanation": "In a basic super diode circuit, when $V_{in} < 0$, the inverting input becomes more positive than the non-inverting input (which is $V_{in}$). The op-amp output drives to the negative rail to try and correct this, which reverse biases the diode. With the diode open, the feedback loop is broken, and $V_{out}$ becomes 0V via the load resistor.",
+    "image_path": null
+  },
+  {
+    "question": "A Schmitt trigger circuit has $V_{sat} = \\pm 12\\text{ V}$. The feedback resistors are $R_1 = 10\\text{ k}\\Omega$ (connected to ground) and $R_2 = 90\\text{ k}\\Omega$ (feedback from output). Calculate the hysteresis width $V_H$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$1.2\\text{ V}$"
+      },
+      {
+        "label": 2,
+        "value": "$2.4\\text{ V}$"
+      },
+      {
+        "label": 3,
+        "value": "$0.12\\text{ V}$"
+      },
+      {
+        "label": 4,
+        "value": "$24\\text{ V}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Non-linear Op-amp Circuits",
+    "explanation": "The upper and lower threshold points are $V_{UTP} = +V_{sat} (R_1 / (R_1+R_2)) = 12 (10/100) = 1.2\\text{ V}$ and $V_{LTP} = -1.2\\text{ V}$. The hysteresis width $V_H = V_{UTP} - V_{LTP} = 1.2 - (-1.2) = 2.4\\text{ V}$.",
+    "image_path": null
+  },
+  {
+    "question": "In a Common Emitter amplifier, the Miller effect causes the input capacitance to increase. If the internal base-collector capacitance $C_{bc} = 5\\text{ pF}$ and the voltage gain $A_v = -100$, what is the effective input capacitance contribution from $C_{bc}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$5\\text{ pF}$"
+      },
+      {
+        "label": 2,
+        "value": "$500\\text{ pF}$"
+      },
+      {
+        "label": 3,
+        "value": "$505\\text{ pF}$"
+      },
+      {
+        "label": 4,
+        "value": "$50.5\\text{ pF}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Frequency Response",
+    "explanation": "Miller capacitance $C_M = C_{bc}(1 - A_v)$. Substituting values: $C_M = 5\\text{ pF}(1 - (-100)) = 5 \\times 101 = 505\\text{ pF}$.",
+    "image_path": null
+  },
+  {
+    "question": "A Widlar current source is used instead of a simple current mirror to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Increase the output current significantly."
+      },
+      {
+        "label": 2,
+        "value": "Generate very small currents using reasonably sized resistors."
+      },
+      {
+        "label": 3,
+        "value": "Eliminate the need for transistors."
+      },
+      {
+        "label": 4,
+        "value": "Reduce the power supply voltage."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Current Mirrors",
+    "explanation": "The Widlar current source incorporates a resistor in the emitter of the second transistor. This allows for the generation of nano-ampere or low micro-ampere currents without requiring mega-ohm range resistors, which are difficult to fabricate on an IC.",
+    "image_path": null
+  },
+  {
+    "question": "An op-amp has a slew rate of $0.5\\text{ V/}\\mu\\text{s}$. If the amplifier is used to amplify a sine wave with a peak output voltage of $10\\text{ V}$, what is the maximum frequency $f_{max}$ that can be handled without distortion?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$7.96\\text{ kHz}$"
+      },
+      {
+        "label": 2,
+        "value": "$50\\text{ kHz}$"
+      },
+      {
+        "label": 3,
+        "value": "$31.4\\text{ kHz}$"
+      },
+      {
+        "label": 4,
+        "value": "$15.9\\text{ kHz}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Operational Amplifiers",
+    "explanation": "Slew Rate $SR = 2\\pi f V_p$. Solving for $f$: $f = \\frac{SR}{2\\pi V_p} = \\frac{0.5 \\times 10^6}{2\\pi \\times 10} \\approx \\frac{500000}{62.83} \\approx 7957.7\\text{ Hz} \\approx 7.96\\text{ kHz}$.",
+    "image_path": null
+  },
+  {
+    "question": "Which of the following describes the effect of increasing the 'Emitter Degeneration' resistor $R_e$ in a BJT differential pair?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Increases voltage gain and decreases linearity."
+      },
+      {
+        "label": 2,
+        "value": "Decreases voltage gain and increases linearity."
+      },
+      {
+        "label": 3,
+        "value": "Increases bandwidth and decreases input impedance."
+      },
+      {
+        "label": 4,
+        "value": "Has no effect on gain but increases noise."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Differential Amplifiers",
+    "explanation": "Emitter degeneration (adding $R_e$) provides negative feedback. This reduces the overall transconductance ($G_m \\approx 1/R_e$), thereby reducing voltage gain, but it linearizes the transfer characteristic over a wider range of input voltages.",
+    "image_path": null
+  },
+  {
+    "question": "In a Class B power amplifier, 'Crossover Distortion' occurs because:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The transistors are biased deep into saturation."
+      },
+      {
+        "label": 2,
+        "value": "The power supply voltage is too high."
+      },
+      {
+        "label": 3,
+        "value": "The transistors do not conduct until the input signal exceeds $V_{BE(on)}$."
+      },
+      {
+        "label": 4,
+        "value": "Harmonic frequencies interfere with the fundamental signal."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Power Amplifiers",
+    "explanation": "In a standard Class B push-pull stage, neither transistor conducts when the input signal is between roughly $-0.7$V and $+0.7$V. This dead zone causes the output waveform to flatten near the zero-crossing, known as crossover distortion.",
+    "image_path": null
+  },
+  {
+    "question": "An integrator circuit uses an op-amp with $R = 100\\text{ k}\\Omega$ and $C = 0.1\\text{ }\\mu\\text{F}$. If a constant DC voltage of $1\\text{ V}$ is applied to the input at $t=0$, how long will it take for the output to reach $-10\\text{ V}$ (assuming no saturation)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$0.1\\text{ s}$"
+      },
+      {
+        "label": 2,
+        "value": "$1.0\\text{ s}$"
+      },
+      {
+        "label": 3,
+        "value": "$0.01\\text{ s}$"
+      },
+      {
+        "label": 4,
+        "value": "$10\\text{ s}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Operational Amplifiers",
+    "explanation": "For an integrator, $V_{out} = -\\frac{1}{RC} \\int V_{in} dt$. For a constant $V_{in}$, $V_{out} = -\\frac{V_{in}}{RC} t$. Here, $RC = 10^5 \\times 10^{-7} = 0.01\\text{ s}$. So, $-10 = -\\frac{1}{0.01} t \\Rightarrow 10 = 100t \\Rightarrow t = 0.1\\text{ s}$.",
+    "image_path": null
+  },
+  {
+    "question": "A MOSFET with $\\lambda = 0.02\\text{ V}^{-1}$ is biased at a drain current $I_D = 1\\text{ mA}$. Calculate the small-signal output resistance $r_o$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$20\\text{ k}\\Omega$"
+      },
+      {
+        "label": 2,
+        "value": "$50\\text{ k}\\Omega$"
+      },
+      {
+        "label": 3,
+        "value": "$100\\text{ k}\\Omega$"
+      },
+      {
+        "label": 4,
+        "value": "$200\\text{ k}\\Omega$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "MOSFET Characteristics",
+    "explanation": "The output resistance due to channel length modulation is $r_o = \\frac{1}{\\lambda I_D}$. Substituting the values: $r_o = \\frac{1}{0.02 \\times 10^{-3}} = \\frac{1000}{0.02} = 50,000\\text{ }\\Omega = 50\\text{ k}\\Omega$.",
+    "image_path": null
+  },
+  {
+    "question": "What is the primary reason for using a 'Bootstrap' capacitor in a BJT amplifier circuit?",
+    "options": [
+      {
+        "label": 1,
+        "value": "To increase the lower 3dB frequency."
+      },
+      {
+        "label": 2,
+        "value": "To increase the effective input impedance of the amplifier."
+      },
+      {
+        "label": 3,
+        "value": "To reduce the power consumption of the circuit."
+      },
+      {
+        "label": 4,
+        "value": "To act as a high-pass filter for the signal."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Transistor Amplifiers",
+    "explanation": "Bootstrapping is a technique where a portion of the output is fed back to the input circuit to make a bias resistor appear much larger than its physical value to the AC signal, thereby significantly increasing the input impedance.",
+    "image_path": null
+  },
+  {
+    "question": "In a logarithmic amplifier using a diode in the feedback loop of an op-amp, the output voltage is proportional to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The square root of the input voltage."
+      },
+      {
+        "label": 2,
+        "value": "The square of the input voltage."
+      },
+      {
+        "label": 3,
+        "value": "The natural logarithm of the input voltage."
+      },
+      {
+        "label": 4,
+        "value": "The exponential of the input voltage."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Logarithmic Amplifiers",
+    "explanation": "Using the diode equation $I = I_s(e^{V/V_T} - 1)$, and since the op-amp feedback maintains $I = V_{in}/R$, the voltage across the diode (which is the output) follows $V_{out} \\approx -V_T \\ln(V_{in}/(I_s R))$.",
+    "image_path": null
+  },
+  {
+    "question": "Which configuration of a BJT amplifier provides both voltage gain and current gain (and thus the highest power gain)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Common Base"
+      },
+      {
+        "label": 2,
+        "value": "Common Collector"
+      },
+      {
+        "label": 3,
+        "value": "Common Emitter"
+      },
+      {
+        "label": 4,
+        "value": "Emitter Follower"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Transistor Amplifiers",
+    "explanation": "Common Emitter (CE) has significant voltage gain and current gain ($\\beta$). Common Collector has current gain but unity voltage gain. Common Base has voltage gain but unity current gain. Thus, CE has the highest power gain.",
+    "image_path": null
+  },
+  {
+    "question": "An active first-order low-pass filter has a resistor $R = 15.9\\text{ k}\\Omega$ and a capacitor $C = 10\\text{ nF}$. Calculate the 3-dB cutoff frequency.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$1\\text{ kHz}$"
+      },
+      {
+        "label": 2,
+        "value": "$10\\text{ kHz}$"
+      },
+      {
+        "label": 3,
+        "value": "$100\\text{ Hz}$"
+      },
+      {
+        "label": 4,
+        "value": "$15.9\\text{ kHz}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Active Filters",
+    "explanation": "$f_c = \\frac{1}{2\\pi RC} = \\frac{1}{2\\pi (15.9 \\times 10^3)(10 \\times 10^{-9})} \\approx \\frac{1}{2\\pi (1.59 \\times 10^{-4})} = \\frac{1}{10^{-3}} = 1000\\text{ Hz} = 1\\text{ kHz}$.",
+    "image_path": null
+  },
+  {
+    "question": "In the context of the GATE 2025 Physics problem (Q.41), a logic circuit is needed to detect a particle at angle $\\theta$ (detector $D_1$ signal = 1) and NOT at the beam direction (detector $D_2$ signal = 0). Which logic operation is required?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$D_1$ OR $D_2$"
+      },
+      {
+        "label": 2,
+        "value": "$D_1$ AND $D_2$"
+      },
+      {
+        "label": 3,
+        "value": "$D_1$ AND (NOT $D_2$)"
+      },
+      {
+        "label": 4,
+        "value": "(NOT $D_1$) AND $D_2$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Digital Logic in Physics",
+    "explanation": "To detect the particle scattered at angle $\\theta$ *only*, we need signal from $D_1$ to be present (1) and signal from $D_2$ to be absent (0). The logic function representing this is $Y = D_1 \\cdot \\overline{D_2}$.",
+    "image_path": null
+  }
+]

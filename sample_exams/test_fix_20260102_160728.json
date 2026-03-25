@@ -1,0 +1,60 @@
+{
+  "metadata": {
+    "name": "Test Fix",
+    "description": "A test exam involving LaTeX symbols like \\alpha, \\beta and \\frac{1}{2}.",
+    "generated_at": "2026-01-02T16:07:28.345088",
+    "model_used": "gemini-3-flash-preview",
+    "difficulty": "intermediate",
+    "total_questions": 2
+  },
+  "questions": [
+    {
+      "question": "Consider the quadratic equation of the form $ax^2 + bx + c = 0$. Let the roots of this equation be denoted by the Greek letters $\\alpha$ and $\beta$. If the roots are given by the formula $x = \frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$, which of the following expressions correctly represents the sum of the roots $\\alpha + \beta$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$\frac{b}{a}$"
+        },
+        {
+          "label": 2,
+          "value": "$-\frac{b}{a}$"
+        },
+        {
+          "label": 3,
+          "value": "$\frac{c}{a}$"
+        },
+        {
+          "label": 4,
+          "value": "$\frac{\\sqrt{b^2 - 4ac}}{a}$"
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Algebra - Quadratic Equations",
+      "explanation": "According to Vieta's formulas, for a quadratic equation $ax^2 + bx + c = 0$, the sum of the roots $\\alpha + \beta$ is equal to $-\frac{b}{a}$ and the product of the roots $\\alpha\beta$ is equal to $\frac{c}{a}$."
+    },
+    {
+      "question": "In a linear model, suppose the relationship between two variables is defined such that a change in $x$ by $1$ unit results in a change in $y$ by $\\alpha$ units. If the initial value of $y$ at $x=0$ is $\beta = \frac{1}{2}$, which equation correctly models the value of $y$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$y = \frac{1}{2}x + \\alpha$"
+        },
+        {
+          "label": 2,
+          "value": "$y = \\alpha x - \frac{1}{2}$"
+        },
+        {
+          "label": 3,
+          "value": "$y = \\alpha x + \frac{1}{2}$"
+        },
+        {
+          "label": 4,
+          "value": "$y = \frac{1}{2}\\alpha x$"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Algebra - Linear Functions",
+      "explanation": "A linear equation is typically written in the form $y = mx + b$, where $m$ is the slope and $b$ is the y-intercept. Here, the slope (change in $y$ per unit $x$) is given as $\\alpha$, and the y-intercept (value of $y$ when $x=0$) is $\beta = \frac{1}{2}$. Thus, the equation is $y = \\alpha x + \frac{1}{2}$."
+    }
+  ]
+}

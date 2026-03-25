@@ -16,10 +16,14 @@ import {
   Bot,
   RefreshCw,
   Search,
+  Settings,
+  Activity,
+  Trash2,
 } from "lucide-react";
 import "katex/dist/katex.min.css";
 import { Latex } from "./components/Latex";
 import { AIExamGenerator } from "./components/AIExamGenerator";
+import AdminDashboard from "./admin/AdminDashboard";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { ThemeToggle } from "./components/ThemeToggle";
 
@@ -28,6 +32,7 @@ import type {
   ExamResult,
   ServerExam,
   ServerExamDetail,
+  ExamPreset,
 } from "./types";
 
 import {
@@ -35,6 +40,9 @@ import {
   isValidExamQuestions,
   robustJsonParse,
   API_BASE_URL,
+  generatePresetExam,
+  isLocalhost,
+  SUBJECT_GROUPS,
 } from "./utils";
 
 // --- LOCALSTORAGE HOOK ---
@@ -80,45 +88,40 @@ function useLocalStorage<T>(
   return [storedValue, setValue];
 }
 
-// --- THEME MANAGEMENT ---
-
-// const ThemeToggle: React.FC<{
-//   isDark: boolean;
-//   setIsDark: (value: boolean) => void;
-// }> = ({ isDark, setIsDark }) => {
-//   return (
-//     <button
-//       onClick={() => {
-//         setIsDark(!isDark);
-//       }}
-//       className="p-2 rounded-full text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-//       aria-label="Toggle theme"
-//     >
-//       {isDark ? <Sun size={20} /> : <Moon size={20} />}
-//     </button>
-//   );
-// };
-
 // --- HEADER COMPONENT ---
 const Header: React.FC<{
-  screen: "home" | "exam" | "results";
+  screen: "home" | "exam" | "results" | "admin";
   mainTimer: number;
-}> = ({ screen, mainTimer }) => {
+  onAdminClick: () => void;
+}> = ({ screen, mainTimer, onAdminClick }) => {
   return (
-    <header className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-      <h1 className="text-3xl font-bold text-gray-800 dark:text-white font-bebas">
-        Pariksha
-      </h1>
+    <header className="flex justify-between items-center p-4 glass sticky top-0 z-50 transition-all border-b border-white/20 dark:border-white/10">
+      <div className="flex items-center gap-4">
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent font-bebas tracking-wider">
+          Pariksha <span className="text-sm font-sans font-light text-slate-400 align-middle ml-2 uppercase tracking-tighter">Physics Edition</span>
+        </h1>
+      </div>
       <div className="flex items-center gap-4">
         {screen === "exam" && (
-          <div className="flex items-center gap-2 p-2 px-4 rounded-full bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200">
+          <div className="flex items-center gap-2 p-2 px-4 rounded-full bg-red-500/10 border border-red-500/20 text-red-500">
             <Clock size={20} />
-            <span className="font-mono text-lg font-semibold">
+            <span className="font-mono text-lg font-semibold tracking-widest">
               {formatTime(mainTimer)}
             </span>
           </div>
         )}
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+          {screen === "home" && isLocalhost() && (
+            <button 
+              onClick={onAdminClick}
+              className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-500"
+              title="Admin Dashboard"
+            >
+              <Settings size={20} />
+            </button>
+          )}
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );
@@ -132,11 +135,11 @@ export const Card: React.FC<{
   icon?: React.ReactNode;
 }> = ({ children, className = "", title, icon }) => (
   <div
-    className={`bg-white dark:bg-gray-800 shadow-xl rounded-xl p-6 transition-all border border-gray-200 dark:border-gray-700 hover:shadow-2xl ${className}`}
+    className={`glass rounded-2xl p-6 transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-2xl hover:shadow-teal-500/10 hover:border-teal-500/30 ${className}`}
   >
     {(title || icon) && (
-      <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-200 flex items-center gap-2">
-        {icon} {title}
+      <h2 className="text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100 flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+        <span className="text-teal-500">{icon}</span> {title}
       </h2>
     )}
     {children}
@@ -147,7 +150,7 @@ export const Button: React.FC<{
   onClick?: () => void;
   children: React.ReactNode;
   className?: string;
-  variant?: "primary" | "secondary" | "danger";
+  variant?: "primary" | "secondary" | "danger" | "blue";
   disabled?: boolean;
 }> = ({
   onClick,
@@ -157,19 +160,20 @@ export const Button: React.FC<{
   disabled = false,
 }) => {
   const baseClasses =
-    "px-6 py-3 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-300 ease-in-out transform flex items-center justify-center gap-2";
+    "px-6 py-3 font-semibold rounded-xl shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-all duration-300 ease-in-out transform flex items-center justify-center gap-2 active:scale-95";
   const variantClasses = {
-    primary: "bg-green-600 text-white hover:bg-green-700 focus:ring-green-500",
+    primary: "glowing-primary",
     secondary:
-      "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 focus:ring-gray-500",
-    danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
+      "bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 focus:ring-slate-500 border border-slate-300 dark:border-slate-700",
+    danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 shadow-red-900/20",
+    blue: "glowing-blue",
   };
   const disabledClasses =
-    "opacity-50 cursor-not-allowed hover:scale-100 hover:shadow-md";
+    "opacity-50 cursor-not-allowed hover:scale-100 hover:shadow-md pointer-events-none";
   return (
     <button
       onClick={onClick}
-      className={`${baseClasses} ${variantClasses[variant]} ${disabled ? disabledClasses : "hover:scale-105"} ${className}`}
+      className={`${baseClasses} ${variantClasses[variant]} ${disabled ? disabledClasses : "hover:-translate-y-1"} ${className}`}
       disabled={disabled}
     >
       {children}
@@ -226,12 +230,12 @@ const UploadModal: React.FC<{
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex justify-center items-center z-[70] p-4">
       <Card className="w-full max-w-md">
-        <h2 className="text-2xl font-semibold mb-4">Upload Exam</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-slate-100">Upload Exam</h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-slate-400 mb-1">
               Your Name
             </label>
             <input
@@ -239,19 +243,19 @@ const UploadModal: React.FC<{
               value={userName}
               onChange={(e) => setUserName(e.target.value.slice(0, 50))}
               maxLength={50}
-              className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
+              className="w-full p-3 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-teal-500 outline-none"
               placeholder="Enter your name"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-slate-400 mb-1">
               Exam Title
             </label>
             <input
               type="text"
               value={examTitle}
               onChange={(e) => setExamTitle(e.target.value)}
-              className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
+              className="w-full p-3 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-teal-500 outline-none"
               placeholder="Enter exam title"
             />
           </div>
@@ -262,7 +266,7 @@ const UploadModal: React.FC<{
             Cancel
           </Button>
           <Button onClick={handlePost} disabled={isPosting}>
-            {isPosting ? "Posting..." : "Post and save in browser"}
+            {isPosting ? "Posting..." : "Post and save"}
           </Button>
         </div>
       </Card>
@@ -438,20 +442,35 @@ const ExamListItem: React.FC<{
   source: string;
   totalQuestions: number;
   onStart: () => void;
+  onDelete?: () => void;
   date?: Date;
-}> = ({ name, source, totalQuestions, onStart, date }) => (
-  <div className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 transition-shadow duration-300 ease-in-out hover:shadow-lg hover:border-green-500">
+}> = ({ name, source, totalQuestions, onStart, onDelete, date }) => (
+  <div className="flex justify-between items-center p-4 glass rounded-xl border border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 hover:border-teal-500/50 group">
     <div>
-      <h3 className="font-semibold text-lg">{name}</h3>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+      <h3 className="font-semibold text-lg text-slate-800 dark:text-slate-100">{name}</h3>
+      <p className="text-sm text-slate-500 mt-1 uppercase tracking-tighter">
         {source === "local"
           ? `Total Questions: ${totalQuestions}`
           : `Uploaded: ${date?.toLocaleString()}`}
       </p>
     </div>
-    <Button onClick={onStart} className="flex-shrink-0">
-      <Clock size={20} /> Start
-    </Button>
+    <div className="flex items-center gap-2">
+      {onDelete && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+          className="p-2 text-slate-400 hover:bg-red-500/10 hover:text-red-500 rounded-lg transition-colors flex-shrink-0"
+          title="Delete Exam"
+        >
+          <Trash2 size={18} />
+        </button>
+      )}
+      <Button onClick={onStart} className="flex-shrink-0 px-4 py-2 text-sm">
+        <Clock size={16} /> Start
+      </Button>
+    </div>
   </div>
 );
 
@@ -460,34 +479,303 @@ const ExamHistoryItem: React.FC<{
   onClick: () => void;
 }> = ({ result, onClick }) => (
   <div
-    className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 cursor-pointer transition-shadow duration-300 ease-in-out hover:shadow-lg"
+    className="p-4 glass rounded-xl border border-white/10 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 hover:border-teal-500/30"
     onClick={onClick}
   >
     <div className="flex justify-between items-center mb-2">
-      <span className="font-semibold text-lg">{result.examName}</span>
+      <span className="font-semibold text-lg text-slate-800 dark:text-slate-100">{result.examName}</span>
       <span
         className={`font-bold text-xl ${
-          result.accuracy > 70 ? "text-green-500" : "text-red-500"
+          result.accuracy > 70 ? "text-teal-500" : "text-red-500"
         }`}
       >
         {result.accuracy.toFixed(1)}%
       </span>
     </div>
-    <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2.5 mb-2">
+    <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 mb-2 overflow-hidden">
       <div
-        className={`h-2.5 rounded-full ${
-          result.accuracy > 70 ? "bg-green-600" : "bg-red-600"
+        className={`h-full rounded-full transition-all duration-1000 ${
+          result.accuracy > 70 ? "bg-teal-500" : "bg-red-500"
         }`}
         style={{ width: `${result.accuracy}%` }}
       ></div>
     </div>
-    <p className="text-sm text-gray-500 dark:text-gray-400">
+    <p className="text-xs text-slate-500 uppercase tracking-widest">
       {new Date(result.date).toLocaleString()}
     </p>
   </div>
 );
 
-// --- SCREENS ---
+const ExamConfigModal: React.FC<{
+  exam: ExamConfig;
+  isOpen: boolean;
+  onClose: () => void;
+  onStart: (config: ExamConfig) => void;
+}> = ({ exam, isOpen, onClose, onStart }) => {
+  const [hours, setHours] = React.useState(exam.settings?.timerHours ?? 1);
+  const [minutes, setMinutes] = React.useState(exam.settings?.timerMinutes ?? 30);
+  const [posMarking, setPosMarking] = React.useState(exam.settings?.positiveMarking ?? 1);
+  const [negMarking, setNegMarking] = React.useState(exam.settings?.negativeMarking ?? 0);
+  
+  // Use actual question count from settings if present and less than total fetched
+  const initialQCount = exam.settings?.questionCount && exam.settings.questionCount <= exam.questions.length 
+    ? exam.settings.questionCount 
+    : exam.questions.length;
+    
+  const [qCount, setQCount] = React.useState(initialQCount);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex justify-center items-center z-[60] p-4">
+      <Card title="Exam Configuration" className="w-full max-w-lg shadow-2xl border-teal-500/50">
+        <div className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-slate-500 mb-2 uppercase tracking-wider">Duration</label>
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <input 
+                  type="number" 
+                  value={hours} 
+                  onChange={(e) => setHours(Math.max(0, parseInt(e.target.value) || 0))}
+                  className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-teal-500"
+                />
+                <span className="text-xs text-slate-500 mt-1 block">Hours</span>
+              </div>
+              <div className="flex-1">
+                <input 
+                  type="number" 
+                  value={minutes} 
+                  onChange={(e) => setMinutes(Math.max(0, parseInt(e.target.value) || 0))}
+                  className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-teal-500"
+                />
+                <span className="text-xs text-slate-500 mt-1 block">Minutes</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-500 mb-2 uppercase tracking-wider">Marks / Correct</label>
+              <input 
+                type="number" 
+                step="0.5"
+                value={posMarking} 
+                onChange={(e) => setPosMarking(Math.max(0.1, parseFloat(e.target.value) || 1))}
+                className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-teal-500 font-bold text-teal-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-500 mb-2 uppercase tracking-wider text-right">Negative Marking</label>
+              <div className="relative">
+                <select
+                  value={negMarking}
+                  onChange={(e) => setNegMarking(parseFloat(e.target.value))}
+                  className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-teal-500 appearance-none text-red-500 font-bold"
+                >
+                  <option value="0">None</option>
+                  <option value="0.25">-0.25</option>
+                  <option value="0.33">-0.33</option>
+                  <option value="0.5">-0.50</option>
+                  <option value="0.66">-0.66</option>
+                  <option value="0.875">-0.875</option>
+                  <option value="1">-1.00</option>
+                  <option value="1.25">-1.25</option>
+                  <option value="1.5">-1.50</option>
+                  <option value="2">-2.00</option>
+                </select>
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">▼</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-500 mb-2 uppercase tracking-wider">Number of Questions</label>
+            <input 
+              type="range" 
+              min="1" 
+              max={exam.questions.length} 
+              value={qCount}
+              onChange={(e) => setQCount(parseInt(e.target.value))}
+              className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-teal-500"
+            />
+            <div className="flex justify-between text-xs text-slate-500 mt-2">
+              <span>1</span>
+              <span className="font-bold text-teal-500 text-base">{qCount}</span>
+              <span>{exam.questions.length}</span>
+            </div>
+          </div>
+
+          <div className="flex gap-4 pt-4">
+            <Button onClick={onClose} variant="secondary" className="flex-1">Cancel</Button>
+            <Button 
+              onClick={() => onStart({
+                ...exam,
+                settings: {
+                  timerHours: hours,
+                  timerMinutes: minutes,
+                  positiveMarking: posMarking,
+                  negativeMarking: negMarking,
+                  questionCount: qCount,
+                  shuffleQuestions: true,
+                  shuffleOptions: true,
+                }
+              })} 
+              className="flex-1"
+            >
+              Start Exam
+            </Button>
+          </div>
+          
+          <div className="mt-2 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
+            <p className="text-xs text-yellow-600 dark:text-yellow-400 flex items-start gap-2">
+              <AlertTriangle size={14} className="mt-0.5 flex-shrink-0" />
+              <span>
+                <strong>Note on Mixed Patterns:</strong> Pariksha currently applies a uniform marking scheme. 
+                For exams like CSIR NET or GATE which have different marks/penalties per section (or no penalties for NATs/MSQs), 
+                the values above represent an <em>average or default</em> global scheme.
+              </span>
+            </p>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+const PhysicsExamGeneratorModal: React.FC<{
+  isOpen: boolean;
+  onClose: () => void;
+  onExamGenerated: (config: ExamConfig) => void;
+}> = ({ isOpen, onClose, onExamGenerated }) => {
+  const [shouldUpload, setShouldUpload] = React.useState(false);
+  const [isGenerating, setIsGenerating] = React.useState(false);
+  const [isCustomMode, setIsCustomMode] = React.useState(false);
+  const [customCounts, setCustomCounts] = React.useState<Record<string, number>>(() => {
+    const initial: Record<string, number> = {};
+    Object.keys(SUBJECT_GROUPS).forEach(group => initial[group] = 5);
+    return initial;
+  });
+
+  if (!isOpen) return null;
+
+  const presets: { id: ExamPreset; name: string; desc: string }[] = [
+    { id: "GATE", name: "GATE Physics", desc: "65 Questions | 180 Mins | Precise Pattern" },
+    { id: "CSIR_NET", name: "CSIR NET Physical Sciences", desc: "75 Questions | Part A, B & C" },
+    { id: "TIFR_GS", name: "TIFR GS (Physics)", desc: "40 Questions | Concept Depth Focus" },
+    { id: "BARC_OCES", name: "BARC OCES", desc: "100 Questions | Speed Test Pattern" },
+  ];
+
+  const handleGenerate = async (presetId: ExamPreset) => {
+    setIsGenerating(true);
+    try {
+      const config = await generatePresetExam(presetId, presetId === "CUSTOM" ? customCounts : undefined);
+      
+      if (shouldUpload) {
+        try {
+          await fetch(`${API_BASE_URL}/pariksha`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              exam_title: config.name,
+              exam_json_str: JSON.stringify(config.questions),
+            }),
+          });
+        } catch (uploadErr) {
+          console.warn("Failed to upload auto-generated exam to community server.");
+        }
+      }
+
+      onExamGenerated(config);
+      onClose();
+    } catch (err) {
+      alert("Error generating exam from bank. Ensure you have run Phase 1 generation.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleCustomCountChange = (group: string, val: string) => {
+    setCustomCounts(prev => ({ ...prev, [group]: Math.max(0, parseInt(val) || 0) }));
+  };
+
+  const totalCustomQuestions = Object.values(customCounts).reduce((a, b) => a + b, 0);
+
+  if (isCustomMode) {
+    return (
+      <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex justify-center items-center z-[60] p-4">
+        <Card title="Advanced Preset Editor" className="w-full max-w-3xl border-teal-500/50 max-h-[90vh] flex flex-col">
+          <p className="text-sm text-slate-500 mb-6">Distribute questions across major physics subject groups.</p>
+          
+          <div className="grid md:grid-cols-2 gap-x-6 gap-y-4 overflow-y-auto pr-2 custom-scrollbar flex-grow mb-6">
+            {Object.keys(SUBJECT_GROUPS).map(group => (
+              <div key={group} className="flex justify-between items-center p-3 glass rounded-xl border border-white/5">
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{group}</span>
+                <input 
+                  type="number"
+                  min="0"
+                  value={customCounts[group]}
+                  onChange={(e) => handleCustomCountChange(group, e.target.value)}
+                  className="w-20 p-2 text-center rounded-lg bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 outline-none focus:border-teal-500"
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-between items-center pt-4 border-t border-slate-200 dark:border-slate-800">
+            <div className="text-lg font-bold text-slate-800 dark:text-slate-200">
+              Total Questions: <span className="text-teal-500">{totalCustomQuestions}</span>
+            </div>
+            <div className="flex gap-4">
+              <Button onClick={() => setIsCustomMode(false)} variant="secondary" disabled={isGenerating}>Back</Button>
+              <Button onClick={() => handleGenerate("CUSTOM")} disabled={isGenerating || totalCustomQuestions === 0}>
+                {isGenerating ? "Generating..." : "Generate Custom Exam"}
+              </Button>
+            </div>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex justify-center items-center z-[60] p-4">
+      <Card title="Physics Exam Generator" className="w-full max-w-2xl border-blue-500/50">
+        <div className="grid md:grid-cols-2 gap-4 mb-6">
+          {presets.map(p => (
+            <button
+              key={p.id}
+              onClick={() => handleGenerate(p.id)}
+              disabled={isGenerating}
+              className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-left hover:-translate-y-1 hover:shadow-xl hover:border-blue-500 transition-all group disabled:opacity-50"
+            >
+              <h3 className="font-bold text-lg group-hover:text-blue-500">{p.name}</h3>
+              <p className="text-sm text-slate-500">{p.desc}</p>
+            </button>
+          ))}
+        </div>
+        
+        <div className="flex flex-col gap-4 mb-6">
+          <div className="p-4 bg-blue-500/5 border border-blue-500/20 rounded-2xl">
+            <h4 className="font-semibold text-blue-500 flex items-center gap-2 mb-2 text-sm uppercase tracking-wider">
+              <Zap size={14} /> Custom Preset
+            </h4>
+            <p className="text-xs text-slate-500 mb-3">
+              Adjust topic weightage manually to create a tailored practice session (e.g. 50% QM, 50% EMT).
+            </p>
+            <Button onClick={() => setIsCustomMode(true)} variant="secondary" className="w-full text-xs py-2 bg-slate-200/50 dark:bg-slate-900/50 border-blue-500/30 hover:border-blue-500 text-blue-500">
+              Open Advanced Preset Editor
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex justify-end">
+          <Button onClick={onClose} variant="secondary" disabled={isGenerating}>Cancel</Button>
+        </div>
+      </Card>
+    </div>
+  );
+};
 
 const HomeScreen: React.FC<{
   setExamConfig: (config: ExamConfig) => void;
@@ -495,6 +783,7 @@ const HomeScreen: React.FC<{
   setTimerConfig: (config: { hours: number; minutes: number }) => void;
   viewResult: (result: ExamResult) => void;
   handleFileUpload: (config: ExamConfig) => void;
+  handleDeleteExam: (examName: string) => void;
   availableExams: ExamConfig[];
 }> = ({
   setExamConfig,
@@ -502,6 +791,7 @@ const HomeScreen: React.FC<{
   setTimerConfig,
   viewResult,
   handleFileUpload,
+  handleDeleteExam,
   availableExams,
 }) => {
   const [serverExams, setServerExams] = React.useState<ServerExam[]>([]);
@@ -509,10 +799,10 @@ const HomeScreen: React.FC<{
   const [currentPage, setCurrentPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(1);
   const [examHistory] = useLocalStorage<ExamResult[]>("examHistory", []);
-  const [hours, setHours] = React.useState(1);
-  const [minutes, setMinutes] = React.useState(30);
   const [isAiModalOpen, setIsAiModalOpen] = React.useState(false);
+  const [isPhysicsGenModalOpen, setIsPhysicsGenModalOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [configExam, setConfigExam] = React.useState<ExamConfig | null>(null);
 
   const fetchExams = async () => {
     setIsLoading(true);
@@ -542,35 +832,31 @@ const HomeScreen: React.FC<{
     fetchExams();
   }, [currentPage]);
 
-  const startExam = async (configOrId: ExamConfig | string) => {
-    setTimerConfig({ hours, minutes });
+  const handleExamClick = async (configOrId: ExamConfig | string) => {
     if (typeof configOrId === "string") {
       try {
         const response = await fetch(`${API_BASE_URL}/pariksha/${configOrId}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error("Failed to fetch exam");
         const examDetail: ServerExamDetail = await response.json();
         const questions = robustJsonParse(examDetail.exam_json_str);
-
-        if (!isValidExamQuestions(questions)) {
-          throw new Error("Invalid exam question format from server.");
-        }
-
-        const examConfig: ExamConfig = {
-          name: examDetail.exam_title,
-          questions: questions,
-        };
-        setExamConfig(examConfig);
-        setScreen("exam");
+        if (!isValidExamQuestions(questions)) throw new Error("Invalid format");
+        setConfigExam({ name: examDetail.exam_title, questions });
       } catch (error) {
-        console.error("Failed to fetch exam details:", error);
-        alert("Failed to load the exam. Please try again.");
+        alert("Failed to load exam");
       }
     } else {
-      setExamConfig(configOrId);
-      setScreen("exam");
+      setConfigExam(configOrId);
     }
+  };
+
+  const startExam = (config: ExamConfig) => {
+    setTimerConfig({ 
+      hours: config.settings?.timerHours ?? 1, 
+      minutes: config.settings?.timerMinutes ?? 30 
+    });
+    setExamConfig(config);
+    setScreen("exam");
+    setConfigExam(null);
   };
 
   const filteredLocalExams = availableExams.filter((exam) =>
@@ -581,188 +867,214 @@ const HomeScreen: React.FC<{
   );
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-8 dark:text-gray-300 text-gray-700">
-      <Card title="New Exam Session" className="mb-8">
-        <div className="grid md:grid-cols-3 gap-6 items-center">
-          <div className="md:col-span-1">
-            <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">
-              Set Timer
-            </label>
-            <div className="flex gap-2">
-              <div className="relative flex-1">
-                <input
-                  type="number"
-                  value={hours}
-                  onChange={(e) =>
-                    setHours(Math.max(0, parseInt(e.target.value) || 0))
-                  }
-                  className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0 pr-12"
-                  aria-label="Hours for timer"
-                />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-                  Hours
-                </span>
-              </div>
-              <div className="relative flex-1">
-                <input
-                  type="number"
-                  value={minutes}
-                  onChange={(e) =>
-                    setMinutes(Math.max(0, parseInt(e.target.value) || 0))
-                  }
-                  className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0 pr-12"
-                  aria-label="Minutes for timer"
-                />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-                  Mins
-                </span>
-              </div>
+    <div className="science-grid min-h-[calc(100vh-68px)] transition-all">
+      <div className="max-w-7xl mx-auto p-4 md:p-8 dark:text-slate-300 text-slate-700">
+        
+        {/* Main Action Area */}
+        <div className="grid lg:grid-cols-12 gap-8 mb-12">
+          <div className="lg:col-span-8">
+            <h2 className="text-4xl font-bold text-slate-800 dark:text-white mb-4">
+              Scientific Exam <span className="text-teal-500">Simulator</span>
+            </h2>
+            <p className="text-lg text-slate-500 dark:text-slate-400 mb-8 max-w-2xl">
+              Master complex physics concepts through our AI-enhanced question bank. 
+              Practice for GATE, NET, and TIFR with real-world patterns.
+            </p>
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              <Button onClick={() => setIsPhysicsGenModalOpen(true)} variant="blue" className="h-24 text-xl">
+                <Zap size={28} /> Auto-Generate Physics Exam
+              </Button>
+              <Button onClick={() => setIsAiModalOpen(true)} className="h-24 text-xl">
+                <Bot size={28} /> Custom AI Generation
+              </Button>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-4 md:col-span-2">
-            <Button
-              onClick={() => setIsAiModalOpen(true)}
-              className="w-full"
-            >
-              <Bot size={20} /> Generate with AI
-            </Button>
-            <FileUploader onFileUpload={handleFileUpload} />
+          
+          <div className="lg:col-span-4 flex flex-col gap-4">
+            <Card className="bg-teal-500/5 border-teal-500/20">
+              <h3 className="font-bold text-teal-500 flex items-center gap-2 mb-2"><Shield size={18}/> Question Bank Status</h3>
+              <p className="text-sm text-slate-500">840 Questions across 42 Physics Topics. Fully indexed and AI-verified.</p>
+              <div className="mt-4 flex gap-2">
+                <div className="h-1 bg-teal-500 flex-1 rounded-full"></div>
+                <div className="h-1 bg-teal-500 flex-1 rounded-full"></div>
+                <div className="h-1 bg-slate-300 dark:bg-slate-700 flex-1 rounded-full"></div>
+              </div>
+            </Card>
+            <div className="flex gap-4">
+              <FileUploader onFileUpload={handleFileUpload} />
+            </div>
           </div>
         </div>
-      </Card>
 
-      {isAiModalOpen && (
-        <AIExamGenerator
-          onClose={() => setIsAiModalOpen(false)}
-          onExamGenerated={handleFileUpload}
-        />
-      )}
+        {isAiModalOpen && (
+          <AIExamGenerator
+            onClose={() => setIsAiModalOpen(false)}
+            onExamGenerated={handleFileUpload}
+          />
+        )}
 
-      <div className="grid lg:grid-cols-3 gap-8">
-        <Card
-          title="Available Exams"
-          icon={<FileText />}
-          className="lg:col-span-2"
-        >
-          <div className="flex items-center gap-2 mb-4">
-            <div className="relative w-full">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full p-3 pl-10 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
-                placeholder="Search exams..."
-              />
-              <Search
-                size={20}
-                className="absolute left-3 top-1/2 -translate-y-1/2"
-              />
-            </div>
-            <Button
-              onClick={fetchExams}
-              variant="secondary"
-              disabled={isLoading}
-              className="px-4 py-3"
-            >
-              <RefreshCw
-                size={20}
-                className={isLoading ? "animate-spin" : ""}
-              />
-            </Button>
-          </div>
-          <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
-            {filteredLocalExams.length > 0 && (
-              <>
-                <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-400 pt-2 border-t border-dashed border-gray-300 dark:border-gray-600">
-                  Local Exams
-                </h3>
-                {filteredLocalExams.map((exam, index) => (
-                  <ExamListItem
-                    key={`local-${index}`}
-                    name={exam.name}
-                    source="local"
-                    totalQuestions={exam.questions.length}
-                    onStart={() => startExam(exam)}
-                  />
-                ))}
-              </>
-            )}
-            <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-400 pt-2 border-t border-dashed border-gray-300 dark:border-gray-600">
-              Community Exams
-            </h3>
-            {isLoading ? (
-              <div className="flex justify-center items-center p-4">
-                <p className="text-gray-500 dark:text-gray-400">Loading...</p>
-              </div>
-            ) : filteredServerExams.length > 0 ? (
-              <>
-                {filteredServerExams.map((exam) => (
-                  <ExamListItem
-                    key={exam.exam_id}
-                    name={exam.exam_title}
-                    source="server"
-                    totalQuestions={0}
-                    date={new Date(exam.datetime_uploaded)}
-                    onStart={() => startExam(exam.exam_id)}
-                  />
-                ))}
-                <div className="flex justify-center items-center gap-4 mt-4">
-                  <Button
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                    disabled={currentPage === 1}
-                    variant="secondary"
-                  >
-                    Prev
-                  </Button>
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
-                    Page {currentPage} of {totalPages}
-                  </span>
-                  <Button
-                    onClick={() =>
-                      setCurrentPage((p) => Math.min(totalPages, p + 1))
-                    }
-                    disabled={currentPage === totalPages}
-                    variant="secondary"
-                  >
-                    Next
-                  </Button>
-                </div>
-              </>
-            ) : (
-              <p className="text-gray-500 dark:text-gray-400 p-4">
-                No community exams are available or match your search.
-              </p>
-            )}
-            {filteredLocalExams.length === 0 &&
-              filteredServerExams.length === 0 &&
-              !isLoading && (
-                <p className="text-gray-500 dark:text-gray-400">
-                  No exams found. Upload an exam JSON to begin.
-                </p>
-              )}
-          </div>
-        </Card>
-        <Card title="Exam History" icon={<History />}>
-          <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
-            {examHistory.length > 0 ? (
-              examHistory.map((result) => (
-                <ExamHistoryItem
-                  key={result.id}
-                  result={result}
-                  onClick={() => viewResult(result)}
+        {isPhysicsGenModalOpen && (
+          <PhysicsExamGeneratorModal
+            isOpen={isPhysicsGenModalOpen}
+            onClose={() => setIsPhysicsGenModalOpen(false)}
+            onExamGenerated={handleFileUpload}
+          />
+        )}
+
+        {configExam && (
+          <ExamConfigModal
+            exam={configExam}
+            isOpen={!!configExam}
+            onClose={() => setConfigExam(null)}
+            onStart={startExam}
+          />
+        )}
+
+        <div className="grid lg:grid-cols-3 gap-8">
+          <Card
+            title="Available Exams"
+            icon={<FileText />}
+            className="lg:col-span-2"
+          >
+            <div className="flex items-center gap-2 mb-6">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full p-4 pl-12 rounded-xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-teal-500 outline-none transition-all"
+                  placeholder="Search exam bank..."
                 />
-              ))
-            ) : (
-              <p className="text-gray-500 dark:text-gray-400">
-                No exams taken yet.
-              </p>
-            )}
-          </div>
-          <div className="mt-4">
-            <ResultUploader onResultUpload={viewResult} />
-          </div>
-        </Card>
+                <Search
+                  size={20}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+                />
+              </div>
+              <Button
+                onClick={fetchExams}
+                variant="secondary"
+                disabled={isLoading}
+                className="p-4"
+              >
+                <RefreshCw
+                  size={20}
+                  className={isLoading ? "animate-spin" : ""}
+                />
+              </Button>
+            </div>
+            
+            <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+              {filteredLocalExams.length > 0 && (
+                <>
+                  <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-teal-500"></div> Local Exams
+                  </h3>
+                  <div className="grid gap-3 mb-6">
+                    {filteredLocalExams.map((exam, index) => (
+                      <ExamListItem
+                        key={`local-${index}`}
+                        name={exam.name}
+                        source="local"
+                        totalQuestions={exam.questions.length}
+                        onStart={() => handleExamClick(exam)}
+                        onDelete={() => handleDeleteExam(exam.name)}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+              
+              <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-blue-500"></div> Community Exams
+              </h3>
+              {isLoading ? (
+                <div className="flex justify-center items-center p-8">
+                  <RefreshCw className="animate-spin text-teal-500" size={32} />
+                </div>
+              ) : filteredServerExams.length > 0 ? (
+                <>
+                  <div className="grid gap-3">
+                    {filteredServerExams.map((exam) => (
+                      <ExamListItem
+                        key={exam.exam_id}
+                        name={exam.exam_title}
+                        source="server"
+                        totalQuestions={0}
+                        date={new Date(exam.datetime_uploaded)}
+                        onStart={() => handleExamClick(exam.exam_id)}
+                      />
+                    ))}
+                  </div>
+                  <div className="flex justify-between items-center mt-6 p-4 bg-slate-100 dark:bg-slate-800/50 rounded-xl">
+                    <Button
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      variant="secondary"
+                      className="px-4 py-2"
+                    >
+                      Prev
+                    </Button>
+                    <span className="text-sm font-medium text-slate-500">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    <Button
+                      onClick={() =>
+                        setCurrentPage((p) => Math.min(totalPages, p + 1))
+                      }
+                      disabled={currentPage === totalPages}
+                      variant="secondary"
+                      className="px-4 py-2"
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <p className="text-slate-500 text-center py-10 italic">No community exams found matching your search.</p>
+              )}
+            </div>
+          </Card>
+          
+          <Card title="Recent History" icon={<History />}>
+            <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+              {examHistory.length > 0 ? (
+                examHistory.map((result) => (
+                  <ExamHistoryItem
+                    key={result.id}
+                    result={result}
+                    onClick={() => viewResult(result)}
+                  />
+                ))
+              ) : (
+                <div className="flex flex-col items-center justify-center py-10 text-slate-500">
+                  <Activity size={40} className="mb-4 opacity-20" />
+                  <p className="text-sm italic text-center">Your performance analytics will appear here once you take an exam.</p>
+                </div>
+              )}
+            </div>
+            <div className="mt-6">
+              <ResultUploader onResultUpload={viewResult} />
+            </div>
+          </Card>
+        </div>
       </div>
+      
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #334155;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #475569;
+        }
+      `}</style>
     </div>
   );
 };
@@ -824,9 +1136,12 @@ const ResultsScreen: React.FC<{
       <Card className="mb-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Score</p>
-            <p className="text-3xl font-bold text-green-600 dark:text-green-400">
-              {result.correctAnswers}/{result.totalQuestions}
+            <p className="text-sm text-slate-500 uppercase tracking-wider mb-1">Final Score</p>
+            <p className="text-3xl font-bold text-teal-500">
+              {result.score.toFixed(2)}
+            </p>
+            <p className="text-xs text-slate-400 mt-1">
+              ({result.correctAnswers} Correct)
             </p>
           </div>
           <div>
@@ -1041,7 +1356,7 @@ const ResultsScreen: React.FC<{
 
 // --- MAIN APP COMPONENT ---
 export default function App() {
-  const [screen, setScreen] = React.useState<"home" | "exam" | "results">(
+  const [screen, setScreen] = React.useState<"home" | "exam" | "results" | "admin">(
     "home",
   );
   const [examConfig, setExamConfig] = React.useState<ExamConfig | null>(null);
@@ -1064,15 +1379,13 @@ export default function App() {
     }
   };
 
-  const [mainTimer, setMainTimer] = React.useState(0);
+  const handleDeleteExam = (examName: string) => {
+    if (confirm(`Are you sure you want to delete "${examName}"?`)) {
+      setAvailableExams((prev) => prev.filter((e) => e.name !== examName));
+    }
+  };
 
-  // React.useEffect(() => {
-  //   if (isDark) {
-  //     document.documentElement.classList.add("dark");
-  //   } else {
-  //     document.documentElement.classList.remove("dark");
-  //   }
-  // }, [isDark]);
+  const [mainTimer, setMainTimer] = React.useState(0);
 
   const handleSetLastResult = (result: ExamResult) => {
     setLastResult(result);
@@ -1089,6 +1402,12 @@ export default function App() {
 
   const renderScreen = () => {
     switch (screen) {
+      case "admin":
+        if (!isLocalhost()) {
+          setScreen("home");
+          return null;
+        }
+        return <AdminDashboard onBack={() => setScreen("home")} />;
       case "exam":
         if (!examConfig) {
           setScreen("home");
@@ -1118,6 +1437,7 @@ export default function App() {
             setTimerConfig={setTimerConfig}
             viewResult={viewResult}
             handleFileUpload={handleFileUpload}
+            handleDeleteExam={handleDeleteExam}
             availableExams={availableExams}
           />
         );
@@ -1126,8 +1446,14 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <div className="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans transition-colors">
-        <Header screen={screen} mainTimer={mainTimer} />
+      <div className="bg-slate-50 dark:bg-science-900 min-h-screen font-sans transition-colors selection:bg-teal-500/30">
+        {screen !== "admin" && (
+          <Header 
+            screen={screen} 
+            mainTimer={mainTimer} 
+            onAdminClick={() => setScreen("admin")} 
+          />
+        )}
         {renderScreen()}
       </div>
     </ThemeProvider>

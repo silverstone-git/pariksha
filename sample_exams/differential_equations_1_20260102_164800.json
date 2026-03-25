@@ -1,0 +1,242 @@
+[
+    {
+      "question": "What is the standard form of a first-order linear ordinary differential equation?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$\\frac{dy}{dt} + p(t)y = g(t)$"
+        },
+        {
+          "label": 2,
+          "value": "$\\frac{d^2y}{dt^2} + p(t)y = g(t)$"
+        },
+        {
+          "label": 3,
+          "value": "$\\frac{dy}{dt} + p(t)y^2 = g(t)$"
+        },
+        {
+          "label": 4,
+          "value": "$y' + p(t)y = g(t)y^n$"
+        }
+      ],
+      "answer_label": 1,
+      "topic": "Differential Equations - First Order Linear ODEs",
+      "explanation": "The standard form for a first-order linear ODE is $y' + p(t)y = g(t)$. Option 2 is second-order, option 3 is non-linear because of the $y^2$ term, and option 4 is a Bernoulli equation."
+    },
+    {
+      "question": "Given the differential equation $\\frac{dy}{dt} + p(t)y = g(t)$, what is the correct formula for the integrating factor $\\mu(t)$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$\\mu(t) = \\int p(t) dt$"
+        },
+        {
+          "label": 2,
+          "value": "$\\mu(t) = e^{\\int p(t) dt}$"
+        },
+        {
+          "label": 3,
+          "value": "$\\mu(t) = e^{-\\int p(t) dt}$"
+        },
+        {
+          "label": 4,
+          "value": "$\\mu(t) = \\ln|p(t)|$"
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Differential Equations - Integrating Factors",
+      "explanation": "The integrating factor is defined as $\\mu(t) = e^{\\int p(t) dt}$. This factor is designed so that the left side of the ODE becomes the derivative of the product $\\mu(t)y$."
+    },
+    {
+      "question": "Find the general solution of the differential equation $t y' + 2y = t^2$ for $t > 0$.",
+      "options": [
+        {
+          "label": 1,
+          "value": "$y(t) = \\frac{t^2}{4} + Ct^{-2}$"
+        },
+        {
+          "label": 2,
+          "value": "$y(t) = \\frac{t^2}{3} + Ct^{-2}$"
+        },
+        {
+          "label": 3,
+          "value": "$y(t) = t^2 + C$"
+        },
+        {
+          "label": 4,
+          "value": "$y(t) = \\frac{t^4}{4} + C$"
+        }
+      ],
+      "answer_label": 1,
+      "topic": "Differential Equations - Problem Solving",
+      "explanation": "Divide by $t$ to get standard form: $y' + \\frac{2}{t}y = t$. Integrating factor $\\mu(t) = e^{\\int \\frac{2}{t} dt} = e^{2\\ln t} = t^2$. Multiply ODE by $t^2$: $(t^2y)' = t^3$. Integrate: $t^2y = \\frac{t^4}{4} + C$. Thus $y = \\frac{t^2}{4} + Ct^{-2}$."
+    },
+    {
+      "question": "Solve the initial value problem $y' - y = e^{3t}$ with $y(0) = 2$.",
+      "options": [
+        {
+          "label": 1,
+          "value": "$y(t) = \\frac{1}{2}e^{3t} + \\frac{3}{2}e^t$"
+        },
+        {
+          "label": 2,
+          "value": "$y(t) = e^{3t} + e^t$"
+        },
+        {
+          "label": 3,
+          "value": "$y(t) = \\frac{1}{3}e^{3t} + \\frac{5}{3}e^t$"
+        },
+        {
+          "label": 4,
+          "value": "$y(t) = 2e^{3t}$"
+        }
+      ],
+      "answer_label": 1,
+      "topic": "Differential Equations - Initial Value Problems",
+      "explanation": "Standard form: $y' - y = e^{3t}$ where $p(t)=-1$. $\\mu(t) = e^{\\int -1 dt} = e^{-t}$. Multiply: $(e^{-t}y)' = e^{2t}$. Integrate: $e^{-t}y = \\frac{1}{2}e^{2t} + C$. General solution: $y = \\frac{1}{2}e^{3t} + Ce^t$. Using $y(0)=2$: $2 = \\frac{1}{2} + C \\implies C = \\frac{3}{2}$. Solution is $y = \\frac{1}{2}e^{3t} + \\frac{3}{2}e^t$."
+    },
+    {
+      "question": "Consider the equation $y' + \\frac{1}{x}y = 3x$. For which interval is the solution guaranteed to be unique and valid given an initial condition at $x=1$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$(-\\infty, \\infty)$"
+        },
+        {
+          "label": 2,
+          "value": "$(0, \\infty)$"
+        },
+        {
+          "label": 3,
+          "value": "$(-\\infty, 0)$"
+        },
+        {
+          "label": 4,
+          "value": "$(1, \\infty)$"
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Differential Equations - Analysis",
+      "explanation": "The functions $p(x) = 1/x$ and $g(x) = 3x$ must be continuous for the existence and uniqueness theorem to apply. $p(x)$ is discontinuous at $x=0$. Since the initial condition is at $x=1$, the largest interval containing $x=1$ where $p(x)$ is continuous is $(0, \\infty)$."
+    },
+    {
+      "question": "Which of the following differential equations is NOT linear?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$\\frac{dy}{dt} = t^2y + \\sin(t)$"
+        },
+        {
+          "label": 2,
+          "value": "$t y' + y = \\ln(t)$"
+        },
+        {
+          "label": 3,
+          "value": "$y' + ty = y^2$"
+        },
+        {
+          "label": 4,
+          "value": "$\\frac{1}{t} y' - y = 0$"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Differential Equations - Conceptual",
+      "explanation": "An equation is linear if it can be written as $y' + p(t)y = g(t)$. In option 3, the term $y^2$ makes the equation non-linear (it is actually a Bernoulli equation)."
+    },
+    {
+      "question": "Determine the integrating factor for the ODE $(\\cos x) y' + (\\sin x) y = 1$.",
+      "options": [
+        {
+          "label": 1,
+          "value": "$\\cos x$"
+        },
+        {
+          "label": 2,
+          "value": "$\\sec x$"
+        },
+        {
+          "label": 3,
+          "value": "$\\sin x$"
+        },
+        {
+          "label": 4,
+          "value": "$\\tan x$"
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Differential Equations - Integrating Factors",
+      "explanation": "Standard form: $y' + \\frac{\\sin x}{\\cos x} y = \\frac{1}{\\cos x} \\implies y' + (\\tan x)y = \\sec x$. $\\mu(x) = e^{\\int \\tan x dx} = e^{\\ln|\\sec x|} = \\sec x$."
+    },
+    {
+      "question": "In the derivation of the integrating factor $\\mu(t)$, why do we typically ignore the constant of integration $C$ in the expression $\\mu(t) = e^{\\int p(t) dt + C}$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "The constant $C$ is always zero."
+        },
+        {
+          "label": 2,
+          "value": "Any constant multiple of the integrating factor will result in the same general solution for $y$."
+        },
+        {
+          "label": 3,
+          "value": "Integrating factors cannot have constants."
+        },
+        {
+          "label": 4,
+          "value": "The constant $C$ is absorbed into the function $g(t)$."
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Differential Equations - Analysis",
+      "explanation": "If we used $k e^{\\int p(t) dt}$ as the integrating factor, the $k$ would appear on both sides of the integrated equation $(k\\mu y)' = k\\mu g$ and eventually cancel out when solving for $y$."
+    },
+    {
+      "question": "Solve the differential equation $y' + 2y = 4$.",
+      "options": [
+        {
+          "label": 1,
+          "value": "$y(t) = 2 + Ce^{-2t}$"
+        },
+        {
+          "label": 2,
+          "value": "$y(t) = 4 + Ce^{-2t}$"
+        },
+        {
+          "label": 3,
+          "value": "$y(t) = 2e^{-2t} + C$"
+        },
+        {
+          "label": 4,
+          "value": "$y(t) = Ce^{2t} - 2$"
+        }
+      ],
+      "answer_label": 1,
+      "topic": "Differential Equations - Problem Solving",
+      "explanation": "$\\mu(t) = e^{\\int 2 dt} = e^{2t}$. Multiplying gives $(e^{2t}y)' = 4e^{2t}$. Integrating gives $e^{2t}y = 2e^{2t} + C$, which simplifies to $y = 2 + Ce^{-2t}$."
+    },
+    {
+      "question": "What happens to the solution $y(t)$ of the equation $y' + ay = b$ (where $a, b > 0$) as $t \\to \\infty$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "The solution grows to $\\infty$."
+        },
+        {
+          "label": 2,
+          "value": "The solution oscillates indefinitely."
+        },
+        {
+          "label": 3,
+          "value": "The solution approaches the steady-state value $b/a$."
+        },
+        {
+          "label": 4,
+          "value": "The solution approaches zero."
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Differential Equations - Reasoning",
+      "explanation": "The general solution is $y(t) = \\frac{b}{a} + Ce^{-at}$. As $t \\to \\infty$, the transient term $Ce^{-at}$ approaches zero because $a > 0$. Thus, $y(t) \\to b/a$."
+    }
+  ]

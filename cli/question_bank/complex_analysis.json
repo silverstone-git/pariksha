@@ -1,0 +1,501 @@
+[
+  {
+    "question": "Referencing the integral $I$ in the attached image (Q.55), suppose $a$ and $b$ are positive real numbers such that $a < b$. The unit circle $C$ is traversed counterclockwise. What is the value of the integral $I = \\frac{1}{2\\pi i} \\oint_C \\frac{z^4 - 1}{(z - a/b)(z - b/a)} dz$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\frac{a(a^2 + b^2)}{b^3}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\frac{b(a^2 + b^2)}{a^3}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\frac{a^4 - b^4}{a^2 - b^2}$"
+      },
+      {
+        "label": 4,
+        "value": "0"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Residue Theorem",
+    "explanation": "Since $a < b$, the point $z_1 = a/b$ lies inside the unit circle ($a/b < 1$) and $z_2 = b/a$ lies outside ($b/a > 1$). By the Residue Theorem, $I$ is the residue of the integrand at $z = a/b$. Let $f(z) = \\\\frac{z^4-1}{(z-a/b)(z-b/a)}$. The residue at $a/b$ is $\\\\lim_{z \\\\to a/b} (z-a/b) \\\\frac{z^4-1}{(z-a/b)(z-b/a)} = \\\\frac{(a/b)^4 - 1}{a/b - b/a} = \\\\frac{(a^4 - b^4)/b^4}{(a^2 - b^2)/ab} = \\\\frac{(a^2-b^2)(a^2+b^2)}{b^4} \\\\cdot \\\\frac{ab}{a^2-b^2} = \\\\frac{a(a^2+b^2)}{b^3}$.",
+    "image_path": "pariksha/bf9d3e87b18d725c67af6fbad780217d.webp"
+  },
+  {
+    "question": "What is the radius of convergence of the Maclaurin series expansion for $f(z) = \\\\tanh z$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$R = 1$"
+      },
+      {
+        "label": 2,
+        "value": "$R = \\\\pi/2$"
+      },
+      {
+        "label": 3,
+        "value": "$R = \\\\pi$"
+      },
+      {
+        "label": 4,
+        "value": "$R = \\\\infty$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Taylor Series",
+    "explanation": "The radius of convergence is the distance to the nearest singularity. For $\\\\tanh z = \\\\frac{\\\\sinh z}{\\\\cosh z}$, the singularities occur where $\\\\cosh z = 0$. This happens at $z = i(n + 1/2)\\\\pi$ for $n \\\\in \\\\mathbb{Z}$. The nearest singularities to the origin are $z = \\\\pm i\\\\pi/2$, so $R = |\\\\pm i\\\\pi/2| = \\\\pi/2$.",
+    "image_path": null
+  },
+  {
+    "question": "Evaluate the integral $J = \\\\oint_C z^m (z^*)^n dz$ where $m, n$ are integers and $C$ is the unit circle $|z|=1$ counterclockwise.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2\\\\pi i$ if $m=n$"
+      },
+      {
+        "label": 2,
+        "value": "$2\\\\pi i$ if $m-n = -1$"
+      },
+      {
+        "label": 3,
+        "value": "$0$ for all $m, n$"
+      },
+      {
+        "label": 4,
+        "value": "$-2\\\\pi i$ if $n-m = 1$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Contour Integration",
+    "explanation": "On the unit circle $|z|=1$, we have $z z^* = 1$, so $z^* = 1/z$. The integral becomes $\\\\oint_C z^m z^{-n} dz = \\\\oint_C z^{m-n} dz$. This integral is $2\\\\pi i$ if and only if the exponent $m-n = -1$. Otherwise, it is zero.",
+    "image_path": null
+  },
+  {
+    "question": "According to Cauchy's Inequality, if $f(z)$ is analytic within and on a circle $|z-z_0|=r$ and $|f(z)| \\\\leq M$ on the circle, then the $n$-th derivative satisfies $|f^{(n)}(z_0)| \\\\leq \\\\frac{n!M}{r^n}$. Given $f(z) = e^z$ on the unit circle $|z|=1$, what is the upper bound for $|f^{(3)}(0)|$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$6e$"
+      },
+      {
+        "label": 2,
+        "value": "$3!/e$"
+      },
+      {
+        "label": 3,
+        "value": "$6$"
+      },
+      {
+        "label": 4,
+        "value": "$e$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Cauchy Inequality",
+    "explanation": "For $f(z) = e^z$ on $|z|=1$, the maximum value $M$ occurs at $z=1$, where $|e^z| = e^1 = e$. Using $n=3$ and $r=1$, $|f^{(3)}(0)| \\\\leq \\\\frac{3! \\\\cdot e}{1^3} = 6e$.",
+    "image_path": null
+  },
+  {
+    "question": "Find the residue of $f(z) = \\\\frac{1}{\\\\sin z}$ at $z=0$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$0$"
+      },
+      {
+        "label": 2,
+        "value": "$1$"
+      },
+      {
+        "label": 3,
+        "value": "$-1$"
+      },
+      {
+        "label": 4,
+        "value": "$i$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Residues",
+    "explanation": "Since $\\\\sin z$ has a simple zero at $z=0$, $f(z)$ has a simple pole. $\\\\text{Res}(f, 0) = \\\\lim_{z \\\\to 0} \\\\frac{z}{\\\\sin z} = 1$.",
+    "image_path": null
+  },
+  {
+    "question": "Which of the following describes the behavior of $f(z) = e^{1/z}$ at $z=0$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Removable singularity"
+      },
+      {
+        "label": 2,
+        "value": "Pole of order 1"
+      },
+      {
+        "label": 3,
+        "value": "Essential singularity"
+      },
+      {
+        "label": 4,
+        "value": "Branch point"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Singularities",
+    "explanation": "The Laurent expansion of $e^{1/z}$ at $z=0$ is $\\\\sum_{n=0}^{\\\\infty} \\\\frac{1}{n! z^n} = 1 + \\\\frac{1}{z} + \\\\frac{1}{2z^2} + \\\\dots$. Since there are infinitely many terms in the principal part (negative powers of $z$), $z=0$ is an essential singularity.",
+    "image_path": null
+  },
+  {
+    "question": "The Legendre polynomials $P_n(x)$ can be defined by the contour integral $P_n(x) = \\\\frac{1}{2^n (2\\\\pi i)} \\\\oint_C \\\\frac{(z^2 - 1)^n}{(z - x)^{n+1}} dz$. Using this, what is the value of $P_1(x)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$1$"
+      },
+      {
+        "label": 2,
+        "value": "$x$"
+      },
+      {
+        "label": 3,
+        "value": "$x^2$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\frac{1}{2}(3x^2 - 1)$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Special Functions",
+    "explanation": "$P_1(x) = \\\\frac{1}{2 (2\\\\pi i)} \\\\oint_C \\\\frac{z^2 - 1}{(z - x)^2} dz$. By Cauchy's Integral Formula for derivatives, $\\\\oint_C \\\\frac{f(z)}{(z-x)^2} dz = 2\\\\pi i f'(x)$. Here $f(z) = z^2 - 1$, so $f'(x) = 2x$. Thus, $P_1(x) = \\\\frac{1}{2} (2x) = x$.",
+    "image_path": null
+  },
+  {
+    "question": "Evaluate $\\\\oint_C \\\\frac{e^z}{z^2 + \\\\pi^2} dz$ where $C$ is the circle $|z| = 4$ counterclockwise.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2i \\\\sin \\\\pi$"
+      },
+      {
+        "label": 2,
+        "value": "$-2i \\\\sin \\\\pi$"
+      },
+      {
+        "label": 3,
+        "value": "$0$"
+      },
+      {
+        "label": 4,
+        "value": "$2\\\\pi i$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Residue Theorem",
+    "explanation": "The poles are at $z = \\\\pm i\\\\pi$. Both are inside $|z|=4$. $\\\\text{Res}(i\\\\pi) = \\\\frac{e^{i\\\\pi}}{2i\\\\pi} = \\\\frac{-1}{2i\\\\pi}$. $\\\\text{Res}(-i\\\\pi) = \\\\frac{e^{-i\\\\pi}}{-2i\\\\pi} = \\\\frac{-1}{-2i\\\\pi} = \\\\frac{1}{2i\\\\pi}$. The sum of residues is $0$.",
+    "image_path": null
+  },
+  {
+    "question": "Determine the Laurent expansion of $f(z) = \\\\frac{1}{z^2(1-z)}$ valid for the region $|z| > 1$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\sum_{n=0}^{\\\\infty} z^{n-2}$"
+      },
+      {
+        "label": 2,
+        "value": "$-\\\\sum_{n=0}^{\\\\infty} z^{-n-3}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\frac{1}{z^2} + \\\\frac{1}{z} + 1 + z + \\\\dots$"
+      },
+      {
+        "label": 4,
+        "value": "$-\\\\sum_{n=0}^{\\\\infty} z^{n-3}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Laurent Series",
+    "explanation": "$f(z) = \\\\frac{1}{z^2} \\\\frac{1}{1-z} = \\\\frac{1}{z^2} \\\\frac{1}{-z(1-1/z)} = -\\\\frac{1}{z^3} \\\\sum_{n=0}^{\\\\infty} (1/z)^n = -\\\\sum_{n=0}^{\\\\infty} z^{-n-3}$. This is valid when $|1/z| < 1$, i.e., $|z| > 1$.",
+    "image_path": null
+  },
+  {
+    "question": "What is the value of $\\\\oint_C \\\\frac{\\\\cosh z}{z^4} dz$ where $C$ is a square with vertices at $\\\\pm 3 \\\\pm 3i$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\pi i / 3$"
+      },
+      {
+        "label": 2,
+        "value": "$2\\\\pi i / 3!$"
+      },
+      {
+        "label": 3,
+        "value": "$0$"
+      },
+      {
+        "label": 4,
+        "value": "$1$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Cauchy Integral Formula",
+    "explanation": "The pole is at $z=0$ with order 4. The residue is $\\\\frac{1}{3!} f^{(3)}(0)$ where $f(z) = \\\\cosh z$. The derivatives are: $f' = \\\\sinh, f'' = \\\\cosh, f''' = \\\\sinh$. Since $\\\\sinh(0) = 0$, the residue is $0$.",
+    "image_path": null
+  },
+  {
+    "question": "For a function $f(z)$ to be entire, it must have no singularities in the finite complex plane. Which of the following is NOT an entire function?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$f(z) = \\\\frac{\\\\sin z}{z}$ (defined as 1 at $z=0$)"
+      },
+      {
+        "label": 2,
+        "value": "$f(z) = \\\\frac{e^z - 1}{z}$ (defined as 1 at $z=0$)"
+      },
+      {
+        "label": 3,
+        "value": "$f(z) = \\\\frac{z}{e^z + 1}$"
+      },
+      {
+        "label": 4,
+        "value": "$f(z) = \\\\cos(\\\\sqrt{z})$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Entire Functions",
+    "explanation": "$f(z) = \\\\frac{z}{e^z + 1}$ has poles where $e^z = -1$, i.e., $z = i(2n+1)\\\\pi$. Therefore, it is not entire. Options 1 and 2 have removable singularities at $z=0$, and Option 4's expansion contains only even powers of $\\\\sqrt{z}$, making it a power series in $z$.",
+    "image_path": null
+  },
+  {
+    "question": "Evaluate $\\\\int_0^{2\\\\pi} \\\\frac{d\\\\theta}{5 + 4\\\\cos\\\\theta}$ using contour integration on the unit circle $z = e^{i\\\\theta}$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2\\\\pi/3$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\pi/3$"
+      },
+      {
+        "label": 3,
+        "value": "$2\\\\pi/9$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\pi/2$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Definite Integrals",
+    "explanation": "Substitute $\\\\cos\\\\theta = (z + z^{-1})/2$ and $d\\\\theta = dz/iz$. The integral becomes $\\\\oint_C \\\\frac{dz/iz}{5 + 2(z+1/z)} = \\\\oint_C \\\\frac{dz}{i(2z^2 + 5z + 2)} = \\\\oint_C \\\\frac{dz}{i(2z+1)(z+2)}$. The only pole inside the unit circle is $z = -1/2$. The residue at $z = -1/2$ is $\\\\frac{1}{i(2(-1/2+2))} = \\\\frac{1}{3i}$. Multiplying by $2\\\\pi i$ gives $2\\\\pi/3$.",
+    "image_path": null
+  },
+  {
+    "question": "If $f(z) = u + iv$ is analytic, which condition must the partial derivatives satisfy?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$u_x = v_y$ and $u_y = v_x$"
+      },
+      {
+        "label": 2,
+        "value": "$u_x = v_y$ and $u_y = -v_x$"
+      },
+      {
+        "label": 3,
+        "value": "$u_x = -v_y$ and $u_y = v_x$"
+      },
+      {
+        "label": 4,
+        "value": "$u_{xx} + u_{yy} = v_{xx} + v_{yy}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Cauchy-Riemann Equations",
+    "explanation": "The Cauchy-Riemann equations are the necessary conditions for analyticity: $\\\\frac{\\\\partial u}{\\\\partial x} = \\\\frac{\\\\partial v}{\\\\partial y}$ and $\\\\frac{\\\\partial u}{\\\\partial y} = -\\\\frac{\\\\partial v}{\\\\partial x}$.",
+    "image_path": null
+  },
+  {
+    "question": "Identify the type of singularity of $f(z) = \\\\frac{z - \\\\sin z}{z^3}$ at $z=0$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "Pole of order 3"
+      },
+      {
+        "label": 2,
+        "value": "Pole of order 2"
+      },
+      {
+        "label": 3,
+        "value": "Essential singularity"
+      },
+      {
+        "label": 4,
+        "value": "Removable singularity"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Singularities",
+    "explanation": "$z - \\\\sin z = z - (z - z^3/3! + z^5/5! - \\\\dots) = z^3/6 - z^5/120 + \\\\dots$. Dividing by $z^3$ gives $1/6 - z^2/120 + \\\\dots$. Since the limit exists and is finite as $z \\\\to 0$, it is a removable singularity.",
+    "image_path": null
+  },
+  {
+    "question": "Evaluate $\\\\oint_C \\\\frac{e^z}{(z-1)(z-2)} dz$ where $C$ is the circle $|z|=1.5$ counterclockwise.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2\\\\pi i e$"
+      },
+      {
+        "label": 2,
+        "value": "$-2\\\\pi i e$"
+      },
+      {
+        "label": 3,
+        "value": "$2\\\\pi i (e^2 - e)$"
+      },
+      {
+        "label": 4,
+        "value": "$0$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Residue Theorem",
+    "explanation": "Poles are at $z=1$ and $z=2$. Only $z=1$ is inside $|z|=1.5$. The residue at $z=1$ is $\\\\lim_{z \\\\to 1} \\\\frac{e^z}{z-2} = \\\\frac{e}{-1} = -e$. The integral is $2\\\\pi i \\\\times (-e) = -2\\\\pi i e$.",
+    "image_path": null
+  },
+  {
+    "question": "The function $f(z) = \\\\frac{1}{1+z^2}$ has a Laurent expansion in the annulus $1 < |z| < \\\\infty$. What is the coefficient of $1/z^2$ in this expansion?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$1$"
+      },
+      {
+        "label": 2,
+        "value": "$-1$"
+      },
+      {
+        "label": 3,
+        "value": "$0$"
+      },
+      {
+        "label": 4,
+        "value": "$i$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Laurent Series",
+    "explanation": "For $|z| > 1$, $f(z) = \\\\frac{1}{z^2(1 + 1/z^2)} = \\\\frac{1}{z^2} \\\\sum_{n=0}^{\\\\infty} (-1/z^2)^n = \\\\frac{1}{z^2} - \\\\frac{1}{z^4} + \\\\frac{1}{z^6} - \\\\dots$. The coefficient of $1/z^2$ is 1. Wait, let me check the powers: $z^{-2}, z^{-4}, z^{-6}...$ the coefficient of $1/z^2$ is 1. Correct."
+  },
+  {
+    "question": "Which theorem states that a bounded entire function must be constant?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Rouché's Theorem"
+      },
+      {
+        "label": 2,
+        "value": "Liouville's Theorem"
+      },
+      {
+        "label": 3,
+        "value": "Morera's Theorem"
+      },
+      {
+        "label": 4,
+        "value": "Open Mapping Theorem"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Theoretical Complex Analysis",
+    "explanation": "Liouville's Theorem states that if $f(z)$ is entire and there exists $M$ such that $|f(z)| \\\\leq M$ for all $z \\\\in \\\\mathbb{C}$, then $f(z)$ is constant.",
+    "image_path": null
+  },
+  {
+    "question": "What is the residue of $f(z) = \\\\frac{z^2}{(z-1)^2(z+2)}$ at the pole $z=1$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$5/9$"
+      },
+      {
+        "label": 2,
+        "value": "$4/9$"
+      },
+      {
+        "label": 3,
+        "value": "$1/3$"
+      },
+      {
+        "label": 4,
+        "value": "$8/9$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Residues",
+    "explanation": "At $z=1$, there is a pole of order 2. $\\\\text{Res}(f, 1) = \\\\frac{1}{(2-1)!} \\\\lim_{z \\\\to 1} \\\\frac{d}{dz} [ (z-1)^2 f(z) ] = \\\\lim_{z \\\\to 1} \\\\frac{d}{dz} [ \\\\frac{z^2}{z+2} ]$. Derivative is $\\\\frac{2z(z+2) - z^2(1)}{(z+2)^2} = \\\\frac{z^2 + 4z}{(z+2)^2}$. Evaluating at $z=1$ gives $(1+4)/(1+2)^2 = 5/9$.",
+    "image_path": null
+  },
+  {
+    "question": "Consider the function $f(z) = z^2 + 1$. Mapping the line $y=0$ in the $z$-plane to the $w$-plane results in:",
+    "options": [
+      {
+        "label": 1,
+        "value": "A straight line $v=0, u \\\\geq 1$"
+      },
+      {
+        "label": 2,
+        "value": "A circle $|w|=1$"
+      },
+      {
+        "label": 3,
+        "value": "A parabola"
+      },
+      {
+        "label": 4,
+        "value": "The entire real axis"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Conformal Mapping",
+    "explanation": "If $y=0$, $z=x$. Then $w = f(x) = x^2 + 1$. Since $x^2 \\\\geq 0$, $w$ is real ($v=0$) and $w \\\\geq 1$ ($u \\\\geq 1$).",
+    "image_path": null
+  },
+  {
+    "question": "Using the argument principle, how many zeros does $f(z) = z^4 - 5z + 1$ have inside the unit circle $|z|=1$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "0"
+      },
+      {
+        "label": 2,
+        "value": "1"
+      },
+      {
+        "label": 3,
+        "value": "3"
+      },
+      {
+        "label": 4,
+        "value": "4"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Rouché's Theorem",
+    "explanation": "Let $g(z) = -5z$ and $h(z) = z^4+1$. On $|z|=1$, $|g(z)| = 5$. $|h(z)| \\\\leq |z|^4 + 1 = 2$. Since $|g(z)| > |h(z)|$, by Rouché's Theorem, $f(z) = g(z)+h(z)$ has the same number of zeros as $g(z)$ inside the circle. $g(z) = -5z$ has one zero at $z=0$. Thus, $f(z)$ has 1 zero.",
+    "image_path": null
+  }
+]

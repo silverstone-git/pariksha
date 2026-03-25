@@ -1,0 +1,52 @@
+[
+  {
+    "question": "As illustrated in the provided diagram of pentagonal tiling, why is a fivefold rotation axis ($2\\pi/5$) prohibited in an infinite periodic crystal lattice?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Pentagons can only form a lattice if the primitive translation vectors $\\\\mathbf{a}_1$ and $\\\\mathbf{a}_2$ are unequal."
+      },
+      {
+        "label": 2,
+        "value": "A periodic lattice must be invariant under translations $\\\\mathbf{T}$, and fivefold symmetry operations cannot fill a 2D plane without leaving gaps or creating overlaps."
+      },
+      {
+        "label": 3,
+        "value": "Fivefold symmetry is only possible in three-dimensional Bravais lattices like the face-centered cubic (fcc) system."
+      },
+      {
+        "label": 4,
+        "value": "The Wigner-Seitz cell of a fivefold symmetric structure would have an infinite volume, violating the definition of a primitive cell."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Crystal Symmetry",
+    "explanation": "According to the crystallographic restriction theorem, only 1, 2, 3, 4, and 6-fold rotation axes are compatible with translational symmetry. As shown in the figure, attempting to tile a plane with pentagons (fivefold symmetry) results in gaps or overlaps, meaning it cannot form a connected, periodic array that fills all space.",
+    "image_path": "pariksha/4887999ff7d0abee5bcf2c64934ae0cd.webp"
+  },
+  {
+    "question": "Referring to the symmetry axes of a cube shown in the attached image, which of the following correctly describes the 'triad axes' (3-fold rotation axes) of the cubic system?",
+    "options": [
+      {
+        "label": 1,
+        "value": "There are three triad axes passing through the centers of opposite faces."
+      },
+      {
+        "label": 2,
+        "value": "There are six triad axes passing through the midpoints of opposite edges."
+      },
+      {
+        "label": 3,
+        "value": "There are four triad axes, each passing through opposite vertices (body diagonals) of the cube."
+      },
+      {
+        "label": 4,
+        "value": "There is only one triad axis, which is perpendicular to the diagonal plane of symmetry."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Crystal Symmetry",
+    "explanation": "In a cubic lattice, there are four triad axes. Each axis corresponds to a body diagonal of the cube (connecting opposite vertices). A rotation of $2\\pi/3$ ($120^\\\\circ$) about any of these four axes carries the cube into itself. This is shown in part (d) of the provided symmetry diagram.",
+    "image_path": "pariksha/3fa57b2bdd2b62e7d7b8ffc716749d86.webp"
+  }
+]

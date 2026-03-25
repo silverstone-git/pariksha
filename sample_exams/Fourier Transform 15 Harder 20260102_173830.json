@@ -1,0 +1,362 @@
+[
+  {
+    "question": "The signal $x(t) = \\\\text{sinc}(t) = \\\\frac{\\\\sin(\\\\pi t)}{\\\\pi t}$ is applied to an ideal low-pass filter with bandwidth $f_c = 0.6$ Hz (cutoff frequency). What is the energy of the output signal?",
+    "options": [
+      {
+        "label": 1,
+        "value": "1"
+      },
+      {
+        "label": 2,
+        "value": "0.6"
+      },
+      {
+        "label": 3,
+        "value": "0.5"
+      },
+      {
+        "label": 4,
+        "value": "0.8"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Parseval's Theorem - Energy",
+    "explanation": "The Fourier Transform of $x(t) = \\\\text{sinc}(t)$ is a rectangular function $X(f) = \\\\text{rect}(f)$. This rectangle extends from $f = -0.5$ to $f = 0.5$ and has amplitude 1. Its total energy is $\\\\int_{-\\\\infty}^{\\\\infty} |x(t)|^2 dt = \\\\int_{-\\\\infty}^{\\\\infty} |X(f)|^2 df = \\\\int_{-0.5}^{0.5} 1^2 df = 1$. An ideal LPF with $f_c = 0.6$ passes all frequencies up to $|f| < 0.6$. Since the signal's bandwidth is $0.5$ (which is less than $0.6$), the entire signal passes through unchanged. Thus, the output energy is the same as the input energy, which is 1."
+  },
+  {
+    "question": "Using Parseval's Theorem, evaluate the integral $I = \\\\int_{-\\\\infty}^{\\\\infty} \\\\frac{1}{(1+t^2)^2} dt$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\pi$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\frac{\\\\pi}{2}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\frac{\\\\pi}{4}$"
+      },
+      {
+        "label": 4,
+        "value": "$2\\\\pi$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Parseval's Theorem - Definite Integrals",
+    "explanation": "Consider the signal $x(t) = e^{-|t|}$. Its Fourier Transform is $X(\\\\omega) = \\\\frac{2}{1+\\omega^2}$. The energy of the signal in the time domain is $E = \\\\int_{-\\\\infty}^{\\\\infty} (e^{-|t|})^2 dt = \\\\int_{-\\\\infty}^{\\\\infty} e^{-2|t|} dt = 2 \\\\int_0^{\\\\infty} e^{-2t} dt = 1$. By Parseval's theorem, $E = \\\\frac{1}{2\\\\pi} \\\\int_{-\\\\infty}^{\\\\infty} |X(\\\\omega)|^2 d\\\\omega$. Substituting, $1 = \\\\frac{1}{2\\\\pi} \\\\int_{-\\\\infty}^{\\\\infty} (\\\\frac{2}{1+\\\\omega^2})^2 d\\\\omega = \\\\frac{4}{2\\\\pi} \\\\int_{-\\\\infty}^{\\\\infty} \\\\frac{1}{(1+\\\\omega^2)^2} d\\\\omega$. Thus, $\\\\int_{-\\\\infty}^{\\\\infty} \\\\frac{1}{(1+\\\\omega^2)^2} d\\\\omega = \\\\frac{2\\\\pi}{4} = \\\\frac{\\\\pi}{2}$. Since the integration variable is a dummy variable, the value for $t$ is the same."
+  },
+  {
+    "question": "Given the Fourier Transform pair $e^{-|t|} \\\\leftrightarrow \\\\frac{2}{1+\\\\omega^2}$, use the Duality Property to find the Fourier Transform of $x(t) = \\\\frac{1}{1+t^2}$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\pi e^{-|\\\\omega|}$"
+      },
+      {
+        "label": 2,
+        "value": "$e^{-|\\\\omega|}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\frac{1}{2} e^{-|\\\\omega|}$"
+      },
+      {
+        "label": 4,
+        "value": "$2\\\\pi e^{-|\\\\omega|}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Fourier Transform - Duality Property",
+    "explanation": "The Duality Property states that if $x(t) \\\\leftrightarrow X(\\\\omega)$, then $X(t) \\\\leftrightarrow 2\\\\pi x(-\\\\omega)$. Here, let $f(t) = e^{-|t|}$, so $F(\\\\omega) = \\\\frac{2}{1+\\\\omega^2}$. We want the transform of $g(t) = \\\\frac{1}{1+t^2} = \\\\frac{1}{2} F(t)$. Using duality on $F(t)$, we get $F(t) \\\\leftrightarrow 2\\\\pi f(-\\\\omega) = 2\\\\pi e^{-|-\\\\omega|} = 2\\\\pi e^{-|\\\\omega|}$. Therefore, the transform of $\\\\frac{1}{2} F(t)$ is $\\\\frac{1}{2} (2\\\\pi e^{-|\\\\omega|}) = \\\\pi e^{-|\\\\omega|}$."
+  },
+  {
+    "question": "Two rectangular pulses of width $T$ and height $1$ are convolved. If $x(t) = \\\\text{rect}(\\\\frac{t}{T})$, what is $y(t) = x(t) * x(t)$ evaluated at $t=0$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T$"
+      },
+      {
+        "label": 2,
+        "value": "$T/2$"
+      },
+      {
+        "label": 3,
+        "value": "$1$"
+      },
+      {
+        "label": 4,
+        "value": "$2T$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Convolution Theorem - Calculation",
+    "explanation": "The convolution of two identical rectangular pulses results in a triangular pulse. The peak of the triangle occurs at $t=0$ (assuming the rectangles are centered at 0). The value of convolution at $t$ is the area of overlap between $x(\\\\tau)$ and $x(t-\\\\tau)$. At $t=0$, the two pulses overlap completely. The area is width $\\\\times$ height $\\\\times$ height $= T \\\\times 1 \\\\times 1 = T$."
+  },
+  {
+    "question": "If the Fourier series coefficients of a periodic signal $x(t)$ decay as $|c_n| \\\\propto \\\\frac{1}{n^2}$, what can be said about the continuity of $x(t)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$x(t)$ is discontinuous."
+      },
+      {
+        "label": 2,
+        "value": "$x(t)$ is continuous, but its first derivative is discontinuous."
+      },
+      {
+        "label": 3,
+        "value": "$x(t)$ and its first derivative are continuous."
+      },
+      {
+        "label": 4,
+        "value": "$x(t)$ contains impulses."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Fourier Series - Convergence Properties",
+    "explanation": "The rate of decay of Fourier coefficients depends on the smoothness of the function. If $x(t)$ is discontinuous, coefficients decay as $1/n$. If $x(t)$ is continuous but has a discontinuous first derivative (like a triangular wave), coefficients decay as $1/n^2$. If $x(t)$ and $x'(t)$ are continuous but $x''(t)$ is discontinuous, they decay as $1/n^3$."
+  },
+  {
+    "question": "For a real-valued signal $x(t)$, which of the following properties holds true for its Fourier Transform $X(\\\\omega)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$X(\\\\omega)$ is always real."
+      },
+      {
+        "label": 2,
+        "value": "$X(\\\\omega) = X(-\\\\omega)$"
+      },
+      {
+        "label": 3,
+        "value": "$X(-\\\\omega) = X^*(\\, \\\\omega)$ (Conjugate Symmetry)"
+      },
+      {
+        "label": 4,
+        "value": "$Re\\\\{X(\\\\omega)\\\\}$ is odd."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Fourier Transform - Properties",
+    "explanation": "For a real-valued signal $x(t)$, the Fourier Transform exhibits conjugate symmetry, meaning the magnitude is an even function and the phase is an odd function. Mathematically, this is expressed as $X(-\\\\omega) = X^*(\\, \\\\omega)$. Option 1 is only true if $x(t)$ is real and even. Option 2 is only true if $x(t)$ is real and even."
+  },
+  {
+    "question": "What is the Fourier Transform of the signal $x(t) = \\\\frac{d}{dt} \\\\text{sinc}(t)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$j\\\\omega \\\\cdot \\\\text{rect}(\\\\frac{\\\\omega}{2\\\\pi})$"
+      },
+      {
+        "label": 2,
+        "value": "$j\\\\omega \\\\cdot \\\\text{rect}(\\\\frac{\\\\omega}{2})$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\omega \\\\cdot \\\\text{rect}(\\\\omega)$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\frac{1}{j\\\\omega} \\\\text{rect}(\\\\frac{\\\\omega}{2\\\\pi})$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Fourier Transform - Differentiation Property",
+    "explanation": "First, recall that the FT of $\\\\text{sinc}(t)$ (assuming normalized $\\\\text{sinc}(t) = \\\\frac{\\\\sin(\\\\pi t)}{\\\\pi t}$) is $\\\\text{rect}(f)$ or in terms of $\\\\omega$, $\\\\text{rect}(\\\\frac{\\\\omega}{2\\\\pi})$. The time differentiation property states that $FT\\\\{\\\\frac{d}{dt}x(t)\\\\} = j\\\\omega X(\\\\omega)$. Therefore, the FT is $j\\\\omega \\\\cdot \\\\text{rect}(\\\\frac{\\\\omega}{2\\\\pi})$."
+  },
+  {
+    "question": "A signal $x(t)$ has a Fourier Transform $X(\\\\omega)$. If the signal is shifted in time by $t_0$, i.e., $y(t) = x(t-t_0)$, how are the magnitude and phase spectra affected?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Magnitude changes, phase remains unchanged."
+      },
+      {
+        "label": 2,
+        "value": "Both magnitude and phase change."
+      },
+      {
+        "label": 3,
+        "value": "Magnitude remains unchanged, phase assumes a linear shift."
+      },
+      {
+        "label": 4,
+        "value": "Magnitude remains unchanged, phase shifts by a constant."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Fourier Transform - Time Shifting",
+    "explanation": "The Time Shifting property states that $FT\\\\{x(t-t_0)\\\\} = X(\\\\omega)e^{-j\\\\omega t_0}$. The magnitude is $|X(\\\\omega)e^{-j\\\\omega t_0}| = |X(\\\\omega)| \\\\cdot |e^{-j\\\\omega t_0}| = |X(\\\\omega)|$, so the magnitude spectrum is unchanged. The phase becomes $\\\\angle X(\\\\omega) - \\\\omega t_0$, which represents a linear shift in phase with respect to frequency."
+  },
+  {
+    "question": "Given a signal $x(t) = \\\\cos(100t) + \\\\sin(200t)$, what is the minimum sampling frequency required to reconstruct this signal uniquely (Nyquist Rate)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "100/\\\\pi Hz"
+      },
+      {
+        "label": 2,
+        "value": "200/\\\\pi Hz"
+      },
+      {
+        "label": 3,
+        "value": "100 Hz"
+      },
+      {
+        "label": 4,
+        "value": "200 Hz"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Fourier Transform - Sampling Theorem",
+    "explanation": "The maximum angular frequency present in the signal is $\\\\omega_{max} = 200$ rad/s. To find the frequency in Hz, we use $f = \\\\omega / 2\\\\pi$. So $f_{max} = 200 / 2\\\\pi = 100/\\\\pi$ Hz. The Nyquist rate is $2 \\\\times f_{max} = 2 \\\\times (100/\\\\pi) = 200/\\\\pi$ Hz."
+  },
+  {
+    "question": "Evaluate the convolution $y(t) = e^{-at}u(t) * e^{-bt}u(t)$ where $a \\\\neq b$ and $a,b > 0$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\frac{e^{-at} - e^{-bt}}{b-a} u(t)$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\frac{e^{-bt} - e^{-at}}{b-a} u(t)$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\frac{e^{-at} + e^{-bt}}{a+b} u(t)$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\frac{1}{a+b} e^{-(a+b)t} u(t)$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Convolution Theorem - Standard Signals",
+    "explanation": "Using Fourier Transforms: $X(\\\\omega) = \\\\frac{1}{a+j\\\\omega}$, $H(\\\\omega) = \\\\frac{1}{b+j\\\\omega}$. The output is $Y(\\\\omega) = \\\\frac{1}{(a+j\\\\omega)(b+j\\\\omega)}$. Using Partial Fraction Expansion: $Y(\\\\omega) = \\\\frac{A}{a+j\\\\omega} + \\\\frac{B}{b+j\\\\omega}$. Solving for coefficients, we get $A = \\\\frac{1}{b-a}$ and $B = \\\\frac{-1}{b-a}$. Inverse transform gives $y(t) = \\\\frac{1}{b-a} (e^{-at}u(t) - e^{-bt}u(t))$. Note: This is equivalent to Option 1: $\\\\frac{e^{-at} - e^{-bt}}{b-a} u(t)$."
+  },
+  {
+    "question": "The Fourier Transform of a Gaussian pulse $x(t) = e^{-\\\\alpha t^2}$ (where $\\\\alpha > 0$) is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\sqrt{\\\\frac{\\\\pi}{\\\\alpha}} e^{-\\\\frac{\\\\omega^2}{4\\\\alpha}}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\frac{1}{\\\\alpha} e^{-\\\\alpha \\\\omega^2}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\sqrt{\\\\frac{\\\\alpha}{\\\\pi}} e^{-\\\\frac{\\\\omega^2}{2}}$"
+      },
+      {
+        "label": 4,
+        "value": "$e^{-\\\\frac{\\\\omega^2}{4\\\\alpha}}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Fourier Transform - Standard Pairs",
+    "explanation": "The Gaussian function is a unique function that transforms into another Gaussian. The standard integral $\\\\int_{-\\\\infty}^{\\\\infty} e^{-\\\\alpha t^2} e^{-j\\\\omega t} dt$ evaluates to $\\\\sqrt{\\\\frac{\\\\pi}{\\\\alpha}} e^{-\\\\omega^2 / 4\\\\alpha}$. This shows that a narrow Gaussian in time corresponds to a wide Gaussian in frequency, demonstrating the uncertainty principle."
+  },
+  {
+    "question": "If $X(\\\\omega)$ is the Fourier Transform of a real, odd signal $x(t)$, then $X(\\\\omega)$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Real and even"
+      },
+      {
+        "label": 2,
+        "value": "Real and odd"
+      },
+      {
+        "label": 3,
+        "value": "Purely imaginary and even"
+      },
+      {
+        "label": 4,
+        "value": "Purely imaginary and odd"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Fourier Transform - Symmetry Properties",
+    "explanation": "For a real signal, $x(t)$ can be decomposed into even and odd parts. The even part transforms to the real part of $X(\\\\omega)$, and the odd part transforms to the imaginary part of $X(\\\\omega)$. If $x(t)$ is purely odd, its real part is zero. Thus, $X(\\\\omega)$ is purely imaginary. Furthermore, since $x(t)$ is real, $X(\\\\omega)$ must be conjugate symmetric ($X(-\\\\omega) = X^*(\\, \\\\omega)$). For a purely imaginary signal, this implies odd symmetry in frequency. Hence, purely imaginary and odd."
+  },
+  {
+    "question": "Using the Convolution Theorem, determine the Fourier Transform of the product $y(t) = x_1(t)x_2(t)$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$Y(\\\\omega) = X_1(\\\\omega) X_2(\\\\omega)$"
+      },
+      {
+        "label": 2,
+        "value": "$Y(\\\\omega) = \\\\frac{1}{2\\\\pi} [X_1(\\\\omega) * X_2(\\\\omega)]$"
+      },
+      {
+        "label": 3,
+        "value": "$Y(\\\\omega) = [X_1(\\\\omega) * X_2(\\\\omega)]$"
+      },
+      {
+        "label": 4,
+        "value": "$Y(\\\\omega) = 2\\\\pi [X_1(\\\\omega) * X_2(\\\\omega)]$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Convolution Theorem - Frequency Domain",
+    "explanation": "The Convolution Theorem states that multiplication in the time domain corresponds to convolution in the frequency domain, scaled by a factor of $1/2\\\\pi$. This scaling factor arises from the definition of the inverse Fourier transform. So, $FT\\\\{x_1(t)x_2(t)\\\\} = \\\\frac{1}{2\\\\pi} \\\\int_{-\\\\infty}^{\\\\infty} X_1(\\\\lambda) X_2(\\\\omega - \\\\lambda) d\\\\lambda$."
+  },
+  {
+    "question": "Which of the following represents the Parseval's Relation for non-periodic, finite energy signals?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\sum |c_n|^2 = \\\\frac{1}{T} \\\\int_T |x(t)|^2 dt$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\int_{-\\\\infty}^{\\\\infty} x(t) y^*(t) dt = \\\\int_{-\\\\infty}^{\\\\infty} X(\\\\omega) Y^*(\\, \\\\omega) d\\\\omega$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\int_{-\\\\infty}^{\\\\infty} |x(t)|^2 dt = \\\\frac{1}{2\\\\pi} \\\\int_{-\\\\infty}^{\\\\infty} |X(\\\\omega)|^2 d\\\\omega$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\int_{-\\\\infty}^{\\\\infty} |x(t)| dt = \\\\int_{-\\\\infty}^{\\\\infty} |X(\\\\omega)| d\\\\omega$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Parseval's Theorem - Definition",
+    "explanation": "Parseval's Relation (or Theorem) for continuous-time aperiodic signals equates the total energy calculated in the time domain to the total energy calculated in the frequency domain. The factor of $1/2\\\\pi$ appears when using angular frequency $\\\\omega$ to normalize the energy, due to the $d\\\\omega = 2\\\\pi df$ substitution. Option 1 is for periodic signals (Fourier Series)."
+  },
+  {
+    "question": "Consider a signal $x(t)$ with Fourier Transform $X(\\\\omega)$. What is the value of $\\\\int_{-\\\\infty}^{\\\\infty} X(\\\\omega) d\\\\omega$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$x(0)$"
+      },
+      {
+        "label": 2,
+        "value": "$2\\\\pi x(0)$"
+      },
+      {
+        "label": 3,
+        "value": "$x(\\\\infty)$"
+      },
+      {
+        "label": 4,
+        "value": "0"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Fourier Transform - Inverse Relation",
+    "explanation": "The Inverse Fourier Transform is defined as $x(t) = \\\\frac{1}{2\\\\pi} \\\\int_{-\\\\infty}^{\\\\infty} X(\\\\omega) e^{j\\\\omega t} d\\\\omega$. If we evaluate this at $t=0$, we get $x(0) = \\\\frac{1}{2\\\\pi} \\\\int_{-\\\\infty}^{\\\\infty} X(\\\\omega) e^{0} d\\\\omega$. Rearranging the terms, we find that $\\\\int_{-\\\\infty}^{\\\\infty} X(\\\\omega) d\\\\omega = 2\\\\pi x(0)$."
+  }
+]

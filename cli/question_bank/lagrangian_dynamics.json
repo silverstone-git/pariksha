@@ -1,0 +1,482 @@
+[
+  {
+    "question": "A particle of mass $m$ is constrained to move on the inner surface of a smooth paraboloid of revolution given by $z = a(x^2 + y^2)$, where $a$ is a constant. Using cylindrical coordinates $(\\rho, \\phi, z)$, what is the Lagrangian $L$ of the particle under gravity acting in the $-z$ direction?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$L = \\\\frac{1}{2}m(\\\\dot{\\\\rho}^2 + \\\\rho^2\\\\dot{\\\\phi}^2 + 4a^2\\\\rho^2\\\\dot{\\\\rho}^2) - mg a\\\\rho^2$"
+      },
+      {
+        "label": 2,
+        "value": "$L = \\\\frac{1}{2}m(\\\\dot{\\\\rho}^2 + \\\\rho^2\\\\dot{\\\\phi}^2 + \\\\dot{z}^2) - mg z$"
+      },
+      {
+        "label": 3,
+        "value": "$L = \\\\frac{1}{2}m(\\\\dot{\\\\rho}^2(1 + 4a^2\\\\rho^2) + \\\\rho^2\\\\dot{\\\\phi}^2) - mg a\\\\rho^2$"
+      },
+      {
+        "label": 4,
+        "value": "$L = \\\\frac{1}{2}m(\\\\dot{\\\\rho}^2 + \\\\rho^2\\\\dot{\\\\phi}^2) - mg a\\\\rho^2$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Lagrangian Formulation",
+    "explanation": "In cylindrical coordinates, $x = \\\\rho\\\\cos\\\\phi$, $y = \\\\rho\\\\sin\\\\phi$, and $z = a\\\\rho^2$. The velocity components are $v_{\\\\rho} = \\\\dot{\\\\rho}$, $v_{\\\\phi} = \\\\rho\\\\dot{\\\\phi}$, and $v_z = \\\\dot{z} = 2a\\\\rho\\\\dot{\\\\rho}$. The kinetic energy $T = \\\\frac{1}{2}m(\\\\dot{\\\\rho}^2 + \\\\rho^2\\\\dot{\\\\phi}^2 + (2a\\\\rho\\\\dot{\\\\rho})^2) = \\\\frac{1}{2}m(\\\\dot{\\\\rho}^2(1 + 4a^2\\\\rho^2) + \\\\rho^2\\\\dot{\\\\phi}^2)$. The potential energy $V = mgz = mga\\\\rho^2$. Thus, $L = T - V$."
+  },
+  {
+    "question": "Which of the following statements is true for a system described by a Lagrangian $L(q, \\\\dot{q}, t)$ that is invariant under a continuous transformation $q_i \\\\to q_i + \\\\delta q_i$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The Hamiltonian is always zero."
+      },
+      {
+        "label": 2,
+        "value": "The quantity $\\\\sum_i \\\\frac{\\\\partial L}{\\\\partial \\\\dot{q}_i} \\\\delta q_i$ is a constant of motion."
+      },
+      {
+        "label": 3,
+        "value": "The kinetic energy must be a quadratic form of velocities."
+      },
+      {
+        "label": 4,
+        "value": "The system must be holonomic and scleronomic."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Noether's Theorem",
+    "explanation": "Noether's theorem states that every continuous symmetry of the action of a physical system has a corresponding conservation law. For a transformation $\\\\delta q_i$, the conserved quantity (Noether charge) is $J = \\\\sum_i p_i \\\\delta q_i$, where $p_i = \\\\frac{\\\\partial L}{\\\\partial \\\\dot{q}_i}$."
+  },
+  {
+    "question": "Consider a bead of mass $m$ sliding without friction on a wire hoop of radius $R$. The hoop rotates with a constant angular velocity $\\\\omega$ about a vertical diameter. Let $\\\\theta$ be the angular position of the bead measured from the lowest point. The Lagrangian is $L = \\\\frac{1}{2}mR^2(\\\\dot{\\\\theta}^2 + \\\\omega^2 \\\\sin^2 \\\\theta) + mgR \\\\cos \\\\theta$. At what value of $\\\\omega$ does the bottom-most point $(\\\\theta = 0)$ become unstable?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\omega < \\\\sqrt{g/R}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\omega > \\\\sqrt{g/R}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\omega = g/R$"
+      },
+      {
+        "label": 4,
+        "value": "The point is always stable for all $\\\\omega$."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Stability and Small Oscillations",
+    "explanation": "The effective potential is $V_{eff}(\\\\theta) = -\\\\frac{1}{2}mR^2\\\\omega^2 \\\\sin^2 \\\\theta - mgR \\\\cos \\\\theta$. For stability at $\\\\theta=0$, we require $\\\\frac{d^2 V_{eff}}{d\\\\theta^2} > 0$. Evaluating the second derivative: $V''(\\\\theta) = -mR^2\\\\omega^2 \\\\cos(2\\\\theta) + mgR \\\\cos \\\\theta$. At $\\\\theta=0$, $V''(0) = -mR^2\\\\omega^2 + mgR$. For stability, $mgR > mR^2\\\\omega^2 \\\\implies \\\\omega^2 < g/R$. Thus, it becomes unstable when $\\\\omega > \\\\sqrt{g/R}$."
+  },
+  {
+    "question": "A system with one degree of freedom is described by the Lagrangian $L = e^{\\\\gamma t} (\\\\frac{1}{2}m\\\\dot{x}^2 - \\\\frac{1}{2}kx^2)$. What physical system does this Lagrangian represent?",
+    "options": [
+      {
+        "label": 1,
+        "value": "A simple harmonic oscillator with a time-dependent mass."
+      },
+      {
+        "label": 2,
+        "value": "A damped harmonic oscillator with damping coefficient $b = m\\\\gamma$."
+      },
+      {
+        "label": 3,
+        "value": "An oscillator in a relativistic frame."
+      },
+      {
+        "label": 4,
+        "value": "A forced harmonic oscillator."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Dissipative Systems",
+    "explanation": "Applying the Euler-Lagrange equation $\\\\frac{d}{dt}(\\\\frac{\\\\partial L}{\\\\partial \\\\dot{x}}) - \\\\frac{\\\\partial L}{\\\\partial x} = 0$: $\\\\frac{d}{dt}(m\\\\dot{x}e^{\\\\gamma t}) + kxe^{\\\\gamma t} = 0 \\\\implies m\\\\ddot{x}e^{\\\\gamma t} + m\\\\gamma\\\\dot{x}e^{\\\\gamma t} + kxe^{\\\\gamma t} = 0$. Dividing by $e^{\\\\gamma t}$ gives $m\\\\ddot{x} + m\\\\gamma\\\\dot{x} + kx = 0$, which is the equation for a damped harmonic oscillator."
+  },
+  {
+    "question": "For a central force motion with potential $V(r)$, the Routhian $R(r, \\\\dot{r}, l)$ used to eliminate the cyclic coordinate $\\\\theta$ (where $l$ is the constant angular momentum) is defined as $R = L - p_{\\\\theta}\\\\dot{\\\\theta}$. What is the form of this Routhian?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$R = \\\\frac{1}{2}m\\\\dot{r}^2 - \\\\frac{l^2}{2mr^2} - V(r)$"
+      },
+      {
+        "label": 2,
+        "value": "$R = \\\\frac{1}{2}m\\\\dot{r}^2 + \\\\frac{l^2}{2mr^2} - V(r)$"
+      },
+      {
+        "label": 3,
+        "value": "$R = \\\\frac{1}{2}m\\\\dot{r}^2 - \\\\frac{l^2}{mr^2} - V(r)$"
+      },
+      {
+        "label": 4,
+        "value": "$R = \\\\frac{l^2}{2mr^2} + V(r)$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Routhian Procedure",
+    "explanation": "The original Lagrangian is $L = \\\\frac{1}{2}m\\\\dot{r}^2 + \\\\frac{1}{2}mr^2\\\\dot{\\\\theta}^2 - V(r)$. The conjugate momentum is $p_{\\\\theta} = mr^2\\\\dot{\\\\theta} = l$. Thus $\\\\dot{\\\\theta} = l/(mr^2)$. The Routhian is $R = L - l\\\\dot{\\\\theta} = \\\\frac{1}{2}m\\\\dot{r}^2 + \\\\frac{1}{2}mr^2(\\\\frac{l}{mr^2})^2 - V(r) - l(\\\\frac{l}{mr^2}) = \\\\frac{1}{2}m\\\\dot{r}^2 + \\\\frac{l^2}{2mr^2} - V(r) - \\\\frac{l^2}{mr^2} = \\\\frac{1}{2}m\\\\dot{r}^2 - \\\\frac{l^2}{2mr^2} - V(r)$."
+  },
+  {
+    "question": "A double pendulum consists of two identical masses $m$ and strings of length $l$. For small oscillations in a plane, what are the normal mode frequencies $\\\\omega$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\sqrt{\\\\frac{g}{l}}$ and $\\\\sqrt{\\\\frac{2g}{l}}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\sqrt{\\\\frac{g}{l}(2 \\\\pm \\\\sqrt{2})}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\sqrt{\\\\frac{g}{l}(1 \\\\pm \\\\frac{1}{\\\\sqrt{2}})}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\sqrt{\\\\frac{g}{l}}$ and $\\\\sqrt{\\\\frac{3g}{l}}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Small Oscillations",
+    "explanation": "The Lagrangian for small angles $\\\\theta_1, \\\\theta_2$ leads to the secular equation $\\\\det(V - \\\\omega^2 T) = 0$. For a double pendulum with equal $m$ and $l$, the frequencies are $\\\\omega^2 = \\\\frac{g}{l}(2 \\\\pm \\\\sqrt{2})$."
+  },
+  {
+    "question": "A particle of mass $m$ moves in a potential $V(r) = -\\\\frac{k}{r^n}$. According to the Virial Theorem, for a stable bound orbit, the time-averaged kinetic energy $\\\\langle T \\\\rangle$ and potential energy $\\\\langle V \\\\rangle$ are related by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2\\\\langle T \\\\rangle = n\\\\langle V \\\\rangle$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\langle T \\\\rangle = n\\\\langle V \\\\rangle$"
+      },
+      {
+        "label": 3,
+        "value": "$2\\\\langle T \\\\rangle = -n\\\\langle V \\\\rangle$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\langle T \\\\rangle = -\\\\langle V \\\\rangle$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Virial Theorem",
+    "explanation": "The Virial Theorem states that if the potential is a homogeneous function of degree $k$ (here $V \\\\propto r^{-n}$, so the degree is $-n$), then $2\\\\langle T \\\\rangle = \\\\langle \\\\sum p_i \\\\frac{\\\\partial V}{\\\\partial q_i} \\\\rangle$. For $V = Ar^k$, $2\\\\langle T \\\\rangle = k\\\\langle V \\\\rangle$. Here $k = -n$, but the standard form $V = -k/r^n$ implies the power is $-n$. Thus $2\\\\langle T\\\\rangle = n\\\\langle V\\\\rangle$ in magnitude or $2\\\\langle T\\\\rangle = -n\\\\langle V\\\\rangle$ algebraically. Since $V$ is negative, $n\\\\langle V\\\\rangle$ would be negative. Correct relation is $2\\\\langle T \\\\rangle = n\\\\langle V \\\\rangle$ if we consider $V = ar^n$."
+  },
+  {
+    "question": "Referencing the official GATE logo and academic standards (image_path: f71e0347b38e6e0de20ef6a5e488a0e0_4_img.webp), an advanced problem in Lagrangian dynamics often involves non-holonomic constraints. A vertical disk of radius $a$ rolls without slipping on a horizontal plane. How many constraints are involved and how many are non-holonomic?",
+    "options": [
+      {
+        "label": 1,
+        "value": "3 constraints, all holonomic."
+      },
+      {
+        "label": 2,
+        "value": "2 constraints, both non-holonomic."
+      },
+      {
+        "label": 3,
+        "value": "4 constraints, 2 holonomic and 2 non-holonomic."
+      },
+      {
+        "label": 4,
+        "value": "1 constraint, non-holonomic."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Constraints",
+    "explanation": "Rolling without slipping for a disk involves the constraints $\\\\dot{x} - a\\\\dot{\\\\phi}\\\\cos\\\\theta = 0$ and $\\\\dot{y} - a\\\\dot{\\\\phi}\\\\sin\\\\theta = 0$. These are differential constraints that cannot be integrated into algebraic forms involving only coordinates, hence they are non-holonomic."
+  },
+  {
+    "question": "A particle moves in a 1D potential $V(x) = ax^{2n}$ where $n$ is a positive integer. How does the period of oscillation $\\\\tau$ scale with the total energy $E$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\tau \\\\propto E^{\\\\frac{1-n}{2n}}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\tau \\\\propto E^{\\\\frac{n-1}{2n}}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\tau \\\\propto E^{\\\\frac{1}{2n}}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\tau \\\\propto E^{-n}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Calculus of Variations",
+    "explanation": "The period is $\\\\tau = \\\\oint \\\\frac{dx}{\\\\sqrt{2/m(E - V(x))}}$. Substituting $V(x) = ax^{2n}$, let $x = (E/a)^{1/2n} y$. Then $dx = (E/a)^{1/2n} dy$. The integral becomes $\\\\tau \\\\propto E^{1/2n} \\\\cdot E^{-1/2} \\\\int \\\\frac{dy}{\\\\sqrt{1-y^{2n}}} = E^{\\\\frac{1-n}{2n}}$."
+  },
+  {
+    "question": "The Lagrangian of a system is given by $L = \\\\dot{q}_1^2 + \\\\dot{q}_2^2 - (q_1^2 + q_2^2)$. A gauge transformation is performed such that $L' = L + \\\\frac{d}{dt}(q_1 q_2)$. How do the equations of motion (EOM) for $L'$ compare to those for $L$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The EOM for $q_1$ and $q_2$ are coupled in $L'$ but not in $L$."
+      },
+      {
+        "label": 2,
+        "value": "The EOM for $L'$ are identical to those for $L$."
+      },
+      {
+        "label": 3,
+        "value": "The EOM for $L'$ contain additional velocity-dependent terms."
+      },
+      {
+        "label": 4,
+        "value": "The system becomes non-conservative under $L'$."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Gauge Invariance",
+    "explanation": "Adding a total time derivative of a function of coordinates and time, $dF(q,t)/dt$, to the Lagrangian does not change the Euler-Lagrange equations. This is a fundamental property of the action integral."
+  },
+  {
+    "question": "A particle of mass $m$ is moving under a force $\\\\vec{F} = -k\\\\vec{r} - b(\\\\vec{r} \\\\times \\\\vec{\\\\omega})$. This force can be derived from a velocity-dependent potential. What is the generalized potential $U$ for this system?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$U = \\\\frac{1}{2}kr^2 + b \\\\vec{\\\\omega} \\\\cdot (\\\\vec{r} \\\\times \\\\vec{v})$"
+      },
+      {
+        "label": 2,
+        "value": "$U = \\\\frac{1}{2}kr^2 - b \\\\vec{v} \\\\cdot (\\\\vec{r} \\\\times \\\\vec{\\\\omega})$"
+      },
+      {
+        "label": 3,
+        "value": "$U = \\\\frac{1}{2}kr^2 + b \\\\vec{v} \\\\cdot (\\\\vec{r} \\\\times \\\\vec{\\\\omega})$"
+      },
+      {
+        "label": 4,
+        "value": "$U = kr + b(\\\\vec{r} \\\\cdot \\\\vec{v})$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Generalized Potential",
+    "explanation": "The force is derived from $F_i = -\\\\frac{\\\\partial U}{\\\\partial q_i} + \\\\frac{d}{dt}(\\\\frac{\\\\partial U}{\\\\partial \\\\dot{q}_i})$. For a Lorentz-like force $\\\\vec{v} \\\\times \\\\vec{B}$, the potential is $q\\\\vec{A} \\\\cdot \\\\vec{v}$. Here, the second term is $-b(\\\\vec{r} \\\\times \\\\vec{\\\\omega})$. Using vector identities, this corresponds to $U = \\\\dots + b \\\\vec{v} \\\\cdot (\\\\vec{r} \\\\times \\\\vec{\\\\omega})$."
+  },
+  {
+    "question": "What is the condition for the Hamiltonian $H$ to be equal to the total energy $E = T + V$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The constraints must be scleronomic and the potential must be velocity-independent."
+      },
+      {
+        "label": 2,
+        "value": "The Lagrangian must not depend explicitly on time."
+      },
+      {
+        "label": 3,
+        "value": "The coordinates must be Cartesian."
+      },
+      {
+        "label": 4,
+        "value": "The potential energy must be zero."
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "$H = \\\\sum p_i \\\\dot{q}_i - L$. $H = T + V$ only if $T$ is a homogeneous quadratic function of the generalized velocities (Euler's theorem), which happens if constraints are time-independent (scleronomic) and $V$ does not depend on velocities."
+  },
+  {
+    "question": "Consider a pendulum consisting of a mass $m$ and a string of length $l$. The support point of the pendulum oscillates horizontally as $x_s = A \\\\cos(\\\\omega t)$. What is the Lagrangian of the system in terms of the angle $\\\\theta$ from the vertical?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$L = \\\\frac{1}{2}ml^2\\\\dot{\\\\theta}^2 + mlA\\\\omega\\\\dot{\\\\theta}\\\\sin(\\\\omega t)\\\\cos\\\\theta + mgl\\\\cos\\\\theta$"
+      },
+      {
+        "label": 2,
+        "value": "$L = \\\\frac{1}{2}ml^2\\\\dot{\\\\theta}^2 + mlA\\\\omega^2\\\\cos(\\\\omega t)\\\\sin\\\\theta + mgl\\\\cos\\\\theta$"
+      },
+      {
+        "label": 3,
+        "value": "$L = \\\\frac{1}{2}m(l^2\\\\dot{\\\\theta}^2 + A^2\\\\omega^2\\\\sin^2\\\\omega t + 2Al\\\\omega\\\\dot{\\\\theta}\\\\sin\\\\omega t\\\\cos\\\\theta) + mgl\\\\cos\\\\theta$"
+      },
+      {
+        "label": 4,
+        "value": "$L = \\\\frac{1}{2}ml^2\\\\dot{\\\\theta}^2 + mgl\\\\cos\\\\theta$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Moving Constraints",
+    "explanation": "Coordinates: $x = A\\\\cos\\\\omega t + l\\\\sin\\\\theta$, $y = -l\\\\cos\\\\theta$. Velocities: $\\\\dot{x} = -A\\\\omega\\\\sin\\\\omega t + l\\\\dot{\\\\theta}\\\\cos\\\\theta$, $\\\\dot{y} = l\\\\dot{\\\\theta}\\\\sin\\\\theta$. $T = \\\\frac{1}{2}m(\\\\dot{x}^2 + \\\\dot{y}^2) = \\\\frac{1}{2}m(A^2\\\\omega^2\\\\sin^2\\\\omega t + l^2\\\\dot{\\\\theta}^2\\\\cos^2\\\\theta - 2Al\\\\omega\\\\dot{\\\\theta}\\\\sin\\\\omega t\\\\cos\\\\theta + l^2\\\\dot{\\\\theta}^2\\\\sin^2\\\\theta) = \\\\frac{1}{2}m(l^2\\\\dot{\\\\theta}^2 + A^2\\\\omega^2\\\\sin^2\\\\omega t - 2Al\\\\omega\\\\dot{\\\\theta}\\\\sin\\\\omega t\\\\cos\\\\theta)$. $V = -mgl\\\\cos\\\\theta$. Note: Sign in cross term depends on definition."
+  },
+  {
+    "question": "In the context of small oscillations, the eigenvectors (normal coordinates) of the $T$ and $V$ matrices satisfy which orthogonality condition?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$a_j^T V a_k = \\\\delta_{jk}$"
+      },
+      {
+        "label": 2,
+        "value": "$a_j^T T a_k = \\\\delta_{jk}$"
+      },
+      {
+        "label": 3,
+        "value": "$a_j^T a_k = \\\\delta_{jk}$"
+      },
+      {
+        "label": 4,
+        "value": "$a_j^T (V-T) a_k = 0$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Small Oscillations",
+    "explanation": "In the theory of small oscillations, normal mode eigenvectors are typically normalized such that they are orthonormal with respect to the kinetic energy matrix $T$, i.e., $a_j^T T a_k = \\\\delta_{jk}$."
+  },
+  {
+    "question": "A particle moves in a plane under a central force $F(r)$. If the orbit is given by $r = e^{\\\\theta}$, what is the dependence of the force $F(r)$ on $r$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$F(r) \\\\propto 1/r^2$"
+      },
+      {
+        "label": 2,
+        "value": "$F(r) \\\\propto 1/r^3$"
+      },
+      {
+        "label": 3,
+        "value": "$F(r) \\\\propto 1/r$"
+      },
+      {
+        "label": 4,
+        "value": "$F(r) \\\\propto r$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Central Force",
+    "explanation": "Using the differential equation for the orbit $u'' + u = -\\\\frac{m}{l^2 u^2} F(1/u)$ where $u = 1/r$. If $r = e^{\\\\theta}$, then $u = e^{-\\\\theta}$. $u' = -e^{-\\\\theta}$, $u'' = e^{-\\\\theta} = u$. Substituting: $u + u = 2u = -\\\\frac{m}{l^2 u^2} F(1/u)$. Thus $F(1/u) \\\\propto u^3$, which means $F(r) \\\\propto 1/r^3$."
+  },
+  {
+    "question": "Which of the following is the Lagrangian for a free particle in spherical coordinates $(r, \\\\theta, \\\\phi)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$L = \\\\frac{1}{2}m(\\\\dot{r}^2 + \\\\dot{\\\\theta}^2 + \\\\dot{\\\\phi}^2)$"
+      },
+      {
+        "label": 2,
+        "value": "$L = \\\\frac{1}{2}m(\\\\dot{r}^2 + r^2\\\\dot{\\\\theta}^2 + r^2\\\\sin^2\\\\theta \\\\dot{\\\\phi}^2)$"
+      },
+      {
+        "label": 3,
+        "value": "$L = \\\\frac{1}{2}m(\\\\dot{r}^2 + r^2\\\\dot{\\\\theta}^2 + \\\\sin^2\\\\theta \\\\dot{\\\\phi}^2)$"
+      },
+      {
+        "label": 4,
+        "value": "$L = \\\\frac{1}{2}m(\\\\dot{r}^2 + r^2\\\\sin^2\\\\theta \\\\dot{\\\\phi}^2)$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Lagrangian Formulation",
+    "explanation": "In spherical coordinates, the square of the velocity is $v^2 = \\\\dot{r}^2 + r^2\\\\dot{\\\\theta}^2 + r^2\\\\sin^2\\\\theta\\\\dot{\\\\phi}^2$. Since it's a free particle, $V=0$ and $L=T$."
+  },
+  {
+    "question": "A particle of mass $m$ slides on a smooth wire which is bent in the form of a cycloid $x = a(\\\\theta + \\\\sin\\\\theta)$, $y = a(1 - \\\\cos\\\\theta)$. This system is famous because:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The period of oscillation depends linearly on the amplitude."
+      },
+      {
+        "label": 2,
+        "value": "The period of oscillation is independent of the amplitude (Tautochrone)."
+      },
+      {
+        "label": 3,
+        "value": "It has no stable equilibrium point."
+      },
+      {
+        "label": 4,
+        "value": "The Lagrangian is not defined at the cusps."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Calculus of Variations",
+    "explanation": "The cycloid is the solution to both the Brachistochrone problem (path of quickest descent) and the Tautochrone problem (period is independent of the starting height)."
+  },
+  {
+    "question": "If a Lagrangian $L(q, \\\\dot{q})$ is a homogeneous function of degree $n$ in the velocities $\\\\dot{q}_i$, then the Hamiltonian $H$ is related to $L$ by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$H = (n-1)L$"
+      },
+      {
+        "label": 2,
+        "value": "$H = nL$"
+      },
+      {
+        "label": 3,
+        "value": "$H = L/n$"
+      },
+      {
+        "label": 4,
+        "value": "$H = (1-n)L$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "By Euler's theorem for homogeneous functions, $\\\\sum \\\\dot{q}_i \\\\frac{\\\\partial L}{\\\\partial \\\\dot{q}_i} = nL$. Since $H = \\\\sum p_i \\\\dot{q}_i - L$, we have $H = nL - L = (n-1)L$."
+  },
+  {
+    "question": "A system is described by the Lagrangian $L = \\\\frac{1}{2}m(\\\\dot{x}^2 + \\\\dot{y}^2) - \\\\frac{1}{2}k(x^2 + y^2)$. Which of the following is NOT a constant of motion?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Energy $E = T + V$"
+      },
+      {
+        "label": 2,
+        "value": "Angular momentum $L_z = m(x\\\\dot{y} - y\\\\dot{x})$"
+      },
+      {
+        "label": 3,
+        "value": "Linear momentum $p_x = m\\\\dot{x}$"
+      },
+      {
+        "label": 4,
+        "value": "The quantity $K = \\\\dot{x}\\\\dot{y} + \\\\frac{k}{m}xy$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Conservation Laws",
+    "explanation": "For an isotropic harmonic oscillator, energy and angular momentum are conserved. $p_x$ is not conserved because $V$ depends on $x$ (force $-kx$ is non-zero). Option 4 is a specific invariant for this system (related to the Fradkin tensor), but $p_x$ is definitely not a constant."
+  },
+  {
+    "question": "The Lagrangian for a relativistic particle of rest mass $m$ and charge $q$ in an electromagnetic field $(\\\\phi, \\\\vec{A})$ is $L = -mc^2\\\\sqrt{1-v^2/c^2} - q\\\\phi + q\\\\vec{A} \\\\cdot \\\\vec{v}$. What is the conjugate momentum $\\\\vec{p}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\vec{p} = \\\\frac{m\\\\vec{v}}{\\\\sqrt{1-v^2/c^2}}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\vec{p} = \\\\frac{m\\\\vec{v}}{\\\\sqrt{1-v^2/c^2}} + q\\\\vec{A}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\vec{p} = m\\\\vec{v} + q\\\\vec{A}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\vec{p} = \\\\frac{m\\\\vec{v}}{\\\\sqrt{1-v^2/c^2}} - q\\\\vec{A}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Relativistic Lagrangian",
+    "explanation": "Conjugate momentum is $\\\\vec{p} = \\\\frac{\\\\partial L}{\\\\partial \\\\vec{v}}$. Differentiating the square root term gives the relativistic mechanical momentum $\\\\gamma m\\\\vec{v}$. Differentiating $q\\\\vec{A} \\\\cdot \\\\vec{v}$ gives $q\\\\vec{A}$. Thus $\\\\vec{p} = \\\\gamma m\\\\vec{v} + q\\\\vec{A}$."
+  }
+]

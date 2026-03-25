@@ -1,0 +1,483 @@
+[
+  {
+    "question": "In the experimental setup shown in the figure, an $\\alpha$ particle is detected by $D_1$ (scattered at angle $\\theta$) and $D_2$ (along the beam direction). To detect events where the particle is scattered at angle $\\theta$ but NOT along the beam direction, which logic gate configuration should be used for signals $D_1$ and $D_2$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "An AND gate with inputs $D_1$ and $D_2$"
+      },
+      {
+        "label": 2,
+        "value": "An OR gate with inputs $D_1$ and $D_2$"
+      },
+      {
+        "label": 3,
+        "value": "An AND gate with $D_1$ and the inverse of $D_2$ as inputs"
+      },
+      {
+        "label": 4,
+        "value": "A NAND gate with inputs $D_1$ and $D_2$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Logic Gates Application",
+    "explanation": "To detect the particle at angle $\\theta$ only, the condition is $D_1 = 1$ (detected at $\\theta$) AND $D_2 = 0$ (not detected along the beam). In Boolean terms, this is $Y = D_1 \\cdot \\overline{D_2}$, which is implemented by an AND gate with $D_1$ and the complement of $D_2$.",
+    "image_path": "pariksha/5719c7834d5a59aace9f9ad8c7f55206.webp"
+  },
+  {
+    "question": "A Boolean function $f(A, B, C) = \\sum m(0, 1, 4, 6, 7)$ is to be implemented using a 4-to-1 Multiplexer with $A$ and $B$ connected to the select lines $S_1$ and $S_0$ respectively. What are the required inputs $I_0, I_1, I_2, I_3$ to the MUX?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$I_0=1, I_1=0, I_2=\\overline{C}, I_3=1$"
+      },
+      {
+        "label": 2,
+        "value": "$I_0=1, I_1=0, I_2=C, I_3=1$"
+      },
+      {
+        "label": 3,
+        "value": "$I_0=C, I_1=1, I_2=\\overline{C}, I_3=0$"
+      },
+      {
+        "label": 4,
+        "value": "$I_0=1, I_1=C, I_2=0, I_3=\\overline{C}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Multiplexers",
+    "explanation": "Mapping minterms to (A,B) pairs: (0,0) covers $m_0, m_1 \\rightarrow$ both present, so $I_0=1$. (0,1) covers $m_2, m_3 \\rightarrow$ both absent, so $I_1=0$. (1,0) covers $m_4, m_5 \\rightarrow m_4$ present ($C=0$), $m_5$ absent ($C=1$), so $I_2 = \\overline{C}$. (1,1) covers $m_6, m_7 \\rightarrow$ both present, so $I_3=1$."
+  },
+  {
+    "question": "An 8-bit R-2R ladder Digital-to-Analog Converter (DAC) has a reference voltage $V_{ref} = 5$ V. What is the output voltage for the digital input $10100000_2$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2.500$ V"
+      },
+      {
+        "label": 2,
+        "value": "$3.125$ V"
+      },
+      {
+        "label": 3,
+        "value": "$3.750$ V"
+      },
+      {
+        "label": 4,
+        "value": "$4.125$ V"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Digital-to-Analog Converters",
+    "explanation": "The output voltage $V_{out} = V_{ref} \\times \\frac{\\text{Decimal Value}}{2^n}$. For $10100000_2$, decimal is $2^7 + 2^5 = 128 + 32 = 160$. $V_{out} = 5 \\times \\frac{160}{256} = 5 \\times 0.625 = 3.125$ V."
+  },
+  {
+    "question": "A 4-bit ripple counter is constructed using four J-K flip-flops. If the propagation delay of each flip-flop is $25$ ns, what is the maximum frequency of the clock signal for reliable operation?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$40$ MHz"
+      },
+      {
+        "label": 2,
+        "value": "$20$ MHz"
+      },
+      {
+        "label": 3,
+        "value": "$10$ MHz"
+      },
+      {
+        "label": 4,
+        "value": "$5$ MHz"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Sequential Logic",
+    "explanation": "In a ripple counter, the total delay for $n$ bits is $n \\times t_{pd}$. Total delay $T = 4 \\times 25$ ns $= 100$ ns. The maximum frequency $f_{max} = 1/T = 1 / (100 \\times 10^{-9})$ Hz $= 10$ MHz."
+  },
+  {
+    "question": "Consider a J-K flip-flop with $J = \\overline{Q}$ and $K = 1$. This configuration acts as which of the following?",
+    "options": [
+      {
+        "label": 1,
+        "value": "A D-type flip-flop"
+      },
+      {
+        "label": 2,
+        "value": "A T-type flip-flop"
+      },
+      {
+        "label": 3,
+        "value": "A divide-by-2 counter"
+      },
+      {
+        "label": 4,
+        "value": "A synchronous reset"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Flip-Flops",
+    "explanation": "The characteristic equation is $Q_{next} = J\\overline{Q} + \\overline{K}Q$. Substituting $J=\\overline{Q}$ and $K=1$: $Q_{next} = (\\overline{Q})\\overline{Q} + (0)Q = \\overline{Q}$. Since the output toggles every clock pulse, it functions as a divide-by-2 circuit."
+  },
+  {
+    "question": "Which of the following logic families exhibits the highest 'Figure of Merit' (product of propagation delay and power dissipation)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Standard TTL"
+      },
+      {
+        "label": 2,
+        "value": "ECL (Emitter Coupled Logic)"
+      },
+      {
+        "label": 3,
+        "value": "CMOS (at low frequencies)"
+      },
+      {
+        "label": 4,
+        "value": "Schottky TTL"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Logic Families",
+    "explanation": "The 'Figure of Merit' is the Speed-Power Product. CMOS at low frequencies has extremely low power dissipation, leading to the best (lowest) Speed-Power Product among standard logic families."
+  },
+  {
+    "question": "How many 3-to-8 line decoders with an enable input are needed to construct a 6-to-64 line decoder?",
+    "options": [
+      {
+        "label": 1,
+        "value": "7"
+      },
+      {
+        "label": 2,
+        "value": "8"
+      },
+      {
+        "label": 3,
+        "value": "9"
+      },
+      {
+        "label": 4,
+        "value": "10"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Combinational Logic",
+    "explanation": "To get 64 outputs from 8-output decoders, you need $64/8 = 8$ decoders at the output stage. To select one of these 8 decoders, you need 1 additional 3-to-8 decoder at the input stage. Total = $8 + 1 = 9$."
+  },
+  {
+    "question": "A dual-slope Analog-to-Digital Converter (ADC) uses an 8-bit counter and a clock frequency of $1$ MHz. What is the maximum conversion time for this ADC?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$256$ $\\mu$s"
+      },
+      {
+        "label": 2,
+        "value": "$512$ $\\mu$s"
+      },
+      {
+        "label": 3,
+        "value": "$1024$ $\\mu$s"
+      },
+      {
+        "label": 4,
+        "value": "$2048$ $\\mu$s"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Analog-to-Digital Converters",
+    "explanation": "In dual-slope ADC, the maximum conversion time is approximately $2 \\times 2^n \\times T_{clk}$. For $n=8$ and $f=1$ MHz ($T=1\\mu s$), $T_{conv} = 2 \\times 256 \\times 1\\mu s = 512 \\mu s$."
+  },
+  {
+    "question": "The Boolean expression $Y = (A+B)(A+C)$ is equivalent to which of the following?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$Y = A + BC$"
+      },
+      {
+        "label": 2,
+        "value": "$Y = AB + AC$"
+      },
+      {
+        "label": 3,
+        "value": "$Y = A(B+C)$"
+      },
+      {
+        "label": 4,
+        "value": "$Y = AB + C$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Boolean Algebra",
+    "explanation": "Using the distributive law: $(A+B)(A+C) = AA + AC + AB + BC = A + AC + AB + BC = A(1+C+B) + BC = A(1) + BC = A+BC$."
+  },
+  {
+    "question": "In a 4-variable Karnaugh Map, a group of 8 adjacent cells (minterms) simplifies to a term containing how many literals?",
+    "options": [
+      {
+        "label": 1,
+        "value": "1"
+      },
+      {
+        "label": 2,
+        "value": "2"
+      },
+      {
+        "label": 3,
+        "value": "3"
+      },
+      {
+        "label": 4,
+        "value": "4"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "K-Maps",
+    "explanation": "Simplification rule: A group of $2^k$ cells in an $n$-variable map results in a term with $n-k$ literals. Here $n=4, 2^k=8 \\implies k=3$. Literals $= 4 - 3 = 1$."
+  },
+  {
+    "question": "What is the result of the subtraction $(1010)_2 - (0111)_2$ using 2's complement representation in a 4-bit system?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$0011$"
+      },
+      {
+        "label": 2,
+        "value": "$0101$"
+      },
+      {
+        "label": 3,
+        "value": "$1101$"
+      },
+      {
+        "label": 4,
+        "value": "$0110$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Number Systems",
+    "explanation": "2's complement of $0111$ (7) is $1000 + 1 = 1001$. Now add to $1010$ (10): $1010 + 1001 = 10011$. Discard carry for 4-bit system: $0011$ (3). $10 - 7 = 3$."
+  },
+  {
+    "question": "A Moore state machine differs from a Mealy state machine because in a Moore machine:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The output depends only on the current state."
+      },
+      {
+        "label": 2,
+        "value": "The output depends on the current state and current inputs."
+      },
+      {
+        "label": 3,
+        "value": "The output is asynchronous."
+      },
+      {
+        "label": 4,
+        "value": "The next state depends only on the current inputs."
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Finite State Machines",
+    "explanation": "In a Moore machine, the output is a function of the current state only. In a Mealy machine, the output is a function of both the current state and the current inputs."
+  },
+  {
+    "question": "A memory chip has 14 address lines and 8 data lines. What is the total storage capacity of this memory?",
+    "options": [
+      {
+        "label": 1,
+        "value": "16 KB"
+      },
+      {
+        "label": 2,
+        "value": "128 KB"
+      },
+      {
+        "label": 3,
+        "value": "16 Kb"
+      },
+      {
+        "label": 4,
+        "value": "112 bits"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Memory",
+    "explanation": "Addressable locations $= 2^{14} = 16384$. Each location stores 8 bits (1 byte). Total capacity $= 16384 \\text{ bytes} = 16$ KB."
+  },
+  {
+    "question": "Which of the following is an advantage of a 'Look-Ahead Carry Adder' over a 'Ripple Carry Adder'?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Reduced hardware complexity"
+      },
+      {
+        "label": 2,
+        "value": "Lower power consumption"
+      },
+      {
+        "label": 3,
+        "value": "Reduced propagation delay"
+      },
+      {
+        "label": 4,
+        "value": "Increased number of bits handled per gate"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Arithmetic Circuits",
+    "explanation": "The Ripple Carry Adder has a delay proportional to the number of bits ($O(n)$) because each carry must ripple through. The Look-Ahead Carry Adder generates carries in parallel, significantly reducing delay ($O(1)$ logic levels for carry)."
+  },
+  {
+    "question": "In digital logic, a 'Hazard' is caused by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Electromagnetic interference"
+      },
+      {
+        "label": 2,
+        "value": "Different propagation delays in different logic paths"
+      },
+      {
+        "label": 3,
+        "value": "Poor power supply regulation"
+      },
+      {
+        "label": 4,
+        "value": "High fan-out of gates"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Combinational Logic",
+    "explanation": "Hazards (static or dynamic) are unwanted transitions in the output of a circuit caused by unequal path delays for the same input change."
+  },
+  {
+    "question": "A modulus-12 counter requires at least how many flip-flops?",
+    "options": [
+      {
+        "label": 1,
+        "value": "3"
+      },
+      {
+        "label": 2,
+        "value": "4"
+      },
+      {
+        "label": 3,
+        "value": "12"
+      },
+      {
+        "label": 4,
+        "value": "6"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Sequential Logic",
+    "explanation": "For a modulus $M$, the number of flip-flops $n$ must satisfy $2^{n-1} < M \\le 2^n$. For $M=12$, $2^3 < 12 \\le 2^4$, so $n=4$ flip-flops are required."
+  },
+  {
+    "question": "Which logic gate is known as the 'Coincidence Detector'?",
+    "options": [
+      {
+        "label": 1,
+        "value": "XOR"
+      },
+      {
+        "label": 2,
+        "value": "XNOR"
+      },
+      {
+        "label": 3,
+        "value": "NAND"
+      },
+      {
+        "label": 4,
+        "value": "AND"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Logic Gates",
+    "explanation": "The XNOR gate output is 1 when both inputs are the same (0,0 or 1,1). Thus, it 'detects' the coincidence of input values."
+  },
+  {
+    "question": "For a CMOS inverter, when the input voltage $V_{in}$ is at the switching threshold ($V_{DD}/2$), which transistors are in the saturation region?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Only the p-channel MOSFET"
+      },
+      {
+        "label": 2,
+        "value": "Only the n-channel MOSFET"
+      },
+      {
+        "label": 3,
+        "value": "Both p-channel and n-channel MOSFETs"
+      },
+      {
+        "label": 4,
+        "value": "Neither transistor"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Logic Families",
+    "explanation": "In the transition region of a CMOS inverter (around $V_{DD}/2$), both the NMOS (pull-down) and PMOS (pull-up) transistors are turned ON and operating in their saturation regions."
+  },
+  {
+    "question": "The canonical Sum of Products (SOP) form of the Boolean function $F(A, B) = A \\oplus B$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$A\\overline{B} + \\overline{A}B$"
+      },
+      {
+        "label": 2,
+        "value": "$AB + \\overline{A}\\overline{B}$"
+      },
+      {
+        "label": 3,
+        "value": "$(A+B)(\\overline{A}+\\overline{B})$"
+      },
+      {
+        "label": 4,
+        "value": "$A+B$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Boolean Algebra",
+    "explanation": "The XOR operation $A \\oplus B$ is defined as 1 when inputs are different. The minterms are $m_1 (\\overline{A}B)$ and $m_2 (A\\overline{B})$, yielding $A\\overline{B} + \\overline{A}B$."
+  },
+  {
+    "question": "What is the main drawback of a Flash-type ADC?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Very slow conversion speed"
+      },
+      {
+        "label": 2,
+        "value": "Requires high clock frequency"
+      },
+      {
+        "label": 3,
+        "value": "Large number of comparators required for high resolution"
+      },
+      {
+        "label": 4,
+        "value": "Susceptibility to noise in the integrator"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Analog-to-Digital Converters",
+    "explanation": "A Flash ADC requires $2^n - 1$ comparators for an $n$-bit resolution. For 10-bit resolution, this means 1023 comparators, making it hardware-intensive and expensive for high resolution."
+  }
+]

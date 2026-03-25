@@ -1,0 +1,362 @@
+[
+  {
+    "question": "Consider a system of non-interacting fermions in $d$-dimensions with a dispersion relation $\\epsilon(k) = A k^s$, where $A$ and $s$ are constants. The density of states $g(\\epsilon)$ is proportional to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\epsilon^{\\frac{d}{s} - 1}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\epsilon^{\\frac{s}{d} - 1}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\epsilon^{\\frac{d}{2} - 1}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\epsilon^{\\frac{s}{2} + 1}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Density of States - General Dispersion",
+    "explanation": "The number of states in $k$-space in $d$-dimensions scales as $N(k) \\propto k^d$. Using the dispersion relation $k \\propto \\epsilon^{1/s}$, we get $N(\\epsilon) \\propto \\epsilon^{d/s}$. The density of states is $g(\\epsilon) = \\frac{dN}{d\\epsilon} \\propto \\epsilon^{\\frac{d}{s}-1}$. For standard non-relativistic particles ($s=2$) in 3D ($d=3$), this gives $\\epsilon^{1/2}$."
+  },
+  {
+    "question": "For a non-relativistic ideal Fermi gas at absolute zero temperature ($T=0$), what is the relationship between the pressure $P$ and the internal energy density $u = U/V$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$P = \\frac{1}{3}u$"
+      },
+      {
+        "label": 2,
+        "value": "$P = \\frac{2}{3}u$"
+      },
+      {
+        "label": 3,
+        "value": "$P = u$"
+      },
+      {
+        "label": 4,
+        "value": "$P = \\frac{5}{3}u$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Degenerate Fermi Gas - Pressure",
+    "explanation": "For a non-relativistic gas with dispersion $\\epsilon \\propto k^2$, the pressure is given by $P = \\frac{2}{3} \\frac{U}{V}$. This is a general result derived from the virial theorem or direct integration of the pressure integral for non-relativistic particles. Note that for ultra-relativistic particles (photons or high energy fermions), $P = \\frac{1}{3}u$."
+  },
+  {
+    "question": "Consider a 2-dimensional ideal Fermi gas of $N$ electrons in an area $A$. If the number density $n = N/A$ is doubled, how does the Fermi energy $E_F$ change?",
+    "options": [
+      {
+        "label": 1,
+        "value": "It increases by a factor of $2^{2/3}$"
+      },
+      {
+        "label": 2,
+        "value": "It increases by a factor of 2"
+      },
+      {
+        "label": 3,
+        "value": "It increases by a factor of 4"
+      },
+      {
+        "label": 4,
+        "value": "It remains unchanged"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Degenerate Fermi Gas - 2D System",
+    "explanation": "In 2D, the density of states is constant ($g(\\epsilon) = \\frac{m}{\\pi \\hbar^2}$). The Fermi energy is determined by $N = \\int_0^{E_F} g(\\epsilon) A d\\epsilon = \\frac{m A}{\\pi \\hbar^2} E_F$. Thus, $E_F = \\frac{\\pi \\hbar^2}{m} \\frac{N}{A} \\propto n$. If density $n$ doubles, $E_F$ doubles."
+  },
+  {
+    "question": "In the phenomenon of Bose-Einstein Condensation (BEC) for a non-interacting Bose gas in a 3D box, what fraction of particles occupies the ground state at temperature $T = T_c/2$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$1 - (1/2)^{3/2} \\approx 0.65$"
+      },
+      {
+        "label": 2,
+        "value": "$(1/2)^{3/2} \\approx 0.35$"
+      },
+      {
+        "label": 3,
+        "value": "$1 - (1/2)^3 = 0.875$"
+      },
+      {
+        "label": 4,
+        "value": "0.5"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Bose-Einstein Condensation - Condensate Fraction",
+    "explanation": "For an ideal Bose gas in a 3D box, the number of particles in excited states is given by $N_{ex} = N (T/T_c)^{3/2}$. The fraction in the ground state is $N_0/N = 1 - N_{ex}/N = 1 - (T/T_c)^{3/2}$. At $T = T_c/2$, the fraction is $1 - (0.5)^{1.5} \\approx 1 - 0.353 = 0.647$."
+  },
+  {
+    "question": "For a photon gas (blackbody radiation) undergoing an adiabatic expansion, the temperature $T$ scales with the volume $V$ as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T \\propto V^{-1/3}$"
+      },
+      {
+        "label": 2,
+        "value": "$T \\propto V^{-1}$"
+      },
+      {
+        "label": 3,
+        "value": "$T \\propto V^{-2/3}$"
+      },
+      {
+        "label": 4,
+        "value": "$T$ is constant"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Photon Gas - Thermodynamics",
+    "explanation": "For a photon gas, the entropy $S$ is proportional to $V T^3$. In an adiabatic process, entropy is constant, so $V T^3 = \\text{const}$. Therefore, $T \\propto V^{-1/3}$. Alternatively, using $\\gamma = 4/3$ for a relativistic gas, $TV^{\\gamma-1} = \\text{const}$ leads to $TV^{1/3} = \\text{const}$."
+  },
+  {
+    "question": "The chemical potential $\\mu$ of a degenerate Fermi gas at low temperatures ($T \\ll T_F$) varies with temperature approximately as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\mu(T) \\approx E_F \\left[ 1 - \\frac{\\pi^2}{12} \\left(\\frac{T}{T_F}\\right)^2 \\right]$"
+      },
+      {
+        "label": 2,
+        "value": "$\\mu(T) \\approx E_F \\left[ 1 + \\frac{\\pi^2}{6} \\left(\\frac{T}{T_F}\\right)^2 \\right]$"
+      },
+      {
+        "label": 3,
+        "value": "$\\mu(T) \\approx E_F \\left[ 1 - \\frac{3}{2} \\frac{T}{T_F} \\right]$"
+      },
+      {
+        "label": 4,
+        "value": "$\\mu(T) \\approx E_F$ (constant)"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Degenerate Fermi Gas - Chemical Potential",
+    "explanation": "Using the Sommerfeld expansion, the chemical potential at low temperatures depends quadratically on $T$. The correct expression is $\\mu \\approx E_F \\left[ 1 - \\frac{\\pi^2}{12} (k_B T / E_F)^2 \\right]$. It decreases slightly as temperature increases to maintain constant particle number."
+  },
+  {
+    "question": "If the spin of the fermions in a 3D degenerate Fermi gas is changed from $s=1/2$ to $s=3/2$ (assuming same mass and particle density), the new Fermi energy $E_F'$ will be related to the old Fermi energy $E_F$ by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$E_F' = E_F$"
+      },
+      {
+        "label": 2,
+        "value": "$E_F' = (1/2)^{2/3} E_F$"
+      },
+      {
+        "label": 3,
+        "value": "$E_F' = (2/4)^{2/3} E_F = (1/2)^{2/3} E_F$"
+      },
+      {
+        "label": 4,
+        "value": "$E_F' = 2^{2/3} E_F$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Degenerate Fermi Gas - Spin Degeneracy",
+    "explanation": "The Fermi energy depends on the spin degeneracy factor $g_s = 2s+1$. For $s=1/2$, $g_s=2$. For $s=3/2$, $g_s=4$. The Fermi energy relation is $E_F \\propto (n/g_s)^{2/3}$. So, $\\frac{E_F'}{E_F} = \\left(\\frac{2}{4}\\right)^{2/3} = (1/2)^{2/3}$."
+  },
+  {
+    "question": "The specific heat $C_V$ of an ideal Bose gas in 3D below the condensation temperature $T_c$ varies with temperature as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T$"
+      },
+      {
+        "label": 2,
+        "value": "$T^{3/2}$"
+      },
+      {
+        "label": 3,
+        "value": "$T^3$"
+      },
+      {
+        "label": 4,
+        "value": "Constant"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Bose Gas - Specific Heat",
+    "explanation": "Below $T_c$, the internal energy of the Bose gas comes only from the excited particles. $U \\propto \\int_0^\\infty \\frac{E^{3/2}}{e^{\\beta E}-1} dE \\propto T^{5/2}$. Therefore, the heat capacity $C_V = \\frac{\\partial U}{\\partial T} \\propto T^{3/2}$."
+  },
+  {
+    "question": "Consider the fluctuation in the number of particles $\\langle (\\Delta N)^2 \\rangle$ in a single quantum state $k$ with average occupation $\\langle n_k \\rangle$. For fermions, this fluctuation is given by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\langle n_k \\rangle$"
+      },
+      {
+        "label": 2,
+        "value": "$\\langle n_k \\rangle (1 + \\langle n_k \\rangle)$"
+      },
+      {
+        "label": 3,
+        "value": "$\\langle n_k \\rangle (1 - \\langle n_k \\rangle)$"
+      },
+      {
+        "label": 4,
+        "value": "$\\sqrt{\\langle n_k \\rangle}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Quantum Statistics - Fluctuations",
+    "explanation": "For a Grand Canonical Ensemble, $\\langle (\\Delta N)^2 \\rangle = k_B T \\frac{\\partial \\langle N \\rangle}{\\partial \\mu}$. Applying this to Fermi-Dirac statistics, one derives $\\langle (\\Delta n_k)^2 \\rangle = \\langle n_k \\rangle (1 - \\langle n_k \\rangle)$. For Bosons, it is $\\langle n_k \\rangle (1 + \\langle n_k \\rangle)$, representing the 'bunching' effect. For fermions, the Pauli exclusion principle suppresses fluctuations (antibunching)."
+  },
+  {
+    "question": "A system behaves classically when the thermal de Broglie wavelength $\\lambda_{th}$ and the inter-particle distance $d \\approx n^{-1/3}$ satisfy:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\lambda_{th} \\gg d$"
+      },
+      {
+        "label": 2,
+        "value": "$n \\lambda_{th}^3 \\ll 1$"
+      },
+      {
+        "label": 3,
+        "value": "$n \\lambda_{th}^3 \\gg 1$"
+      },
+      {
+        "label": 4,
+        "value": "$\\lambda_{th} \\approx d$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Quantum-Classical Correspondence",
+    "explanation": "The classical limit is reached when the wavefunctions of particles do not overlap significantly. This occurs when the thermal de Broglie wavelength $\\lambda_{th} = h/\\sqrt{2\\pi m k_B T}$ is much smaller than the mean inter-particle spacing. Quantitatively, the condition is $n \\lambda_{th}^3 \\ll 1$."
+  },
+  {
+    "question": "For an ultra-relativistic degenerate Fermi gas (like electrons in a white dwarf where $p_F \\gg mc$), the pressure $P$ depends on the number density $n$ as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$n^{5/3}$"
+      },
+      {
+        "label": 2,
+        "value": "$n^{4/3}$"
+      },
+      {
+        "label": 3,
+        "value": "$n$"
+      },
+      {
+        "label": 4,
+        "value": "$n^{2/3}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Degenerate Fermi Gas - Relativistic",
+    "explanation": "In the ultra-relativistic limit, energy $E \\propto cp \\propto k$. The Fermi momentum $p_F \\propto n^{1/3}$. The total energy density $u \\propto \\int_0^{p_F} cp \\cdot p^2 dp \\propto p_F^4 \\propto n^{4/3}$. Since $P = u/3$ for relativistic gas, $P \\propto n^{4/3}$. This softer equation of state (compared to $n^{5/3}$ for non-relativistic) leads to the Chandrasekhar limit."
+  },
+  {
+    "question": "Which of the following statements about the chemical potential $\\mu$ of a photon gas is correct?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\mu > 0$"
+      },
+      {
+        "label": 2,
+        "value": "$\\mu < 0$ and depends on $T$"
+      },
+      {
+        "label": 3,
+        "value": "$\\mu = 0$ always"
+      },
+      {
+        "label": 4,
+        "value": "$\\mu$ equals the Fermi energy"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Photon Gas - Chemical Potential",
+    "explanation": "Photons are bosons whose number is not conserved (they can be created or destroyed to minimize free energy). The equilibrium condition $\\frac{\\partial F}{\\partial N} = 0$ implies that the chemical potential $\\mu = 0$ at all temperatures."
+  },
+  {
+    "question": "The number density of photons $n_{\\gamma}$ in a blackbody cavity at temperature $T$ is proportional to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T$"
+      },
+      {
+        "label": 2,
+        "value": "$T^2$"
+      },
+      {
+        "label": 3,
+        "value": "$T^3$"
+      },
+      {
+        "label": 4,
+        "value": "$T^4$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Photon Gas - Number Density",
+    "explanation": "The number of photons is given by the integral of the Planck distribution: $N = \\int_0^\\infty \\frac{g(\\omega)}{e^{\\hbar \\omega / k_B T} - 1} d\\omega$. With density of states $g(\\omega) \\propto \\omega^2$, letting $x = \\hbar \\omega / k_B T$, we get $d\\omega \\propto T dx$ and $\\omega^2 \\propto T^2$. The integral scales as $T^3$. (Note: Energy density scales as $T^4$)."
+  },
+  {
+    "question": "For a system of Quantum Harmonic Oscillators (bosons) in 1D, the Bose-Einstein condensation:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Occurs at any temperature"
+      },
+      {
+        "label": 2,
+        "value": "Occurs only at $T=0$"
+      },
+      {
+        "label": 3,
+        "value": "Does not occur at non-zero temperature"
+      },
+      {
+        "label": 4,
+        "value": "Occurs above a critical temperature"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Bose-Einstein Condensation - Low Dimensions",
+    "explanation": "BEC does not occur in 1D or 2D for a uniform gas. For a harmonic potential, the density of states changes. In 1D harmonic trap, $g(E) \\approx 1/(\\hbar \\omega) = \\text{const}$. The integral for excited particles $\\int \\frac{1}{e^x-1} dx$ diverges at the lower limit (infrared divergence) for any $T>0$, implying the excited states can accommodate infinite particles, so no saturation/condensation occurs at finite $T$. (Strictly, in 1D/2D, long-range order is destroyed by fluctuations)."
+  },
+  {
+    "question": "Consider a system of two identical particles that can occupy three single-particle energy levels $\\epsilon_1 < \\epsilon_2 < \\epsilon_3$. If the particles are Bosons, what is the probability that they are found in the same energy level (assuming all microstates are equally probable)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "1/3"
+      },
+      {
+        "label": 2,
+        "value": "1/2"
+      },
+      {
+        "label": 3,
+        "value": "1/9"
+      },
+      {
+        "label": 4,
+        "value": "1/6"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Statistics - Counting States",
+    "explanation": "For 2 Bosons in 3 states: The possible states are (1,1), (2,2), (3,3) [same level] and (1,2), (1,3), (2,3) [different levels]. Total distinct states = 6. The states where they are in the same level are (1,1), (2,2), (3,3), which are 3 states. Probability = 3/6 = 1/2. (For classical distinguishable particles, total states = $3^2=9$, same level states = 3, Prob = 1/3. For fermions, same level is forbidden, Prob = 0)."
+  }
+]

@@ -1,15 +1,46 @@
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
     --font-bebas: "Bebas Neue", "roboto";
+    --font-sans: "Space Grotesk", "sans-serif";
+    --color-science-900: #0f172a;
+    --color-science-800: #1e293b;
+    --color-science-700: #334155;
+    --color-teal-accent: #10b981;
+    --color-blue-accent: #3b82f6;
 }
-/*@tailwind base;
-@tailwind components;
-@tailwind utilities;*/
 
-/*@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";*/
+@layer base {
+  body {
+    @apply font-sans;
+  }
+}
+
+.science-grid {
+  background-image: 
+    linear-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.dark .science-grid {
+  background-image: 
+    linear-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.1) 1px, transparent 1px);
+}
+
+.glass {
+  @apply bg-white/70 dark:bg-science-900/40 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-sm;
+}
+
+.glowing-primary {
+  @apply bg-teal-accent text-white hover:bg-teal-500 shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_25px_rgba(16,185,129,0.5)] transition-all;
+}
+
+.glowing-blue {
+  @apply bg-blue-accent text-white hover:bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] transition-all;
+}

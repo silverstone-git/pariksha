@@ -1,0 +1,122 @@
+[
+    {
+      "question": "Given a basis $\\{v_1, v_2, v_3\\}$ for a subspace of $\\mathbb{R}^4$, where $v_1 = (1, 1, 1, 1)$, $v_2 = (1, 2, 4, 5)$, and $v_3 = (1, -3, -4, -2)$. If we apply the Gram-Schmidt process to obtain an orthogonal basis $\\{u_1, u_2, u_3\\}$, what is the second orthogonal vector $u_2$ (before normalization)?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$u_2 = (1, 2, 4, 5)$"
+        },
+        {
+          "label": 2,
+          "value": "$u_2 = (-2, -1, 1, 2)$"
+        },
+        {
+          "label": 3,
+          "value": "$u_2 = (0, 1, 3, 4)$"
+        },
+        {
+          "label": 4,
+          "value": "$u_2 = (-3, -2, 1, 4)$"
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Vector Calculus - Gram-Schmidt Process",
+      "explanation": "To find $u_2$, we use the formula $u_2 = v_2 - \\text{proj}_{u_1}(v_2)$, where $u_1 = v_1 = (1, 1, 1, 1)$. The projection is $\\frac{v_2 \\cdot u_1}{u_1 \\cdot u_1} u_1$. Calculating the dot products: $v_2 \\cdot u_1 = 1+2+4+5 = 12$ and $u_1 \\cdot u_1 = 1^2+1^2+1^2+1^2 = 4$. Thus, $\\text{proj}_{u_1}(v_2) = \\frac{12}{4}(1, 1, 1, 1) = (3, 3, 3, 3)$. Subtracting this from $v_2$: $u_2 = (1, 2, 4, 5) - (3, 3, 3, 3) = (-2, -1, 1, 2)$."
+    },
+    {
+      "question": "In the context of the Gram-Schmidt process, why is it necessary for the initial set of vectors $\\{v_1, v_2, \\dots, v_n\\}$ to be linearly independent?",
+      "options": [
+        {
+          "label": 1,
+          "value": "To ensure that the resulting vectors are unit vectors."
+        },
+        {
+          "label": 2,
+          "value": "Otherwise, the dot product of any two vectors would be zero."
+        },
+        {
+          "label": 3,
+          "value": "To prevent the construction of a zero vector, which would make normalization impossible."
+        },
+        {
+          "label": 4,
+          "value": "Because the Gram-Schmidt process only works in Euclidean spaces."
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Vector Calculus - Theory of Orthonormalization",
+      "explanation": "If the input vectors are linearly dependent, at some step $k$, the vector $v_k$ will lie in the span of $\\{v_1, \\dots, v_{k-1}\\}$. In the Gram-Schmidt process, subtracting the projections of $v_k$ onto the previous vectors would result in the zero vector. Since the zero vector cannot be normalized (division by zero magnitude), the process fails to produce an orthonormal basis."
+    },
+    {
+      "question": "Consider the inner product space of polynomials $P_2[-1, 1]$ with the inner product $\\langle f, g \\rangle = \\int_{-1}^1 f(x)g(x) dx$. Applying Gram-Schmidt to the standard basis $\\{1, x, x^2\\}$, what is the third orthogonal polynomial $p_2(x)$ (unnormalized)?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$x^2 - 1/3$"
+        },
+        {
+          "label": 2,
+          "value": "$x^2 - x$"
+        },
+        {
+          "label": 3,
+          "value": "$x^2 - 1/2$"
+        },
+        {
+          "label": 4,
+          "value": "$x^2 - 1$"
+        }
+      ],
+      "answer_label": 1,
+      "topic": "Vector Calculus - Orthogonal Polynomials",
+      "explanation": "Let $v_0=1, v_1=x, v_2=x^2$. First, $u_0=1$. Next, $u_1 = x - \\frac{\\langle x, 1 \\rangle}{\\langle 1, 1 \\rangle}(1)$. Since $\\int_{-1}^1 x dx = 0$, $u_1=x$. Finally, $u_2 = x^2 - \\frac{\\langle x^2, 1 \\rangle}{\\langle 1, 1 \\rangle}(1) - \\frac{\\langle x^2, x \\rangle}{\\langle x, x \\rangle}(x)$. Calculations: $\\langle x^2, 1 \\rangle = \\int_{-1}^1 x^2 dx = 2/3$, $\\langle 1, 1 \\rangle = 2$. $\\langle x^2, x \\rangle = \\int_{-1}^1 x^3 dx = 0$. So $u_2 = x^2 - (2/3)/2 = x^2 - 1/3$."
+    },
+    {
+      "question": "If $Q$ is an $m \\times n$ matrix whose columns are obtained by the Gram-Schmidt orthonormalization of the columns of an $m \\times n$ matrix $A$, which of the following properties is true regarding the QR decomposition $A = QR$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$R$ is a lower triangular matrix."
+        },
+        {
+          "label": 2,
+          "value": "$Q$ is an orthogonal matrix such that $Q^T Q = I$."
+        },
+        {
+          "label": 3,
+          "value": "The diagonal elements of $R$ are always zero."
+        },
+        {
+          "label": 4,
+          "value": "$Q$ is always a square matrix even if $m \\neq n$."
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Vector Calculus - Matrix Applications",
+      "explanation": "The Gram-Schmidt process is the basis for the QR decomposition. If the columns of $Q$ are orthonormal, then by definition $Q^T Q = I$ (the identity matrix). $R$ is an upper triangular matrix representing the coefficients of the projections used during the Gram-Schmidt process."
+    },
+    {
+      "question": "Suppose you have a set of orthonormal vectors $\\{q_1, q_2, \\dots, q_k\\}$ in $\\mathbb{R}^n$. If a vector $v$ is decomposed as $v = \\sum_{i=1}^k c_i q_i + v_{\\perp}$, where $v_{\\perp}$ is orthogonal to the span of $\\{q_i\\}$, how are the coefficients $c_i$ calculated using the Gram-Schmidt principle?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$c_i = \\|v\\| / \\|q_i\\|$"
+        },
+        {
+          "label": 2,
+          "value": "$c_i = v \\cdot q_i$"
+        },
+        {
+          "label": 3,
+          "value": "$c_i = (v \\cdot q_i) / (v \\cdot v)$"
+        },
+        {
+          "label": 4,
+          "value": "$c_i = \\|v - q_i\\|$"
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Vector Calculus - Projections",
+      "explanation": "For an orthonormal basis, the projection of a vector $v$ onto a basis vector $q_i$ is given by $\\text{proj}_{q_i}(v) = \\frac{v \\cdot q_i}{q_i \\cdot q_i} q_i$. Since the vectors are orthonormal, $q_i \\cdot q_i = \\|q_i\\|^2 = 1$. Therefore, the coefficient $c_i$ is simply the dot product $v \\cdot q_i$."
+    }
+]

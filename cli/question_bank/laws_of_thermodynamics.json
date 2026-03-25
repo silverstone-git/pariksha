@@ -1,0 +1,482 @@
+[
+  {
+    "question": "A two-level system has energy states $+\\varepsilon$ and $-\\varepsilon$ with populations $N_+$ and $N_-$ respectively. If the total energy of the system is $E$ and the total number of particles is $N$, find the inverse of the absolute temperature $\\beta = 1/k_B T$ in the thermodynamic limit.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{1}{2\\varepsilon} \\ln \\left[ \\frac{N\\varepsilon - E}{N\\varepsilon + E} \\right]$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{1}{2\\varepsilon} \\ln \\left[ \\frac{N\\varepsilon + E}{N\\varepsilon - E} \\right]$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{1}{\\varepsilon} \\ln \\left[ \\frac{N\\varepsilon - E}{N\\varepsilon + E} \\right]$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{k_B}{\\varepsilon} \\ln \\left[ \\frac{E}{N\\varepsilon} \\right]$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Statistical Thermodynamics",
+    "explanation": "The total energy $E = N_+\\varepsilon - N_-\\varepsilon$ and $N = N_+ + N_-$. Solving for $N_+$ and $N_-$, we get $N_+ = (N + E/\\varepsilon)/2$ and $N_- = (N - E/\\varepsilon)/2$. The entropy $S = k_B \\ln \\Omega = k_B \\ln \\frac{N!}{N_+! N_-!}$. Using Stirling's approximation and $1/T = \\partial S/\\partial E$, we find $1/T = \\frac{k_B}{2\\varepsilon} \\ln (N_-/N_+)$, which leads to the result."
+  },
+  {
+    "question": "Regarding the Clausius-Clapeyron equation $\\frac{dP}{dT} = \\frac{L}{T(V_2 - V_1)}$, which of the following statements is correct for the phase transition of water to ice?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The slope $dP/dT$ is positive because latent heat is absorbed."
+      },
+      {
+        "label": 2,
+        "value": "The slope $dP/dT$ is negative because the specific volume of ice is greater than that of water."
+      },
+      {
+        "label": 3,
+        "value": "The slope $dP/dT$ is zero at the triple point."
+      },
+      {
+        "label": 4,
+        "value": "The equation is only valid for the vaporization curve, not the melting curve."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Phase Transitions",
+    "explanation": "For the water-to-ice transition (melting), $V_{ice} > V_{water}$. Since $L$ (latent heat of fusion) is positive for melting, $V_2 - V_1$ (ice to water) is negative, or $V_{water} - V_{ice} < 0$. Thus $dP/dT$ is negative. This explains why increasing pressure lowers the melting point of ice."
+  },
+  {
+    "question": "In a reversible adiabatic expansion of an ideal gas, the quantity $PV^\\gamma$ remains constant. For a Van der Waals gas, what is the correct relation between temperature $T$ and volume $V$ during a reversible adiabatic process?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T(V-b)^{R/C_v} = \\text{constant}$"
+      },
+      {
+        "label": 2,
+        "value": "$T V^{\\gamma-1} = \\text{constant}$"
+      },
+      {
+        "label": 3,
+        "value": "$(T + a/V^2)V = \\text{constant}$"
+      },
+      {
+        "label": 4,
+        "value": "$P(V-b)^\\gamma = \\text{constant}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "First Law of Thermodynamics",
+    "explanation": "For a Van der Waals gas, $dU = C_v dT + (a/V^2) dV$. In an adiabatic process, $dQ = 0 = dU + P dV$. Substituting $P = RT/(V-b) - a/V^2$, we get $C_v dT + (RT/(V-b)) dV = 0$. Integrating $dT/T + (R/C_v) dV/(V-b) = 0$ yields $T(V-b)^{R/C_v} = \\text{constant}$."
+  },
+  {
+    "question": "Calculate the change in entropy when $100\\text{ g}$ of water at $0^\\circ\\text{C}$ is mixed with $100\\text{ g}$ of water at $80^\\circ\\text{C}$ in an isolated container. (Specific heat of water $c = 4.18 \\text{ J/g}\\cdot\\text{K}$)",
+    "options": [
+      {
+        "label": 1,
+        "value": "$0 \\text{ J/K}$"
+      },
+      {
+        "label": 2,
+        "value": "$5.24 \\text{ J/K}$"
+      },
+      {
+        "label": 3,
+        "value": "$10.48 \\text{ J/K}$"
+      },
+      {
+        "label": 4,
+        "value": "$15.12 \\text{ J/K}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Entropy",
+    "explanation": "Final temperature $T_f = (0+80)/2 = 40^\\circ\\text{C} = 313.15\\text{K}$. $\\Delta S = mc \\ln(T_f/T_1) + mc \\ln(T_f/T_2) = 100 \\times 4.18 \\times [\\ln(313.15/273.15) + \\ln(313.15/353.15)] \\approx 418 \\times [0.1367 - 0.1205] \\approx 10.48 \\text{ J/K}$."
+  },
+  {
+    "question": "The internal energy $U$ of a photon gas is given by $U = 3PV$. What is the relationship between the pressure $P$ and the temperature $T$ for this system?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$P \\propto T$"
+      },
+      {
+        "label": 2,
+        "value": "$P \\propto T^2$"
+      },
+      {
+        "label": 3,
+        "value": "$P \\propto T^4$"
+      },
+      {
+        "label": 4,
+        "value": "$P \\propto T^{4/3}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Maxwell Relations",
+    "explanation": "Using $(\\partial U/\\partial V)_T = T(\\partial P/\\partial T)_V - P$. Given $U=3PV$, $(\\partial U/\\partial V)_T = 3P$. So, $3P = T(\\partial P/\\partial T)_V - P \\Rightarrow 4P = T(dP/dT)$. Integrating $dP/P = 4 dT/T$ gives $\\ln P = 4 \\ln T + C$, so $P \\propto T^4$."
+  },
+  {
+    "question": "Which of the following Maxwell relations is derived from the Gibbs free energy $G(T, P)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$(\\partial T/\\partial V)_S = -(\\partial P/\\partial S)_V$"
+      },
+      {
+        "label": 2,
+        "value": "$(\\partial T/\\partial P)_S = (\\partial V/\\partial S)_P$"
+      },
+      {
+        "label": 3,
+        "value": "$(\\partial S/\\partial V)_T = (\\partial P/\\partial T)_V$"
+      },
+      {
+        "label": 4,
+        "value": "$(\\partial V/\\partial T)_P = -(\\partial S/\\partial P)_T$"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Thermodynamic Potentials",
+    "explanation": "$dG = -S dT + V dP$. Since $dG$ is an exact differential, $(\\partial (-S)/\\partial P)_T = (\\partial V/\\partial T)_P$, which simplifies to $-(\\partial S/\\partial P)_T = (\\partial V/\\partial T)_P$."
+  },
+  {
+    "question": "A Heat engine operates on a cycle consisting of an isothermal expansion at $T_H$, an isochoric cooling to $T_L$, and an adiabatic compression back to the initial state. If the working fluid is an ideal gas, the efficiency $\\eta$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$1 - \\frac{T_L}{T_H}$"
+      },
+      {
+        "label": 2,
+        "value": "$1 - \\frac{T_L(1 - \\ln(T_L/T_H))}{T_H}$"
+      },
+      {
+        "label": 3,
+        "value": "$1 - \\frac{C_v(T_H - T_L)}{RT_H \\ln(V_2/V_1)}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{RT_H \\ln(V_2/V_1) - C_v(T_H - T_L)}{RT_H \\ln(V_2/V_1)}$"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Heat Engines",
+    "explanation": "Efficiency $\\eta = W_{total}/Q_{in}$. $Q_{in}$ occurs during isothermal expansion: $Q_{in} = RT_H \\ln(V_2/V_1)$. Work done is $W = Q_{in} - Q_{out}$. $Q_{out}$ occurs during isochoric cooling: $Q_{out} = C_v(T_H - T_L)$. Adiabatic compression has $Q=0$. $\\eta = (RT_H \\ln(V_2/V_1) - C_v(T_H - T_L)) / (RT_H \\ln(V_2/V_1))$."
+  },
+  {
+    "question": "The Third Law of Thermodynamics implies that as $T \\rightarrow 0$, which of the following is true for any substance?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$C_p \\rightarrow R$"
+      },
+      {
+        "label": 2,
+        "value": "$(\\partial P/\\partial T)_V \\rightarrow 0$"
+      },
+      {
+        "label": 3,
+        "value": "The entropy of a perfectly crystalline substance becomes infinite."
+      },
+      {
+        "label": 4,
+        "value": "Isothermal compressibility $\\kappa_T \\rightarrow \\infty$."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Third Law of Thermodynamics",
+    "explanation": "According to the Third Law, $S \\rightarrow 0$ as $T \\rightarrow 0$. From Maxwell's relation $(\\partial P/\\partial T)_V = (\\partial S/\\partial V)_T$. Since $S$ is constant (zero) near absolute zero, its derivative with respect to volume must also approach zero."
+  },
+  {
+    "question": "An ideal gas expands from volume $V$ to $2V$ in (i) an isothermal process and (ii) an adiabatic process. If $W_1$ and $W_2$ are the work done by the gas in the two cases respectively, then:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$W_1 > W_2$"
+      },
+      {
+        "label": 2,
+        "value": "$W_1 < W_2$"
+      },
+      {
+        "label": 3,
+        "value": "$W_1 = W_2$"
+      },
+      {
+        "label": 4,
+        "value": "$W_1 = \\gamma W_2$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "First Law of Thermodynamics",
+    "explanation": "On a $P-V$ diagram, the adiabatic curve is steeper than the isothermal curve ($\\gamma > 1$). Starting from the same state, the area under the isothermal curve (work) is greater than the area under the adiabatic curve for expansion."
+  },
+  {
+    "question": "For a chemical system, the Gibbs-Duhem equation at constant temperature and pressure is given by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\sum n_i d\\mu_i = 0$"
+      },
+      {
+        "label": 2,
+        "value": "$\\sum \\mu_i dn_i = 0$"
+      },
+      {
+        "label": 3,
+        "value": "$V dP - S dT = 0$"
+      },
+      {
+        "label": 4,
+        "value": "$dG = \\sum \\mu_i dn_i$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamic Potentials",
+    "explanation": "The Gibbs-Duhem equation states that $S dT - V dP + \\sum n_i d\\mu_i = 0$. At constant $T$ and $P$, $dT=0$ and $dP=0$, leading to $\\sum n_i d\\mu_i = 0$."
+  },
+  {
+    "question": "Consider a system of $N$ non-interacting spins in a magnetic field $H$. Each spin can be in one of two states: parallel to $H$ with energy $-\\mu H$ or anti-parallel with energy $+\\mu H$. At very high temperatures ($T \\rightarrow \\infty$), the entropy of the system is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$0$"
+      },
+      {
+        "label": 2,
+        "value": "$Nk_B \\ln 2$"
+      },
+      {
+        "label": 3,
+        "value": "$Nk_B$"
+      },
+      {
+        "label": 4,
+        "value": "$\\infty$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Entropy",
+    "explanation": "At high temperature, all states are equally probable. For $N$ spins with 2 states each, the total number of microstates is $\\Omega = 2^N$. Entropy $S = k_B \\ln \\Omega = Nk_B \\ln 2$."
+  },
+  {
+    "question": "The difference between heat capacities $C_p - C_v$ for any general substance is given by the formula:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$R$"
+      },
+      {
+        "label": 2,
+        "value": "$T \\left(\\frac{\\partial P}{\\partial T}\\right)_V \\left(\\frac{\\partial V}{\\partial T}\\right)_P$"
+      },
+      {
+        "label": 3,
+        "value": "$T \\left(\\frac{\\partial V}{\\partial T}\\right)_P^2 \\frac{1}{\\kappa_T}$"
+      },
+      {
+        "label": 4,
+        "value": "Both 2 and 3 are correct"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Maxwell Relations",
+    "explanation": "$C_p - C_v = [(\\partial U/\\partial V)_T + P](\\partial V/\\partial T)_P$. Using Maxwell relations, this simplifies to $T(\\partial P/\\partial T)_V(\\partial V/\\partial T)_P$. Also, using the cyclic relation $(\\partial P/\\partial T)_V = -(\\partial V/\\partial T)_P / (\\partial V/\\partial P)_T = \\beta/\\kappa_T$, it can be written as $T V \\beta^2 / \\kappa_T$."
+  },
+  {
+    "question": "In a Joule-Thomson expansion (throttling process), which thermodynamic property remains constant?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Internal Energy ($U$)"
+      },
+      {
+        "label": 2,
+        "value": "Entropy ($S$)"
+      },
+      {
+        "label": 3,
+        "value": "Enthalpy ($H$)"
+      },
+      {
+        "label": 4,
+        "value": "Gibbs Free Energy ($G$)"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "First Law of Thermodynamics",
+    "explanation": "In a throttling process, gas is forced through a porous plug or valve from high to low pressure. The process is adiabatic and the work done on the system equals the work done by it in a way that $U_1 + P_1V_1 = U_2 + P_2V_2$, meaning $H_1 = H_2$."
+  },
+  {
+    "question": "For a superconducting transition at $T_c$ in zero magnetic field, the transition is of the second order. This means that at $T_c$:",
+    "options": [
+      {
+        "label": 1,
+        "value": "There is a latent heat of transition."
+      },
+      {
+        "label": 2,
+        "value": "The entropy is discontinuous."
+      },
+      {
+        "label": 3,
+        "value": "The heat capacity $C_p$ is discontinuous."
+      },
+      {
+        "label": 4,
+        "value": "The Gibbs free energy is discontinuous."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Phase Transitions",
+    "explanation": "In a second-order phase transition, the first derivatives of $G$ ($S$ and $V$) are continuous (no latent heat), but the second derivatives ($C_p$, compressibility) are discontinuous."
+  },
+  {
+    "question": "A Carnot engine operates between reservoirs at $600\\text{ K}$ and $300\\text{ K}$. If the engine performs $1000\\text{ J}$ of work per cycle, how much heat is exhausted to the cold reservoir?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$500 \\text{ J}$"
+      },
+      {
+        "label": 2,
+        "value": "$1000 \\text{ J}$"
+      },
+      {
+        "label": 3,
+        "value": "$1500 \\text{ J}$"
+      },
+      {
+        "label": 4,
+        "value": "$2000 \\text{ J}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Heat Engines",
+    "explanation": "Efficiency $\\eta = 1 - T_L/T_H = 1 - 300/600 = 0.5$. Also $\\eta = W/Q_H$. So $Q_H = W/\\eta = 1000/0.5 = 2000 \\text{ J}$. Heat exhausted $Q_L = Q_H - W = 2000 - 1000 = 1000 \\text{ J}$."
+  },
+  {
+    "question": "The internal energy of a system is given by $U(S, V) = A S^2 / V$ where $A$ is a constant. The temperature $T$ of the system is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2AS/V$"
+      },
+      {
+        "label": 2,
+        "value": "$AS^2/V^2$"
+      },
+      {
+        "label": 3,
+        "value": "$-AS^2/V^2$"
+      },
+      {
+        "label": 4,
+        "value": "$2AS/V^2$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamic Potentials",
+    "explanation": "From the fundamental relation $dU = T dS - P dV$, we know $T = (\\partial U/\\partial S)_V$. Differentiating $U = AS^2/V$ with respect to $S$ keeping $V$ constant gives $T = 2AS/V$."
+  },
+  {
+    "question": "Which of the following processes is NOT possible according to the Second Law of Thermodynamics?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Converting $100\\text{ J}$ of work entirely into $100\\text{ J}$ of heat."
+      },
+      {
+        "label": 2,
+        "value": "Converting $100\\text{ J}$ of heat entirely into $100\\text{ J}$ of work in a cycle."
+      },
+      {
+        "label": 3,
+        "value": "Transferring heat from a cold body to a hot body using external work."
+      },
+      {
+        "label": 4,
+        "value": "Spontaneous mixing of two different gases."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Second Law of Thermodynamics",
+    "explanation": "The Kelvin-Planck statement of the Second Law states that it is impossible to construct a device operating in a cycle that produces no effect other than the extraction of heat from a reservoir and the performance of an equivalent amount of work."
+  },
+  {
+    "question": "For a system at constant volume and temperature, the condition for equilibrium is that:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Gibbs free energy $G$ is minimum."
+      },
+      {
+        "label": 2,
+        "value": "Helmholtz free energy $A$ is minimum."
+      },
+      {
+        "label": 3,
+        "value": "Enthalpy $H$ is minimum."
+      },
+      {
+        "label": 4,
+        "value": "Entropy $S$ is minimum."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamic Potentials",
+    "explanation": "At constant $T$ and $V$, the Helmholtz free energy $A = U - TS$ tends to a minimum at equilibrium. This is derived from $dA = -S dT - P dV \\le 0$ for a process."
+  },
+  {
+    "question": "During the free expansion of an ideal gas into a vacuum in an insulated container, which of the following stays constant?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Entropy"
+      },
+      {
+        "label": 2,
+        "value": "Temperature"
+      },
+      {
+        "label": 3,
+        "value": "Pressure"
+      },
+      {
+        "label": 4,
+        "value": "Enthalpy and Internal Energy only"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "First Law of Thermodynamics",
+    "explanation": "In free expansion, $W=0$ and $Q=0$, so $\\Delta U = 0$. For an ideal gas, $U$ depends only on $T$, so $T$ is constant. Since $H = U + PV$ and $PV = nRT$, $H$ is also constant. However, entropy increases because the process is irreversible."
+  },
+  {
+    "question": "The slope of the vaporization curve at the boiling point for water is $3.6 \\times 10^3 \\text{ Pa/K}$. If the boiling point is $373\\text{ K}$ and the latent heat of vaporization is $2.26 \\times 10^6 \\text{ J/kg}$, calculate the change in specific volume during vaporization. (Assume $V_{steam} \\gg V_{water}$)",
+    "options": [
+      {
+        "label": 1,
+        "value": "$1.67 \\text{ m}^3\\text{/kg}$"
+      },
+      {
+        "label": 2,
+        "value": "$0.61 \\text{ m}^3\\text{/kg}$"
+      },
+      {
+        "label": 3,
+        "value": "$2.45 \\text{ m}^3\\text{/kg}$"
+      },
+      {
+        "label": 4,
+        "value": "$3.12 \\text{ m}^3\\text{/kg}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Phase Transitions",
+    "explanation": "Using $dP/dT = L / (T \\Delta V)$. $\\Delta V = L / (T \\cdot dP/dT) = (2.26 \\times 10^6) / (373 \\times 3.6 \\times 10^3) \\approx 2.26 \\times 10^6 / 1.34 \\times 10^6 \\approx 1.68 \\text{ m}^3\\text{/kg}$."
+  }
+]

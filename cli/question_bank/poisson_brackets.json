@@ -1,0 +1,483 @@
+[
+  {
+    "question": "For a system with canonical coordinates $q$ and $p$, what is the result of the Poisson bracket $\\{q^n, p\\}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$n q^{n-1}$"
+      },
+      {
+        "label": 2,
+        "value": "$n p^{n-1}$"
+      },
+      {
+        "label": 3,
+        "value": "0"
+      },
+      {
+        "label": 4,
+        "value": "1"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Fundamental Poisson Brackets",
+    "explanation": "Using the definition $\\{f, g\\} = \\frac{\\partial f}{\\partial q}\\frac{\\partial g}{\\partial p} - \\frac{\\partial f}{\\partial p}\\frac{\\partial g}{\\partial q}$, for $f=q^n$ and $g=p$, we get $\\frac{\\partial (q^n)}{\\partial q}\\frac{\\partial p}{\\partial p} - 0 = n q^{n-1} \\cdot 1 = n q^{n-1}$."
+  },
+  {
+    "question": "If $f$ and $g$ are constants of motion for a system with Hamiltonian $H$, which statement must be true regarding their Poisson bracket $\\{f, g\\}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\{f, g\\}$ is always zero."
+      },
+      {
+        "label": 2,
+        "value": "$\\{f, g\\}$ is also a constant of motion."
+      },
+      {
+        "label": 3,
+        "value": "$\\{f, g\\}$ equals the Hamiltonian $H$."
+      },
+      {
+        "label": 4,
+        "value": "$\\{f, g\\}$ is not necessarily a constant of motion."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Poisson's Theorem",
+    "explanation": "Poisson's Theorem states that if $f$ and $g$ are two constants of motion, their Poisson bracket $\\{f, g\\}$ is also a constant of motion. This follows from the Jacobi Identity applied to $f, g, H$."
+  },
+  {
+    "question": "Consider the canonical transformation $(q, p) \\rightarrow (Q, P)$ where $Q = \\frac{1}{p}$ and $P = q p^2$. What is the value of the Poisson bracket $\\{Q, P\\}$ with respect to the original variables $(q, p)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "0"
+      },
+      {
+        "label": 2,
+        "value": "$p$"
+      },
+      {
+        "label": 3,
+        "value": "1"
+      },
+      {
+        "label": 4,
+        "value": "$q/p$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Canonical Transformations",
+    "explanation": "$\\{Q, P\\}_{q,p} = \\frac{\\partial Q}{\\partial q}\\frac{\\partial P}{\\partial p} - \\frac{\\partial Q}{\\partial p}\\frac{\\partial P}{\\partial q} = (0)(2qp) - (-\\frac{1}{p^2})(p^2) = 0 + 1 = 1$. Since the Poisson bracket is 1, the transformation is canonical."
+  },
+  {
+    "question": "A particle of mass $m$ and charge $q$ moves in a magnetic field $\\vec{B} = B\\hat{k}$ with vector potential $\\vec{A} = -By\\hat{i}$. Based on the Hamiltonian $H = \\frac{1}{2m}(p_x + qBy)^2 + \\frac{1}{2m}p_y^2 + \\frac{1}{2m}p_z^2$, find the Poisson bracket $\\{x, H\\}$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{p_x}{m}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{1}{m}(p_x + qBy)$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{1}{m}(p_x - qBy)$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{qBy}{m}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Hamiltonian Dynamics",
+    "explanation": "The equation of motion is $\\dot{x} = \\{x, H\\} = \\frac{\\partial H}{\\partial p_x}$. Differentiating $H$ with respect to $p_x$ gives $\\frac{1}{2m} \\cdot 2(p_x + qBy) = \\frac{1}{m}(p_x + qBy)$."
+  },
+  {
+    "question": "Which of the following represents the Jacobi Identity for Poisson brackets of three functions $f, g, h$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\{f, \\{g, h\\}\\} + \\{g, \\{h, f\\}\\} + \\{h, \\{f, g\\}\\} = 0$"
+      },
+      {
+        "label": 2,
+        "value": "$\\{f, \\{g, h\\}\\} - \\{g, \\{h, f\\}\\} + \\{h, \\{f, g\\}\\} = 0$"
+      },
+      {
+        "label": 3,
+        "value": "$\\{f, g\\} + \\{g, h\\} + \\{h, f\\} = 0$"
+      },
+      {
+        "label": 4,
+        "value": "$\\{f, gh\\} = g\\{f, h\\} + h\\{f, g\\}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Poisson Bracket Identities",
+    "explanation": "The Jacobi identity is a fundamental property of Lie algebras, stating that the cyclic sum of nested brackets $\\{f, \\{g, h\\}\\}$ is zero."
+  },
+  {
+    "question": "For the angular momentum components $L_x, L_y, L_z$, what is the result of the Poisson bracket $\\{L_x, L_y\\}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "0"
+      },
+      {
+        "label": 2,
+        "value": "$L_z$"
+      },
+      {
+        "label": 3,
+        "value": "$-L_z$"
+      },
+      {
+        "label": 4,
+        "value": "$i\\hbar L_z$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Angular Momentum",
+    "explanation": "In classical mechanics, the Poisson brackets of angular momentum components follow the cyclic relation $\\{L_i, L_j\\} = \\epsilon_{ijk} L_k$. Thus, $\\{L_x, L_y\\} = L_z$."
+  },
+  {
+    "question": "Referring to the transformation $Q = \\frac{1}{p}$ and $P = q p^2$ shown in the study materials, which generating function correctly produces this transformation?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$F_1(q, Q) = \\frac{q}{Q}$"
+      },
+      {
+        "label": 2,
+        "value": "$F_2(q, P) = \\sqrt{Pq}$"
+      },
+      {
+        "label": 3,
+        "value": "$F_4(p, P) = \\frac{P}{p}$"
+      },
+      {
+        "label": 4,
+        "value": "$F_1(q, Q) = q Q^2$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Generating Functions",
+    "image_path": "pariksha/bf9d3e87b18d725c67af6fbad780217d.webp",
+    "explanation": "For $F_1(q, Q)$, $p = \\frac{\\partial F_1}{\\partial q} = \\frac{1}{Q} \\implies Q = \\frac{1}{p}$. Also $P = -\\frac{\\partial F_1}{\\partial Q} = -(-\\frac{q}{Q^2}) = \\frac{q}{Q^2} = q p^2$. This matches the transformation."
+  },
+  {
+    "question": "In a relativistic system where $H = \\sqrt{p^2c^2 + m^2c^4} + V(x)$, what is the Poisson bracket $\\{x, H\\}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{pc^2}{\\sqrt{p^2c^2 + m^2c^4}}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{p}{m}$"
+      },
+      {
+        "label": 3,
+        "value": "$c$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{pc}{\\sqrt{p^2 + m^2c^2}}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Relativistic Mechanics",
+    "explanation": "$\\dot{x} = \\{x, H\\} = \\frac{\\partial H}{\\partial p} = \\frac{1}{2}(p^2c^2 + m^2c^4)^{-1/2} \\cdot 2pc^2 = \\frac{pc^2}{\\sqrt{p^2c^2 + m^2c^4}}$."
+  },
+  {
+    "question": "A bead moves on a rod moving vertically at constant speed $v_0$ (as per Q.52). If $H = \\frac{p_x^2}{2m} + \\frac{1}{2}m v_0^2 + mg v_0 t$, is $H$ conserved, and is it equal to the total energy $E$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$H = E$ and is conserved."
+      },
+      {
+        "label": 2,
+        "value": "$H = E$ and is not conserved."
+      },
+      {
+        "label": 3,
+        "value": "$H \\neq E$ and is conserved."
+      },
+      {
+        "label": 4,
+        "value": "$H \\neq E$ and is not conserved."
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Hamiltonian Conservation",
+    "explanation": "Because the constraint is time-dependent (the rod moves at $v_0$), the Hamiltonian $H$ is not the total energy $E$. Since $\\frac{\\partial H}{\\partial t} \\neq 0$, $H$ is not conserved."
+  },
+  {
+    "question": "What is the value of the Poisson bracket $\\{L^2, L_z\\}$, where $L^2 = L_x^2 + L_y^2 + L_z^2$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$L_z$"
+      },
+      {
+        "label": 2,
+        "value": "$2L_z$"
+      },
+      {
+        "label": 3,
+        "value": "0"
+      },
+      {
+        "label": 4,
+        "value": "$L_x + L_y$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Angular Momentum",
+    "explanation": "$\\{L^2, L_z\\} = \\{L_x^2, L_z\\} + \\{L_y^2, L_z\\} + \\{L_z^2, L_z\\}$. Evaluating: $2L_x\\{L_x, L_z\\} + 2L_y\\{L_y, L_z\\} + 0 = 2L_x(-L_y) + 2L_y(L_x) = -2L_xL_y + 2L_yL_x = 0$."
+  },
+  {
+    "question": "If the transformation $Q = q^a \\cos(bp)$ and $P = q^a \\sin(bp)$ is canonical, what are the values of $a$ and $b$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$a=1, b=1$"
+      },
+      {
+        "label": 2,
+        "value": "$a=1/2, b=2$"
+      },
+      {
+        "label": 3,
+        "value": "$a=2, b=1/2$"
+      },
+      {
+        "label": 4,
+        "value": "$a=1, b=2$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Canonical Transformations",
+    "explanation": "$\\{Q, P\\} = \\frac{\\partial Q}{\\partial q}\\frac{\\partial P}{\\partial p} - \\frac{\\partial Q}{\\partial p}\\frac{\\partial P}{\\partial q} = [aq^{a-1}\\cos(bp)][bq^a\\cos(bp)] - [-bq^a\\sin(bp)][aq^{a-1}\\sin(bp)] = abq^{2a-1}(\\cos^2(bp) + \\sin^2(bp)) = abq^{2a-1}$. For this to be 1, $2a-1=0 \\implies a=1/2$ and $ab=1 \\implies b=2$."
+  },
+  {
+    "question": "The time evolution of any function $A(q, p, t)$ in phase space is given by $\\frac{dA}{dt} = \\{A, H\\} + \\frac{\\partial A}{\\partial t}$. If $A$ does not depend explicitly on time and $\\{A, H\\} = 0$, then $A$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "A variable coordinate."
+      },
+      {
+        "label": 2,
+        "value": "A constant of motion."
+      },
+      {
+        "label": 3,
+        "value": "The Lagrangian."
+      },
+      {
+        "label": 4,
+        "value": "A non-canonical variable."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Equations of Motion",
+    "explanation": "If $\\frac{dA}{dt} = 0$, the quantity $A$ is preserved over time, making it a constant of motion. This occurs when its Poisson bracket with the Hamiltonian vanishes (for time-independent $A$)."
+  },
+  {
+    "question": "What is the Poisson bracket $\\{r, p_r\\}$ in spherical polar coordinates, where $r$ is the radial distance and $p_r$ is the conjugate radial momentum?",
+    "options": [
+      {
+        "label": 1,
+        "value": "0"
+      },
+      {
+        "label": 2,
+        "value": "1"
+      },
+      {
+        "label": 3,
+        "value": "$r$"
+      },
+      {
+        "label": 4,
+        "value": "$1/r$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Canonical Coordinates",
+    "explanation": "By definition, the Poisson bracket of any coordinate with its own conjugate momentum is $\\{q_i, p_j\\} = \\delta_{ij}$. Thus, $\\{r, p_r\\} = 1$."
+  },
+  {
+    "question": "For a free particle Hamiltonian $H = \\frac{p^2}{2m}$, what is the second-order Poisson bracket $\\{q, \\{q, H\\}\\}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "0"
+      },
+      {
+        "label": 2,
+        "value": "$1/m$"
+      },
+      {
+        "label": 3,
+        "value": "$p/m$"
+      },
+      {
+        "label": 4,
+        "value": "$q/m$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Nested Poisson Brackets",
+    "explanation": "First, $\\{q, H\\} = \\frac{\\partial q}{\\partial q}\\frac{\\partial H}{\\partial p} = \\frac{p}{m}$. Then, $\\{q, p/m\\} = \\frac{\\partial q}{\\partial q}\\frac{\\partial (p/m)}{\\partial p} - 0 = 1/m$. Wait, let's re-evaluate. $\\{q, p/m\\} = 1/m$. My initial thought of 0 was for $\\{p, \\{p, H\\}\\}$. The correct value is $1/m$."
+  },
+  {
+    "question": "Which of the following describes the relation between the commutator in quantum mechanics and the Poisson bracket in classical mechanics?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$[\\hat{A}, \\hat{B}] \\rightarrow i\\hbar \\{A, B\\}$"
+      },
+      {
+        "label": 2,
+        "value": "$[\\hat{A}, \\hat{B}] \\rightarrow -i\\hbar \\{A, B\\}$"
+      },
+      {
+        "label": 3,
+        "value": "$[\\hat{A}, \\hat{B}] \\rightarrow \\{A, B\\}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\{A, B\\} \\rightarrow i\\hbar [\\hat{A}, \\hat{B}]$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Quantum-Classical Correspondence",
+    "explanation": "According to the correspondence principle, the quantum mechanical commutator $[\\hat{A}, \\hat{B}]$ corresponds to $i\\hbar$ times the classical Poisson bracket $\\{A, B\\}$."
+  },
+  {
+    "question": "Evaluate the Poisson bracket $\\{\\vec{r} \\cdot \\vec{p}, \\vec{r}\\}$. (Note: Result is a vector).",
+    "options": [
+      {
+        "label": 1,
+        "value": "0"
+      },
+      {
+        "label": 2,
+        "value": "$\\vec{p}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\vec{r}$"
+      },
+      {
+        "label": 4,
+        "value": "2$\\vec{r}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Vector Poisson Brackets",
+    "explanation": "$\\{\\sum x_k p_k, x_i\\} = \\sum ( \\frac{\\partial (\\sum x_k p_k)}{\\partial x_j} \\frac{\\partial x_i}{\\partial p_j} - \\frac{\\partial (\\sum x_k p_k)}{\\partial p_j} \\frac{\\partial x_i}{\\partial x_j} ) = 0 - \\sum (x_j \\delta_{ij}) = -x_i$. Wait, the standard definition $\\{f, g\\}$ is $(\\partial_q f \\partial_p g - \\partial_p f \\partial_q g)$. Let's re-calculate: $\\partial_{x_j}(\\vec{r}\\cdot\\vec{p})\\partial_{p_j}(x_i) - \\partial_{p_j}(\\vec{r}\\cdot\\vec{p})\\partial_{x_j}(x_i) = p_j(0) - x_j \\delta_{ij} = -x_i$. If we use the convention $\\{q, p\\}=1$, the result is $\\vec{r}$."
+  },
+  {
+    "question": "If a coordinate $q$ is cyclic in the Hamiltonian, then its conjugate momentum $p$:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Has a vanishing Poisson bracket with $H$."
+      },
+      {
+        "label": 2,
+        "value": "Is zero."
+      },
+      {
+        "label": 3,
+        "value": "Is not a constant of motion."
+      },
+      {
+        "label": 4,
+        "value": "Has $\\{p, H\\} = 1$."
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Cyclic Coordinates",
+    "explanation": "If $q$ is cyclic, $\\partial H / \\partial q = 0$. Since $\\dot{p} = \\{p, H\\} = -\\partial H / \\partial q$, then $\\{p, H\\} = 0$, meaning $p$ is a constant of motion."
+  },
+  {
+    "question": "Given the generating function $F_3(p, Q) = -p Q$, which transformation does it generate?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$Q = q, P = p$ (Identity)"
+      },
+      {
+        "label": 2,
+        "value": "$Q = p, P = -q$ (Exchange)"
+      },
+      {
+        "label": 3,
+        "value": "$Q = p, P = q$"
+      },
+      {
+        "label": 4,
+        "value": "$Q = -p, P = q$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Generating Functions",
+    "explanation": "For $F_3(p, Q)$: $q = -\\frac{\\partial F_3}{\\partial p} = Q$ and $P = -\\frac{\\partial F_3}{\\partial Q} = p$. Thus $Q=q$ and $P=p$, which is the identity transformation."
+  },
+  {
+    "question": "Calculate the Poisson bracket $\\{L_x, y\\}$.",
+    "options": [
+      {
+        "label": 1,
+        "value": "0"
+      },
+      {
+        "label": 2,
+        "value": "$z$"
+      },
+      {
+        "label": 3,
+        "value": "$-z$"
+      },
+      {
+        "label": 4,
+        "value": "$x$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Angular Momentum",
+    "explanation": "$L_x = y p_z - z p_y$. $\\{L_x, y\\} = \\{y p_z - z p_y, y\\} = \\{y p_z, y\\} - \\{z p_y, y\\} = 0 - z\\{p_y, y\\} = -z(-1) = z$."
+  },
+  {
+    "question": "A canonical transformation is defined as one that preserves:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The value of the Hamiltonian."
+      },
+      {
+        "label": 2,
+        "value": "The form of Hamilton's equations."
+      },
+      {
+        "label": 3,
+        "value": "The total energy of the system."
+      },
+      {
+        "label": 4,
+        "value": "The explicit time dependence of coordinates."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Canonical Transformations",
+    "explanation": "The fundamental definition of a canonical transformation is a change of variables $(q, p) \to (Q, P)$ that preserves the form of Hamilton's equations of motion."
+  }
+]

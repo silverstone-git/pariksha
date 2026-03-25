@@ -1,0 +1,502 @@
+[
+  {
+    "question": "A particle moves in an effective potential $V_{\\text{eff}}(r)$ as shown in the provided graph. If the particle's total energy $E$ is strictly greater than the local maximum $V_{\\text{eff}}^{\\text{max}}$, which of the following best describes the qualitative motion of the particle starting from a large distance $r$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The particle will reach a minimum radius $r_{\\text{min}}$, stop, and return to infinity."
+      },
+      {
+        "label": 2,
+        "value": "The particle will enter a stable circular orbit at the radius where $V_{\\text{eff}}$ is maximum."
+      },
+      {
+        "label": 3,
+        "value": "The particle will overcome the centrifugal barrier and spiral toward the center ($r \\to 0$)."
+      },
+      {
+        "label": 4,
+        "value": "The particle will undergo small oscillations around the equilibrium point $r_{\\text{min}}$."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Effective Potential",
+    "explanation": "According to the graph in image 7402c0a0c2e8b43bdd5be2eacad11b9f_24_img.webp, $V_{\\text{eff}}$ has a maximum. If $E > V_{\\text{eff}}^{\\text{max}}$, there is no turning point (where $E = V_{\\text{eff}}$) to prevent the particle from moving toward smaller $r$. Thus, it will 'fall' toward the center.",
+    "image_path": "pariksha/c04677f32b8d5ac3c4ef5d4be1582748.webp"
+  },
+  {
+    "question": "A spaceship is in a circular orbit around a planet. To escape the planet's gravity on a parabolic trajectory using a sudden tangential thrust, the speed must be increased by a factor of $f$. What is the value of $f$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$f = 2$"
+      },
+      {
+        "label": 2,
+        "value": "$f = \\sqrt{2}$"
+      },
+      {
+        "label": 3,
+        "value": "$f = 1.5$"
+      },
+      {
+        "label": 4,
+        "value": "$f = \\sqrt{3}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Orbital Mechanics",
+    "explanation": "For a circular orbit, $v_{\\text{circ}} = \\sqrt{GM/R}$. For a parabolic orbit (escape velocity), $v_{\\text{esc}} = \\sqrt{2GM/R}$. The ratio $v_{\\text{esc}}/v_{\\text{circ}}$ is $\\sqrt{2}$.",
+    "image_path": ""
+  },
+  {
+    "question": "Refer to the diagram of the rotating hoop. For the bead to maintain a constant angle $\\theta$ with the vertical, what must be the relationship between the angular frequency $\\omega$ and the angle $\\theta$ (assuming $\\omega^2 > g/R$)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\cos \\theta = \\frac{g}{\\omega^2 R}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\sin \\theta = \\frac{g}{\\omega^2 R}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\tan \\theta = \\frac{\\omega^2 R}{g}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\cos \\theta = \\frac{\\omega^2 R}{g}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Central Forces in Rotating Frames",
+    "explanation": "In the rotating frame, the forces are gravity ($mg$ down), normal force ($N$), and centrifugal force ($m\\omega^2 r = m\\omega^2 R \\sin \\theta$ outwards). Balancing forces along the hoop's tangent gives $mg \\sin \\theta = m\\omega^2 R \\sin \\theta \\cos \\theta$. For $\\sin \\theta \\neq 0$, this yields $\\cos \\theta = g/(\\omega^2 R)$.",
+    "image_path": "pariksha/f36089292bbab39e4e56c00b9e74e7b8.webp"
+  },
+  {
+    "question": "A particle follows a spiral path given by $r = r_0 e^{a\\theta}$. If the total energy $E$ is zero, what is the required central potential $V(r)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$V(r) = -\\frac{L^2}{2mr^2}$"
+      },
+      {
+        "label": 2,
+        "value": "$V(r) = -\\frac{(1+a^2)L^2}{2mr^2}$"
+      },
+      {
+        "label": 3,
+        "value": "$V(r) = -\\frac{a^2 L^2}{2mr^2}$"
+      },
+      {
+        "label": 4,
+        "value": "$V(r) = -\\frac{L^2}{mr^2}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Spiral Orbits",
+    "explanation": "Using $\\dot{r} = a r \\dot{\\theta} = aL/mr$, the energy equation $E = \\frac{1}{2}m\\dot{r}^2 + \\frac{L^2}{2mr^2} + V(r) = 0$ leads to $V(r) = -[\\frac{1}{2}m(\\frac{aL}{mr})^2 + \\frac{L^2}{2mr^2}] = -\\frac{(1+a^2)L^2}{2mr^2}$.",
+    "image_path": ""
+  },
+  {
+    "question": "In the 'Swinging in Circles' setup (Fig 3.33), several masses are attached to the ceiling by strings of different lengths but all rotate with the same angular frequency $\\omega$. What 'curve' do the masses form in a side-view snapshot?",
+    "options": [
+      {
+        "label": 1,
+        "value": "A parabola opening upwards."
+      },
+      {
+        "label": 2,
+        "value": "A vertical straight line."
+      },
+      {
+        "label": 3,
+        "value": "A horizontal straight line."
+      },
+      {
+        "label": 4,
+        "value": "A circular arc."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Circular Motion",
+    "explanation": "For a conical pendulum, the vertical distance from the ceiling is $h = L \\cos \\beta$. The frequency is $\\omega = \\sqrt{g/h}$. If $\\omega$ is the same for all, $h = g/\\omega^2$ must be the same for all masses, meaning they all lie at the same vertical depth, forming a horizontal line.",
+    "image_path": "pariksha/40368a072786a5c9a965f769bf8fecad.webp"
+  },
+  {
+    "question": "A particle of mass $m$ is subject to a repulsive central potential $V(r) = \\alpha/r$ where $\\alpha > 0$. Which of the following statements is TRUE regarding the possible orbits?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Circular and elliptical orbits are possible if $E < 0$."
+      },
+      {
+        "label": 2,
+        "value": "Only parabolic orbits are possible."
+      },
+      {
+        "label": 3,
+        "value": "Only hyperbolic orbits (or unbound paths) are possible."
+      },
+      {
+        "label": 4,
+        "value": "The particle will eventually be captured by the center of force."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Repulsive Potentials",
+    "explanation": "For a repulsive $1/r$ potential, the effective potential $V_{\\text{eff}}(r) = \\frac{L^2}{2mr^2} + \\frac{\\alpha}{r}$ is always positive and monotonically decreasing. Since $V_{\\text{eff}} > 0$, only $E > 0$ is possible, which corresponds to unbound hyperbolic-like trajectories.",
+    "image_path": ""
+  },
+  {
+    "question": "Consider a particle moving in a central potential $V(r) = -k/r^n$. For a circular orbit of radius $r_0$ to be stable against small radial perturbations, what must be the value of $n$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$n > 2$"
+      },
+      {
+        "label": 2,
+        "value": "$n < 2$"
+      },
+      {
+        "label": 3,
+        "value": "$n = 3$"
+      },
+      {
+        "label": 4,
+        "value": "Stable for all $n$."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Orbit Stability",
+    "explanation": "Stability requires $V_{\\text{eff}}''(r_0) > 0$. For $V(r) \\propto r^{-n}$, the condition simplifies to the power of the force law being greater than -3 (where $F \\propto r^{-(n+1)}$). This leads to $n+1 < 3$, or $n < 2$.",
+    "image_path": ""
+  },
+  {
+    "question": "A mass $m$ is attached to a string passing through a hole in a frictionless table. It rotates at radius $r_1$ with speed $v_1$. If the string is pulled slowly to reduce the radius to $r_2$, what is the new speed $v_2$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$v_2 = v_1 (r_1/r_2)$"
+      },
+      {
+        "label": 2,
+        "value": "$v_2 = v_1 (r_1/r_2)^2$"
+      },
+      {
+        "label": 3,
+        "value": "$v_2 = v_1 \\sqrt{r_1/r_2}$"
+      },
+      {
+        "label": 4,
+        "value": "$v_2 = v_1$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Conservation of Angular Momentum",
+    "explanation": "Since the force is central (acting toward the hole), angular momentum $L = mvr$ is conserved. Thus $mv_1 r_1 = mv_2 r_2$, leading to $v_2 = v_1 (r_1/r_2)$. ",
+    "image_path": ""
+  },
+  {
+    "question": "For a particle in a gravitational potential $V(r) = -GMm/r$, which condition corresponds to a parabolic orbit?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$E < 0$ and eccentricity $\\epsilon = 1$"
+      },
+      {
+        "label": 2,
+        "value": "$E = 0$ and eccentricity $\\epsilon = 1$"
+      },
+      {
+        "label": 3,
+        "value": "$E > 0$ and eccentricity $\\epsilon > 1$"
+      },
+      {
+        "label": 4,
+        "value": "$E = V_{\\text{eff, min}}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Keplerian Orbits",
+    "explanation": "A parabolic orbit is the boundary between bound (elliptical) and unbound (hyperbolic) orbits, characterized by total energy $E = 0$ and eccentricity $\\epsilon = 1$.",
+    "image_path": ""
+  },
+  {
+    "question": "An 'anti-gravitational' potential is given by $V(r) = \\alpha/r$ with $\\alpha > 0$. If a particle approaches from infinity with impact parameter $b$ and speed $v_0$, what is the distance of closest approach $r_{\\text{min}}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$r_{\\text{min}} = b$"
+      },
+      {
+        "label": 2,
+        "value": "$r_{\\text{min}} = \\frac{\\alpha}{mv_0^2} [1 + \\sqrt{1 + (mv_0^2 b/\\alpha)^2}]$"
+      },
+      {
+        "label": 3,
+        "value": "$r_{\\text{min}} = \\frac{\\alpha}{mv_0^2} [-1 + \\sqrt{1 + (mv_0^2 b/\\alpha)^2}]$"
+      },
+      {
+        "label": 4,
+        "value": "$r_{\\text{min}} = \\frac{mv_0^2 b^2}{2\\alpha}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Scattering",
+    "explanation": "At $r_{\\text{min}}$, $\\dot{r} = 0$, so $E = \\frac{L^2}{2mr_{\\text{min}}^2} + \\frac{\\alpha}{r_{\\text{min}}}$. With $E = \\frac{1}{2}mv_0^2$ and $L = mv_0 b$, solving the quadratic in $1/r_{\\text{min}}$ gives the result with the positive root for a repulsive potential.",
+    "image_path": ""
+  },
+  {
+    "question": "Which of the following describes the differential cross section $\\frac{d\\sigma}{d\\Omega}$ for Rutherford scattering of a particle with speed $v_0$ and potential $V(r) = \\frac{\\alpha}{r}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{d\\sigma}{d\\Omega} \\propto \\sin^4(\\phi/2)$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{d\\sigma}{d\\Omega} \\propto \\frac{1}{v_0^2 \\sin^2(\\phi/2)}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{d\\sigma}{d\\Omega} \\propto \\frac{1}{v_0^4 \\sin^4(\\phi/2)}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{d\\sigma}{d\\Omega} \\propto v_0^4 \\cos^4(\\phi/2)$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Rutherford Scattering",
+    "explanation": "From Eq. (7.53), $\\frac{d\\sigma}{d\\Omega} = \\frac{1}{4\\gamma^2 \\sin^4(\\phi/2)}$, where $\\gamma = v_0^2/GM$ (or equivalent constants for electrostatic force). Thus, it is proportional to $1/v_0^4$.",
+    "image_path": ""
+  },
+  {
+    "question": "A particle moves in a potential $V(r) = \\beta r^2$. The orbit is known to be an ellipse. Where is the center of the force located relative to the ellipse?",
+    "options": [
+      {
+        "label": 1,
+        "value": "At one of the foci."
+      },
+      {
+        "label": 2,
+        "value": "At the geometric center of the ellipse."
+      },
+      {
+        "label": 3,
+        "value": "On the semi-minor axis."
+      },
+      {
+        "label": 4,
+        "value": "The orbit is not actually an ellipse for this potential."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Harmonic Oscillator Potential",
+    "explanation": "For $V(r) \\propto r^2$, the motion is a 2D isotropic harmonic oscillator. The orbits are ellipses centered at the origin (the center of force), unlike the $1/r$ potential where the force center is at a focus.",
+    "image_path": ""
+  },
+  {
+    "question": "In the case of a parabolic orbit in a gravitational field, what is the relation between the distance of closest approach $r_{\\text{min}}$ and the focal length $\\ell$ of the parabola $y = x^2/(4\\ell)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$r_{\\text{min}} = \\ell$"
+      },
+      {
+        "label": 2,
+        "value": "$r_{\\text{min}} = 2\\ell$"
+      },
+      {
+        "label": 3,
+        "value": "$r_{\\text{min}} = \\ell/2$"
+      },
+      {
+        "label": 4,
+        "value": "$r_{\\text{min}} = 4\\ell$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Parabolic Orbits",
+    "explanation": "For a parabola $y = x^2/(4\\ell)$, the vertex (closest approach to the focus) is at the origin, and the focus is at $(0, \\ell)$. The distance is $\\ell$.",
+    "image_path": ""
+  },
+  {
+    "question": "What happens to the angular momentum $L$ of a particle if the central force is suddenly doubled but remains central?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$L$ doubles."
+      },
+      {
+        "label": 2,
+        "value": "$L$ remains constant."
+      },
+      {
+        "label": 3,
+        "value": "$L$ is halved."
+      },
+      {
+        "label": 4,
+        "value": "$L$ becomes zero."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Angular Momentum",
+    "explanation": "Angular momentum is conserved for any central force because the torque $\\vec{\\tau} = \\vec{r} \\times \\vec{F}$ is always zero (since $\\vec{F}$ is parallel to $\\vec{r}$). Doubling the magnitude doesn't change the direction or the torque.",
+    "image_path": ""
+  },
+  {
+    "question": "A particle is subject to a central potential $V(r) = \\beta/r^2$. Which of the following describes the radial motion if $L^2 > -2m\\beta$ and $\\beta < 0$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The particle spirals into the center."
+      },
+      {
+        "label": 2,
+        "value": "The particle follows a path $r(\\theta)$ that behaves like a modified straight line or spiral depending on the energy."
+      },
+      {
+        "label": 3,
+        "value": "The particle is trapped in a circular orbit."
+      },
+      {
+        "label": 4,
+        "value": "Radial motion is impossible."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Inverse Square Potential",
+    "explanation": "For $V(r) = \\beta/r^2$, the effective potential is $V_{\\text{eff}} = (L^2 + 2m\\beta)/(2mr^2)$. If the numerator is positive, $V_{\\text{eff}} \\propto 1/r^2$, which looks like the centrifugal term of a free particle, leading to unbounded motion.",
+    "image_path": ""
+  },
+  {
+    "question": "Using Kepler's Third Law ($T^2 \\propto a^3$), if a planet's orbital semi-major axis is doubled, by what factor does its orbital period increase?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2$"
+      },
+      {
+        "label": 2,
+        "value": "$4$"
+      },
+      {
+        "label": 3,
+        "value": "$2\\sqrt{2} \\approx 2.83$"
+      },
+      {
+        "label": 4,
+        "value": "$8$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Kepler's Laws",
+    "explanation": "$T \\propto a^{3/2}$. If $a \\to 2a$, then $T \\to 2^{3/2}T = 2\\sqrt{2}T$.",
+    "image_path": ""
+  },
+  {
+    "question": "If a particle's orbit is a straight line not passing through the origin, what can be said about its angular momentum $L$ and potential $V(r)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$L = 0$ and $V(r)$ is arbitrary."
+      },
+      {
+        "label": 2,
+        "value": "$L \\neq 0$ and $V(r) = 0$ (or constant)."
+      },
+      {
+        "label": 3,
+        "value": "$L = 0$ and $V(r) = 0$."
+      },
+      {
+        "label": 4,
+        "value": "$L \\neq 0$ and $V(r) = \\alpha/r^2$."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Zero Potential Motion",
+    "explanation": "As per Context 7.19, for a constant potential ($V=0$), the particle follows a straight line. If it doesn't pass through the origin, it has a non-zero impact parameter and thus $L \\neq 0$.",
+    "image_path": ""
+  },
+  {
+    "question": "A mass density $\\rho$ planet has a particle skimming its surface in a parabolic orbit. What is the angular velocity $\\dot{\\theta}$ at the point of closest approach $R$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\dot{\\theta} = \\sqrt{\\frac{8\\pi G \\rho}{3}}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\dot{\\theta} = \\sqrt{\\frac{4\\pi G \\rho}{3}}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\dot{\\theta} = \\frac{4\\pi G \\rho}{3}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\dot{\\theta} = \\sqrt{G\\rho}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Parabolic Orbits",
+    "explanation": "At $R$ for a parabolic orbit, $v = v_{\\text{esc}} = \\sqrt{2GM/R}$. The angular velocity is $\\dot{\\theta} = v/R = \\sqrt{2GM/R^3}$. Substituting $M = \\frac{4}{3}\\pi R^3 \\rho$ gives $\\dot{\\theta} = \\sqrt{2G(\\frac{4}{3}\\pi \\rho)} = \\sqrt{\\frac{8\\pi G \\rho}{3}}$.",
+    "image_path": ""
+  },
+  {
+    "question": "Refer to the diagram for the 'Swinging triangle' (Fig 3.34). At the instant after release, what is the tension in the horizontal rod connecting the two masses $m$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Zero"
+      },
+      {
+        "label": 2,
+        "value": "$mg/2$ (Compression)"
+      },
+      {
+        "label": 3,
+        "value": "$mg\\sqrt{3}/2$ (Tension)"
+      },
+      {
+        "label": 4,
+        "value": "$mg/4$ (Compression)"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Constraint Forces",
+    "explanation": "Immediately after release from rest, the velocities are zero, so there are no centripetal accelerations. The accelerations are purely tangential. By symmetry and the rigid nature of the equilateral triangle, there is no initial tendency for the bottom masses to move relative to each other in the horizontal direction, resulting in zero tension in the horizontal rod.",
+    "image_path": "pariksha/9721bd1215752a3aeb5990ef8f86d7dc.webp"
+  },
+  {
+    "question": "A particle moves in a spiral path $r = r_0 \\theta^2$. If the total energy is $E=0$, the potential $V(r)$ must be proportional to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$r^{-2}$"
+      },
+      {
+        "label": 2,
+        "value": "$r^{-3}$"
+      },
+      {
+        "label": 3,
+        "value": "$r^{-2} - \\text{const} \\cdot r^{-3}$"
+      },
+      {
+        "label": 4,
+        "value": "$r^{-2} + \\text{const} \\cdot r^{-5/2}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Power-law Spirals",
+    "explanation": "Following the method in 7.10: $\\dot{r} = (2r_0 \\theta) \\dot{\\theta} = 2\\sqrt{r r_0} (L/mr^2)$. Then $V(r) = -[\\frac{1}{2}m\\dot{r}^2 + \\frac{L^2}{2mr^2}]$. Calculating $\\dot{r}^2$ gives a term proportional to $r^{-3}$. The centrifugal term is $r^{-2}$. Thus $V(r)$ is a sum of $r^{-2}$ and $r^{-3}$ terms.",
+    "image_path": ""
+  }
+]

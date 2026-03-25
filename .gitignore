@@ -1,3 +1,6 @@
 node_modules
 dist/
 .env.development
+
+cli/venv_pariksha
+cli/knowledge_base

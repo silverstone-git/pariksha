@@ -1,0 +1,32 @@
+[
+  {
+    "question": "The molecular partition function, $q$, represents the average number of states that are thermally accessible to a molecule at a given temperature. For a system where the ground state energy is defined as zero ($\\varepsilon_0 = 0$) and is non-degenerate ($g_0 = 1$), what is the value of $q$ in the limit $T \to 0$?",
+    "options": [
+      "0",
+      "1",
+      "$\\\\infty$",
+      "$g_i$, where $i$ is the number of excited states"
+    ],
+    "answer": "1"
+  },
+  {
+    "question": "The translational partition function ($q_{trans}$) for a particle of mass $m$ in a container of volume $V$ is typically expressed using the thermal wavelength $\\Lambda$. Given that $\\Lambda = \\frac{h}{\\sqrt{2\\pi mkT}}$, which of the following describes the proportionality of $q_{trans}$ with respect to the absolute temperature $T$?",
+    "options": [
+      "$q_{trans} \\propto T^{1/2}$",
+      "$q_{trans} \\propto T$",
+      "$q_{trans} \\propto T^{3/2}$",
+      "$q_{trans} \\propto T^3$"
+    ],
+    "answer": "$q_{trans} \\propto T^{3/2}$"
+  },
+  {
+    "question": "In the high-temperature limit ($T \\gg \theta_R$), the rotational partition function for a diatomic molecule is given by $q_R = \\frac{kT}{\\sigma hcB}$, where $\\sigma$ is the symmetry number. Based on the principles of nuclear statistics (Section 10.7 in the text), what is the value of $\\sigma$ for a homonuclear diatomic molecule like $^{14}N_2$ compared to a heteronuclear molecule like $^{14}N^{15}N$?",
+    "options": [
+      "$\\\\sigma = 1$ for both molecules",
+      "$\\\\sigma = 2$ for both molecules",
+      "$\\\\sigma = 1$ for $^{14}N_2$ and $\\\\sigma = 2$ for $^{14}N^{15}N$",
+      "$\\\\sigma = 2$ for $^{14}N_2$ and $\\\\sigma = 1$ for $^{14}N^{15}N$"
+    ],
+    "answer": "$\\\\sigma = 2$ for $^{14}N_2$ and $\\\\sigma = 1$ for $^{14}N^{15}N$"
+  }
+]

@@ -1,0 +1,502 @@
+[
+  {
+    "question": "For a non-rigid diatomic rotor, the rotational energy levels are given by $E_J = BJ(J+1) - DJ^2(J+1)^2$. If the centrifugal distortion constant $D$ is $10^{-4}$ times the rotational constant $B$, at what value of $J$ does the correction term contribute $1\\%$ to the total energy?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$J \\approx 5$"
+      },
+      {
+        "label": 2,
+        "value": "$J \\approx 10$"
+      },
+      {
+        "label": 3,
+        "value": "$J \\approx 20$"
+      },
+      {
+        "label": 4,
+        "value": "$J \\approx 50$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Rotational Spectroscopy",
+    "explanation": "The correction term is $DJ^2(J+1)^2$. For this to be $1\\%$ of $E_J$, we set $DJ^2(J+1)^2 = 0.01 [BJ(J+1) - DJ^2(J+1)^2]$. Neglecting the $D$ term in the bracket for a first approximation: $DJ(J+1) \\approx 0.01 B$. Given $D/B = 10^{-4}$, we have $10^{-4} J(J+1) \\approx 0.01$, which implies $J(J+1) \\approx 100$. For $J=10$, $10(11)=110$. Thus, $J \\approx 10$ is the closest estimate.",
+    "image_path": null
+  },
+  {
+    "question": "Consider the potential energy diagram of two diatomic molecules P and Q with the same reduced mass. If the potential well of P is deeper and narrower than that of Q, which of the following statements is correct regarding their physical properties?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Molecule Q has a higher dissociation energy than P."
+      },
+      {
+        "label": 2,
+        "value": "The zero-point energy of P is higher than that of Q."
+      },
+      {
+        "label": 3,
+        "value": "The equilibrium bond length of P is always greater than Q."
+      },
+      {
+        "label": 4,
+        "value": "Molecule Q will show a larger vibrational frequency than P."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Vibrational Spectroscopy",
+    "explanation": "A 'narrower' potential well implies a steeper curve near the minimum, which corresponds to a higher force constant ($k = d^2V/dr^2$). Since $\\omega = \\sqrt{k/\\mu}$ and reduced masses are the same, P has a higher vibrational frequency and thus a higher zero-point energy ($E_0 = \\frac{1}{2}h\\nu$). A deeper well means P has a higher dissociation energy.",
+    "image_path": null
+  },
+  {
+    "question": "In the vibrational-rotational spectrum of a diatomic molecule, the separation between the $P(1)$ and $R(0)$ lines is $25\\text{ cm}^{-1}$. What is the approximate value of the rotational constant $B$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$12.5\\text{ cm}^{-1}$"
+      },
+      {
+        "label": 2,
+        "value": "$6.25\\text{ cm}^{-1}$"
+      },
+      {
+        "label": 3,
+        "value": "$8.33\\text{ cm}^{-1}$"
+      },
+      {
+        "label": 4,
+        "value": "$4.16\\text{ cm}^{-1}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Vibrational-Rotational Spectroscopy",
+    "explanation": "In a vibrational-rotational spectrum, the $R(0)$ line appears at $\\nu_0 + 2B$ and the $P(1)$ line appears at $\\nu_0 - 2B$. The separation between them is $4B$. Therefore, $4B = 25\\text{ cm}^{-1} \\implies B = 6.25\\text{ cm}^{-1}$.",
+    "image_path": null
+  },
+  {
+    "question": "The Morse potential for a diatomic molecule is $V(r) = D_e [1 - e^{-a(r-r_e)}]^2$. If the anharmonicity constant is $x_e$, the maximum number of vibrational levels the molecule can hold is approximately:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$1/x_e$"
+      },
+      {
+        "label": 2,
+        "value": "$1/(2x_e)$"
+      },
+      {
+        "label": 3,
+        "value": "$2/x_e$"
+      },
+      {
+        "label": 4,
+        "value": "$1/(2x_e) - 1$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Morse Potential",
+    "explanation": "The vibrational energy levels for a Morse oscillator are $E_v = \\omega_e(v + 1/2) - \\omega_e x_e (v + 1/2)^2$. The maximum $v$ is reached when the spacing $\\Delta E$ becomes zero. $dE/dv = \\omega_e - 2\\omega_e x_e(v + 1/2) = 0 \\implies v + 1/2 = 1/(2x_e)$. Thus, $v_{max} \\approx 1/(2x_e)$.",
+    "image_path": null
+  },
+  {
+    "question": "Which of the following molecules will NOT exhibit a pure rotational (microwave) spectrum but will show a rotational Raman spectrum?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$HCl$"
+      },
+      {
+        "label": 2,
+        "value": "$CH_4$"
+      },
+      {
+        "label": 3,
+        "value": "$N_2$"
+      },
+      {
+        "label": 4,
+        "value": "$H_2O$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Raman Spectroscopy",
+    "explanation": "$N_2$ is a homonuclear diatomic molecule with no permanent dipole moment, making it microwave inactive. However, its polarizability changes as it rotates, making it Raman active. $CH_4$ is a spherical top and lacks a microwave spectrum, but it also lacks a rotational Raman spectrum in the usual sense (though it has vibrational Raman). $HCl$ and $H_2O$ have permanent dipoles.",
+    "image_path": null
+  },
+  {
+    "question": "For a rigid linear polyatomic molecule consisting of $N$ atoms, the number of vibrational degrees of freedom is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$3N-6$"
+      },
+      {
+        "label": 2,
+        "value": "$3N-5$"
+      },
+      {
+        "label": 3,
+        "value": "$3N-3$"
+      },
+      {
+        "label": 4,
+        "value": "$2N-3$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Molecular Vibrations",
+    "explanation": "A molecule has $3N$ total degrees of freedom. For a linear molecule, there are 3 translational and 2 rotational degrees of freedom. The remaining are vibrational: $3N - 3 - 2 = 3N - 5$.",
+    "image_path": null
+  },
+  {
+    "question": "The rotational constant of $H^{35}Cl$ is $B = 10.59\\text{ cm}^{-1}$. If $H$ is replaced by Deuterium ($D$, mass $\\approx 2$ amu), the rotational constant of $D^{35}Cl$ will be approximately:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$21.18\\text{ cm}^{-1}$"
+      },
+      {
+        "label": 2,
+        "value": "$5.30\\text{ cm}^{-1}$"
+      },
+      {
+        "label": 3,
+        "value": "$10.59\\text{ cm}^{-1}$"
+      },
+      {
+        "label": 4,
+        "value": "$7.49\\text{ cm}^{-1}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Isotopic Substitution",
+    "explanation": "$B \\propto 1/\\mu$. For $HCl$, $\\mu \\approx 1 \\times 35 / 36 \\approx 0.97$. For $DCl$, $\\mu \\approx 2 \\times 35 / 37 \\approx 1.89$. The ratio $\\mu_{DCl}/\\mu_{HCl} \\approx 2$. Therefore, $B_{DCl} \\approx B_{HCl}/2 \\approx 5.30\\text{ cm}^{-1}$.",
+    "image_path": null
+  },
+  {
+    "question": "In electronic spectroscopy, the Franck-Condon principle states that:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Electronic transitions occur so slowly that nuclei have time to adjust their positions."
+      },
+      {
+        "label": 2,
+        "value": "Electronic transitions occur so rapidly that nuclear coordinates remain essentially unchanged."
+      },
+      {
+        "label": 3,
+        "value": "The probability of a transition is independent of the overlap of vibrational wavefunctions."
+      },
+      {
+        "label": 4,
+        "value": "Only transitions between states of the same multiplicity are allowed."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Electronic Spectroscopy",
+    "explanation": "Because nuclei are much heavier than electrons, electronic transitions (which happen on the scale of $10^{-15}$ s) occur much faster than nuclear motion ($10^{-13}$ s). Thus, transitions are represented as vertical lines on a potential energy diagram.",
+    "image_path": null
+  },
+  {
+    "question": "The rotational Raman selection rule for a linear molecule is $\\Delta J = 0, \\pm 2$. If the first Stokes line in the rotational Raman spectrum appears at $6B$ from the Rayleigh line, where does the second Stokes line appear?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$8B$"
+      },
+      {
+        "label": 2,
+        "value": "$10B$"
+      },
+      {
+        "label": 3,
+        "value": "$12B$"
+      },
+      {
+        "label": 4,
+        "value": "$14B$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Raman Spectroscopy",
+    "explanation": "The Raman shift for $\\Delta J = +2$ transitions is $\\Delta \\nu = B(4J + 6)$. For $J=0$, $\\Delta \\nu = 6B$. For $J=1$, $\\Delta \\nu = 10B$. For $J=2$, $\\Delta \\nu = 14B$. The separation between consecutive lines is $4B$.",
+    "image_path": null
+  },
+  {
+    "question": "A diatomic molecule has a vibrational frequency of $\\omega_e = 2000\\text{ cm}^{-1}$ and an anharmonicity constant of $x_e = 0.01$. The fundamental vibrational transition frequency ($v=0 \\rightarrow v=1$) is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2000\\text{ cm}^{-1}$"
+      },
+      {
+        "label": 2,
+        "value": "$1980\\text{ cm}^{-1}$"
+      },
+      {
+        "label": 3,
+        "value": "$1960\\text{ cm}^{-1}$"
+      },
+      {
+        "label": 4,
+        "value": "$2020\\text{ cm}^{-1}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Vibrational Spectroscopy",
+    "explanation": "The energy of level $v$ is $G(v) = \\omega_e(v + 1/2) - \\omega_e x_e (v + 1/2)^2$. The transition frequency is $\\Delta G = G(1) - G(0) = [\\omega_e(1.5) - \\omega_e x_e(2.25)] - [\\omega_e(0.5) - \\omega_e x_e(0.25)] = \\omega_e - 2\\omega_e x_e = \\omega_e(1 - 2x_e) = 2000(1 - 0.02) = 1960\\text{ cm}^{-1}$.",
+    "image_path": null
+  },
+  {
+    "question": "For a molecule with a center of symmetry, the Rule of Mutual Exclusion states that:",
+    "options": [
+      {
+        "label": 1,
+        "value": "A vibrational mode can be both IR and Raman active."
+      },
+      {
+        "label": 2,
+        "value": "IR active modes are Raman inactive and vice versa."
+      },
+      {
+        "label": 3,
+        "value": "All IR active modes must be centrosymmetric."
+      },
+      {
+        "label": 4,
+        "value": "The molecule cannot have a permanent dipole moment."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Molecular Symmetry",
+    "explanation": "In molecules with a center of inversion (like $CO_2$ or $N_2$), the parity of the dipole moment operator and the polarizability operator are opposite. Thus, transitions allowed in IR (change in dipole) are forbidden in Raman (change in polarizability), and vice versa.",
+    "image_path": null
+  },
+  {
+    "question": "The population of the $J^{th}$ rotational level is proportional to $(2J+1)e^{-BJ(J+1)hc/kT}$. At a given temperature $T$, which level $J_{max}$ has the highest population?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\sqrt{\\frac{kT}{2hBc}}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\sqrt{\\frac{kT}{2hBc}} - \\frac{1}{2}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{kT}{2hBc}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{kT}{hBc}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Statistical Mechanics of Molecules",
+    "explanation": "Differentiating $P(J) \\propto (2J+1)e^{-BJ(J+1)hc/kT}$ with respect to $J$ and setting to zero: $\\frac{d}{dJ}[(2J+1)e^{-BJ(J+1)hc/kT}] = 0 \\implies 2 - (2J+1)^2 \\frac{hBc}{kT} = 0 \\implies (2J+1)^2 = \\frac{2kT}{hBc} \\implies J = \\sqrt{\\frac{kT}{2hBc}} - \\frac{1}{2}$.",
+    "image_path": null
+  },
+  {
+    "question": "In the electronic spectrum of a diatomic molecule, the convergence limit of the vibrational levels in an excited electronic state represents:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The transition to the ground state."
+      },
+      {
+        "label": 2,
+        "value": "The ionization potential of the molecule."
+      },
+      {
+        "label": 3,
+        "value": "The dissociation of the molecule into atoms."
+      },
+      {
+        "label": 4,
+        "value": "The point of maximum bonding strength."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Electronic Spectroscopy",
+    "explanation": "The convergence limit occurs when the vibrational energy levels become continuous. This corresponds to the point where the atoms are no longer bound together, i.e., the dissociation limit of that electronic state.",
+    "image_path": null
+  },
+  {
+    "question": "What is the bond order of the $O_2^+$ ion based on Molecular Orbital theory?",
+    "options": [
+      {
+        "label": 1,
+        "value": "2"
+      },
+      {
+        "label": 2,
+        "value": "1.5"
+      },
+      {
+        "label": 3,
+        "value": "2.5"
+      },
+      {
+        "label": 4,
+        "value": "3"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Molecular Orbital Theory",
+    "explanation": "Oxygen ($O_2$) has 16 electrons. Config: $\\sigma_{1s}^2 \\sigma_{1s}^{*2} \\sigma_{2s}^2 \\sigma_{2s}^{*2} \\sigma_{2p_z}^2 \\pi_{2p_{x,y}}^4 \\pi_{2p_{x,y}}^{*2}$. Bond order = $(10-6)/2 = 2$. $O_2^+$ has 15 electrons, removing one from an anti-bonding orbital. Bond order = $(10-5)/2 = 2.5$.",
+    "image_path": null
+  },
+  {
+    "question": "The zero-point energy of a harmonic oscillator is $E_0 = \\frac{1}{2}h\\nu$. For a $CO_2$ molecule (linear), how many zero-point energy contributions are there from distinct normal modes?",
+    "options": [
+      {
+        "label": 1,
+        "value": "3"
+      },
+      {
+        "label": 2,
+        "value": "4"
+      },
+      {
+        "label": 3,
+        "value": "2"
+      },
+      {
+        "label": 4,
+        "value": "1"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Molecular Vibrations",
+    "explanation": "$CO_2$ is linear ($N=3$), so it has $3(3)-5 = 4$ normal modes. These are: symmetric stretch, asymmetric stretch, and two degenerate bending modes. Each contributes $\\frac{1}{2}h\\nu_i$ to the total ZPE.",
+    "image_path": null
+  },
+  {
+    "question": "A Fortrat parabola in electronic spectroscopy is used to describe:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The distribution of intensities in vibrational bands."
+      },
+      {
+        "label": 2,
+        "value": "The relationship between the wave number of rotational lines and the quantum number $J$."
+      },
+      {
+        "label": 3,
+        "value": "The potential energy of a non-rigid rotor."
+      },
+      {
+        "label": 4,
+        "value": "The variation of the dipole moment with internuclear distance."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Electronic Spectroscopy",
+    "explanation": "Fortrat diagrams plot $\\nu$ vs $m$ (where $m$ is related to $J$). Because the rotational constants $B'$ and $B''$ differ between electronic states, the $P$ and $R$ branches form a parabolic shape, which can lead to the formation of a 'band head'.",
+    "image_path": null
+  },
+  {
+    "question": "In the case of Ortho-hydrogen and Para-hydrogen, the ratio of their populations at very high temperatures is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "1:3"
+      },
+      {
+        "label": 2,
+        "value": "1:1"
+      },
+      {
+        "label": 3,
+        "value": "3:1"
+      },
+      {
+        "label": 4,
+        "value": "2:1"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Nuclear Spin Effects",
+    "explanation": "Hydrogen nuclei have spin $1/2$. Total nuclear spin $I$ can be 1 (triplet, Ortho) or 0 (singlet, Para). The statistical weights are $2I+1$, giving $3$ for Ortho and $1$ for Para. At high $T$, the ratio of populations follows the ratio of statistical weights, $3:1$.",
+    "image_path": null
+  },
+  {
+    "question": "Which transition represents the 'Hot Band' in vibrational spectroscopy?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$v=0 \\rightarrow v=1$"
+      },
+      {
+        "label": 2,
+        "value": "$v=0 \\rightarrow v=2$"
+      },
+      {
+        "label": 3,
+        "value": "$v=1 \\rightarrow v=2$"
+      },
+      {
+        "label": 4,
+        "value": "$v=1 \\rightarrow v=0$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Vibrational Spectroscopy",
+    "explanation": "Hot bands are transitions originating from excited vibrational states (like $v=1$) rather than the ground state ($v=0$). They become more intense as the temperature increases (hence 'hot').",
+    "image_path": null
+  },
+  {
+    "question": "The rotation-vibration interaction constant $\\alpha_e$ modifies the rotational constant as $B_v = B_e - \\alpha_e(v + 1/2)$. Usually, $\\alpha_e$ is positive because:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The bond length decreases in higher vibrational states."
+      },
+      {
+        "label": 2,
+        "value": "The bond length increases in higher vibrational states due to anharmonicity."
+      },
+      {
+        "label": 3,
+        "value": "The reduced mass changes with vibration."
+      },
+      {
+        "label": 4,
+        "value": "The centrifugal force decreases with $v$."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Vibrational-Rotational Spectroscopy",
+    "explanation": "Due to anharmonicity, the mean internuclear distance $r_{avg}$ increases as the vibrational quantum number $v$ increases. Since $B \\propto 1/r^2$, $B_v$ decreases as $v$ increases, meaning $\\alpha_e$ is generally positive.",
+    "image_path": null
+  },
+  {
+    "question": "In a Raman experiment using an excitation source of $488\\text{ nm}$, a Stokes line is observed at $500\\text{ nm}$. What is the Raman shift in $\\text{cm}^{-1}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$492\\text{ cm}^{-1}$"
+      },
+      {
+        "label": 2,
+        "value": "$1200\\text{ cm}^{-1}$"
+      },
+      {
+        "label": 3,
+        "value": "$2450\\text{ cm}^{-1}$"
+      },
+      {
+        "label": 4,
+        "value": "$815\\text{ cm}^{-1}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Raman Spectroscopy",
+    "explanation": "Raman shift $\\Delta \\bar{\\nu} = 1/\\lambda_{ex} - 1/\\lambda_{stokes} = 1/(488 \\times 10^{-7}\\text{ cm}) - 1/(500 \\times 10^{-7}\\text{ cm}) = (20491.8 - 20000) \\approx 492\\text{ cm}^{-1}$.",
+    "image_path": null
+  }
+]

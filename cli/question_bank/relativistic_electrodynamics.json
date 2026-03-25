@@ -1,0 +1,483 @@
+[
+  {
+    "question": "Given the electromagnetic field tensor $F^{\\mu\\nu}$, which of the following quantities is a Lorentz invariant?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$E^2 + c^2B^2$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\vec{E} \\\\cdot \\\\vec{B}$"
+      },
+      {
+        "label": 3,
+        "value": "$E^2 - B^2$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\epsilon_0 E^2 + \\\\frac{1}{\\\\mu_0} B^2$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Electromagnetic Field Invariants",
+    "explanation": "The two primary Lorentz invariants of the electromagnetic field are $F_{\\mu\\nu}F^{\\mu\\nu} = 2(B^2c^2 - E^2)$ and $G_{\\mu\\nu}F^{\\mu\\nu} = -4c(\\\\vec{E} \\\\cdot \\\\vec{B})$, where $G_{\\mu\\nu}$ is the dual tensor. Thus, the dot product of the electric and magnetic fields is invariant."
+  },
+  {
+    "question": "A point charge $q$ moves with a constant velocity $\\\\vec{v} = v\\\\hat{x}$ in the laboratory frame. In the rest frame of the charge, the electric field is $\\\\vec{E}'$. Which of the following describes the magnetic field $\\\\vec{B}$ measured in the laboratory frame?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\vec{B} = \\\\frac{1}{c^2} (\\\\vec{v} \\\\times \\\\vec{E})$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\vec{B} = \\\\vec{v} \\\\times \\\\vec{E}'$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\vec{B} = \\\\gamma (\\\\vec{v} \\\\times \\\\vec{E}')$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\vec{B} = 0$ because the charge is stationary in its own frame."
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Field Transformations",
+    "explanation": "Using the Lorentz transformation for fields, if $\\\\vec{B}'=0$, then $\\\\vec{B} = \\\\gamma(\\\\vec{B}' + \\\\frac{1}{c^2}\\\\vec{v} \\\\times \\\\vec{E}')$. In terms of the laboratory electric field $\\\\vec{E}$, this simplifies to $\\\\vec{B} = \\\\frac{1}{c^2}(\\\\vec{v} \\\\times \\\\vec{E})$."
+  },
+  {
+    "question": "Based on the relativistic Hamiltonian and Lagrangian expressions shown in the provided context for a free particle, if the potential $V(x) = 0$, what is the relation between the relativistic energy $E$, momentum $p$, and velocity $v$?",
+    "image_path": "pariksha/bf9d3e87b18d725c67af6fbad780217d.webp",
+    "options": [
+      {
+        "label": 1,
+        "value": "$v = \\\\frac{pc^2}{E}$"
+      },
+      {
+        "label": 2,
+        "value": "$v = \\\\frac{E}{p}$"
+      },
+      {
+        "label": 3,
+        "value": "$v = \\\\frac{p}{m}$"
+      },
+      {
+        "label": 4,
+        "value": "$v = \\\\sqrt{\\\\frac{2E}{m}}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Relativistic Particle Dynamics",
+    "explanation": "From the context image (Q.54), $H = E = \\\\sqrt{p^2c^2 + m^2c^4}$. Using Hamilton's equation $v = \\\\frac{\\\\partial H}{\\\\partial p}$, we get $v = \\\\frac{pc^2}{\\\\sqrt{p^2c^2 + m^2c^4}} = \\\\frac{pc^2}{E}$. This matches option (B) in the diagram's text if rearranged."
+  },
+  {
+    "question": "In the 4-vector notation, the continuity equation $\\\\vec{\\\\nabla} \\\\cdot \\\\vec{J} + \\\\frac{\\\\partial \\\\rho}{\\\\partial t} = 0$ is expressed as $\\\\partial_\\\\mu J^\\\\mu = 0$. What are the components of the 4-current density $J^\\\\mu$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$J^\\\\mu = (\\\\rho, \\\\vec{J})$"
+      },
+      {
+        "label": 2,
+        "value": "$J^\\\\mu = (c\\\\rho, \\\\vec{J})$"
+      },
+      {
+        "label": 3,
+        "value": "$J^\\\\mu = (\\\\rho/c, \\\\vec{J})$"
+      },
+      {
+        "label": 4,
+        "value": "$J^\\\\mu = (\\\\vec{J}, ic\\\\rho)$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "4-Current Density",
+    "explanation": "The 4-current density is defined as $J^\\\\mu = (c\\\\rho, J_x, J_y, J_z)$ so that the divergence $\\\\partial_\\\\mu J^\\\\mu = \\\\frac{1}{c}\\\\frac{\\\\partial(c\\\\rho)}{\\\\partial t} + \\\\nabla \\\\cdot \\\\vec{J}$ yields the standard continuity equation."
+  },
+  {
+    "question": "A contravariant second-rank tensor $A^{\\\\mu\\\\nu}$ has components $A^{00} = P$ and $A^{11} = Q$ in frame $S$. If frame $S'$ moves with velocity $v$ along the $x$-axis, what is the transformed component $A'^{01}$ (assuming $c=1$)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$A'^{01} = \\\\gamma^2 v (P + Q)$"
+      },
+      {
+        "label": 2,
+        "value": "$A'^{01} = -\\\\gamma^2 v (P + Q)$"
+      },
+      {
+        "label": 3,
+        "value": "$A'^{01} = \\\\gamma^2 (v^2 P + Q)$"
+      },
+      {
+        "label": 4,
+        "value": "$A'^{01} = 0$ since $A^{01} = 0$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Tensor Transformations",
+    "explanation": "Using the Lorentz transformation $A'^{\\\\mu\\\\nu} = \\\\Lambda^\\\\mu_{\\\\alpha} \\\\Lambda^\\\\nu_{\\\\beta} A^{\\\\alpha\\\\beta}$, for $\\\\mu=0, \\\\nu=1$: $A'^{01} = \\\\Lambda^0_0 \\\\Lambda^1_0 A^{00} + \\\\Lambda^0_1 \\\\Lambda^1_1 A^{11} = (\\\\gamma)(-\\\\gamma v)P + (-\\\\gamma v)(\\\\gamma)Q = -\\\\gamma^2 v(P+Q)$."
+  },
+  {
+    "question": "The 4-potential $A^\\\\mu$ is defined as $(\\\\Phi/c, \\\\vec{A})$. Under a gauge transformation, $A^\\\\mu \\\\rightarrow A^\\\\mu - \\\\partial^\\\\mu \\\\Lambda$. Which quantity remains unchanged?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\partial_\\\\mu A^\\\\mu$"
+      },
+      {
+        "label": 2,
+        "value": "The electromagnetic field tensor $F^{\\\\mu\\\\nu}$"
+      },
+      {
+        "label": 3,
+        "value": "The Lagrangian density $\\\\mathcal{L} = -\\\\frac{1}{4\\\\mu_0} F_{\\\\mu\\\\nu}F^{\\\\mu\\\\nu} - J_\\\\mu A^\\\\mu$"
+      },
+      {
+        "label": 4,
+        "value": "The Hamiltonian density"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Gauge Invariance",
+    "explanation": "Since $F^{\\\\mu\\\\nu} = \\\\partial^\\\\mu A^\\\\nu - \\\\partial^\\\\nu A^\\\\mu$, substituting $A^\\\\mu \\\\rightarrow A^\\\\mu - \\\\partial^\\\\mu \\\\Lambda$ results in $F'^{\\\\mu\\\\nu} = F^{\\\\mu\\\\nu} - (\\\\partial^\\\\mu\\\\partial^\\\\nu\\\\Lambda - \\\\partial^\\\\nu\\\\partial^\\\\mu\\\\Lambda)$. By the equality of mixed partials, the second term is zero, making $F^{\\\\mu\\\\nu}$ gauge-invariant."
+  },
+  {
+    "question": "In a frame $S$, there is a purely uniform electric field $\\\\vec{E} = E_0 \\\\hat{y}$ and no magnetic field. In a frame $S'$ moving at velocity $\\\\vec{v} = v\\\\hat{x}$ relative to $S$, what are the fields?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\vec{E}' = E_0 \\\\hat{y}, \\\\vec{B}' = 0$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\vec{E}' = \\\\gamma E_0 \\\\hat{y}, \\\\vec{B}' = -\\\\frac{\\\\gamma v E_0}{c^2} \\\\hat{z}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\vec{E}' = \\\\gamma E_0 \\\\hat{y}, \\\\vec{B}' = \\\\frac{\\\\gamma v E_0}{c^2} \\\\hat{z}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\vec{E}' = \\\\frac{E_0}{\\\\gamma} \\\\hat{y}, \\\\vec{B}' = -\\\\frac{v E_0}{c^2} \\\\hat{z}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Field Transformations",
+    "explanation": "Transverse field components transform as $E'_y = \\\\gamma(E_y - v B_z)$ and $B'_z = \\\\gamma(B_z - \\\\frac{v}{c^2} E_y)$. With $B_z = 0$, $E'_y = \\\\gamma E_0$ and $B'_z = -\\\\gamma v E_0/c^2$."
+  },
+  {
+    "question": "The Lagrangian for a particle of charge $q$ and mass $m$ in an external electromagnetic field is $L = -mc^2\\\\sqrt{1-v^2/c^2} + q\\\\vec{A}\\\\cdot\\\\vec{v} - q\\\\Phi$. What is the corresponding canonical momentum $\\\\vec{p}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\vec{p} = \\\\gamma m \\\\vec{v}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\vec{p} = \\\\gamma m \\\\vec{v} + q\\\\vec{A}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\vec{p} = \\\\gamma m \\\\vec{v} - q\\\\vec{A}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\vec{p} = m\\\\vec{v} + q\\\\vec{A}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Relativistic Lagrangian Mechanics",
+    "explanation": "The canonical momentum is defined as $\\\\vec{p} = \\\\frac{\\\\partial L}{\\\\partial \\\\vec{v}}$. Differentiating the relativistic term gives $\\\\gamma m \\\\vec{v}$, and the interaction term $q\\\\vec{A}\\\\cdot\\\\vec{v}$ gives $q\\\\vec{A}$. Thus, $\\\\vec{p} = \\\\gamma m \\\\vec{v} + q\\\\vec{A}$."
+  },
+  {
+    "question": "Consider the dual field tensor $\\\\tilde{F}^{\\\\mu\\\\nu} = \\\\frac{1}{2} \\\\epsilon^{\\\\mu\\\\nu\\\\alpha\\\\beta} F_{\\\\alpha\\\\beta}$. If $\\\\vec{E}$ is perpendicular to $\\\\vec{B}$ in frame $S$, which of the following must be true in all inertial frames?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$F_{\\\\mu\\\\nu} \\\\tilde{F}^{\\\\mu\\\\nu} = 0$"
+      },
+      {
+        "label": 2,
+        "value": "$F_{\\\\mu\\\\nu} F^{\\\\mu\\\\nu} = 0$"
+      },
+      {
+        "label": 3,
+        "value": "$E^2 = c^2 B^2$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\vec{E}$ is always parallel to $\\\\vec{B}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Dual Tensor Properties",
+    "explanation": "The invariant $F_{\\\\mu\\\\nu} \\\\tilde{F}^{\\\\mu\\\\nu}$ is proportional to $\\\\vec{E} \\\\cdot \\\\vec{B}$. If the fields are perpendicular in one frame, the product is zero, and it must remain zero in all frames due to Lorentz invariance."
+  },
+  {
+    "question": "A relativistic particle with charge $q$ enters a region of uniform magnetic field $\\\\vec{B}$ perpendicular to its velocity. The radius of its circular path is $R$. What is the magnitude of its momentum $p$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$p = qBR$"
+      },
+      {
+        "label": 2,
+        "value": "$p = \\\\gamma qBR$"
+      },
+      {
+        "label": 3,
+        "value": "$p = \\\\frac{qBR}{\\\\gamma}$"
+      },
+      {
+        "label": 4,
+        "value": "$p = \\\\sqrt{qBRm}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Relativistic Dynamics in Magnetic Fields",
+    "explanation": "The Lorentz force equation is $\\\\frac{d\\\\vec{p}}{dt} = q(\\\\vec{v} \\\\times \\\\vec{B})$. For circular motion, $|\\\\frac{d\\\\vec{p}}{dt}| = \\\\omega p = (v/R)p$. Setting this equal to $qvB$ gives $p/R = qB$, or $p = qBR$. Note that $p$ here is the relativistic momentum $\\\\gamma mv$."
+  },
+  {
+    "question": "Which component of the energy-momentum tensor $T^{\\\\mu\\\\nu}$ of the electromagnetic field represents the energy density?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T^{0i}$"
+      },
+      {
+        "label": 2,
+        "value": "$T^{ij}$"
+      },
+      {
+        "label": 3,
+        "value": "$T^{00}$"
+      },
+      {
+        "label": 4,
+        "value": "$T^{\\\\mu}_{\\\\mu}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Energy-Momentum Tensor",
+    "explanation": "In the standard definition of the electromagnetic energy-momentum tensor, $T^{00}$ corresponds to the energy density $u = \\\\frac{1}{2}(\\\\epsilon_0 E^2 + B^2/\\\\mu_0)$. $T^{0i}$ corresponds to the Poynting vector (momentum density)."
+  },
+  {
+    "question": "If a system of charges has a vanishing total charge ($\\\\int \\\\rho d^3x = 0$) in frame $S$, is it possible for the total charge to be non-zero in frame $S'$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Yes, because charge density is not Lorentz invariant."
+      },
+      {
+        "label": 2,
+        "value": "No, total charge is a Lorentz invariant scalar."
+      },
+      {
+        "label": 3,
+        "value": "Yes, but only if the current density $\\\\vec{J}$ is non-zero."
+      },
+      {
+        "label": 4,
+        "value": "No, because the 4-current is conserved."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Charge Invariance",
+    "explanation": "While charge density $\\\\rho$ transforms as the 0-component of a 4-vector (and thus changes), the integral of $\\\\rho$ over all space (the total charge $Q$) is a Lorentz invariant scalar."
+  },
+  {
+    "question": "The Liénard-Wiechert potentials describe the fields of a moving point charge. These potentials depend on the position of the charge at the 'retarded time' $t_r$. What is the defining equation for $t_r$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$t_r = t - \\\\frac{|\\\\vec{r} - \\\\vec{r}_s(t)|}{c}$"
+      },
+      {
+        "label": 2,
+        "value": "$t_r = t - \\\\frac{|\\\\vec{r} - \\\\vec{r}_s(t_r)|}{c}$"
+      },
+      {
+        "label": 3,
+        "value": "$t_r = t + \\\\frac{|\\\\vec{r} - \\\\vec{r}_s(t_r)|}{c}$"
+      },
+      {
+        "label": 4,
+        "value": "$t_r = \\\\frac{t}{\\\\gamma}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Liénard-Wiechert Potentials",
+    "explanation": "The retarded time is the time at which a signal, traveling at the speed of light, must have left the source position $\\\\vec{r}_s$ to reach the observer at $\\\\vec{r}$ at the current time $t$. Since the source is moving, the distance must be evaluated at the retarded time itself, leading to the implicit equation $c(t - t_r) = |\\\\vec{r} - \\\\vec{r}_s(t_r)|$."
+  },
+  {
+    "question": "The wave equation for the 4-potential in the Lorenz gauge is $\\\\Box^2 A^\\\\mu = \\\\mu_0 J^\\\\mu$. What is the explicit form of the d'Alembertian operator $\\\\Box^2$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\\\nabla^2 + \\\\frac{1}{c^2} \\\\frac{\\\\partial^2}{\\\\partial t^2}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\\\nabla^2 - \\\\frac{1}{c^2} \\\\frac{\\\\partial^2}{\\\\partial t^2}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\\\frac{\\\\partial^2}{\\\\partial x^2} + \\\\frac{\\\\partial^2}{\\\\partial y^2} + \\\\frac{\\\\partial^2}{\\\\partial z^2}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\frac{1}{c} \\\\frac{\\\\partial}{\\\\partial t} - \\\\vec{\\\\nabla}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Relativistic Wave Equations",
+    "explanation": "In Minkowski space with metric signature $(+,-,-,-)$ or $(-,+,+,+)$, the d'Alembertian is $\\\\partial_\\\\mu \\\\partial^\\\\mu$, which results in $\\\\frac{1}{c^2}\\\\frac{\\\\partial^2}{\\\\partial t^2} - \\\\nabla^2$ or $\\\\nabla^2 - \\\\frac{1}{c^2}\\\\frac{\\\\partial^2}{\\\\partial t^2}$ depending on convention. Standard EM texts usually use the latter for the wave equation."
+  },
+  {
+    "question": "A plane electromagnetic wave is characterized by a wave 4-vector $k^\\\\mu = (\\\\omega/c, \\\\vec{k})$. Which property of $k^\\\\mu$ reflects that the wave travels at the speed of light in vacuum?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$k^\\\\mu$ is space-like ($k_\\\\mu k^\\\\mu < 0$)"
+      },
+      {
+        "label": 2,
+        "value": "$k^\\\\mu$ is time-like ($k_\\\\mu k^\\\\mu > 0$)"
+      },
+      {
+        "label": 3,
+        "value": "$k^\\\\mu$ is null or light-like ($k_\\\\mu k^\\\\mu = 0$)"
+      },
+      {
+        "label": 4,
+        "value": "$k^\\\\mu$ is a scalar invariant."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Relativistic Plane Waves",
+    "explanation": "For a wave in vacuum, $\\\\omega = ck$. Thus $k_\\\\mu k^\\\\mu = (\\\\omega/c)^2 - k^2 = k^2 - k^2 = 0$. This means the wave 4-vector is always null."
+  },
+  {
+    "question": "Consider the 4-force $K^\\\\mu = \\\\frac{dp^\\\\mu}{d\\\\tau}$, where $p^\\\\mu$ is the 4-momentum and $\\\\tau$ is proper time. What is the value of the scalar product $K_\\\\mu U^\\\\mu$ (where $U^\\\\mu$ is the 4-velocity)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$mc^2$"
+      },
+      {
+        "label": 2,
+        "value": "$0$"
+      },
+      {
+        "label": 3,
+        "value": "$q(\\\\vec{E} \\\\cdot \\\\vec{v})$"
+      },
+      {
+        "label": 4,
+        "value": "$\\\\frac{dE}{dt}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "4-Force and 4-Velocity",
+    "explanation": "Since $U_\\\\mu U^\\\\mu = c^2$ (a constant), differentiating with respect to proper time $\\\\tau$ gives $\\\\frac{d}{d\\\\tau}(U_\\\\mu U^\\\\mu) = 2 U_\\\\mu \\\\frac{dU^\\\\mu}{d\\\\tau} = 0$. Since $K^\\\\mu = m \\\\frac{dU^\\\\mu}{d\\\\tau}$, it follows that $K_\\\\mu U^\\\\mu = 0$. The 4-force is always orthogonal to the 4-velocity."
+  },
+  {
+    "question": "A region of space contains a uniform magnetic field $\\\\vec{B}$ but no electric field ($\\\\vec{E}=0$). Is it possible to find an inertial frame $S'$ where the magnetic field $\\\\vec{B}'$ vanishes?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Yes, if we move at speed $v=c$."
+      },
+      {
+        "label": 2,
+        "value": "Yes, if $\\\\vec{E} \\\\cdot \\\\vec{B} = 0$."
+      },
+      {
+        "label": 3,
+        "value": "No, because $B^2 - E^2/c^2$ is invariant, and if it's positive in one frame, $B'$ cannot be zero."
+      },
+      {
+        "label": 4,
+        "value": "No, because magnetic fields are fundamental and cannot be transformed away."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Field Invariants",
+    "explanation": "The invariant $c^2B^2 - E^2$ must be the same in all frames. If $E=0$ and $B \\\\neq 0$ in frame $S$, the invariant is positive. In a frame where $B'=0$, the invariant would be $-E'^2$, which is $\\\\le 0$. Thus, $B'$ cannot be zero if $E=0$ and $B \\\\neq 0$."
+  },
+  {
+    "question": "The power radiated by an accelerating relativistic charge is given by the Liénard formula. How does the radiated power $P$ scale with the Lorentz factor $\\\\gamma$ for a particle accelerated in the direction of its motion (linear acceleration)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$P \\\\propto \\\\gamma^2$"
+      },
+      {
+        "label": 2,
+        "value": "$P \\\\propto \\\\gamma^4$"
+      },
+      {
+        "label": 3,
+        "value": "$P \\\\propto \\\\gamma^6$"
+      },
+      {
+        "label": 4,
+        "value": "$P$ is independent of $\\\\gamma$."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Relativistic Radiation",
+    "explanation": "For linear acceleration ($\\\\vec{v} \\\\parallel \\\\vec{a}$), the power is $P = \\\\frac{\\\\mu_0 q^2 a^2 \\\\gamma^6}{6\\\\pi c}$. For circular acceleration (synchrotron radiation), it scales as $\\\\gamma^4$."
+  },
+  {
+    "question": "In the context of the electromagnetic field tensor $F^{\\\\mu\\\\nu}$, if we perform a Lorentz boost along the $x$-axis, which components of the tensor remain unchanged?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$F^{01}$ and $F^{23}$"
+      },
+      {
+        "label": 2,
+        "value": "$F^{02}$ and $F^{03}$"
+      },
+      {
+        "label": 3,
+        "value": "$F^{12}$ and $F^{13}$"
+      },
+      {
+        "label": 4,
+        "value": "Only $F^{00}$ and $F^{11}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Tensor Transformations",
+    "explanation": "A boost along $x$ leaves $E_x$ and $B_x$ unchanged. In the tensor, $E_x \\\\propto F^{01}$ and $B_x \\\\propto F^{23}$ (or $F^{32}$ depending on sign convention). Thus $F^{01}$ and $F^{23}$ are invariant under $x$-axis boosts."
+  },
+  {
+    "question": "The Proca equation $\\\\partial_\\\\mu F^{\\\\mu\\\\nu} + \\\\mu^2 A^\\\\nu = 0$ describes a massive vector field. Which of the following is an immediate consequence of this equation for a source-free region ($J^\\\\nu=0$)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The Lorenz gauge $\\\\partial_\\\\nu A^\\\\nu = 0$ is no longer a choice but a requirement."
+      },
+      {
+        "label": 2,
+        "value": "The field is no longer transverse."
+      },
+      {
+        "label": 3,
+        "value": "The speed of propagation is still $c$."
+      },
+      {
+        "label": 4,
+        "value": "The potential $A^\\\\nu$ must be zero."
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Proca Equation",
+    "explanation": "Taking the 4-divergence of the Proca equation: $\\\\partial_\\\\nu \\\\partial_\\\\mu F^{\\\\mu\\\\nu} + \\\\mu^2 \\\\partial_\\\\nu A^\\\\nu = 0$. Since $F^{\\\\mu\\\\nu}$ is antisymmetric and $\\\\partial_\\\\nu \\\\partial_\\\\mu$ is symmetric, their contraction is zero. This leaves $\\\\mu^2 \\\\partial_\\\\nu A^\\\\nu = 0$. For a non-zero mass $\\\\mu$, we must have $\\\\partial_\\\\nu A^\\\\nu = 0$."
+  }
+]

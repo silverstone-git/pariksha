@@ -1,0 +1,362 @@
+[
+  {
+    "question": "For a single-component system, the Gibbs phase rule is given by $F = C - P + 2$. What is the number of degrees of freedom ($F$) at the triple point of water?",
+    "options": [
+      {
+        "label": 1,
+        "value": "0"
+      },
+      {
+        "label": 2,
+        "value": "1"
+      },
+      {
+        "label": 3,
+        "value": "2"
+      },
+      {
+        "label": 4,
+        "value": "3"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamics - Phase Equilibria",
+    "explanation": "At the triple point, three phases (solid, liquid, and vapor) coexist in equilibrium. Using the Gibbs phase rule $F = C - P + 2$, with $C=1$ (water) and $P=3$, we get $F = 1 - 3 + 2 = 0$. This implies the triple point is an invariant point with fixed temperature and pressure."
+  },
+  {
+    "question": "Which of the following conditions holds true for the Gibbs free energy ($G$) during a first-order phase transition between phase 1 and phase 2 at the transition temperature $T_c$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$G_1 \\neq G_2$ and derivatives are continuous"
+      },
+      {
+        "label": 2,
+        "value": "$G_1 = G_2$ and first derivatives are discontinuous"
+      },
+      {
+        "label": 3,
+        "value": "$G_1 = G_2$ and first derivatives are continuous"
+      },
+      {
+        "label": 4,
+        "value": "$G_1 \\neq G_2$ and second derivatives are discontinuous"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - First Order Phase Transitions",
+    "explanation": "In a first-order phase transition, the Gibbs free energy is continuous across the boundary ($G_1 = G_2$), but its first derivatives with respect to $T$ and $P$ (which correspond to entropy $S$ and volume $V$) are discontinuous. This discontinuity leads to the absorption or release of latent heat."
+  },
+  {
+    "question": "The Clausius-Clapeyron equation describes the slope of the phase boundary in a $P-T$ diagram. For the melting of ice into water, the slope $\\frac{dP}{dT}$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Positive, because melting is endothermic"
+      },
+      {
+        "label": 2,
+        "value": "Positive, because the volume increases upon melting"
+      },
+      {
+        "label": 3,
+        "value": "Negative, because the specific volume of water is less than that of ice"
+      },
+      {
+        "label": 4,
+        "value": "Zero, because it is an equilibrium process"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Thermodynamics - Clausius-Clapeyron Equation",
+    "explanation": "The Clausius-Clapeyron equation is $\\frac{dP}{dT} = \\frac{L}{T \\Delta V}$. For water, the transition from solid to liquid (ice to water) involves a decrease in volume ($\\Delta V = V_{liq} - V_{sol} < 0$). Since the latent heat $L$ is positive, the slope $\\frac{dP}{dT}$ is negative. This is anomalous behavior compared to most substances."
+  },
+  {
+    "question": "According to the Ehrenfest classification, which thermodynamic quantity exhibits a discontinuity in a second-order phase transition?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Entropy ($S$)"
+      },
+      {
+        "label": 2,
+        "value": "Volume ($V$)"
+      },
+      {
+        "label": 3,
+        "value": "Gibbs Free Energy ($G$)"
+      },
+      {
+        "label": 4,
+        "value": "Specific Heat Capacity ($C_p$)"
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Thermodynamics - Second Order Phase Transitions",
+    "explanation": "In a second-order phase transition, the first derivatives of Gibbs free energy (Entropy and Volume) are continuous. However, the second derivatives, such as specific heat capacity ($C_p$), isothermal compressibility ($\\kappa_T$), and coefficient of thermal expansion ($\\alpha$), exhibit discontinuities."
+  },
+  {
+    "question": "For a Van der Waals gas, the critical point is an inflection point on the critical isotherm. Which of the following mathematical conditions defines the critical point?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$(\\frac{\\partial P}{\\partial V})_T = 0$ and $(\\frac{\\partial^2 P}{\\partial V^2})_T < 0$"
+      },
+      {
+        "label": 2,
+        "value": "$(\\frac{\\partial P}{\\partial V})_T = 0$ and $(\\frac{\\partial^2 P}{\\partial V^2})_T = 0$"
+      },
+      {
+        "label": 3,
+        "value": "$(\\frac{\\partial P}{\\partial V})_T > 0$ and $(\\frac{\\partial^2 P}{\\partial V^2})_T = 0$"
+      },
+      {
+        "label": 4,
+        "value": "$(\\frac{\\partial P}{\\partial V})_T < 0$ and $(\\frac{\\partial^2 P}{\\partial V^2})_T > 0$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - Critical Point",
+    "explanation": "At the critical point of a Van der Waals gas, the $P-V$ isotherm has a horizontal inflection point. This requires both the first derivative $(\\frac{\\partial P}{\\partial V})_T$ and the second derivative $(\\frac{\\partial^2 P}{\\partial V^2})_T$ to be zero."
+  },
+  {
+    "question": "The critical compressibility factor $Z_c = \\frac{P_c V_c}{R T_c}$ for a Van der Waals gas is theoretically equal to:",
+    "options": [
+      {
+        "label": 1,
+        "value": "0.250"
+      },
+      {
+        "label": 2,
+        "value": "0.333"
+      },
+      {
+        "label": 3,
+        "value": "0.375"
+      },
+      {
+        "label": 4,
+        "value": "0.500"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Thermodynamics - Van der Waals Gas",
+    "explanation": "For a Van der Waals gas, the critical constants are $V_c = 3b$, $P_c = a/27b^2$, and $T_c = 8a/27Rb$. Substituting these into the compressibility factor equation gives $Z_c = \\frac{(a/27b^2)(3b)}{R(8a/27Rb)} = \\frac{3}{8} = 0.375$."
+  },
+  {
+    "question": "Which of the following is an example of a second-order phase transition?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Melting of ice"
+      },
+      {
+        "label": 2,
+        "value": "Boiling of water"
+      },
+      {
+        "label": 3,
+        "value": "Transition of Iron from ferromagnetic to paramagnetic state"
+      },
+      {
+        "label": 4,
+        "value": "Sublimation of dry ice"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Thermodynamics - Phase Transition Examples",
+    "explanation": "Melting, boiling, and sublimation are first-order transitions involving latent heat. The transition of ferromagnetic materials (like Iron) to paramagnetic materials at the Curie temperature involves no latent heat but a discontinuity in heat capacity, making it a classical example of a second-order phase transition."
+  },
+  {
+    "question": "In a first-order phase transition, the latent heat $L$ can be expressed in terms of the entropy change $\\Delta S$ as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$L = \\Delta S$"
+      },
+      {
+        "label": 2,
+        "value": "$L = T \\Delta S$"
+      },
+      {
+        "label": 3,
+        "value": "$L = \\frac{\\Delta S}{T}$"
+      },
+      {
+        "label": 4,
+        "value": "$L = T^2 \\Delta S$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - Latent Heat",
+    "explanation": "Latent heat is the heat absorbed or released at a constant temperature during a phase change. Since $dQ = T dS$ for a reversible process, the total heat (Latent heat) is $L = \\int T dS = T \\Delta S$ because $T$ is constant during the transition."
+  },
+  {
+    "question": "What is the number of degrees of freedom for a binary mixture (2 components) existing in two phases in equilibrium?",
+    "options": [
+      {
+        "label": 1,
+        "value": "1"
+      },
+      {
+        "label": 2,
+        "value": "2"
+      },
+      {
+        "label": 3,
+        "value": "3"
+      },
+      {
+        "label": 4,
+        "value": "4"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - Gibbs Phase Rule",
+    "explanation": "Using Gibbs phase rule $F = C - P + 2$, with $C=2$ (binary mixture) and $P=2$ (two phases), we calculate $F = 2 - 2 + 2 = 2$. This means two independent variables (e.g., Temperature and Pressure, or Temperature and Composition) define the system's state."
+  },
+  {
+    "question": "Near the critical point, the difference between the densities of the liquid and vapor phases $(\\rho_L - \rho_G)$ varies with temperature as $(T_c - T)^\\beta$. For a Mean Field Theory (like Van der Waals), the value of the critical exponent $\\beta$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "1/2"
+      },
+      {
+        "label": 2,
+        "value": "1/3"
+      },
+      {
+        "label": 3,
+        "value": "1"
+      },
+      {
+        "label": 4,
+        "value": "0"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamics - Critical Exponents",
+    "explanation": "In Mean Field Theory (Landau theory or Van der Waals equation), the order parameter (density difference) scales as $(T_c - T)^{1/2}$ near the critical temperature. Thus, the critical exponent $\\beta$ is $1/2$. (Note: Experimental values are typically closer to 0.32-0.33, but theoretical mean field value is 0.5)."
+  },
+  {
+    "question": "For a substance undergoing a first-order phase transition, what happens to the specific heat capacity $C_p$ at the transition temperature?",
+    "options": [
+      {
+        "label": 1,
+        "value": "It goes to zero"
+      },
+      {
+        "label": 2,
+        "value": "It remains constant"
+      },
+      {
+        "label": 3,
+        "value": "It approaches infinity"
+      },
+      {
+        "label": 4,
+        "value": "It decreases linearly"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Thermodynamics - Heat Capacity at Transition",
+    "explanation": "In a first-order transition, absorbing latent heat occurs at a fixed temperature. The specific heat capacity is defined as $C_p = (\\frac{\\partial H}{\\partial T})_P$ or roughly $\\frac{\\Delta Q}{\\Delta T}$. Since $\\Delta T \\to 0$ while $\\Delta Q$ (Latent Heat) is finite, the heat capacity effectively approaches infinity (is a delta function) at the transition."
+  },
+  {
+    "question": "Which of the following Maxwell relations is most useful for deriving the Clausius-Clapeyron equation?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$(\\frac{\\partial T}{\\partial V})_S = -(\\frac{\\partial P}{\\partial S})_V$"
+      },
+      {
+        "label": 2,
+        "value": "$(\\frac{\\partial T}{\\partial P})_S = (\\frac{\\partial V}{\\partial S})_P$"
+      },
+      {
+        "label": 3,
+        "value": "$(\\frac{\\partial S}{\\partial V})_T = (\\frac{\\partial P}{\\partial T})_V$"
+      },
+      {
+        "label": 4,
+        "value": "$(\\frac{\\partial S}{\\partial P})_T = -(\\frac{\\partial V}{\\partial T})_P$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Thermodynamics - Maxwell Relations",
+    "explanation": "The Maxwell relation $(\\frac{\\partial S}{\\partial V})_T = (\\frac{\\partial P}{\\partial T})_V$ is key. In a phase change, the pressure is independent of volume (it depends only on T), so $(\\frac{\\partial P}{\\partial T})_V$ becomes $\\frac{dP}{dT}$ of the coexistence curve. Integrating $\\Delta S = \\Delta V \\frac{dP}{dT}$ leads to the Clausius-Clapeyron equation."
+  },
+  {
+    "question": "The Lambda transition in liquid Helium ($He$ I to $He$ II) is characterized by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "A latent heat and a discontinuous change in volume"
+      },
+      {
+        "label": 2,
+        "value": "A characteristic '$\\lambda$' shape in the specific heat curve vs temperature"
+      },
+      {
+        "label": 3,
+        "value": "A sudden jump in density"
+      },
+      {
+        "label": 4,
+        "value": "No change in any thermodynamic property"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Thermodynamics - Lambda Transition",
+    "explanation": "The Lambda transition is a classic second-order (or continuous) phase transition. It is named after the shape of the specific heat capacity ($C_p$) curve, which resembles the Greek letter $\\lambda$ (lambda), spiking at the transition temperature ($2.17 K$) without a latent heat."
+  },
+  {
+    "question": "Consider the equation of state $P(V-b) = RT$. What are the critical constants $P_c, V_c, T_c$ for this gas?",
+    "options": [
+      {
+        "label": 1,
+        "value": "This gas has no critical point"
+      },
+      {
+        "label": 2,
+        "value": "$P_c = a/27b^2$, $V_c = 3b$"
+      },
+      {
+        "label": 3,
+        "value": "$P_c = \\infty$, $V_c = b$"
+      },
+      {
+        "label": 4,
+        "value": "$P_c = 0$, $V_c = \\infty$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Thermodynamics - Equations of State",
+    "explanation": "This equation is the Clausius equation of state (Van der Waals without the attractive '$a$' term). Without the attractive intermolecular force term ($a/V^2$), the gas cannot undergo phase separation or exhibit a critical point where $(\\frac{\\partial P}{\\partial V})_T = (\\frac{\\partial^2 P}{\\partial V^2})_T = 0$. Thus, it has no critical point."
+  },
+  {
+    "question": "At the critical point, the isothermal compressibility $\\kappa_T = -\\frac{1}{V}(\\frac{\\partial V}{\\partial P})_T$ becomes:",
+    "options": [
+      {
+        "label": 1,
+        "value": "Zero"
+      },
+      {
+        "label": 2,
+        "value": "Unity"
+      },
+      {
+        "label": 3,
+        "value": "Infinite"
+      },
+      {
+        "label": 4,
+        "value": "Negative"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Thermodynamics - Critical Properties",
+    "explanation": "At the critical point, the slope of the $P-V$ isotherm is zero, i.e., $(\\frac{\\partial P}{\\partial V})_T = 0$. Since isothermal compressibility $\\kappa_T$ is proportional to the inverse of this slope ($\\kappa_T \\propto 1 / (\\frac{\\partial P}{\\partial V})_T$), $\\kappa_T$ diverges to infinity at the critical point."
+  }
+]

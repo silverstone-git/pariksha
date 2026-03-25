@@ -1,0 +1,482 @@
+[
+  {
+    "question": "A particle of mass $m$ and charge $q$ is described by the Lagrangian $L = \\frac{m}{2}v^2 + qB(xv_y - yv_x)$, where $v_x$ and $v_y$ are velocity components. This Lagrangian corresponds to a particle moving in a uniform magnetic field $\\vec{B}$. What is the magnitude of this magnetic field and the resulting cyclotron frequency $\\omega_c$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\vec{B} = B\\hat{z}$, $\\omega_c = \\frac{qB}{m}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\vec{B} = 2B\\hat{z}$, $\\omega_c = \\frac{2qB}{m}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\vec{B} = B\\hat{z}$, $\\omega_c = \\frac{qB}{2m}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\vec{B} = 2B\\hat{z}$, $\\omega_c = \\frac{qB}{m}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Lagrangian Mechanics in Magnetostatics",
+    "explanation": "The interaction term in the Lagrangian is $q\\vec{v}\\cdot\\vec{A}$. Here $qB(xv_y - yv_x) = q(v_y (Bx) + v_x (-By))$. Thus, $\\vec{A} = -By\\hat{x} + Bx\\hat{y}$. The magnetic field is $\\vec{B} = \\nabla \\times \\vec{A} = (\\frac{\\partial A_y}{\\partial x} - \\frac{\\partial A_x}{\\partial y})\\hat{z} = (B - (-B))\\hat{z} = 2B\\hat{z}$. The cyclotron frequency for a field of magnitude $2B$ is $\\omega_c = \\frac{q(2B)}{m}$."
+  },
+  {
+    "question": "A long cylindrical conductor of radius $R$ carries a non-uniform current density $\\vec{J} = J_0 (\\frac{s}{R}) \\hat{z}$, where $s$ is the radial distance from the cylinder axis. Find the magnetic field $\\vec{B}$ inside the cylinder ($s < R$).",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\vec{B} = \\frac{\\mu_0 J_0 s^2}{3R} \\hat{\\phi}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\vec{B} = \\frac{\\mu_0 J_0 s}{2} \\hat{\\phi}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\vec{B} = \\frac{\\mu_0 J_0 s^2}{2R} \\hat{\\phi}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\vec{B} = \\frac{\\mu_0 J_0 R}{3} \\hat{\\phi}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Ampere's Law",
+    "explanation": "Using Ampere's Law in integral form: $\\oint \\vec{B} \\cdot d\\vec{l} = \\mu_0 I_{enc}$. $B(2\\pi s) = \\mu_0 \\int_0^s J_0 (\\frac{s'}{R}) 2\\pi s' ds' = \\mu_0 \\frac{2\\pi J_0}{R} [\\frac{s'^3}{3}]_0^s = \\frac{2\\pi \\mu_0 J_0 s^3}{3R}$. Solving for B gives $B = \\frac{\\mu_0 J_0 s^2}{3R}$."
+  },
+  {
+    "question": "Consider an infinitely long solenoid of radius $R$ with $n$ turns per unit length carrying current $I$. The magnetic vector potential $\\vec{A}$ (in the Coulomb gauge) inside the solenoid ($s < R$) is given by:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\vec{A} = \\frac{\\mu_0 n I s}{2} \\hat{\\phi}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\vec{A} = \\frac{\\mu_0 n I R^2}{2s} \\hat{\\phi}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\vec{A} = \\mu_0 n I s \\hat{\\phi}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\vec{A} = 0$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Magnetic Vector Potential",
+    "explanation": "For a solenoid, $\\vec{B} = \\mu_0 n I \\hat{z}$ inside. Using $\\oint \\vec{A} \\cdot d\\vec{l} = \\int \\vec{B} \\cdot d\\vec{a}$, we get $A(2\\pi s) = B(\\pi s^2) = (\\mu_0 n I) \\pi s^2$. Thus $A = \\frac{\\mu_0 n I s}{2}$ in the $\\hat{\\phi}$ direction."
+  },
+  {
+    "question": "An interface exists at $z=0$ between a linear magnetic material with permeability $\\mu_1$ (for $z<0$) and $\\mu_2$ (for $z>0$). There is no free surface current. If the magnetic field in region 1 is $\\vec{B}_1 = B_x \\hat{x} + B_z \\hat{z}$, what is the angle $\\theta_2$ that the magnetic field $\\vec{B}_2$ makes with the normal to the interface in region 2?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\tan \\theta_2 = \\frac{\\mu_2}{\\mu_1} \\tan \\theta_1$"
+      },
+      {
+        "label": 2,
+        "value": "$\\tan \\theta_2 = \\frac{\\mu_1}{\\mu_2} \\tan \\theta_1$"
+      },
+      {
+        "label": 3,
+        "value": "$\\sin \\theta_2 = \\frac{\\mu_2}{\\mu_1} \\sin \\theta_1$"
+      },
+      {
+        "label": 4,
+        "value": "$\\cos \\theta_2 = \\frac{\\mu_2}{\\mu_1} \\cos \\theta_1$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Magnetic Boundary Conditions",
+    "explanation": "Boundary conditions: $B_{1\\perp} = B_{2\\perp}$ and $H_{1\\parallel} = H_{2\\parallel}$. Thus $B_{1z} = B_{2z}$ and $B_{1x}/\\mu_1 = B_{2x}/\\mu_2$. $\\tan \\theta_2 = B_{2x}/B_{2z} = (\\frac{\\mu_2}{\\mu_1} B_{1x}) / B_{1z} = \\frac{\\mu_2}{\\mu_1} \\tan \\theta_1$."
+  },
+  {
+    "question": "A sphere of radius $R$ carries a uniform surface charge $\\sigma$ and rotates with constant angular velocity $\\omega$ about the $z$-axis. The magnetic dipole moment $\\vec{m}$ of the sphere is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{4\\pi}{3} \\sigma \\omega R^4 \\hat{z}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{1}{3} \\sigma \\omega R^4 \\hat{z}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{2\\pi}{3} \\sigma \\omega R^4 \\hat{z}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\pi \\sigma \\omega R^4 \\hat{z}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Magnetic Dipole Moment",
+    "explanation": "The surface current density is $\\vec{K} = \\sigma \\vec{v} = \\sigma (\\omega R \\sin\\theta) \\hat{\\phi}$. The dipole moment is $\\vec{m} = \\frac{1}{2} \\int (\\vec{r} \\times \\vec{K}) da$. For a spinning shell, $\\vec{m} = \\frac{4\\pi}{3} \\sigma \\omega R^4 \\hat{z}$."
+  },
+  {
+    "question": "Which of the following expressions correctly represents the volume bound current density $\\vec{J}_b$ for a material with magnetization $\\vec{M} = k s^2 \\hat{\\phi}$ in cylindrical coordinates?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$3ks \\hat{z}$"
+      },
+      {
+        "label": 2,
+        "value": "$-3ks \\hat{z}$"
+      },
+      {
+        "label": 3,
+        "value": "$k s \\hat{z}$"
+      },
+      {
+        "label": 4,
+        "value": "$-2ks \\hat{z}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Magnetization and Bound Currents",
+    "explanation": "$\\vec{J}_b = \\nabla \\times \\vec{M}$. In cylindrical coordinates, for $\\vec{M} = M_\\phi \\hat{\\phi}$, the curl is $\\frac{1}{s} \\frac{\\partial}{\\partial s} (s M_\\phi) \\hat{z}$. Here $M_\\phi = ks^2$, so $sM_\\phi = ks^3$. The derivative is $3ks^2$. Dividing by $s$ gives $3ks \\hat{z}$."
+  },
+  {
+    "question": "The magnetic field $\\vec{B}$ at a distance $r$ on the axis of a magnetic dipole $\\vec{m}$ is $\\vec{B}_{axis} = \\frac{\\mu_0}{4\\pi} \\frac{2m}{r^3}$. What is the magnetic field $\\vec{B}_{eq}$ at the same distance $r$ in the equatorial plane?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\vec{B}_{eq} = \\vec{B}_{axis}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\vec{B}_{eq} = -\\frac{1}{2} \\vec{B}_{axis}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\vec{B}_{eq} = 2 \\vec{B}_{axis}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\vec{B}_{eq} = -\\vec{B}_{axis}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Magnetic Dipole",
+    "explanation": "The general formula is $\\vec{B} = \\frac{\\mu_0}{4\\pi r^3} [3(\\vec{m}\\cdot\\hat{r})\\hat{r} - \\vec{m}]$. On the axis, $\\hat{r} \\parallel \\vec{m}$, so $\\vec{B} = \\frac{\\mu_0}{4\\pi r^3} [2\\vec{m}]$. In the equatorial plane, $\\vec{m}\\cdot\\hat{r} = 0$, so $\\vec{B} = -\\frac{\\mu_0}{4\\pi r^3} \\vec{m}$."
+  },
+  {
+    "question": "A small magnetic dipole $\\vec{m} = m\\hat{z}$ is placed at a distance $r$ from an infinitely long wire carrying current $I$ in the $z$-direction. If the dipole is located on the $x$-axis, what is the force experienced by the dipole?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\vec{F} = \\frac{\\mu_0 I m}{2\\pi r^2} \\hat{x}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\vec{F} = -\\frac{\\mu_0 I m}{2\\pi r^2} \\hat{x}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\vec{F} = \\frac{\\mu_0 I m}{2\\pi r^2} \\hat{y}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\vec{F} = 0$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Force on Magnetic Dipoles",
+    "explanation": "Force $\\vec{F} = \\nabla (\\vec{m} \\cdot \\vec{B})$. The field of the wire is $\\vec{B} = \\frac{\\mu_0 I}{2\\pi x} \\hat{y}$ at the position $(x, 0, 0)$. Then $\\vec{m} \\cdot \\vec{B} = (m\\hat{z}) \\cdot (\\frac{\\mu_0 I}{2\\pi x} \\hat{y}) = 0$. However, this is for a point dipole exactly aligned. If we use the gradient of the dot product more generally, since $\\vec{B}$ is only in $\\hat{y}$ and $\\vec{m}$ is in $\\hat{z}$, the force is zero. *Wait*, recalculate: $\\vec{F} = (\\vec{m} \\cdot \\nabla) \\vec{B}$. $\\vec{B} = \\frac{\\mu_0 I}{2\\pi} \\frac{-y\\hat{x} + x\\hat{y}}{x^2+y^2}$. Taking the derivative with respect to $z$ (since $\\vec{m}$ is in $z$) yields zero. Thus the force is zero."
+  },
+  {
+    "question": "What is the magnetic energy stored in a region of volume $V$ where the magnetic field is $\\vec{B}$ and the magnetization is $\\vec{M}$ (assuming linear media)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$W = \\frac{1}{2} \\int (\\vec{H} \\cdot \\vec{B}) dV$"
+      },
+      {
+        "label": 2,
+        "value": "$W = \\frac{1}{2} \\int (\\mu_0 \\vec{M} \\cdot \\vec{B}) dV$"
+      },
+      {
+        "label": 3,
+        "value": "$W = \\int (\\vec{B}^2 / 2\\mu_0) dV$"
+      },
+      {
+        "label": 4,
+        "value": "$W = \\frac{1}{2} \\int (\\vec{M} \\cdot \\vec{H}) dV$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Energy in Magnetic Fields",
+    "explanation": "In the presence of magnetic materials, the energy density is $u_m = \\frac{1}{2} \\vec{H} \\cdot \\vec{B}$."
+  },
+  {
+    "question": "For a current distribution that is localized, the vector potential $\\vec{A}$ at large distances is dominated by the dipole term. If the monopole term existed, what would it imply?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The presence of magnetic charges (monopoles)."
+      },
+      {
+        "label": 2,
+        "value": "A non-zero net current flowing to infinity."
+      },
+      {
+        "label": 3,
+        "value": "A violation of $\\nabla \\cdot \\vec{B} = 0$."
+      },
+      {
+        "label": 4,
+        "value": "All of the above."
+      }
+    ],
+    "answer_label": 4,
+    "topic": "Multipole Expansion",
+    "explanation": "The magnetic monopole term in the multipole expansion of $\\vec{A}$ is $\\frac{\\mu_0}{4\\pi r} \\oint d\\vec{l} = 0$ for any closed loop. A non-zero term would imply the existence of isolated magnetic charges, which contradicts Gauss's law for magnetism ($\\nabla \\cdot \\vec{B} = 0$)."
+  },
+  {
+    "question": "A square loop of side $a$ carries a current $I$. The magnetic field at the center of the loop is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\frac{2\\sqrt{2}\\mu_0 I}{\\pi a}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{\\sqrt{2}\\mu_0 I}{\\pi a}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{4\\mu_0 I}{\\pi a}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{\\mu_0 I}{2a}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Biot-Savart Law",
+    "explanation": "For one side of the square, $B_1 = \\frac{\\mu_0 I}{4\\pi (a/2)} (\\sin 45^\\circ + \\sin 45^\\circ) = \\frac{\\mu_0 I}{2\\pi a} (\\sqrt{2})$. Total field for 4 sides is $4 \\times B_1 = \\frac{2\\sqrt{2}\\mu_0 I}{\\pi a}$."
+  },
+  {
+    "question": "The vector potential is given by $\\vec{A} = k(x\\hat{y} - y\\hat{x})$. Which of the following is the corresponding magnetic field $\\vec{B}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$2k\\hat{z}$"
+      },
+      {
+        "label": 2,
+        "value": "$k\\hat{z}$"
+      },
+      {
+        "label": 3,
+        "value": "$-2k\\hat{z}$"
+      },
+      {
+        "label": 4,
+        "value": "$0$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Vector Potential",
+    "explanation": "$\\vec{B} = \\nabla \\times \\vec{A} = (\\frac{\\partial A_y}{\\partial x} - \\frac{\\partial A_x}{\\partial y})\\hat{z} = (k - (-k))\\hat{z} = 2k\\hat{z}$."
+  },
+  {
+    "question": "Which of the following describes the 'Magnetic Scalar Potential' $V_m$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "It can be defined everywhere in space such that $\\vec{B} = -\\nabla V_m$."
+      },
+      {
+        "label": 2,
+        "value": "It is defined only in regions where the current density $\\vec{J} = 0$."
+      },
+      {
+        "label": 3,
+        "value": "It satisfies $\\nabla^2 V_m = -\\mu_0 \\rho_m$ for magnetic charge density $\\rho_m$."
+      },
+      {
+        "label": 4,
+        "value": "It is a vector field related to $\\vec{H}$."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Magnetic Scalar Potential",
+    "explanation": "Since $\\nabla \\times \\vec{H} = \\vec{J}$, we can only write $\\vec{H} = -\\nabla V_m$ (magnetic scalar potential) in regions where $\\vec{J} = 0$ (so that $\\nabla \\times (-\\nabla V_m) = 0$ is satisfied)."
+  },
+  {
+    "question": "A steady current $I$ flows down a long cylindrical wire of radius $a$. The wire is made of linear magnetic material with susceptibility $\\chi_m$. The bound surface current density $\\vec{K}_b$ on the surface of the wire is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\chi_m \\frac{I}{2\\pi a} \\hat{z}$"
+      },
+      {
+        "label": 2,
+        "value": "$-\\chi_m \\frac{I}{2\\pi a} \\hat{z}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\chi_m \\frac{I}{2\\pi a} \\hat{\\phi}$"
+      },
+      {
+        "label": 4,
+        "value": "$0$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Bound Currents",
+    "explanation": "Inside the wire, $H = \\frac{I s}{2\\pi a^2}$ and $M = \\chi_m H$. At the surface $s=a$, $M = \\frac{\\chi_m I}{2\\pi a} \\hat{\\phi}$. The surface bound current is $\\vec{K}_b = \\vec{M} \\times \\hat{n} = (\\frac{\\chi_m I}{2\\pi a} \\hat{\\phi}) \\times \\hat{s} = -\\frac{\\chi_m I}{2\\pi a} \\hat{z}$. *Wait*, $\\hat{\\phi} \\times \\hat{s} = -\\hat{z}$. So Option 2 is correct if we assume standard orientations."
+  },
+  {
+    "question": "In the context of the Lorentz transformation of the electromagnetic field tensor $F^{\\mu\\nu}$, if a frame $S'$ moves with velocity $v$ in the $x$-direction relative to $S$, and there is a uniform magnetic field $B_y$ in $S$ (with $E=0$), the electric field $E'_z$ in $S'$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\gamma v B_y$"
+      },
+      {
+        "label": 2,
+        "value": "$-\\gamma v B_y$"
+      },
+      {
+        "label": 3,
+        "value": "$v B_y$"
+      },
+      {
+        "label": 4,
+        "value": "$\\gamma B_y$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Relativistic Magnetostatics",
+    "explanation": "The transformation for the electric field component perpendicular to velocity is $E'_z = \\gamma(E_z - v B_y)$. With $E_z = 0$, $E'_z = -\\gamma v B_y$. Note: Sign depends on the convention of the transformation matrix; usually $E'_z = \\gamma(E_z + v B_y)$ if $v$ is in $-x$. For $v$ in $+x$, $E'_y = \\gamma(E_y - v B_z)$ and $E'_z = \\gamma(E_z + v B_y)$."
+  },
+  {
+    "question": "A constant current $I$ flows in a circular loop of radius $R$ in the $xy$-plane. The magnetic field at a point $(0, 0, z)$ on the axis is $B(z)$. At what value of $z$ is the field $B(z)$ exactly half of the field at the center $B(0)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$z = R$"
+      },
+      {
+        "label": 2,
+        "value": "$z = R(\\sqrt[3]{4}-1)^{1/2}$"
+      },
+      {
+        "label": 3,
+        "value": "$z = R\\sqrt{\\sqrt[3]{2}-1}$"
+      },
+      {
+        "label": 4,
+        "value": "$z = R/\\sqrt{2}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Biot-Savart Law",
+    "explanation": "$B(z) = \\frac{\\mu_0 I R^2}{2(R^2+z^2)^{3/2}}$. $B(0) = \\frac{\\mu_0 I}{2R}$. Setting $B(z) = \\frac{1}{2} B(0)$ gives $\\frac{R^2}{(R^2+z^2)^{3/2}} = \\frac{1}{2R}$. Thus $(R^2+z^2)^{3/2} = 2R^3$, so $R^2+z^2 = 2^{2/3} R^2$, meaning $z^2 = R^2(2^{2/3} - 1)$ or $z = R\\sqrt{4^{1/3}-1}$."
+  },
+  {
+    "question": "A magnetic dipole $\\vec{m}_1$ is fixed at the origin pointing in the $z$-direction. A second dipole $\\vec{m}_2$ is placed at $(0, 0, d)$, also pointing in the $z$-direction. The force on $\\vec{m}_2$ is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$-\\frac{3\\mu_0 m_1 m_2}{2\\pi d^4} \\hat{z}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{3\\mu_0 m_1 m_2}{2\\pi d^4} \\hat{z}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{\\mu_0 m_1 m_2}{4\\pi d^3} \\hat{z}$"
+      },
+      {
+        "label": 4,
+        "value": "$0$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Dipole-Dipole Interaction",
+    "explanation": "Potential energy $U = -\\vec{m}_2 \\cdot \\vec{B}_1$. $\\vec{B}_1 = \\frac{\\mu_0}{4\\pi} \\frac{2m_1}{z^3} \\hat{z}$. $U = -m_2 (\\frac{\\mu_0 2m_1}{4\\pi z^3}) = -\\frac{\\mu_0 m_1 m_2}{2\\pi z^3}$. Force $\\vec{F} = -\\nabla U = -\\frac{\\partial}{\\partial z} (-\\frac{\\mu_0 m_1 m_2}{2\\pi z^3}) \\hat{z} = -\\frac{3\\mu_0 m_1 m_2}{2\\pi z^4} \\hat{z}$."
+  },
+  {
+    "question": "Two long parallel wires carry currents $I$ in the same direction and are separated by a distance $d$. The magnetic pressure (force per unit area) on a surface midway between them is:",
+    "options": [
+      {
+        "label": 1,
+        "value": "$0$"
+      },
+      {
+        "label": 2,
+        "value": "$\\frac{\\mu_0 I^2}{\\pi^2 d^2}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{\\mu_0 I^2}{2\\pi^2 d^2}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\frac{2\\mu_0 I^2}{\\pi^2 d^2}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Magnetic Pressure",
+    "explanation": "At the midpoint, the magnetic fields from the two wires are equal in magnitude but opposite in direction. Thus, the total magnetic field $\\vec{B}$ is zero. Since magnetic pressure is $P_m = \\frac{B^2}{2\\mu_0}$, the pressure is zero."
+  },
+  {
+    "question": "What is the self-inductance per unit length of a long solenoid of radius $R$ and $n$ turns per unit length?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\mu_0 n^2 \\pi R^2$"
+      },
+      {
+        "label": 2,
+        "value": "$\\mu_0 n \\pi R^2$"
+      },
+      {
+        "label": 3,
+        "value": "$\\frac{1}{2} \\mu_0 n^2 \\pi R^2$"
+      },
+      {
+        "label": 4,
+        "value": "$2\\mu_0 n^2 \\pi R^2$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Inductance",
+    "explanation": "Flux linkage per unit length $\\Lambda = n \\Phi_B = n (B \\cdot A) = n (\\mu_0 n I \\cdot \\pi R^2) = \\mu_0 n^2 \\pi R^2 I$. Self-inductance $L = \\Lambda / I = \\mu_0 n^2 \\pi R^2$."
+  },
+  {
+    "question": "If $\\vec{A}$ is the magnetic vector potential, what is the value of $\\oint \\vec{A} \\cdot d\\vec{l}$ around a closed loop?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The total current $I$ enclosed by the loop."
+      },
+      {
+        "label": 2,
+        "value": "The magnetic flux $\\Phi_B$ through the loop."
+      },
+      {
+        "label": 3,
+        "value": "Zero, always."
+      },
+      {
+        "label": 4,
+        "value": "The magnetic field $\\vec{B}$ at the center."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Stokes' Theorem in Magnetostatics",
+    "explanation": "By Stokes' theorem, $\\oint \\vec{A} \\cdot d\\vec{l} = \\int (\\nabla \\times \\vec{A}) \\cdot d\\vec{a} = \\int \\vec{B} \\cdot d\\vec{a} = \\Phi_B$."
+  }
+]

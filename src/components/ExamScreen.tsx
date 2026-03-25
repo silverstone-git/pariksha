@@ -8,7 +8,7 @@ import type {
   UserAnswer,
   SWOTAnalysis,
 } from "../types";
-import { shuffleArray } from "../utils";
+import { shuffleArray, resolveImagePath } from "../utils";
 import { Button } from "./Button";
 import { Card } from "../App";
 
@@ -145,17 +145,26 @@ export const ExamScreen: React.FC<{
   const timerInitialized = React.useRef(false);
 
   React.useEffect(() => {
-    const shuffledQuestions = shuffleArray(config.questions).map(
+    let baseQuestions = config.settings?.shuffleQuestions 
+      ? shuffleArray(config.questions) 
+      : [...config.questions];
+    
+    // Sample if questionCount is set
+    if (config.settings?.questionCount && config.settings.questionCount < baseQuestions.length) {
+      baseQuestions = baseQuestions.slice(0, config.settings.questionCount);
+    }
+
+    const shuffledQuestions = baseQuestions.map(
       (q, index) => ({
         ...q,
         id: `q-${index}`,
-        shuffledOptions: shuffleArray(q.options),
+        shuffledOptions: config.settings?.shuffleOptions ? shuffleArray(q.options) : [...q.options],
       }),
     );
     setQuestions(shuffledQuestions);
 
     const initialTopicTimers: Record<string, number> = {};
-    config.questions.forEach((q) => {
+    baseQuestions.forEach((q) => {
       if (!initialTopicTimers[q.topic]) {
         initialTopicTimers[q.topic] = 0;
       }
@@ -179,10 +188,22 @@ export const ExamScreen: React.FC<{
     setIsSubmitModalOpen(false);
 
     let correctAnswers = 0;
+    let totalScore = 0;
+    const posReward = config.settings?.positiveMarking || 1;
+    const negPenalty = config.settings?.negativeMarking || 0;
+
     const processedAnswers: UserAnswer[] = questions.map((q) => {
       const selectedOptionLabel = userAnswers[q.id] ?? null;
       const isCorrect = selectedOptionLabel === q.answer_label;
-      if (isCorrect) correctAnswers++;
+      
+      if (selectedOptionLabel !== null) {
+        if (isCorrect) {
+          correctAnswers++;
+          totalScore += posReward;
+        } else {
+          totalScore -= negPenalty;
+        }
+      }
 
       return {
         questionId: q.id,
@@ -218,7 +239,7 @@ export const ExamScreen: React.FC<{
       id: `res-${Date.now()}`,
       examName: config.name,
       date: Date.now(),
-      score: correctAnswers,
+      score: totalScore, // Use calculated score with negative marking
       totalQuestions: questions.length,
       correctAnswers,
       incorrectAnswers: questions.length - correctAnswers,
@@ -241,6 +262,7 @@ export const ExamScreen: React.FC<{
     questionTimers,
     topicTimers,
     config.name,
+    config.settings,
     setLastResult,
     setScreen,
     updateQuestionTime,
@@ -304,8 +326,8 @@ export const ExamScreen: React.FC<{
 
   if (questions.length === 0) {
     return (
-      <div className="flex justify-center items-center h-full">
-        Loading Exam...
+      <div className="flex justify-center items-center h-full text-teal-500">
+        <RefreshCw className="animate-spin mr-2" /> Initializing Scientific Environment...
       </div>
     );
   }
@@ -316,17 +338,31 @@ export const ExamScreen: React.FC<{
 
   return (
     <div
-      className="flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200"
+      className="flex flex-col bg-slate-50 dark:bg-science-900 text-slate-800 dark:text-slate-200 science-grid"
       style={{ height: "calc(100vh - 68px)" }}
     >
       <main className="flex-grow p-4 md:p-8 overflow-y-auto">
         <div className="max-w-4xl mx-auto">
           <div className="mb-6">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Question {currentQuestionIndex + 1} of {questions.length}
-            </p>
-            <div className="mt-2 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg text-lg leading-relaxed">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-xs font-bold text-teal-500 uppercase tracking-widest bg-teal-500/10 px-3 py-1 rounded-full">
+                {currentQuestion.topic}
+              </span>
+              <p className="text-sm font-medium text-slate-500">
+                QUESTION <span className="text-slate-800 dark:text-white">{currentQuestionIndex + 1}</span> OF {questions.length}
+              </p>
+            </div>
+            <div className="mt-2 p-8 glass rounded-3xl shadow-xl text-xl leading-relaxed border-t-4 border-teal-500">
               <Latex>{currentQuestion.question}</Latex>
+              {currentQuestion.image_path && (
+                <div className="mt-6 flex justify-center p-4 bg-slate-900/50 rounded-2xl border border-white/10">
+                  <img
+                    src={resolveImagePath(currentQuestion.image_path)}
+                    alt="Scientific Visualization"
+                    className="max-w-full h-auto rounded-lg shadow-2xl"
+                  />
+                </div>
+              )}
             </div>
           </div>
 
@@ -335,13 +371,14 @@ export const ExamScreen: React.FC<{
               <button
                 key={option.label}
                 onClick={() => handleOptionSelect(option.label)}
-                className={`p-4 rounded-xl text-left transition-all duration-200 border-2 ${
+                className={`p-6 rounded-2xl text-left transition-all duration-300 border-2 group relative overflow-hidden ${
                   selectedOption === option.label
-                    ? "bg-green-100 dark:bg-green-900 border-green-500 ring-2 ring-green-500"
-                    : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-green-400 dark:hover:border-green-600"
+                    ? "bg-teal-500/10 border-teal-500 ring-4 ring-teal-500/20"
+                    : "glass border-transparent hover:border-teal-500/30"
                 }`}
               >
-                <span className="font-bold mr-4">{optionLetters[index]}.</span>
+                <div className={`absolute left-0 top-0 bottom-0 w-1 transition-all ${selectedOption === option.label ? "bg-teal-500" : "bg-transparent group-hover:bg-teal-500/30"}`}></div>
+                <span className={`font-bold mr-4 text-teal-500 ${selectedOption === option.label ? "scale-110" : "group-hover:scale-110"} transition-transform inline-block`}>{optionLetters[index]}.</span>
                 <Latex>{option.value}</Latex>
               </button>
             ))}
@@ -349,27 +386,42 @@ export const ExamScreen: React.FC<{
         </div>
       </main>
 
-      <footer className="p-4 bg-white dark:bg-gray-800 shadow-inner mt-auto">
-        <div className="max-w-4xl mx-auto flex justify-center items-center gap-4">
+      <footer className="p-6 glass border-t border-white/10 mt-auto">
+        <div className="max-w-4xl mx-auto flex justify-between items-center gap-4">
           <Button
             onClick={goToPrev}
             disabled={currentQuestionIndex === 0}
             variant="secondary"
-            className="w-40"
+            className="flex-1 max-w-[160px]"
           >
-            <ChevronsLeft size={20} /> Previous
+            <ChevronsLeft size={20} /> PREV
           </Button>
-          <Button onClick={handleSubmitClick} variant="danger" className="w-48">
-            Submit Exam
-          </Button>
-          <Button
-            onClick={goToNext}
-            disabled={currentQuestionIndex === questions.length - 1}
-            variant="secondary"
-            className="w-40"
-          >
-            Next <ChevronsRight size={20} />
-          </Button>
+          
+          <div className="flex-1 flex justify-center gap-2">
+            {questions.map((_, i) => (
+              <div 
+                key={i} 
+                className={`h-1.5 rounded-full transition-all ${
+                  i === currentQuestionIndex ? "w-8 bg-teal-500" : 
+                  userAnswers[questions[i].id] !== undefined ? "w-2 bg-teal-500/40" : "w-2 bg-slate-300 dark:bg-slate-700"
+                }`}
+              ></div>
+            ))}
+          </div>
+
+          <div className="flex gap-4 flex-1 justify-end">
+            <Button onClick={handleSubmitClick} variant="danger" className="px-8">
+              SUBMIT
+            </Button>
+            <Button
+              onClick={goToNext}
+              disabled={currentQuestionIndex === questions.length - 1}
+              variant="secondary"
+              className="max-w-[160px]"
+            >
+              NEXT <ChevronsRight size={20} />
+            </Button>
+          </div>
         </div>
       </footer>
       <SubmitConfirmationModal

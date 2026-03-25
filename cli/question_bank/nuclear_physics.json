@@ -1,0 +1,551 @@
+[
+  [
+    {
+      "question": "In a beta decay process, the transition $X_1(0^+) \\rightarrow Y_1(0^+)$ and $X_2(1^+) \\rightarrow Y_2(0^+)$ occur. Based on the selection rules for allowed transitions, which of the following is correct?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$X_1 \\rightarrow Y_1$ is Fermi; $X_2 \\rightarrow Y_2$ is Gamow-Teller"
+        },
+        {
+          "label": 2,
+          "value": "$X_1 \\rightarrow Y_1$ is Gamow-Teller; $X_2 \\rightarrow Y_2$ is Fermi"
+        },
+        {
+          "label": 3,
+          "value": "Both are Fermi transitions"
+        },
+        {
+          "label": 4,
+          "value": "Both are Gamow-Teller transitions"
+        }
+      ],
+      "answer_label": 1,
+      "topic": "Beta Decay Selection Rules",
+      "explanation": "Fermi transitions require $\\Delta J = 0$ and no parity change ($Δ\\pi = 0$). $0^+ \\rightarrow 0^+$ satisfies this. Gamow-Teller transitions allow $\\Delta J = 0, \\pm 1$ (but no $0 \\rightarrow 0$) and $\\Delta\\pi = 0$. $1^+ \\rightarrow 0^+$ has $\\Delta J = 1$, making it a pure Gamow-Teller transition.",
+      "image_path": null
+    },
+    {
+      "question": "A transuranic isotope $^{269}_{108}\\text{Hs}$ decays via alpha emission: $^{269}_{108}\\text{Hs} \\rightarrow ^{265}_{106}\\text{Sg} + \\alpha$. If the kinetic energy of the alpha particle is $E_\\alpha = 9.23$ MeV, what is the total $Q$-value of the reaction?",
+      "options": [
+        {
+          "label": 1,
+          "value": "9.10 MeV"
+        },
+        {
+          "label": 2,
+          "value": "9.23 MeV"
+        },
+        {
+          "label": 3,
+          "value": "9.37 MeV"
+        },
+        {
+          "label": 4,
+          "value": "9.52 MeV"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Alpha Decay Energetics",
+      "explanation": "The relationship between $Q$-value and alpha kinetic energy is $Q = E_\\alpha \\frac{A}{A-4}$, where $A$ is the mass number of the parent. Here $Q = 9.23 \\times (269/265) \\approx 9.37$ MeV.",
+      "image_path": null
+    },
+    {
+      "question": "A radioisotope with decay constant $\\lambda$ is produced at a constant rate $P$ starting at $t = 0$. After a time $t = 2\\ln(2)/\\lambda$, what is the ratio of the current activity to the production rate $P$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "0.25"
+        },
+        {
+          "label": 2,
+          "value": "0.50"
+        },
+        {
+          "label": 3,
+          "value": "0.75"
+        },
+        {
+          "label": 4,
+          "value": "1.00"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Radioactive Growth",
+      "explanation": "The number of atoms is $N(t) = \\frac{P}{\\lambda}(1 - e^{-\\lambda t})$. The activity is $A(t) = \\lambda N(t) = P(1 - e^{-\\lambda t})$. For $t = \\frac{2\\ln 2}{\\lambda}$, $e^{-\\lambda t} = e^{-2\\ln 2} = 1/4$. Thus, $A/P = 1 - 1/4 = 0.75$.",
+      "image_path": null
+    },
+    {
+      "question": "Consider the Semi-Empirical Mass Formula (SEMF). For a fixed odd $A$, the mass $M(Z, A)$ is a parabola in $Z$. The value of $Z$ for the most stable isobar is given by $Z_{stable} = \\frac{A}{2 + (a_c/2a_{sym})A^{2/3}}$. If $a_c = 0.71$ MeV and $a_{sym} = 23$ MeV, find the nearest integer $Z$ for $A = 111$.",
+      "options": [
+        {
+          "label": 1,
+          "value": "46"
+        },
+        {
+          "label": 2,
+          "value": "47"
+        },
+        {
+          "label": 3,
+          "value": "48"
+        },
+        {
+          "label": 4,
+          "value": "49"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Liquid Drop Model",
+      "explanation": "$Z = 111 / (2 + (0.71 / 46) \\times 111^{2/3}) = 111 / (2 + 0.01543 \\times 23.1) = 111 / 2.356 \\approx 47.1$. The closest stable isotopes are Ag ($Z=47$) and Cd ($Z=48$). For $A=111$, $^{111}\\text{Cd}$ is the stable member.",
+      "image_path": null
+    },
+    {
+      "question": "According to the Nuclear Shell Model, what are the ground state spin and parity ($J^P$) of $^{17}_8\\text{O}$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$1/2^+$"
+        },
+        {
+          "label": 2,
+          "value": "$3/2^-$"
+        },
+        {
+          "label": 3,
+          "value": "$5/2^+$"
+        },
+        {
+          "label": 4,
+          "value": "$5/2^-$"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Nuclear Shell Model",
+      "explanation": "Oxygen-17 has 8 protons (magic number, closed shell) and 9 neutrons. The 9th neutron occupies the shell following $1s_{1/2}, 1p_{3/2}, 1p_{1/2}$, which is $1d_{5/2}$. For $d$ orbit, $l=2$, so parity is $(-1)^2 = +1$. $J = 5/2$. Thus $5/2^+$.",
+      "image_path": null
+    },
+    {
+      "question": "The deuteron ($^2$H) has a non-zero electric quadrupole moment ($Q = +0.00286$ b). This experimental fact primarily implies that:",
+      "options": [
+        {
+          "label": 1,
+          "value": "The nuclear force is purely central."
+        },
+        {
+          "label": 2,
+          "value": "The deuteron ground state is a pure $L=0$ (S-state)."
+        },
+        {
+          "label": 3,
+          "value": "The nuclear force has a non-central tensor component."
+        },
+        {
+          "label": 4,
+          "value": "The deuteron is perfectly spherical."
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Deuteron Properties",
+      "explanation": "A non-zero quadrupole moment indicates a non-spherical charge distribution. In the deuteron, this arises because the ground state is a mixture of the $^3S_1$ and $^3D_1$ states, which is only possible if the nuclear force contains a tensor (non-central) component.",
+      "image_path": null
+    },
+    {
+      "question": "In the context of the Fermi theory of beta decay, the 'Kurie Plot' is a graph of $\\sqrt{N(p)/(p^2 F(Z, p))}$ versus electron energy $E$. For an allowed transition with zero neutrino mass, the plot is:",
+      "options": [
+        {
+          "label": 1,
+          "value": "A parabolic curve bowing upwards."
+        },
+        {
+          "label": 2,
+          "value": "A straight line intercepting the energy axis at $Q$."
+        },
+        {
+          "label": 3,
+          "value": "An exponential decay curve."
+        },
+        {
+          "label": 4,
+          "value": "A horizontal line."
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Beta Decay Theory",
+      "explanation": "For allowed transitions, the Kurie plot is a straight line. If the neutrino mass is zero, the line intercepts the x-axis exactly at the maximum kinetic energy (Q-value). A non-zero neutrino mass would cause a slight downward 'tailing' near the endpoint.",
+      "image_path": null
+    },
+    {
+      "question": "Given the masses $M_d = 2000$ MeV/$c^2$ and $M_\\alpha = 4000$ MeV/$c^2$. If both a deuteron and an alpha particle are accelerated through the same potential difference $V$ from rest, what is the ratio of their orbital radii $r_\\alpha / r_d$ in a uniform magnetic field $B$ perpendicular to their velocity?",
+      "options": [
+        {
+          "label": 1,
+          "value": "1"
+        },
+        {
+          "label": 2,
+          "value": "2"
+        },
+        {
+          "label": 3,
+          "value": "1.41"
+        },
+        {
+          "label": 4,
+          "value": "0.5"
+        }
+      ],
+      "answer_label": 1,
+      "topic": "Particle Dynamics in Nuclear Physics",
+      "explanation": "$r = mv/qB = \\sqrt{2mK}/qB$. Since $K = qV$, $r = \\sqrt{2mqV}/qB = \\frac{1}{B}\\sqrt{2mV/q}$. Thus $r \\propto \\sqrt{m/q}$. For deuteron ($q=1, m=2000$), $r_d \\propto \\sqrt{2000/1} = \\sqrt{2000}$. For alpha ($q=2, m=4000$), $r_\\alpha \\propto \\sqrt{4000/2} = \\sqrt{2000}$. Ratio $r_\\alpha/r_d = 1$.",
+      "image_path": null
+    },
+    {
+      "question": "Calculate the threshold laboratory kinetic energy $E_{th}$ for the reaction $p + ^{3}\\text{H} \\rightarrow ^{3}\\text{He} + n$. Given masses: $m_p = 1.0078$ u, $m_H = 3.0160$ u, $m_{He} = 3.0160$ u, $m_n = 1.0087$ u. (Use $1$ u $= 931.5$ MeV).",
+      "options": [
+        {
+          "label": 1,
+          "value": "0.764 MeV"
+        },
+        {
+          "label": 2,
+          "value": "1.019 MeV"
+        },
+        {
+          "label": 3,
+          "value": "0.838 MeV"
+        },
+        {
+          "label": 4,
+          "value": "1.245 MeV"
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Nuclear Reaction Threshold",
+      "explanation": "$Q = (m_p + m_H - m_{He} - m_n)c^2 = (1.0078 + 3.0160 - 3.0160 - 1.0087) \\times 931.5 = -0.0009 \\times 931.5 = -0.838$ MeV. The threshold energy $E_{th} = |Q| (1 + m_{proj}/m_{target}) = 0.838 \\times (1 + 1/3) = 0.838 \\times 1.333 \\approx 1.117$ MeV. Re-calculating with precise values: $Q = -0.764$ MeV $\\implies E_{th} = 0.764(4/3) = 1.019$ MeV.",
+      "image_path": null
+    },
+    {
+      "question": "A gamma-ray transition occurs between an excited state with $J_i^P = 2^+$ and the ground state $J_f^P = 0^+$. Which multipole transitions are allowed by the selection rules?",
+      "options": [
+        {
+          "label": 1,
+          "value": "E1 only"
+        },
+        {
+          "label": 2,
+          "value": "M2 only"
+        },
+        {
+          "label": 3,
+          "value": "E2 only"
+        },
+        {
+          "label": 4,
+          "value": "M1 and E2"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Gamma Decay Multipolarity",
+      "explanation": "$\\Delta J$ must satisfy $|J_i - J_f| \\le L \\le J_i + J_f$, so $L=2$. Parity change is $\\Delta \\pi = (+)(+) = +1$ (no change). For electric multipoles $EL$, $\\Delta \\pi = (-1)^L$. For magnetic multipoles $ML$, $\\Delta \\pi = (-1)^{L+1}$. Here $L=2$: $E2$ has parity $(-1)^2 = +1$ (Allowed). $M2$ has parity $(-1)^{2+1} = -1$ (Forbidden).",
+      "image_path": null
+    },
+    {
+      "question": "In the context of parity violation in weak interactions (Wu's Experiment), the cobalt-60 nuclei are polarized using a magnetic field at very low temperatures. The experiment observed that electrons were emitted preferentially:",
+      "options": [
+        {
+          "label": 1,
+          "value": "In the direction of the nuclear spin vector."
+        },
+        {
+          "label": 2,
+          "value": "In the direction opposite to the nuclear spin vector."
+        },
+        {
+          "label": 3,
+          "value": "Isotropically in all directions."
+        },
+        {
+          "label": 4,
+          "value": "Perpendicular to the magnetic field."
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Parity Violation",
+      "explanation": "The Wu experiment observed that electrons from polarized $^{60}\\text{Co}$ are emitted preferentially in the direction opposite to the applied magnetic field (opposite to the nuclear spin). This asymmetry proved that parity is not conserved in weak interactions.",
+      "image_path": null
+    },
+    {
+      "question": "The range of the nuclear force is approximately $1.4$ fm. Assuming this force is mediated by the exchange of a virtual meson, estimate the mass of this meson in MeV/$c^2$.",
+      "options": [
+        {
+          "label": 1,
+          "value": "0.511 MeV/$c^2$"
+        },
+        {
+          "label": 2,
+          "value": "140 MeV/$c^2$"
+        },
+        {
+          "label": 3,
+          "value": "938 MeV/$c^2$"
+        },
+        {
+          "label": 4,
+          "value": "780 MeV/$c^2$"
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Meson Theory of Nuclear Forces",
+      "explanation": "Using the Yukawa potential range $R \\approx \\hbar / mc$. $m \\approx \\hbar / (Rc) = 197.3 \\text{ MeV}\\,\\text{fm} / (1.4 \\text{ fm} \\cdot c) \\approx 140$ MeV/$c^2$. This corresponds to the mass of the pi-meson (pion).",
+      "image_path": null
+    },
+    {
+      "question": "Which of the following describes the 'Saturation Property' of nuclear forces?",
+      "options": [
+        {
+          "label": 1,
+          "value": "The binding energy per nucleon ($B/A$) increases linearly with $A$."
+        },
+        {
+          "label": 2,
+          "value": "The total binding energy is constant for all nuclei."
+        },
+        {
+          "label": 3,
+          "value": "The binding energy per nucleon ($B/A$) is approximately constant for $A > 20$."
+        },
+        {
+          "label": 4,
+          "value": "The nuclear density increases as $A^{1/3}$."
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Nuclear Properties",
+      "explanation": "Saturation means that a nucleon only interacts with its immediate neighbors. This results in the binding energy per nucleon $B/A$ being roughly constant ($≈ 8$ MeV) for most nuclei and the nuclear volume being proportional to the number of nucleons ($R ∝ A^{1/3}$).",
+      "image_path": null
+    },
+    {
+      "question": "The cross-section for neutron capture $^{35}\\text{Cl}(n, \\gamma)^{36}\\text{Cl}$ is $43.6$ barns. Natural chlorine contains $75.8\\%$ of $^{35}\\text{Cl}$. If a $1$ g sample of $\\text{NiCl}_2$ (MW = $129.6$) is placed in a flux of $10^{14}$ cm$^{-2}$s$^{-1}$, what is the initial production rate of $^{36}\\text{Cl}$ atoms per second?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$3.07 \\times 10^{10} \\text{ s}^{-1}$"
+        },
+        {
+          "label": 2,
+          "value": "$2.33 \\times 10^{11} \\text{ s}^{-1}$"
+        },
+        {
+          "label": 3,
+          "value": "$6.14 \\times 10^{10} \\text{ s}^{-1}$"
+        },
+        {
+          "label": 4,
+          "value": "$1.52 \\times 10^{12} \\text{ s}^{-1}$"
+        }
+      ],
+      "answer_label": 1,
+      "topic": "Nuclear Reaction Rates",
+      "explanation": "Moles of $\\text{NiCl}_2 = 1/129.6$. Moles of Cl atoms $= 2/129.6$. Moles of $^{35}\\text{Cl} = (2/129.6) \\times 0.758$. Number of atoms $N = (2 \\times 0.758 \\times 6.022 \\times 10^{23})/129.6 = 7.04 \\times 10^{21}$. Production rate $P = \\sigma \\Phi N = (43.6 \\times 10^{-24}) \\times 10^{14} \\times 7.04 \\times 10^{21} \\approx 3.07 \\times 10^{10} \\text{ s}^{-1}$.",
+      "image_path": null
+    },
+    {
+      "question": "Internal conversion is a nuclear decay process that competes with gamma emission. In this process:",
+      "options": [
+        {
+          "label": 1,
+          "value": "A proton in the nucleus captures an orbital electron."
+        },
+        {
+          "label": 2,
+          "value": "The nucleus directly transfers its excitation energy to an orbital electron, which is then ejected."
+        },
+        {
+          "label": 3,
+          "value": "A gamma ray is emitted and then immediately absorbed by an orbital electron."
+        },
+        {
+          "label": 4,
+          "value": "A neutron decays into a proton and an electron inside the nucleus."
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Internal Conversion",
+      "explanation": "Internal conversion is a single-step electromagnetic process where the energy of an excited nuclear state is transferred directly to an atomic electron. It is NOT the emission of a photon followed by its absorption.",
+      "image_path": null
+    },
+    {
+      "question": "Isospin ($I$) is a quantum number used to describe symmetry between protons and neutrons. For a system of two nucleons, what are the possible values of total isospin ($I$)?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$0$ only"
+        },
+        {
+          "label": 2,
+          "value": "$1$ only"
+        },
+        {
+          "label": 3,
+          "value": "$0$ and $1$"
+        },
+        {
+          "label": 4,
+          "value": "$1/2$ and $3/2$"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Isospin",
+      "explanation": "Each nucleon has isospin $1/2$. Adding two $1/2$ isospins follows the same rules as angular momentum: $|1/2 - 1/2| \\le I \\le 1/2 + 1/2$, giving $I=0$ (antisymmetric singlet) and $I=1$ (symmetric triplet).",
+      "image_path": null
+    },
+    {
+      "question": "For $^{238}\\text{U}$, the fission barrier is about $6$ MeV. However, thermal neutrons (near zero energy) cannot induce fission in $^{238}\\text{U}$, while they can in $^{235}\\text{U}$. This is because:",
+      "options": [
+        {
+          "label": 1,
+          "value": "The neutron separation energy for $^{239}\\text{U}$ is less than the fission barrier, while for $^{236}\\text{U}$ it is greater."
+        },
+        {
+          "label": 2,
+          "value": "The cross-section for neutron capture in $^{238}\\text{U}$ is zero at thermal energies."
+        },
+        {
+          "label": 3,
+          "value": " $^{235}\\text{U}$ has a much smaller radius than $^{238}\\text{U}$."
+        },
+        {
+          "label": 4,
+          "value": "Only odd-Z nuclei undergo thermal fission."
+        }
+      ],
+      "answer_label": 1,
+      "topic": "Nuclear Fission",
+      "explanation": "When $^{235}\\text{U}$ captures a neutron, it becomes $^{236}\\text{U}$ in an excited state. The pairing energy released by the even-neutron formation in $^{236}\\text{U}$ provides enough energy ($6.5$ MeV) to exceed the fission barrier. In $^{238}\\text{U} + n \\rightarrow ^{239}\\text{U}$, the last neutron is odd, the pairing energy is not gained, and the excitation energy ($4.8$ MeV) is below the barrier.",
+      "image_path": null
+    },
+    {
+      "question": "The magic numbers (2, 8, 20, 28, 50, 82, 126) in the nuclear shell model are successfully explained by adding which term to the 3D harmonic oscillator or Woods-Saxon potential?",
+      "options": [
+        {
+          "label": 1,
+          "value": "The Centrifugal term $\\mathbf{L}^2$"
+        },
+        {
+          "label": 2,
+          "value": "The Coulomb potential term"
+        },
+        {
+          "label": 3,
+          "value": "The Spin-Orbit coupling term $f(r)\\mathbf{L} \\cdot \\mathbf{S}$"
+        },
+        {
+          "label": 4,
+          "value": "The Tensor force term"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Nuclear Shell Model",
+      "explanation": "Mayer and Jensen showed that a strong attractive spin-orbit interaction splits the energy levels of states with $j = l + 1/2$ and $j = l - 1/2$, allowing the higher-$j$ states to drop significantly in energy and create gaps at the observed magic numbers.",
+      "image_path": null
+    },
+    {
+      "question": "A certain nucleus has a ground state spin-parity of $0^+$. Its first three excited states are $2^+$, $4^+$, and $6^+$. The ratio of the energy of the $4^+$ state to the $2^+$ state is approximately $3.33$. This nucleus is most likely:",
+      "options": [
+        {
+          "label": 1,
+          "value": "Spherical and near a magic number."
+        },
+        {
+          "label": 2,
+          "value": "A prolate/oblate deformed nucleus (Rotational)."
+        },
+        {
+          "label": 3,
+          "value": "A vibrational nucleus."
+        },
+        {
+          "label": 4,
+          "value": "A mirror nucleus."
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Nuclear Collective Model",
+      "explanation": "For a rigid rotator, $E_J \\propto J(J+1)$. The ratio $E(4^+)/E(2^+) = [4(5)] / [2(3)] = 20/6 = 3.33$. For a harmonic vibrator, $E_J \\propto N$, and $E(4^+)/E(2^+) = 2$. The value $3.33$ is a hallmark of a rotational band in deformed nuclei.",
+      "image_path": null
+    },
+    {
+      "question": "Gamow's theory of alpha decay explains the Geiger-Nuttall law by treating the process as:",
+      "options": [
+        {
+          "label": 1,
+          "value": "The thermal evaporation of nucleons from the nuclear surface."
+        },
+        {
+          "label": 2,
+          "value": "The quantum mechanical tunneling of an alpha particle through a Coulomb barrier."
+        },
+        {
+          "label": 3,
+          "value": "A transition induced by the weak nuclear force."
+        },
+        {
+          "label": 4,
+          "value": "A direct knockout reaction by an incident particle."
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Alpha Decay Theory",
+      "explanation": "Gamow showed that although the alpha particle lacks the classical energy to clear the Coulomb barrier of the daughter nucleus, it has a finite quantum mechanical probability of tunneling through it. This probability depends exponentially on the particle energy, explaining the wide range of half-lives.",
+      "image_path": null
+    }
+  ],
+  [
+    {
+      "label": 1,
+      "value": "E1 only"
+    },
+    {
+      "label": 2,
+      "value": "M2 only"
+    },
+    {
+      "label": 3,
+      "value": "E2 only"
+    },
+    {
+      "label": 4,
+      "value": "M1 and E2"
+    }
+  ],
+  {
+    "L=2$": "E2$ has parity $(-1)^2 = +1$ (Allowed). $M2$ has parity $(-1)^{2+1} = -1$ (Forbidden).",
+    "image_path": null
+  },
+  {
+    "question": "Gamow's theory of alpha decay explains the Geiger-Nuttall law by treating the process as:",
+    "options": [
+      {
+        "label": 1,
+        "value": "The thermal evaporation of nucleons from the nuclear surface."
+      },
+      {
+        "label": 2,
+        "value": "The quantum mechanical tunneling of an alpha particle through a Coulomb barrier."
+      },
+      {
+        "label": 3,
+        "value": "A transition induced by the weak nuclear force."
+      },
+      {
+        "label": 4,
+        "value": "A direct knockout reaction by an incident particle."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Alpha Decay Theory",
+    "explanation": "Gamow showed that although the alpha particle lacks the classical energy to clear the Coulomb barrier of the daughter nucleus, it has a finite quantum mechanical probability of tunneling through it. This probability depends exponentially on the particle energy, explaining the wide range of half-lives.",
+    "image_path": null
+  }
+]

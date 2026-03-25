@@ -1,0 +1,122 @@
+[
+    {
+      "question": "A square matrix $A$ is said to be unitarily similar to a matrix $B$ if there exists a unitary matrix $U$ such that $B = U^{\\dagger}AU$. Which of the following statements is a necessary and sufficient condition for a complex matrix $A$ to be unitarily diagonalizable?",
+      "options": [
+        {
+          "label": 1,
+          "value": "Matrix $A$ must be Hermitian ($A = A^{\\dagger}$)"
+        },
+        {
+          "label": 2,
+          "value": "Matrix $A$ must be Normal ($AA^{\\dagger} = A^{\\dagger}A$)"
+        },
+        {
+          "label": 3,
+          "value": "Matrix $A$ must have $n$ distinct eigenvalues"
+        },
+        {
+          "label": 4,
+          "value": "Matrix $A$ must be nonsingular ($\\det(A) \\neq 0$)"
+        }
+      ],
+      "answer_label": 2,
+      "topic": "Matrices - Unitary Transformations",
+      "explanation": "According to the Spectral Theorem for normal matrices, a complex matrix $A$ is unitarily diagonalizable if and only if it is normal. While Hermitian and unitary matrices are types of normal matrices (and thus unitarily diagonalizable), the class of normal matrices encompasses all matrices that satisfy this property."
+    },
+    {
+      "question": "Two $n \\times n$ matrices $A$ and $B$ are similar if there exists an invertible matrix $P$ such that $B = P^{-1}AP$. Which of the following properties is NOT necessarily shared by similar matrices?",
+      "options": [
+        {
+          "label": 1,
+          "value": "The determinant of the matrices"
+        },
+        {
+          "label": 2,
+          "value": "The trace of the matrices"
+        },
+        {
+          "label": 3,
+          "value": "The eigenvectors of the matrices"
+        },
+        {
+          "label": 4,
+          "value": "The characteristic polynomial"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Matrices - Similarity Transformations",
+      "explanation": "Similar matrices share the same characteristic polynomial, eigenvalues, determinant, and trace. However, their eigenvectors are generally different. If $v$ is an eigenvector of $A$, then $P^{-1}v$ is the corresponding eigenvector of $B$."
+    },
+    {
+      "question": "Consider the matrix $A = \\begin{pmatrix} 1 & k \\\\ 0 & 1 \\end{pmatrix}$. For which value of $k$ is the matrix $A$ diagonalizable over the complex numbers?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$k = 1$"
+        },
+        {
+          "label": 2,
+          "value": "$k = i$"
+        },
+        {
+          "label": 3,
+          "value": "$k = 0$"
+        },
+        {
+          "label": 4,
+          "value": "Any non-zero complex number $k$"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Matrices - Matrix Diagonalization",
+      "explanation": "The matrix $A$ is a Jordan block. Its only eigenvalue is $\\lambda = 1$ with an algebraic multiplicity of 2. For it to be diagonalizable, the geometric multiplicity must also be 2. If $k \\neq 0$, the rank of $(A - I)$ is 1, so the nullity (geometric multiplicity) is $2 - 1 = 1$. If $k = 0$, $A$ is the identity matrix, which is already diagonal."
+    },
+    {
+      "question": "If a matrix $A$ is diagonalizable such that $A = PDP^{-1}$ where $D = \\text{diag}(\\lambda_1, \\lambda_2, ..., \\lambda_n)$, which of the following is the correct expression for $e^A$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "$e^A = P \\text{diag}(e^{\\lambda_1}, e^{\\lambda_2}, ..., e^{\\lambda_n}) P^{-1}$"
+        },
+        {
+          "label": 2,
+          "value": "$e^A = e^P D e^{P^{-1}}$"
+        },
+        {
+          "label": 3,
+          "value": "$e^A = \\text{diag}(e^{\\lambda_1}, e^{\\lambda_2}, ..., e^{\\lambda_n})$"
+        },
+        {
+          "label": 4,
+          "value": "$e^A = P^{-1} \\text{diag}(e^{\\lambda_1}, e^{\\lambda_2}, ..., e^{\\lambda_n}) P$"
+        }
+      ],
+      "answer_label": 1,
+      "topic": "Matrices - Matrix Diagonalization",
+      "explanation": "Using the power series definition $e^A = \\sum_{k=0}^{\\infty} \\frac{A^k}{k!}$, and the fact that $A^k = PD^kP^{-1}$, we get $e^A = P (\\sum \\frac{D^k}{k!}) P^{-1} = Pe^DP^{-1}$. For a diagonal matrix $D$, $e^D$ is simply the diagonal matrix of the exponentials of its entries."
+    },
+    {
+      "question": "Suppose $A$ and $B$ are $n \\times n$ diagonalizable matrices. Under what condition can $A$ and $B$ be simultaneously diagonalized by the same invertible matrix $P$?",
+      "options": [
+        {
+          "label": 1,
+          "value": "Both $A$ and $B$ must be symmetric"
+        },
+        {
+          "label": 2,
+          "value": "Both $A$ and $B$ must have distinct eigenvalues"
+        },
+        {
+          "label": 3,
+          "value": "The product $AB$ must be equal to $BA$ ($A$ and $B$ commute)"
+        },
+        {
+          "label": 4,
+          "value": "The sum $A+B$ must be diagonalizable"
+        }
+      ],
+      "answer_label": 3,
+      "topic": "Matrices - Simultaneous Diagonalization",
+      "explanation": "A set of diagonalizable matrices can be simultaneously diagonalized if and only if they commute. Commutation is the necessary and sufficient condition to ensure that the matrices share a common basis of eigenvectors."
+    }
+  ]

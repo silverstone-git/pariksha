@@ -1,0 +1,492 @@
+[
+  {
+    "question": "A particle of mass $m$ is constrained to move on the inner surface of a frictionless paraboloid of revolution given by $z = c(x^2 + y^2)$. Which of the following best describes the nature of this constraint?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Scleronomic and holonomic"
+      },
+      {
+        "label": 2,
+        "value": "Rheonomic and holonomic"
+      },
+      {
+        "label": 3,
+        "value": "Scleronomic and non-holonomic"
+      },
+      {
+        "label": 4,
+        "value": "Rheonomic and non-holonomic"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Classification of Constraints",
+    "explanation": "Since the constraint equation $f(x, y, z) = z - c(x^2 + y^2) = 0$ does not depend explicitly on time, it is scleronomic. Since it is an equality constraint, it is holonomic."
+  },
+  {
+    "question": "Consider the Atwood's machine shown in Fig. 6.31. If $m_2 > m_1$, what is the magnitude of the tension $T$ in the string, assuming the pulley and string are massless?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T = (m_2 - m_1)g$"
+      },
+      {
+        "label": 2,
+        "value": "$T = \\frac{m_1 m_2}{m_1 + m_2}g$"
+      },
+      {
+        "label": 3,
+        "value": "$T = \\frac{2 m_1 m_2}{m_1 + m_2}g$"
+      },
+      {
+        "label": 4,
+        "value": "$T = (m_1 + m_2)g$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Forces of Constraint",
+    "explanation": "For $m_1$: $T - m_1g = m_1a$. For $m_2$: $m_2g - T = m_2a$. Solving for $a$ gives $a = g(m_2-m_1)/(m_1+m_2)$. Substituting $a$ back into the tension equation yields $T = 2m_1m_2g/(m_1+m_2)$.",
+    "image_path": "pariksha/70c2491cfa3559a0955d4e9020fdd3a2.webp"
+  },
+  {
+    "question": "In the complex Atwood's machine shown in Fig. 6.32, let $z_1$ be the downward displacement of the $4m$ mass, and $x, y$ be the downward displacements of the $5m$ and $3m$ masses relative to their initial positions. What is the holonomic constraint linking these coordinates?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$x + y + z_1 = 0$"
+      },
+      {
+        "label": 2,
+        "value": "$x + y + 2z_1 = 0$"
+      },
+      {
+        "label": 3,
+        "value": "$x + y - z_1 = 0$"
+      },
+      {
+        "label": 4,
+        "value": "$2x + 2y + z_1 = 0$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Holonomic Constraints",
+    "explanation": "If the $4m$ mass moves down by $z_1$, the movable pulley moves up by $z_1$. For the string wrapped around the movable pulley, the sum of the lengths of the two segments must remain constant. Thus, $(x_{5m} - z_{pulley}) + (y_{3m} - z_{pulley}) = C$. In terms of displacements: $x + y - 2(-z_1) = 0 \\implies x + y + 2z_1 = 0$.",
+    "image_path": "pariksha/8b7b126c4a901a7704634007eab69fa9.webp"
+  },
+  {
+    "question": "For the inverted pendulum in Fig. 6.12, the support oscillates vertically as $y(t) = A \\cos(\\omega t)$. In the high-frequency limit ($\\omega \\gg \\sqrt{g/\\ell}$), what is the effective potential $V_{eff}(\\theta)$ that governs the motion of the angle $\\theta$ (measured from the upward vertical)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$V_{eff}(\\theta) = mg\\ell \\cos\\theta + \\frac{mA^2\\omega^2}{4} \\sin^2\\theta$"
+      },
+      {
+        "label": 2,
+        "value": "$V_{eff}(\\theta) = -mg\\ell \\cos\\theta + \\frac{mA^2\\omega^2}{4} \\sin^2\\theta$"
+      },
+      {
+        "label": 3,
+        "value": "$V_{eff}(\\theta) = -mg\\ell \\cos\\theta - \\frac{mA^2\\omega^2}{4} \\sin^2\\theta$"
+      },
+      {
+        "label": 4,
+        "value": "$V_{eff}(\\theta) = mg\\ell \\cos\\theta - \\frac{mA^2\\omega^2}{4} \\sin^2\\theta$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Time-Dependent Constraints",
+    "explanation": "The effective potential for a rapidly oscillating constraint includes the time-averaged kinetic energy of the micromotion. For the inverted pendulum, $V_{eff} = V_{gravity} + V_{osc} = -mg\\ell \\cos\\theta + \\frac{m}{2} \\langle \\dot{y}_{osc}^2 \\rangle \\sin^2\\theta$. With $\\dot{y} = -A\\omega \\sin(\\omega t)$, the average $\\langle \\dot{y}^2 \\rangle = A^2\\omega^2/2$, leading to the term $\\frac{mA^2\\omega^2}{4} \\sin^2\\theta$.",
+    "image_path": "pariksha/33c0bfbec8a1a79f122ac10349637616.webp"
+  },
+  {
+    "question": "A wheel of mass $M$ and radius $R$ has all its mass concentrated at its center. It rolls without slipping on a horizontal surface, and a spring with constant $k$ is attached to its top point (Fig. 6.33). If the center of the wheel moves by $x$, what is the extension of the spring?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$x$"
+      },
+      {
+        "label": 2,
+        "value": "$x/2$"
+      },
+      {
+        "label": 3,
+        "value": "$2x$"
+      },
+      {
+        "label": 4,
+        "value": "$R\\theta$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Rolling Constraints",
+    "explanation": "For a rolling wheel, the velocity of the top point is twice the velocity of the center ($v_{top} = 2v_{cm}$). Integrating this relative to the starting position, the displacement of the top point is $2x$. Therefore, the spring stretches by $2x$.",
+    "image_path": "pariksha/b725b71c569b230f11df620f384f0ced.webp"
+  },
+  {
+    "question": "Regarding the wheel in Fig. 6.33 (all mass $M$ at the center, rolling without slipping, spring at the top), what is the natural frequency $\\omega_0$ of small oscillations?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\omega_0 = \\sqrt{k/M}$"
+      },
+      {
+        "label": 2,
+        "value": "$\\omega_0 = 2\\sqrt{k/M}$"
+      },
+      {
+        "label": 3,
+        "value": "$\\omega_0 = \\sqrt{2k/M}$"
+      },
+      {
+        "label": 4,
+        "value": "$\\omega_0 = \\sqrt{4k/3M}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Small Oscillations under Constraints",
+    "explanation": "Kinetic Energy $T = \\frac{1}{2}M\\dot{x}^2$ (since mass is at center, rotational $I=0$). Potential Energy $V = \\frac{1}{2}k(2x)^2 = 2kx^2$. The Lagrangian $L = \\frac{1}{2}M\\dot{x}^2 - 2kx^2$. The equation of motion is $M\\ddot{x} + 4kx = 0$, giving $\\omega_0 = \\sqrt{4k/M} = 2\\sqrt{k/M}$.",
+    "image_path": "pariksha/b725b71c569b230f11df620f384f0ced.webp"
+  },
+  {
+    "question": "A bead of mass $m$ slides along a curve $y = f(x)$ in a horizontal plane with constant speed $v$. Ignoring gravity, what is the magnitude of the constraint force $F_c$ exerted by the curve on the bead at any point?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$F_c = mv^2 \\frac{|f''(x)|}{(1 + (f'(x))^2)^{3/2}}$"
+      },
+      {
+        "label": 2,
+        "value": "$F_c = mv^2 |f''(x)|$"
+      },
+      {
+        "label": 3,
+        "value": "$F_c = \\frac{mv^2}{f(x)}$"
+      },
+      {
+        "label": 4,
+        "value": "$F_c = mv^2 \\frac{(1 + (f'(x))^2)^{3/2}}{|f''(x)|}$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Constraint Forces",
+    "explanation": "The constraint force is the centripetal force $F_c = mv^2/\\rho$, where $\\rho$ is the radius of curvature. The formula for the radius of curvature of a function $y=f(x)$ is $\\rho = \\frac{(1 + (f')^2)^{3/2}}{|f''|}$. Substituting this gives $F_c = mv^2 |f''| / (1 + (f')^2)^{3/2}$.",
+    "image_path": ""
+  },
+  {
+    "question": "When using the method of Lagrange multipliers $\\lambda$ to solve a problem with a constraint equation $f(q_i, t) = 0$, what is the physical interpretation of the generalized force of constraint $Q_j^{cons}$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$Q_j^{cons} = \\lambda \\frac{\\partial f}{\\partial \\dot{q}_j}$"
+      },
+      {
+        "label": 2,
+        "value": "$Q_j^{cons} = \\frac{d}{dt}(\\lambda \\frac{\\partial f}{\\partial q_j})$"
+      },
+      {
+        "label": 3,
+        "value": "$Q_j^{cons} = \\lambda \\frac{\\partial f}{\\partial q_j}$"
+      },
+      {
+        "label": 4,
+        "value": "$Q_j^{cons} = -\\frac{\\partial f}{\\partial q_j}$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Lagrange Multipliers",
+    "explanation": "The generalized force of constraint associated with the coordinate $q_j$ is given by $Q_j^{cons} = \\lambda \\frac{\\partial f}{\\partial q_j}$, where $\\lambda$ is the Lagrange multiplier and $f$ is the constraint function."
+  },
+  {
+    "question": "Consider a bead on a hoop of radius $R$ that rotates in a horizontal plane with constant angular velocity $\\omega$ about a point on its rim. Is the Hamiltonian $H$ of the system equal to the total energy $E = T + V$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Yes, because the constraint is holonomic."
+      },
+      {
+        "label": 2,
+        "value": "Yes, because there are no non-conservative forces."
+      },
+      {
+        "label": 3,
+        "value": "No, because the kinetic energy is not a homogeneous quadratic function of generalized velocities."
+      },
+      {
+        "label": 4,
+        "value": "No, because the potential energy depends on time."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Hamiltonian and Energy",
+    "explanation": "For systems with time-dependent (rheonomic) constraints, the transformation between Cartesian and generalized coordinates usually includes an explicit time dependence ($x = x(q, t)$). This results in a kinetic energy term that contains linear and constant terms in $\\dot{q}$, meaning $T$ is not a homogeneous quadratic form, so $H \\neq E$."
+  },
+  {
+    "question": "A system consists of $N$ particles and is subject to $k$ holonomic constraints. What is the number of degrees of freedom?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$N - k$"
+      },
+      {
+        "label": 2,
+        "value": "$3N - k$"
+      },
+      {
+        "label": 3,
+        "value": "$3N - 2k$"
+      },
+      {
+        "label": 4,
+        "value": "$k$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Degrees of Freedom",
+    "explanation": "In 3D space, $N$ particles have $3N$ coordinates. Each holonomic constraint reduces the number of independent coordinates (degrees of freedom) by exactly one. Thus, $DOF = 3N - k$."
+  },
+  {
+    "question": "In the context of Noether's Theorem and the Atwood machine in Fig. 6.32, if the Lagrangian $L$ is invariant under a transformation $\\delta x = \\epsilon, \\delta y = \\epsilon, \\delta z_1 = -\\epsilon$, what is the corresponding conserved quantity?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$5m\\dot{x} + 3m\\dot{y} + 4m\\dot{z}_1$"
+      },
+      {
+        "label": 2,
+        "value": "$5m\\dot{x} + 3m\\dot{y} - 4m\\dot{z}_1$"
+      },
+      {
+        "label": 3,
+        "value": "$5m\\dot{x} - 3m\\dot{y} + 4m\\dot{z}_1$"
+      },
+      {
+        "label": 4,
+        "value": "None; the symmetry is broken by gravity."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Noether's Theorem",
+    "explanation": "The conserved momentum $P$ associated with a coordinate shift $\\delta q_i$ is $P = \\sum p_i \\delta q_i / \\epsilon$. Here, $p_x = 5m\\dot{x}$, $p_y = 3m\\dot{y}$, and $p_{z1} = 4m\\dot{z}_1$. Summing these with the weights $(1, 1, -1)$ gives $5m\\dot{x} + 3m\\dot{y} - 4m\\dot{z}_1$.",
+    "image_path": "pariksha/8b7b126c4a901a7704634007eab69fa9.webp"
+  },
+  {
+    "question": "A bead is sliding on a vertical hoop as shown in Fig. 5.37. If the hoop is frictionless and fixed to the ground, at what angle $\\theta$ (from the top) does the bead leave the surface of the hoop if it starts from rest at the very top with a tiny nudge?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\cos\\theta = 1/2$"
+      },
+      {
+        "label": 2,
+        "value": "$\\cos\\theta = 2/3$"
+      },
+      {
+        "label": 3,
+        "value": "$\\sin\\theta = 2/3$"
+      },
+      {
+        "label": 4,
+        "value": "It never leaves the hoop."
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Non-holonomic Constraints (Inequalities)",
+    "explanation": "The constraint is $r \\ge R$. The bead leaves when the normal force $N$ goes to zero. From energy: $v^2 = 2gR(1-\\cos\\theta)$. From radial $F=ma$: $mg\\cos\\theta - N = mv^2/R$. Setting $N=0$ gives $g\\cos\\theta = 2g(1-\\cos\\theta)$, so $3\\cos\\theta = 2 \\implies \\cos\\theta = 2/3$.",
+    "image_path": "pariksha/c9ffa22f597cfe87e87059ce375ffaae.webp"
+  },
+  {
+    "question": "Equation (6.98) in the text relates Cartesian accelerations for a bead on a circle of radius $R$: $R^2(x\\ddot{x} + y\\ddot{y}) + (x\\dot{y} - y\\dot{x})^2 = 0$. This was derived by differentiating $x^2 + y^2 = R^2$ twice. What does the term $(x\\dot{y} - y\\dot{x})^2$ represent in polar coordinates $(r, \\theta)$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$R^4 \\dot{\\theta}^2$"
+      },
+      {
+        "label": 2,
+        "value": "$R^2 \\dot{\\theta}^2$"
+      },
+      {
+        "label": 3,
+        "value": "$R^4 \\dot{\\theta}^4$"
+      },
+      {
+        "label": 4,
+        "value": "$R^2 \\dot{r}^2$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Coordinate Transformations",
+    "explanation": "In polar coordinates, $x = R\\cos\\theta$ and $y = R\\sin\\theta$. The cross term $\\dot{y}x - \\dot{x}y = (R\\dot{\\theta}\\cos\\theta)(R\\cos\\theta) - (-R\\dot{\\theta}\\sin\\theta)(R\\sin\\theta) = R^2\\dot{\\theta}(\\cos^2\\theta + \\sin^2\\theta) = R^2\\dot{\\theta}$. Squaring this gives $R^4\\dot{\\theta}^2$."
+  },
+  {
+    "question": "A bead on a rotating stick (Problem 6.8) has a conserved quantity $E'$. The stick rotates with constant $\\omega$ in a horizontal plane. If $T = \\frac{1}{2}m(\\dot{r}^2 + r^2\\omega^2)$ and $V=0$, what is $E'$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$E' = \\frac{1}{2}m(\\dot{r}^2 + r^2\\omega^2)$"
+      },
+      {
+        "label": 2,
+        "value": "$E' = \\frac{1}{2}m\\dot{r}^2$"
+      },
+      {
+        "label": 3,
+        "value": "$E' = \\frac{1}{2}m(\\dot{r}^2 - r^2\\omega^2)$"
+      },
+      {
+        "label": 4,
+        "value": "$E' = mr^2\\omega$"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Conservation Laws",
+    "explanation": "For a Lagrangian $L(q, \\dot{q}, t)$, if $\\partial L/\\partial t = 0$, the Jacobi energy $E' = \\sum \\dot{q}_i \\frac{\\partial L}{\\partial \\dot{q}_i} - L$ is conserved. Here $L = \\frac{1}{2}m(\\dot{r}^2 + r^2\\omega^2)$. So $E' = \\dot{r}(m\\dot{r}) - [\\frac{1}{2}m\\dot{r}^2 + \\frac{1}{2}mr^2\\omega^2] = \\frac{1}{2}m\\dot{r}^2 - \\frac{1}{2}mr^2\\omega^2$."
+  },
+  {
+    "question": "Refer to the Atwood's machine in Fig. 3.24. Two pulleys of mass $m$ are shaded. If the system is released from rest, which of the following describes the tension $T$ throughout the single string (assuming massless, frictionless string)?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$T$ is uniform because the string is massless and pulleys are frictionless."
+      },
+      {
+        "label": 2,
+        "value": "$T$ varies between pulley sections because the shaded pulleys have mass $m$."
+      },
+      {
+        "label": 3,
+        "value": "$T = mg$ for all segments."
+      },
+      {
+        "label": 4,
+        "value": "$T = 0$ because the system is in free-fall."
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Constraints and Tension",
+    "explanation": "As stated in Problem 3.31, the string slides frictionlessly along all pulleys. For a massless string, if the contact is frictionless, the tension must be uniform throughout the length of the string, even if the pulleys themselves have mass.",
+    "image_path": "pariksha/6ddaee8750ba10f9fcca4349af94dd06.webp"
+  },
+  {
+    "question": "Which of the following is a criterion for a constraint to be 'holonomic'?",
+    "options": [
+      {
+        "label": 1,
+        "value": "It must be expressible as an inequality $f(q_i, t) \\ge 0$."
+      },
+      {
+        "label": 2,
+        "value": "It must involve only the velocities of the particles."
+      },
+      {
+        "label": 3,
+        "value": "It must be expressible as an algebraic equation of coordinates and time $f(q_i, t) = 0$."
+      },
+      {
+        "label": 4,
+        "value": "It must be independent of time."
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Constraint Definitions",
+    "explanation": "Holonomic constraints are those that can be expressed as relations between the coordinates (and possibly time) of the form $f(q_1, q_2, ..., q_n, t) = 0$."
+  },
+  {
+    "question": "A bead slides down a frictionless wire with a shape $y(x)$ such that its horizontal speed $\\dot{x}$ remains a constant $v_0$ (Problem 5.47). Given gravity $g$ acts in the $-y$ direction, what is the required shape of the wire?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$y(x) = -\\frac{g}{2v_0^2}x^2$"
+      },
+      {
+        "label": 2,
+        "value": "$y(x) = -\\frac{g}{v_0^2}x^2$"
+      },
+      {
+        "label": 3,
+        "value": "$y(x) = v_0 t - \\frac{1}{2}gt^2$"
+      },
+      {
+        "label": 4,
+        "value": "$y(x) = -\\frac{v_0^2}{2g} \\sin(x)$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Constrained Motion",
+    "explanation": "If $\\dot{x} = v_0$, then $x = v_0 t$. The total energy is $E = \\frac{1}{2}m(\\dot{x}^2 + \\dot{y}^2) + mgy = \\frac{1}{2}mv_0^2$. Thus $\\dot{x}^2 + \\dot{y}^2 + 2gy = v_0^2$. Since $\\dot{x} = v_0$, this implies $\\dot{y}^2 + 2gy = 0$. Differentiating with respect to time gives $2\\dot{y}\\ddot{y} + 2g\\dot{y} = 0 \\implies \\ddot{y} = -g$. Integrating gives $y = -\\frac{1}{2}gt^2$. Substituting $t = x/v_0$ yields $y = -\\frac{g}{2v_0^2}x^2$."
+  },
+  {
+    "question": "The principle of 'Virtual Work' states that for a system in equilibrium, the virtual work done by ______ is zero for any virtual displacement consistent with the constraints.",
+    "options": [
+      {
+        "label": 1,
+        "value": "total forces"
+      },
+      {
+        "label": 2,
+        "value": "internal forces only"
+      },
+      {
+        "label": 3,
+        "value": "applied forces only"
+      },
+      {
+        "label": 4,
+        "value": "constraint forces only"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Virtual Work",
+    "explanation": "D'Alembert's principle and the principle of virtual work assume that the virtual work done by the forces of constraint is zero. Therefore, for equilibrium, the virtual work done by the *applied* forces must be zero."
+  },
+  {
+    "question": "A particle is confined to move on the surface of a cylinder $x^2 + y^2 = R^2$. How many generalized coordinates are needed to describe its configuration?",
+    "options": [
+      {
+        "label": 1,
+        "value": "1"
+      },
+      {
+        "label": 2,
+        "value": "2"
+      },
+      {
+        "label": 3,
+        "value": "3"
+      },
+      {
+        "label": 4,
+        "value": "4"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Generalized Coordinates",
+    "explanation": "A single particle in 3D has 3 coordinates $(x, y, z)$. The cylindrical constraint $x^2 + y^2 = R^2$ is one holonomic constraint. $3 - 1 = 2$ degrees of freedom. Suitable coordinates would be $z$ and $\\theta$."
+  },
+  {
+    "question": "For the bead on the rotating hoop in Fig. 5.34, if a spring is attached between the top and the bead, and the bead is given an initial kick $v_0$ at the bottom, which conservation principle is most useful to find the speed at any angle $\\theta$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Conservation of linear momentum"
+      },
+      {
+        "label": 2,
+        "value": "Conservation of energy in the laboratory frame"
+      },
+      {
+        "label": 3,
+        "value": "Conservation of the Jacobi Energy $E'$ in the rotating frame"
+      },
+      {
+        "label": 4,
+        "value": "Conservation of angular momentum about the center"
+      }
+    ],
+    "answer_label": 3,
+    "topic": "Constraints in Rotating Frames",
+    "explanation": "Because the constraint (the hoop's rotation) is time-dependent in the lab frame, energy is not conserved. However, in the rotating frame of the hoop, the constraint becomes scleronomic, and the Jacobi energy (including a centrifugal potential term) is conserved.",
+    "image_path": "pariksha/2a9fc3c49b4a1e14c597ae36bb5ebff3.webp"
+  }
+]
