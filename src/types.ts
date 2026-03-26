@@ -25,6 +25,7 @@ export interface ExamSection {
   questions: Question[];
   marking: { positive: number; negative: number };
   maxAttempts?: number; // e.g., "Answer 15/20"
+  allowedTypes?: QuestionType[]; // New: Filter by question type for this section
 }
 
 export interface ShuffledQuestion extends Question {
@@ -58,6 +59,7 @@ export interface UserAnswer {
   enteredAnswer?: string; // NAT
   isCorrect: boolean;
   timeSpent: number; // in seconds
+  isFlagged?: boolean; // New: Flag for review
 }
 
 export type SWOTAnalysis = {

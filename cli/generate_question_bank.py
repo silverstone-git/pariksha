@@ -25,6 +25,11 @@ from exam_generator import ExamGeneratorAgent, ExamConfig
 dotenv_path = Path(__file__).parent / ".env"
 load_dotenv(dotenv_path=dotenv_path)
 
+# Prioritize VITE_API_BASE_URL from the root .env.development if it exists
+root_env_dev = Path(__file__).parent.parent / ".env.development"
+if root_env_dev.exists():
+    load_dotenv(dotenv_path=root_env_dev, override=True)
+
 # Configure logging to also output immediately
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', stream=sys.stdout)
 logger = logging.getLogger(__name__)
@@ -59,7 +64,7 @@ def upload_to_question_bank(topic_slug: str, questions: List[Dict[str, Any]]):
             "answer_label": q.get("answer_label"),
             "answer_labels": q.get("answer_labels"),
             "answer_range": q.get("answer_range"),
-            "answer_value": q.get("answer_value"),
+            "answer_value": str(q.get("answer_value")) if q.get("answer_value") is not None else None,
             "explanation": q.get("explanation"),
             "image_path": q.get("image_path")
         })

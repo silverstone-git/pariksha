@@ -94,7 +94,7 @@ class R2Uploader:
                 str(path), 
                 self.bucket_name, 
                 remote_name,
-                ExtraArgs={'ContentType': content_type, 'ACL': 'public-read'}
+                ExtraArgs={'ContentType': content_type}
             )
             
             if self.public_url:

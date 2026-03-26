@@ -19,6 +19,7 @@ import {
   Settings,
   Activity,
   Trash2,
+  Plus,
 } from "lucide-react";
 import "katex/dist/katex.min.css";
 import { Latex } from "./components/Latex";
@@ -33,6 +34,7 @@ import type {
   ServerExam,
   ServerExamDetail,
   ExamPreset,
+  QuestionType,
 } from "./types";
 
 import {
@@ -45,6 +47,7 @@ import {
   isLocalhost,
   SUBJECT_GROUPS,
   resolveImagePath,
+  type CustomConfig,
 } from "./utils";
 
 // --- LOCALSTORAGE HOOK ---
@@ -658,6 +661,14 @@ const ExamConfigModal: React.FC<{
   );
 };
 
+interface CustomSectionConfig {
+  name: string;
+  topicWeights: Record<string, number>;
+  marking: { positive: number; negative: number };
+  allowedTypes: QuestionType[];
+  maxAttempts?: number;
+}
+
 const PhysicsExamGeneratorModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
@@ -666,27 +677,17 @@ const PhysicsExamGeneratorModal: React.FC<{
   const [shouldUpload, setShouldUpload] = React.useState(false);
   const [isGenerating, setIsGenerating] = React.useState(false);
   const [isCustomMode, setIsCustomMode] = React.useState(false);
-  const [customCounts, setCustomCounts] = React.useState<Record<string, number>>(() => {
-    const initial: Record<string, number> = {};
-    Object.keys(SUBJECT_GROUPS).forEach(group => initial[group] = 5);
-    return initial;
-  });
-
-  if (!isOpen) return null;
-
-  if (isGenerating) {
-    return (
-      <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex justify-center items-center z-[60] p-4">
-        <Card className="w-full max-w-sm border-blue-500/50 shadow-2xl shadow-blue-500/20 flex flex-col items-center justify-center p-12 text-center">
-          <RefreshCw className="animate-spin text-blue-500 mb-6" size={48} />
-          <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-2">Generating Exam</h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            Fetching topic distributions and sampling scientific questions from the database...
-          </p>
-        </Card>
-      </div>
-    );
-  }
+  
+  // Custom multi-section state
+  const [customSections, setCustomSections] = React.useState<CustomSectionConfig[]>([
+    {
+      name: "Section 1",
+      topicWeights: Object.keys(SUBJECT_GROUPS).reduce((acc, group) => ({ ...acc, [group]: group === "Quantum Mechanics" ? 5 : 0 }), {}),
+      marking: { positive: 1, negative: 0 },
+      allowedTypes: ["MCQ", "MSQ", "NAT"],
+    }
+  ]);
+  const [activeSectionIdx, setActiveSectionIdx] = React.useState(0);
 
   const presets: { id: ExamPreset; name: string; desc: string }[] = [
     { id: "GATE", name: "GATE Physics", desc: "65 Questions | 180 Mins | Precise Pattern" },
@@ -695,19 +696,36 @@ const PhysicsExamGeneratorModal: React.FC<{
     { id: "BARC_OCES", name: "BARC OCES", desc: "100 Questions | Speed Test Pattern" },
   ];
 
+  if (!isOpen) return null;
+
+  const activeSection = customSections[activeSectionIdx];
+
   const handleGenerate = async (presetId: ExamPreset) => {
     setIsGenerating(true);
     try {
-      const config = await generatePresetExam(presetId, presetId === "CUSTOM" ? customCounts : undefined);
+      let config: ExamConfig;
+      if (presetId === "CUSTOM") {
+        const customConfig: CustomConfig = {
+          sections: customSections
+        };
+        config = await generatePresetExam("CUSTOM", customConfig);
+      } else {
+        config = await generatePresetExam(presetId);
+      }
       
       if (shouldUpload) {
         try {
+          // If the exam has sections, we upload the consolidated questions for legacy compatibility
+          const allQs = config.sections 
+            ? config.sections.flatMap(s => s.questions)
+            : config.questions;
+
           await fetch(`${API_BASE_URL}/pariksha`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               exam_title: config.name,
-              exam_json_str: JSON.stringify(config.questions),
+              exam_json_str: JSON.stringify(allQs),
             }),
           });
         } catch (uploadErr) {
@@ -724,41 +742,181 @@ const PhysicsExamGeneratorModal: React.FC<{
     }
   };
 
-  const handleCustomCountChange = (group: string, val: string) => {
-    setCustomCounts(prev => ({ ...prev, [group]: Math.max(0, parseInt(val) || 0) }));
+  const addSection = () => {
+    const newSection: CustomSectionConfig = {
+      name: `Section ${customSections.length + 1}`,
+      topicWeights: Object.keys(SUBJECT_GROUPS).reduce((acc, group) => ({ ...acc, [group]: 0 }), {}),
+      marking: { positive: 1, negative: 0 },
+      allowedTypes: ["MCQ", "MSQ", "NAT"],
+    };
+    setCustomSections([...customSections, newSection]);
+    setActiveSectionIdx(customSections.length);
   };
 
-  const totalCustomQuestions = Object.values(customCounts).reduce((a, b) => a + b, 0);
+  const removeSection = (idx: number) => {
+    if (customSections.length <= 1) return;
+    const newSections = customSections.filter((_, i) => i !== idx);
+    setCustomSections(newSections);
+    setActiveSectionIdx(Math.max(0, activeSectionIdx - 1));
+  };
+
+  const updateActiveSection = (updates: Partial<CustomSectionConfig>) => {
+    const newSections = [...customSections];
+    newSections[activeSectionIdx] = { ...newSections[activeSectionIdx], ...updates };
+    setCustomSections(newSections);
+  };
+
+  const handleTopicWeightChange = (group: string, val: string) => {
+    const newWeights = { ...activeSection.topicWeights, [group]: Math.max(0, parseInt(val) || 0) };
+    updateActiveSection({ topicWeights: newWeights });
+  };
+
+  const toggleType = (type: QuestionType) => {
+    const current = activeSection.allowedTypes;
+    const next = current.includes(type) 
+      ? current.filter(t => t !== type)
+      : [...current, type];
+    updateActiveSection({ allowedTypes: next });
+  };
+
+  const totalQuestions = customSections.reduce((sum, s) => 
+    sum + Object.values(s.topicWeights).reduce((a, b) => a + b, 0), 0
+  );
 
   if (isCustomMode) {
     return (
       <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex justify-center items-center z-[60] p-4">
-        <Card title="Advanced Preset Editor" className="w-full max-w-3xl border-teal-500/50 max-h-[90vh] flex flex-col">
-          <p className="text-sm text-slate-500 mb-6">Distribute questions across major physics subject groups.</p>
-          
-          <div className="grid md:grid-cols-2 gap-x-6 gap-y-4 overflow-y-auto pr-2 custom-scrollbar flex-grow mb-6">
-            {Object.keys(SUBJECT_GROUPS).map(group => (
-              <div key={group} className="flex justify-between items-center p-3 glass rounded-xl border border-white/5">
-                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{group}</span>
-                <input 
-                  type="number"
-                  min="0"
-                  value={customCounts[group]}
-                  onChange={(e) => handleCustomCountChange(group, e.target.value)}
-                  className="w-20 p-2 text-center rounded-lg bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 outline-none focus:border-teal-500"
-                />
+        <Card title="Advanced Preset Editor" className="w-full max-w-5xl border-teal-500/50 max-h-[95vh] flex flex-col overflow-hidden">
+          <div className="flex flex-col md:flex-row gap-6 flex-grow overflow-hidden">
+            {/* Left Sidebar: Section List */}
+            <div className="w-full md:w-64 flex flex-col gap-2 overflow-y-auto pr-2 border-r border-slate-200 dark:border-slate-800">
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Sections</h3>
+                <button onClick={addSection} className="p-1 hover:bg-teal-500/10 text-teal-500 rounded-lg transition-colors">
+                  <Plus size={18} />
+                </button>
               </div>
-            ))}
+              {customSections.map((s, i) => (
+                <div 
+                  key={i}
+                  onClick={() => setActiveSectionIdx(i)}
+                  className={`group flex justify-between items-center p-3 rounded-xl cursor-pointer transition-all ${
+                    activeSectionIdx === i 
+                    ? "bg-teal-500/10 border border-teal-500/30 text-teal-600 dark:text-teal-400" 
+                    : "hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent text-slate-600 dark:text-slate-400"
+                  }`}
+                >
+                  <span className="text-sm font-medium truncate">{s.name}</span>
+                  {customSections.length > 1 && (
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); removeSection(i); }}
+                      className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-500/10 text-red-500 rounded-md transition-all"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Right Side: Active Section Editor */}
+            <div className="flex-grow overflow-y-auto pr-2 custom-scrollbar space-y-8">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest">Section Identity</label>
+                  <input 
+                    type="text"
+                    value={activeSection.name}
+                    onChange={(e) => updateActiveSection({ name: e.target.value })}
+                    placeholder="Section Name"
+                    className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-teal-500 font-bold"
+                  />
+                </div>
+                <div className="space-y-4">
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest">Marking Scheme</label>
+                  <div className="flex gap-4">
+                    <div className="flex-grow">
+                      <div className="text-[10px] text-slate-500 mb-1">CORRECT</div>
+                      <input 
+                        type="number"
+                        step="0.1"
+                        value={activeSection.marking.positive}
+                        onChange={(e) => updateActiveSection({ marking: { ...activeSection.marking, positive: parseFloat(e.target.value) || 0 } })}
+                        className="w-full p-2 text-center rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-teal-500"
+                      />
+                    </div>
+                    <div className="flex-grow">
+                      <div className="text-[10px] text-slate-500 mb-1">WRONG</div>
+                      <input 
+                        type="number"
+                        step="0.1"
+                        value={activeSection.marking.negative}
+                        onChange={(e) => updateActiveSection({ marking: { ...activeSection.marking, negative: parseFloat(e.target.value) || 0 } })}
+                        className="w-full p-2 text-center rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-teal-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest">Allowed Question Types</label>
+                <div className="flex gap-2">
+                  {(["MCQ", "MSQ", "NAT"] as QuestionType[]).map(type => (
+                    <button
+                      key={type}
+                      onClick={() => toggleType(type)}
+                      className={`flex-grow p-2 rounded-xl border text-xs font-bold transition-all ${
+                        activeSection.allowedTypes.includes(type)
+                        ? "bg-teal-500 border-teal-500 text-white shadow-lg shadow-teal-500/20"
+                        : "bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400"
+                      }`}
+                    >
+                      {type}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest">Topic Distribution</label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {Object.keys(SUBJECT_GROUPS).map(group => (
+                    <div key={group} className="flex justify-between items-center p-2 px-3 glass rounded-xl border border-white/5">
+                      <span className="text-xs font-medium text-slate-600 dark:text-slate-400">{group}</span>
+                      <input 
+                        type="number"
+                        min="0"
+                        value={activeSection.topicWeights[group]}
+                        onChange={(e) => handleTopicWeightChange(group, e.target.value)}
+                        className="w-16 p-1 text-center text-sm rounded-lg bg-slate-200/50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-700 outline-none focus:border-teal-500"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="flex justify-between items-center pt-4 border-t border-slate-200 dark:border-slate-800">
-            <div className="text-lg font-bold text-slate-800 dark:text-slate-200">
-              Total Questions: <span className="text-teal-500">{totalCustomQuestions}</span>
+          <div className="flex justify-between items-center pt-6 border-t border-slate-200 dark:border-slate-800 mt-6">
+            <div className="flex items-center gap-6">
+              <div className="text-sm">
+                <span className="text-slate-500 uppercase tracking-widest font-bold text-[10px] block">Global Total</span>
+                <span className="text-xl font-bold text-slate-800 dark:text-slate-200">
+                  <span className="text-teal-500">{totalQuestions}</span> Qs
+                </span>
+              </div>
+              <div className="text-sm">
+                <span className="text-slate-500 uppercase tracking-widest font-bold text-[10px] block">Current Section</span>
+                <span className="text-xl font-bold text-slate-800 dark:text-slate-200">
+                  {Object.values(activeSection.topicWeights).reduce((a, b) => a + b, 0)} Qs
+                </span>
+              </div>
             </div>
             <div className="flex gap-4">
-              <Button onClick={() => setIsCustomMode(false)} variant="secondary" disabled={isGenerating}>Back</Button>
-              <Button onClick={() => handleGenerate("CUSTOM")} disabled={isGenerating || totalCustomQuestions === 0}>
-                {isGenerating ? "Generating..." : "Generate Custom Exam"}
+              <Button onClick={() => setIsCustomMode(false)} variant="secondary" disabled={isGenerating}>Cancel</Button>
+              <Button onClick={() => handleGenerate("CUSTOM")} disabled={isGenerating || totalQuestions === 0} className="bg-teal-600 hover:bg-teal-500 shadow-lg shadow-teal-500/20">
+                {isGenerating ? "Sampling Database..." : "Generate Exam"}
               </Button>
             </div>
           </div>
@@ -1404,7 +1562,7 @@ const ResultsScreen: React.FC<{
                     <h4 className="font-bold mb-3 text-teal-500 flex items-center gap-2">
                       <RefreshCw size={16} /> Explanation
                     </h4>
-                    <div className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                    <div className="text-sm leading-relaxed text-slate-600 dark:text-slate-300 whitespace-pre-wrap">
                       <Latex>{reviewingQuestion.explanation}</Latex>
                     </div>
                   </div>
@@ -1452,11 +1610,19 @@ export default function App() {
   const [, setExamHistory] = useLocalStorage<ExamResult[]>("examHistory", []);
 
   const handleFileUpload = (config: ExamConfig) => {
-    if (!availableExams.some((exam) => exam.name === config.name)) {
-      setAvailableExams((prev) => [...prev, config]);
-    } else {
-      alert("An exam with this name already exists.");
+    let finalName = config.name;
+    let counter = 1;
+    
+    // Auto-rename if collision occurs
+    while (availableExams.some((exam) => exam.name === finalName)) {
+      counter++;
+      // If it's a custom exam, it might already have a name like "Custom Physics Exam"
+      // We append (2), (3), etc.
+      finalName = `${config.name} (${counter})`;
     }
+
+    const updatedConfig = { ...config, name: finalName };
+    setAvailableExams((prev) => [...prev, updatedConfig]);
   };
 
   const handleDeleteExam = (examName: string) => {

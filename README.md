@@ -1,77 +1,34 @@
-# 📝 Pariksha - AI-Enhanced Exam Simulator
+# 🎓 Pariksha - AI-Enhanced Physics Exam Simulator
 
-Pariksha is a modern, web-based exam simulator built with React, TypeScript, and Vite. It provides a platform for users to create, take, and share practice exams with advanced features like **Multimodal AI RAG**, automated image hosting, and detailed performance analytics.
+Pariksha is a production-grade exam simulator designed for high-stakes scientific exams (GATE, CSIR NET, TIFR). It leverages AI to generate high-quality questions and provides a professional, distraction-free environment for practice.
 
-## ✨ Features
+## 🚀 Key Features
 
--   **Advanced Exam Engine**: Supports complex exam formats like **GATE**, **CSIR NET**, and **TIFR**.
-    -   **Sections**: Multiple sections per exam with independent marking schemes (positive/negative marks) and attempt limits (e.g., "Answer 20 of 30").
-    -   **Multimodal Questions**: Supports standard **MCQ**, **MSQ** (Multiple Select), and **NAT** (Numerical Answer Type) questions.
--   **Multimodal AI Exam Generation**: Automatically generate exams using a local knowledge base of textbooks, PDFs, and papers.
-    -   **Context-Aware**: Uses LlamaIndex and ChromaDB to retrieve relevant study material.
-    -   **Image Support**: AI "sees" technical diagrams and charts from your materials and includes them in questions.
-    -   **Automated Image Pipeline**: Dynamically uploads referenced images to Cloudflare R2 with public read access.
--   **Centralized Question Bank**: Integration with a structured API for sampling questions by topic and slug.
--   **Full LaTeX Support**: Renders complex mathematical and scientific notations beautifully using KaTeX, with a robust cleanup layer for LLM-generated backslashes.
--   **Timed Sessions**: Set a custom timer to simulate real exam conditions.
--   **Dynamic Content**: Questions and options are automatically shuffled for every attempt.
--   **In-Depth Performance Analysis**:
-    -   Overall score, section breakdown, and topic-wise performance.
-    -   Automated **SWOT Analysis** (Strengths, Weaknesses, Opportunities, Threats).
-    -   Question-by-question review with detailed explanations and image visualizations.
--   **Persistent History**: Exam history and preferences (including Dark Mode) are saved locally.
--   **Import/Export**: Download results as JSON to share or review later.
+- **Advanced Exam Engine**: Full support for Multiple Choice (MCQ), Multiple Select (MSQ), and Numerical Answer Type (NAT) questions.
+- **Sectional Infrastructure**: Create exams with specific sections (e.g., General Aptitude, Core Physics) each with its own marking scheme and attempt caps.
+- **Advanced Preset Editor**: Mix and match topics, set specific question type filters, and define custom marking rules.
+- **Live Performance Analysis**: Sidebar metrics track your potential max score and worst-case scenario in real-time.
+- **Scientific Visualization**: Integrated support for diagrams hosted on Cloudflare R2 and high-fidelity LaTeX rendering.
 
-## 🚀 Getting Started
+## 🛠️ CLI Tools
 
-### Web Application
+The `cli/` directory contains powerful scripts for maintaining the question bank:
 
-1.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-2.  **Configure Environment:**
-    Ensure `.env.development` or `.env` has:
-    - `VITE_API_BASE_URL` (defaults to `https://outsie.aryan.cfd` or `http://localhost:8671`)
-3.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
-    Access at `http://localhost:5173`. Requests to `/pariksha` and `/api/question_bank` are proxied to the backend.
+- `sync_and_summarize.py`: Syncs your local local bank with the deployed API and provides a statistical breakdown of question types and topics.
+- `generate_question_bank.py`: Uses Gemini 3.5 Flash and RAG to generate new scientific questions from textbooks.
 
-### CLI Tool (Exam Generator)
+## 💻 Tech Stack
 
-The CLI tool allows you to index your own knowledge base and generate questions for the bank.
+- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS v4, KaTeX.
+- **Cloud**: Cloudflare R2 (Images), Deployed API at `https://outsie.aryan.cfd`.
+- **AI**: Google Gemini API, ChromaDB (Vector Search).
 
-1.  **Setup Virtual Environment:**
-    ```bash
-    cd cli
-    python3 -m venv venv_pariksha
-    source venv_pariksha/bin/activate
-    pip install -r requirements.txt
-    ```
-2.  **Configure API Keys:**
-    Create a `.env` file in the `cli/` directory with:
-    - `GEMINI_API_KEY`
-    - `PARIKSHA_ADMIN_SECRET` (for uploading to the question bank)
-    - `CLOUDFLARE_ACCOUNT_ID`, `R2_BUCKET_NAME`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY` (for images)
-3.  **Generate and Upload to Bank:**
-    ```bash
-    # Generate questions for a specific topic and upload to local API
-    python generate_question_bank.py --topic "Quantum Mechanics" --count 20 --local-api
-    ```
+## 🚦 Getting Started
 
-## 🛠️ Technology Stack
-
--   **Frontend**: React 19, TypeScript, Vite, Tailwind CSS v4.
--   **AI Engine**: Google Gemini 3 Flash (Multimodal), LlamaIndex.
--   **Database**: ChromaDB (Vector Store).
--   **Backend API**: Fast API / Relational (Structured Sections & Questions).
--   **Storage**: Cloudflare R2 (for exam images).
--   **Math Rendering**: KaTeX.
+1. **Install Dependencies**: `npm install`
+2. **Environment Setup**: Create a `.env.development` with `VITE_API_BASE_URL`.
+3. **Run Dev Server**: `npm run dev`
+4. **Access Admin Panel**: Click the **Settings** icon on the home screen to manage the question bank.
 
 ---
-
-<p align="center">
-  <em>This entire project was vibe coded using the <a href="https://developers.google.com/gemini/cli">Gemini CLI</a>.</em>
-</p>
+*Built for serious aspirants. 🚀🧪*

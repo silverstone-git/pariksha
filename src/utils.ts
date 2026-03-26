@@ -18,15 +18,18 @@ export const API_BASE_URL = (
  */
 export const normalizeExamConfig = (config: ExamConfig): ExamConfig => {
   if (config.sections && config.sections.length > 0) {
-    // If it already has sections, ensure every question has an ID and Type
-    const sections = config.sections.map((section) => ({
-      ...section,
-      questions: section.questions.map((q, idx) => ({
-        ...q,
-        id: q.id || `${section.id}-q-${idx}`,
-        type: q.type || "MCQ",
-      })),
-    }));
+    const sections = config.sections.map((section, sIdx) => {
+      const sectionId = section.id || `section-${sIdx}`;
+      return {
+        ...section,
+        id: sectionId,
+        questions: section.questions.map((q, qIdx) => ({
+          ...q,
+          id: q.id || `${sectionId}-q-${qIdx}`,
+          type: q.type || "MCQ",
+        })),
+      };
+    });
     return { ...config, sections };
   }
 
@@ -105,7 +108,17 @@ export const SUBJECT_GROUPS: Record<string, string[]> = {
   "Electronics": ["Analog Electronics", "Digital Electronics"],
 };
 
-export const generatePresetExam = async (preset: ExamPreset, customPattern?: Record<string, number>): Promise<ExamConfig> => {
+export interface CustomConfig {
+  sections: {
+    name: string;
+    topicWeights: Record<string, number>;
+    marking: { positive: number; negative: number };
+    allowedTypes: QuestionType[];
+    maxAttempts?: number;
+  }[];
+}
+
+export const generatePresetExam = async (preset: ExamPreset, customConfig?: CustomConfig): Promise<ExamConfig> => {
   // Pattern definitions (Questions per Subject Group)
   const PATTERNS: Record<Exclude<ExamPreset, "CUSTOM">, Record<string, number>> = {
     GATE: {
@@ -151,7 +164,86 @@ export const generatePresetExam = async (preset: ExamPreset, customPattern?: Rec
     }
   };
 
-  const pattern = preset === "CUSTOM" && customPattern ? customPattern : PATTERNS[preset as keyof typeof PATTERNS];
+  if (preset === "CUSTOM" && customConfig) {
+    const sections: ExamSection[] = [];
+    
+    // 1. Identify all unique topics needed across all sections and their total counts
+    const topicToTotalCount: Record<string, number> = {};
+    customConfig.sections.forEach(s => {
+      Object.entries(s.topicWeights).forEach(([group, count]) => {
+        if (count > 0) {
+          const topicsInGroup = SUBJECT_GROUPS[group] || [];
+          topicsInGroup.forEach(topic => {
+            // Fetch significantly more to allow for type filtering (MCQ vs MSQ vs NAT)
+            const multiplier = s.allowedTypes.length === 3 ? 3 : 10;
+            topicToTotalCount[topic] = (topicToTotalCount[topic] || 0) + Math.max(20, Math.ceil((count * multiplier) / topicsInGroup.length)); 
+          });
+        }
+      });
+    });
+
+    // 2. Pre-fetch all necessary questions from the bank in one pass (conceptually)
+    const topicCache: Record<string, Question[]> = {};
+    await Promise.all(Object.entries(topicToTotalCount).map(async ([topic, totalNeeded]) => {
+      try {
+        const slug = topic.replace(/ /g, "_").toLowerCase();
+        const url = `${API_BASE_URL}/api/question_bank/sample?topic=${slug}&count=${totalNeeded}`;
+        const response = await fetch(url);
+        
+        let bankQuestions: Question[] = [];
+        if (!response.ok) {
+          const fallbackResponse = await fetch(`/question_bank/${slug}.json`);
+          if (fallbackResponse.ok) {
+            bankQuestions = await fallbackResponse.json();
+          }
+        } else {
+          bankQuestions = await response.json();
+        }
+        topicCache[topic] = bankQuestions;
+      } catch (err) {
+        console.warn(`Could not fetch bank for topic: ${topic}`, err);
+        topicCache[topic] = [];
+      }
+    }));
+
+    // 3. Distribute cached questions into sections
+    for (let i = 0; i < customConfig.sections.length; i++) {
+      const s = customConfig.sections[i];
+      const sectionPool: Question[] = [];
+      
+      Object.entries(s.topicWeights).forEach(([group, count]) => {
+        if (count <= 0) return;
+        const topicsInGroup = SUBJECT_GROUPS[group] || [];
+        topicsInGroup.forEach(topic => {
+          const questions = topicCache[topic] || [];
+          // Filter by allowed types for this specific section
+          const filtered = s.allowedTypes.length > 0 
+            ? questions.filter(q => s.allowedTypes.includes(q.type || "MCQ"))
+            : questions;
+          sectionPool.push(...filtered);
+        });
+      });
+
+      const totalRequired = Object.values(s.topicWeights).reduce((a, b) => a + b, 0);
+      sections.push({
+        id: `custom-section-${i}`,
+        name: s.name,
+        questions: shuffleArray(sectionPool).slice(0, totalRequired),
+        marking: s.marking,
+        maxAttempts: s.maxAttempts,
+        allowedTypes: s.allowedTypes
+      });
+    }
+
+    return {
+      name: "Custom Physics Exam",
+      sections,
+      settings: { timerHours: 3, timerMinutes: 0, shuffleQuestions: true, shuffleOptions: true }
+    };
+  }
+
+  // Handle standard presets (GATE, CSIR_NET, etc.)
+  const pattern = PATTERNS[preset as keyof typeof PATTERNS];
   const allQuestions: Question[] = [];
 
   for (const [group, count] of Object.entries(pattern)) {
@@ -163,12 +255,10 @@ export const generatePresetExam = async (preset: ExamPreset, customPattern?: Rec
     for (const topic of topicsInGroup) {
       try {
         const slug = topic.replace(/ /g, "_").toLowerCase();
-        // Use the new sampling API
         const url = `${API_BASE_URL}/api/question_bank/sample?topic=${slug}&count=${questionsPerTopic}`;
         const response = await fetch(url);
         
         if (!response.ok) {
-          // Fallback to local if remote fails (Backward compatibility / Local dev)
           const fallbackResponse = await fetch(`/question_bank/${slug}.json`);
           if (!fallbackResponse.ok) continue;
           const bankQuestions: Question[] = await fallbackResponse.json();
@@ -184,7 +274,6 @@ export const generatePresetExam = async (preset: ExamPreset, customPattern?: Rec
     }
   }
 
-  // Shuffle all and slice to required count
   const finalPool = shuffleArray(allQuestions).slice(0, Object.values(pattern).reduce((a, b) => a + b, 0));
 
   if (preset === "GATE") {
