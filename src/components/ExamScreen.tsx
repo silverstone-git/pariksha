@@ -45,24 +45,26 @@ const SubmitConfirmationModal: React.FC<{
           <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-4">
             <AlertTriangle className="text-red-500" size={32} />
           </div>
-          <h2 className="text-2xl font-bold mb-2">Final Submission</h2>
+          <h2 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">Final Submission</h2>
           <p className="text-slate-600 dark:text-slate-400 mb-6">
-            You have <span className="font-bold text-red-500">{unattemptedCount} unattempted questions</span>.
+            You have <span className="font-bold text-red-500 underline decoration-red-500/30 underline-offset-4">{unattemptedCount} unattempted questions</span>.
           </p>
 
-          <div className="w-full bg-slate-100 dark:bg-black/20 rounded-2xl p-4 mb-6 text-left border border-slate-200 dark:border-white/5">
-            <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3 px-2">Section Summary</h3>
+          <div className="w-full bg-slate-100 dark:bg-science-950/50 rounded-2xl p-4 mb-6 text-left border border-slate-200 dark:border-white/5 shadow-inner">
+            <h3 className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3 px-2 flex items-center gap-2">
+              <Layers size={12} /> Section Summary
+            </h3>
             <div className="space-y-2">
               {config.sections?.map(s => {
                 const sectionQs = s.questions.map(sq => sq.id);
                 const attempted = Object.keys(userAnswers).filter(id => 
                   sectionQs.includes(id) && 
-                  (userAnswers[id].label !== undefined || (userAnswers[id].labels && userAnswers[id].labels.length > 0) || (userAnswers[id].text !== undefined && userAnswers[id].text !== ""))
+                  (userAnswers[id].label != null || (userAnswers[id].labels && userAnswers[id].labels.length > 0) || (userAnswers[id].text !== undefined && userAnswers[id].text !== ""))
                 ).length;
                 return (
-                  <div key={s.id} className="flex justify-between items-center p-2 px-3 bg-white dark:bg-science-800 rounded-xl border border-slate-100 dark:border-white/5">
-                    <span className="text-xs font-bold truncate pr-4">{s.name}</span>
-                    <span className="text-xs font-mono bg-slate-100 dark:bg-black/30 px-2 py-0.5 rounded text-teal-500">
+                  <div key={s.id} className="flex justify-between items-center p-2.5 px-3 bg-white dark:bg-science-800/40 rounded-xl border border-slate-100 dark:border-white/5 transition-colors">
+                    <span className="text-xs font-bold text-slate-700 dark:text-slate-200 truncate pr-4">{s.name}</span>
+                    <span className="text-xs font-mono bg-slate-100 dark:bg-black/30 px-2 py-0.5 rounded text-teal-500 border border-teal-500/20">
                       {attempted} / {s.questions.length}
                     </span>
                   </div>
@@ -208,7 +210,7 @@ export const ExamScreen: React.FC<{
       const sectionAnswers = processedAnswers.filter(pa => sectionQuestionIds.includes(pa.questionId));
 
       sectionAnswers.forEach((ans) => {
-        const isAttempted = ans.selectedOptionLabel !== null || (ans.selectedOptionLabels && ans.selectedOptionLabels.length > 0) || (ans.enteredAnswer !== undefined && ans.enteredAnswer !== "");
+        const isAttempted = ans.selectedOptionLabel != null || (ans.selectedOptionLabels && ans.selectedOptionLabels.length > 0) || (ans.enteredAnswer !== undefined && ans.enteredAnswer !== "");
         if (isAttempted) {
           if (section.maxAttempts && attemptedInSection >= section.maxAttempts) return;
           attemptedInSection++;
@@ -305,7 +307,7 @@ export const ExamScreen: React.FC<{
       if (!section) return;
       const pos = section.marking.positive;
       const neg = section.marking.negative;
-      const isAttempted = ans && (ans.label !== undefined || (ans.labels && ans.labels.length > 0) || (ans.text !== undefined && ans.text !== ""));
+      const isAttempted = ans && (ans.label != null || (ans.labels && ans.labels.length > 0) || (ans.text !== undefined && ans.text !== ""));
       if (isAttempted) {
         attempted++;
         potentialMax += pos;
@@ -341,7 +343,16 @@ export const ExamScreen: React.FC<{
 
   const handleMCQSelect = (optionLabel: number) => {
     const qId = questions[currentQuestionIndex].id;
-    setUserAnswers((prev) => ({ ...prev, [qId]: { ...prev[qId], label: optionLabel } }));
+    setUserAnswers((prev) => {
+      const currentLabel = prev[qId]?.label;
+      if (currentLabel === optionLabel) {
+        // Unselect
+        const newState = { ...prev };
+        newState[qId] = { ...prev[qId], label: null };
+        return newState;
+      }
+      return { ...prev, [qId]: { ...prev[qId], label: optionLabel } };
+    });
   };
 
   const handleMSQToggle = (optionLabel: number) => {
@@ -483,13 +494,35 @@ export const ExamScreen: React.FC<{
         </main>
 
         <footer className="p-4 md:p-6 bg-white dark:bg-science-900/80 backdrop-blur-xl border-t border-slate-200 dark:border-white/10">
-          <div className="max-w-4xl mx-auto flex justify-between items-center gap-4">
+          <div className="max-w-4xl mx-auto flex justify-between items-center gap-8">
             <Button onClick={() => setCurrentQuestionIndex(prev => prev - 1)} disabled={currentQuestionIndex === 0} variant="secondary" className="flex-1 max-w-[140px] h-12 rounded-xl font-bold">
               <ChevronsLeft size={20} className="mr-1" /> PREV
             </Button>
-            <div className="hidden md:flex gap-1">
-              {questions.map((_, i) => <div key={i} className={`h-1 rounded-full transition-all ${i === currentQuestionIndex ? "w-8 bg-teal-500" : "w-4 bg-slate-300 dark:bg-slate-800"}`} />)}
+            
+            <div className="hidden md:block flex-grow h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full relative overflow-visible mx-4">
+              <div 
+                className="h-full bg-teal-500 rounded-full transition-all duration-300"
+                style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
+              />
+              {questions.map((q, i) => {
+                const isFlagged = userAnswers[q.id]?.isFlagged;
+                if (!isFlagged) return null;
+                return (
+                  <div
+                    key={q.id}
+                    className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-10"
+                    style={{ left: `${(i / Math.max(1, questions.length - 1)) * 100}%` }}
+                  >
+                    <Flag 
+                      size={18} 
+                      className="text-slate-900 dark:text-white fill-orange-500 animate-pulse drop-shadow-lg" 
+                      strokeWidth={2.5}
+                    />
+                  </div>
+                );
+              })}
             </div>
+
             <div className="flex gap-3 flex-1 justify-end">
               <Button onClick={handleSubmitClick} variant="danger" className="px-6 h-12 rounded-xl font-bold shadow-lg shadow-red-500/10">FINISH</Button>
               <Button onClick={() => setCurrentQuestionIndex(prev => prev + 1)} disabled={currentQuestionIndex === questions.length - 1} variant="primary" className="flex-1 max-w-[140px] h-12 rounded-xl font-bold bg-teal-600 hover:bg-teal-500">
@@ -500,7 +533,7 @@ export const ExamScreen: React.FC<{
         </footer>
       </div>
 
-      <aside className={`fixed top-[68px] right-0 bottom-0 w-80 bg-white dark:bg-science-900 border-l border-slate-200 dark:border-white/10 z-[50] transition-transform duration-500 transform ${isSidebarOpen ? "translate-x-0" : "translate-x-full"} hidden md:flex flex-col shadow-2xl`}>
+      <aside className={`fixed top-[68px] right-0 bottom-0 w-80 bg-white dark:bg-science-900 border-l border-slate-200 dark:border-white/10 z-40 transition-transform duration-500 transform ${isSidebarOpen ? "translate-x-0" : "translate-x-full"} hidden md:flex flex-col shadow-2xl`}>
         <div className="p-6 space-y-8 flex-grow overflow-y-auto custom-scrollbar">
           <div className="space-y-4">
             <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] flex items-center gap-2"><Layers size={14} /> Sections</h3>
@@ -518,7 +551,7 @@ export const ExamScreen: React.FC<{
             <div className="grid grid-cols-5 gap-2">
               {questions.map((q, i) => {
                 const ans = userAnswers[q.id];
-                const isAttempted = ans && (ans.label !== undefined || (ans.labels && ans.labels.length > 0) || (ans.text !== undefined && ans.text !== ""));
+                const isAttempted = ans && (ans.label != null || (ans.labels && ans.labels.length > 0) || (ans.text !== undefined && ans.text !== ""));
                 const isCurrent = i === currentQuestionIndex;
                 return (
                   <button key={q.id} onClick={() => jumpToQuestion(i)} className={`h-10 rounded-lg text-xs font-black transition-all border-2 relative ${isCurrent ? "bg-teal-500 border-teal-500 text-white scale-110 z-10 shadow-lg shadow-teal-500/30" : isAttempted ? "bg-teal-500/10 border-teal-500/30 text-teal-500" : "bg-slate-100 dark:bg-science-950 border-slate-200 dark:border-slate-800 text-slate-500 hover:border-slate-300"}`}>
