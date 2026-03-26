@@ -23,6 +23,8 @@ import {
 } from "lucide-react";
 import "katex/dist/katex.min.css";
 import { Latex } from "./components/Latex";
+import { Card } from "./components/Card";
+import { Button } from "./components/Button";
 import { AIExamGenerator } from "./components/AIExamGenerator";
 import AdminDashboard from "./admin/AdminDashboard";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -133,58 +135,7 @@ const Header: React.FC<{
 };
 
 // --- UI COMPONENTS ---
-export const Card: React.FC<{
-  children: React.ReactNode;
-  className?: string;
-  title?: string;
-  icon?: React.ReactNode;
-}> = ({ children, className = "", title, icon }) => (
-  <div
-    className={`glass rounded-2xl p-6 transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-2xl hover:shadow-teal-500/10 hover:border-teal-500/30 ${className}`}
-  >
-    {(title || icon) && (
-      <h2 className="text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100 flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
-        <span className="text-teal-500">{icon}</span> {title}
-      </h2>
-    )}
-    {children}
-  </div>
-);
-
-export const Button: React.FC<{
-  onClick?: () => void;
-  children: React.ReactNode;
-  className?: string;
-  variant?: "primary" | "secondary" | "danger" | "blue";
-  disabled?: boolean;
-}> = ({
-  onClick,
-  children,
-  className = "",
-  variant = "primary",
-  disabled = false,
-}) => {
-  const baseClasses =
-    "px-6 py-3 font-semibold rounded-xl shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-all duration-300 ease-in-out transform flex items-center justify-center gap-2 active:scale-95";
-  const variantClasses = {
-    primary: "glowing-primary",
-    secondary:
-      "bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 focus:ring-slate-500 border border-slate-300 dark:border-slate-700",
-    danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 shadow-red-900/20",
-    blue: "glowing-blue",
-  };
-  const disabledClasses =
-    "opacity-50 cursor-not-allowed hover:scale-100 hover:shadow-md pointer-events-none";
-  return (
-    <button
-      onClick={onClick}
-      className={`${baseClasses} ${variantClasses[variant]} ${disabled ? disabledClasses : "hover:-translate-y-1"} ${className}`}
-      disabled={disabled}
-    >
-      {children}
-    </button>
-  );
-};
+// Local Card and Button removed, using imports from ./components/
 
 const UploadModal: React.FC<{
   examJson: string;
@@ -264,7 +215,7 @@ const UploadModal: React.FC<{
               value={userName}
               onChange={(e) => setUserName(e.target.value.slice(0, 50))}
               maxLength={50}
-              className="w-full p-3 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-teal-500 outline-none"
+              className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-teal-500 outline-none"
               placeholder="Enter your name"
             />
           </div>
@@ -276,7 +227,7 @@ const UploadModal: React.FC<{
               type="text"
               value={examTitle}
               onChange={(e) => setExamTitle(e.target.value)}
-              className="w-full p-3 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-teal-500 outline-none"
+              className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-teal-500 outline-none"
               placeholder="Enter exam title"
             />
           </div>

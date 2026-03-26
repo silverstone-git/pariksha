@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "./Card";
 import { Button } from "./Button";
-import { X, Clipboard, Check, Sparkles } from "lucide-react";
+import { X, Clipboard, Check, Sparkles, Bot, Zap, Globe, MessageSquare, RefreshCw } from "lucide-react";
 import type { ExamConfig } from "../types";
 import { isValidExamQuestions, robustJsonParse, API_BASE_URL } from "../utils";
 
@@ -214,271 +214,260 @@ Please provide only the raw JSON array as the output.
     }
   };
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4">
-      <Card className="w-full max-w-2xl max-h-[90vh] flex flex-col dark:bg-gray-800 dark:text-gray-200">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold">Generate Exam with AI</h2>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
-          >
-            <X size={24} />
-          </button>
-        </div>
+  const inputClasses = "w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-teal-500 transition-all";
+  const labelClasses = "block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2";
 
-        <div className="overflow-y-auto pr-2 flex-grow">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
-                Your Name
-              </label>
-              <input
-                type="text"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
-                placeholder="Enter your name to post"
-              />
+  return (
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex justify-center items-center z-[70] p-4">
+      <Card 
+        title="Custom AI Exam Generator" 
+        icon={<Bot size={24} />}
+        className="w-full max-w-4xl max-h-[95vh] border-teal-500/50 flex flex-col overflow-hidden"
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-500"
+        >
+          <X size={24} />
+        </button>
+
+        <div className="overflow-y-auto pr-4 custom-scrollbar flex-grow py-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="space-y-4">
+              <div>
+                <label className={labelClasses}>Author Name</label>
+                <input
+                  type="text"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  className={inputClasses}
+                  placeholder="Your name for community posting"
+                />
+              </div>
+              <div>
+                <label className={labelClasses}>Exam Name</label>
+                <input
+                  type="text"
+                  value={examName}
+                  onChange={(e) => setExamName(e.target.value)}
+                  className={inputClasses}
+                  placeholder="e.g., Quantum Mechanics Masterclass"
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
-                Exam Name
-              </label>
-              <input
-                type="text"
-                value={examName}
-                onChange={(e) => setExamName(e.target.value)}
-                className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
-                placeholder="e.g., Advanced Calculus"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
-                Difficulty
-              </label>
-              <select
-                value={difficulty}
-                onChange={(e) => setDifficulty(e.target.value)}
-                className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
-              >
-                <option>Easy</option>
-                <option>Medium</option>
-                <option>Hard</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
-                Reference Exams
-              </label>
-              <input
-                type="text"
-                value={referenceExams}
-                onChange={(e) => setReferenceExams(e.target.value)}
-                className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
-                placeholder="e.g., GRE, SAT"
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
-                Number of Questions
-              </label>
-              <input
-                type="number"
-                value={numQuestions}
-                onChange={(e) =>
-                  setNumQuestions(Math.max(1, parseInt(e.target.value) || 1))
-                }
-                className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
-              />
+            
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className={labelClasses}>Difficulty</label>
+                  <select
+                    value={difficulty}
+                    onChange={(e) => setDifficulty(e.target.value)}
+                    className={inputClasses}
+                  >
+                    <option>Easy</option>
+                    <option>Medium</option>
+                    <option>Hard</option>
+                  </select>
+                </div>
+                <div>
+                  <label className={labelClasses}>Question Count</label>
+                  <input
+                    type="number"
+                    value={numQuestions}
+                    onChange={(e) =>
+                      setNumQuestions(Math.max(1, parseInt(e.target.value) || 1))
+                    }
+                    className={inputClasses}
+                  />
+                </div>
+              </div>
+              <div>
+                <label className={labelClasses}>Reference Framework / Context</label>
+                <input
+                  type="text"
+                  value={referenceExams}
+                  onChange={(e) => setReferenceExams(e.target.value)}
+                  className={inputClasses}
+                  placeholder="e.g., GATE 2024, CSIR-NET JRF"
+                />
+              </div>
             </div>
           </div>
 
-          {!isPromptGenerated ? (
-            <Button onClick={generatePrompt} className="w-full mb-4">
-              Generate Prompt
-            </Button>
-          ) : (
-            <div className="space-y-4 mb-4">
-              <div className="relative">
+          <div className="mb-8 p-4 bg-teal-500/5 border border-teal-500/20 rounded-2xl relative">
+            {!isPromptGenerated ? (
+              <div className="flex flex-col items-center py-6 text-center">
+                <Sparkles className="text-teal-500 mb-4 opacity-40" size={48} />
+                <h3 className="text-lg font-bold mb-2">Ready to Engineer your Prompt?</h3>
+                <p className="text-sm text-slate-500 mb-6 max-w-md">
+                  We've optimized the JSON schema requirements for the best LaTeX rendering compatibility. 
+                  Generate the prompt and paste it into your favorite LLM.
+                </p>
+                <Button onClick={generatePrompt} className="w-full md:w-auto px-12">
+                  <Zap size={18} /> Generate AI Prompt
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2">
+                <div className="flex justify-between items-center mb-2">
+                  <label className={labelClasses}>Optimized LLM Prompt</label>
+                  <Button
+                    onClick={handleCopy}
+                    variant="secondary"
+                    className="py-1 px-3 text-xs"
+                  >
+                    {isCopied ? (
+                      <>
+                        <Check size={14} /> Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Clipboard size={14} /> Copy to Clipboard
+                      </>
+                    )}
+                  </Button>
+                </div>
                 <textarea
                   readOnly
                   value={generatedPrompt}
-                  className="w-full p-2 h-32 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600"
+                  className="w-full p-4 h-40 rounded-xl bg-slate-900/50 dark:bg-slate-950/50 border border-slate-700 font-mono text-xs leading-relaxed custom-scrollbar"
                 />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
-                <Button
-                  onClick={() =>
-                    window.open(
-                      `https://claude.ai/new?q=${encodeURIComponent(
-                        generatedPrompt,
-                      )}`,
-                      "_blank",
-                    )
-                  }
-                  variant="secondary"
-                  className="flex items-center justify-center gap-2"
-                >
-                  <Sparkles size={16} /> Claude
-                </Button>
-                <Button
-                  onClick={() =>
-                    window.open(
-                      `https://chatgpt.com/?q=${encodeURIComponent(
-                        generatedPrompt,
-                      )}`,
-                      "_blank",
-                    )
-                  }
-                  variant="secondary"
-                  className="flex items-center justify-center gap-2"
-                >
-                  <Sparkles size={16} /> ChatGPT
-                </Button>
-                <Button
-                  onClick={() =>
-                    window.open(
-                      `https://www.google.com/search?udm=50&q=${encodeURIComponent(
-                        generatedPrompt,
-                      )}`,
-                      "_blank",
-                    )
-                  }
-                  variant="secondary"
-                  className="flex items-center justify-center gap-2"
-                >
-                  <Sparkles size={16} /> Google AI
-                </Button>
-                <Button
-                  onClick={handleCopy}
-                  variant="secondary"
-                  className="flex items-center justify-center gap-2"
-                >
-                  {isCopied ? (
-                    <>
-                      <Check size={16} /> Copied
-                    </>
-                  ) : (
-                    <>
-                      <Clipboard size={16} /> Copy
-                    </>
-                  )}
-                </Button>
-              </div>
-              {suggestionsVisible && (
-                <div className="relative text-sm text-gray-600 dark:text-gray-400 mt-2 p-4 border rounded-lg bg-gray-50 dark:bg-gray-700">
-                  <button
-                    onClick={() => setSuggestionsVisible(false)}
-                    className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600"
+                
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <Button
+                    onClick={() =>
+                      window.open(
+                        `https://claude.ai/new?q=${encodeURIComponent(generatedPrompt)}`,
+                        "_blank"
+                      )
+                    }
+                    variant="blue"
+                    className="text-xs py-2 bg-slate-200/50 dark:bg-slate-900/50 border-blue-500/30 hover:border-blue-500 text-blue-500"
                   >
-                    <X size={16} />
-                  </button>
-                  <p className="font-semibold mb-2">
-                    Paste the copied prompt into one of these AI tools:
-                  </p>
-                  <ul className="list-disc list-inside space-y-1">
-                    <li>
-                      <a
-                        href="https://duckduckgo.com/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
-                      >
-                        DuckDuckGo
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://gemini.google.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
-                      >
-                        Gemini
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://huggingface.co/spaces/zai-org/GLM-4.5-Space"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
-                      >
-                        GLM-4.5
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://chat.qwen.ai"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
-                      >
-                        Qwen AI
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://chat.deepseek.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
-                      >
-                        Deepseek Official Portal
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://huggingface.co/spaces/deepseek-ai/deepseek-coder-33b-instruct"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
-                      >
-                        Deepseek Huggingface Space
-                      </a>
-                    </li>
-                  </ul>
+                    <MessageSquare size={14} /> Open Claude
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      window.open(
+                        `https://chatgpt.com/?q=${encodeURIComponent(generatedPrompt)}`,
+                        "_blank"
+                      )
+                    }
+                    variant="blue"
+                    className="text-xs py-2 bg-slate-200/50 dark:bg-slate-900/50 border-teal-500/30 hover:border-teal-500 text-teal-500"
+                  >
+                    <Zap size={14} /> Open ChatGPT
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      window.open(
+                        `https://www.google.com/search?udm=50&q=${encodeURIComponent(generatedPrompt)}`,
+                        "_blank"
+                      )
+                    }
+                    variant="secondary"
+                    className="text-xs py-2"
+                  >
+                    <Globe size={14} /> Search AI
+                  </Button>
+                </div>
+
+                {suggestionsVisible && (
+                  <div className="p-4 bg-slate-200/50 dark:bg-slate-900/50 border border-white/5 rounded-xl animate-in zoom-in-95">
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">More LLM Providers</p>
+                      <button onClick={() => setSuggestionsVisible(false)} className="text-slate-500 hover:text-slate-300">
+                        <X size={14} />
+                      </button>
+                    </div>
+                    <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs">
+                      <a href="https://gemini.google.com" target="_blank" className="text-teal-500 hover:underline">Gemini</a>
+                      <a href="https://chat.deepseek.com" target="_blank" className="text-teal-500 hover:underline">Deepseek</a>
+                      <a href="https://chat.qwen.ai" target="_blank" className="text-teal-500 hover:underline">Qwen</a>
+                      <a href="https://huggingface.co/chat" target="_blank" className="text-teal-500 hover:underline">HF Chat</a>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-4">
+            <label className={labelClasses}>Step 2: Paste LLM Output (JSON Array)</label>
+            <div className="relative group">
+              <textarea
+                value={llmOutput}
+                onChange={(e) => setLlmOutput(e.target.value)}
+                className={`${inputClasses} h-48 font-mono text-sm border-2 ${error ? 'border-red-500/50' : 'group-hover:border-teal-500/30'}`}
+                placeholder='[{"question": "...", "options": [...], "answer_label": 1, ...}, ...]'
+              />
+              {llmOutput === "" && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 flex-col">
+                  <Clipboard size={32} className="mb-2" />
+                  <p className="text-xs">Paste the generated JSON here</p>
                 </div>
               )}
             </div>
-          )}
-
-          <div>
-            <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
-              Paste LLM Output Here
-            </label>
-            <textarea
-              value={llmOutput}
-              onChange={(e) => setLlmOutput(e.target.value)}
-              className="w-full p-2 h-32 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-green-500 focus:ring-0"
-              placeholder="Paste the JSON array from the LLM (Preferably CLaude or ChatGPT) here."
-            />
           </div>
 
-          {error && <p className="text-red-500 mt-2 text-sm">{error}</p>}
+          {error && (
+            <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-red-500 text-sm">
+              <X size={18} /> {error}
+            </div>
+          )}
         </div>
 
-        <div className="mt-6 flex justify-end gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-          <Button onClick={onClose} variant="secondary" disabled={isPosting}>
-            Cancel
-          </Button>
-          <Button
-            onClick={handleSaveToLocal}
-            variant="primary"
-            disabled={isPosting}
-          >
-            Save to Local
-          </Button>
-          <Button
-            onClick={handlePostToCommunity}
-            variant="primary"
-            disabled={isPosting}
-          >
-            {isPosting ? "Posting..." : "Post to Community"}
-          </Button>
+        <div className="mt-8 flex flex-col sm:flex-row justify-between items-center pt-6 border-t border-slate-200 dark:border-slate-800">
+           <p className="text-[10px] text-slate-500 uppercase tracking-widest mb-4 sm:mb-0">
+             Ensure JSON starts with <span className="text-teal-500 font-bold">[</span> and ends with <span className="text-teal-500 font-bold">]</span>
+           </p>
+           <div className="flex gap-4 w-full sm:w-auto">
+            <Button onClick={onClose} variant="secondary" className="flex-1 sm:flex-none" disabled={isPosting}>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSaveToLocal}
+              variant="blue"
+              className="flex-1 sm:flex-none px-8"
+              disabled={isPosting || !llmOutput.trim()}
+            >
+              Save to Local
+            </Button>
+            <Button
+              onClick={handlePostToCommunity}
+              disabled={isPosting || !llmOutput.trim() || !userName.trim()}
+              className="flex-1 sm:flex-none px-8 bg-teal-600 hover:bg-teal-500 shadow-lg shadow-teal-500/20"
+            >
+              {isPosting ? (
+                <>
+                  <RefreshCw size={18} className="animate-spin" /> Posting...
+                </>
+              ) : (
+                <>
+                  <Globe size={18} /> Post to Community
+                </>
+              )}
+            </Button>
+          </div>
         </div>
       </Card>
+      
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #334155;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #475569;
+        }
+      `}</style>
     </div>
   );
 };

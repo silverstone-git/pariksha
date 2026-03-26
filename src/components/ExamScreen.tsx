@@ -24,7 +24,7 @@ import type {
 } from "../types";
 import { shuffleArray, resolveImagePath, normalizeExamConfig, isQuestionCorrect } from "../utils";
 import { Button } from "./Button";
-import { Card } from "../App";
+import { Card } from "./Card";
 
 const SubmitConfirmationModal: React.FC<{
   isOpen: boolean;

@@ -4,12 +4,19 @@ interface CardProps {
   children: React.ReactNode;
   className?: string;
   title?: string;
+  icon?: React.ReactNode;
 }
 
-export const Card = ({ children, className, title }: CardProps) => {
+export const Card = ({ children, className = "", title, icon }: CardProps) => {
   return (
-    <div className={`bg-white shadow-md rounded-lg p-6 ${className}`}>
-      {title && <h2 className="text-xl font-bold mb-4">{title}</h2>}
+    <div
+      className={`glass rounded-2xl p-6 transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-2xl hover:shadow-teal-500/10 hover:border-teal-500/30 ${className}`}
+    >
+      {(title || icon) && (
+        <h2 className="text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100 flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+          {icon && <span className="text-teal-500">{icon}</span>} {title}
+        </h2>
+      )}
       {children}
     </div>
   );

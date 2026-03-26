@@ -10,7 +10,8 @@ import {
   Search,
   BookOpen
 } from "lucide-react";
-import { Card, Button } from "../App";
+import { Card } from "../components/Card";
+import { Button } from "../components/Button";
 
 // --- Types ---
 interface TopicSummary {
