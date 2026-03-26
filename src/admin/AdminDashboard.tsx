@@ -1,6 +1,5 @@
 import React from "react";
 import { 
-  Settings, 
   Plus, 
   Trash2, 
   Database, 
@@ -12,7 +11,6 @@ import {
   BookOpen
 } from "lucide-react";
 import { Card, Button } from "../App";
-import { API_BASE_URL, robustJsonParse } from "../utils";
 
 // --- Types ---
 interface TopicSummary {

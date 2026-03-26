@@ -5,7 +5,6 @@ import {
   AlertTriangle, 
   RefreshCw, 
   CheckSquare, 
-  Square, 
   Type, 
   Flag, 
   Layers, 
@@ -22,7 +21,6 @@ import type {
   ShuffledQuestion,
   UserAnswer,
   SWOTAnalysis,
-  QuestionType,
 } from "../types";
 import { shuffleArray, resolveImagePath, normalizeExamConfig, isQuestionCorrect } from "../utils";
 import { Button } from "./Button";

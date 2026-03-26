@@ -1,4 +1,4 @@
-import type { Question, ExamConfig, ExamPreset, ExamSection, UserAnswer } from "./types";
+import type { Question, ExamConfig, ExamPreset, ExamSection, QuestionType, ExamSettings } from "./types";
 
 export const isLocalhost = (): boolean => {
   return (

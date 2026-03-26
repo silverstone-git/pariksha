@@ -674,7 +674,7 @@ const PhysicsExamGeneratorModal: React.FC<{
   onClose: () => void;
   onExamGenerated: (config: ExamConfig) => void;
 }> = ({ isOpen, onClose, onExamGenerated }) => {
-  const [shouldUpload, setShouldUpload] = React.useState(false);
+  const [shouldUpload] = React.useState(false);
   const [isGenerating, setIsGenerating] = React.useState(false);
   const [isCustomMode, setIsCustomMode] = React.useState(false);
   

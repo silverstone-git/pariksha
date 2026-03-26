@@ -87,22 +87,6 @@ export interface ExamResult {
   sectionScores?: Record<string, number>;
 }
 
-  examName: string;
-  date: number;
-  score: number;
-  totalQuestions: number;
-  correctAnswers: number;
-  incorrectAnswers: number;
-  accuracy: number;
-  totalTimeTaken: number; // in seconds
-  timePerTopic: Record<string, number>;
-  accuracyPerTopic: Record<string, number>;
-  swot: SWOTAnalysis;
-  answers: UserAnswer[];
-  originalQuestions: ShuffledQuestion[];
-  sectionScores?: Record<string, number>;
-}
-
 export interface ServerExam {
   exam_id: string;
   exam_title: string;
