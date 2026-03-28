@@ -20,6 +20,7 @@ import {
   Activity,
   Trash2,
   Plus,
+  Save,
 } from "lucide-react";
 import "katex/dist/katex.min.css";
 import { Latex } from "./components/Latex";
@@ -102,29 +103,29 @@ const Header: React.FC<{
   onAdminClick: () => void;
 }> = ({ screen, mainTimer, onAdminClick }) => {
   return (
-    <header className="flex justify-between items-center p-4 glass sticky top-0 z-50 transition-all border-b border-white/20 dark:border-white/10">
-      <div className="flex items-center gap-4">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent font-bebas tracking-wider">
-          Pariksha <span className="text-sm font-sans font-light text-slate-400 align-middle ml-2 uppercase tracking-tighter">Physics Edition</span>
+    <header className="flex flex-wrap justify-between items-center px-2 py-2 sm:px-4 sm:py-4 glass sticky top-0 z-50 transition-all border-b border-white/20 dark:border-white/10 gap-1 sm:gap-2">
+      <div className="flex items-center flex-shrink min-w-0 pr-1">
+        <h1 className="text-lg sm:text-3xl font-bold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent font-bebas tracking-wider truncate">
+          Pariksha <span className="hidden xs:inline text-[10px] sm:text-sm font-sans font-light text-slate-400 align-middle ml-1 sm:ml-2 uppercase tracking-tighter">Physics</span>
         </h1>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-1 sm:gap-4 flex-shrink-0">
         {screen === "exam" && (
-          <div className="flex items-center gap-2 p-2 px-4 rounded-full bg-red-500/10 border border-red-500/20 text-red-500">
-            <Clock size={20} />
-            <span className="font-mono text-lg font-semibold tracking-widest">
+          <div className="flex items-center gap-1 sm:gap-2 p-1 sm:p-2 px-2 sm:px-4 rounded-full bg-red-500/10 border border-red-500/20 text-red-500">
+            <Clock size={14} className="sm:w-5 sm:h-5" />
+            <span className="font-mono text-xs sm:text-lg font-semibold tracking-widest">
               {formatTime(mainTimer)}
             </span>
           </div>
         )}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           {screen === "home" && isLocalhost() && (
             <button 
               onClick={onAdminClick}
-              className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-500"
+              className="p-1.5 sm:p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-500"
               title="Admin Dashboard"
             >
-              <Settings size={20} />
+              <Settings size={18} className="sm:w-5 sm:h-5" />
             </button>
           )}
           <ThemeToggle />
@@ -411,16 +412,16 @@ const ExamListItem: React.FC<{
   onDelete?: () => void;
   date?: Date;
 }> = ({ name, source, totalQuestions, onStart, onDelete, date }) => (
-  <div className="flex justify-between items-center p-4 glass rounded-xl border border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 hover:border-teal-500/50 group">
-    <div>
-      <h3 className="font-semibold text-lg text-slate-800 dark:text-slate-100">{name}</h3>
-      <p className="text-sm text-slate-500 mt-1 uppercase tracking-tighter">
+  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 glass rounded-xl border border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 hover:border-teal-500/50 group gap-3 sm:gap-4">
+    <div className="flex-1 w-full sm:w-auto pr-0 sm:pr-4">
+      <h3 className="font-semibold text-base sm:text-lg text-slate-800 dark:text-slate-100 leading-tight mb-1" style={{ wordBreak: 'break-word' }}>{name}</h3>
+      <p className="text-xs sm:text-sm text-slate-500 uppercase tracking-tighter">
         {source === "local"
           ? `Total Questions: ${totalQuestions}`
-          : `Uploaded: ${date?.toLocaleString()}`}
+          : `Uploaded: ${date?.toLocaleDateString()} ${date?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}
       </p>
     </div>
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 self-end sm:self-auto flex-shrink-0 mt-2 sm:mt-0">
       {onDelete && (
         <button
           onClick={(e) => {
@@ -433,8 +434,8 @@ const ExamListItem: React.FC<{
           <Trash2 size={18} />
         </button>
       )}
-      <Button onClick={onStart} className="flex-shrink-0 px-4 py-2 text-sm">
-        <Clock size={16} /> Start
+      <Button onClick={onStart} className="flex-shrink-0 px-5 py-2 text-sm shadow-md">
+        <Clock size={16} className="mr-2" /> Start
       </Button>
     </div>
   </div>
@@ -448,10 +449,12 @@ const ExamHistoryItem: React.FC<{
     className="p-4 glass rounded-xl border border-white/10 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 hover:border-teal-500/30"
     onClick={onClick}
   >
-    <div className="flex justify-between items-center mb-2">
-      <span className="font-semibold text-lg text-slate-800 dark:text-slate-100">{result.examName}</span>
+    <div className="flex justify-between items-start mb-2 gap-4">
+      <h3 className="font-semibold text-base sm:text-lg text-slate-800 dark:text-slate-100 leading-tight flex-1 pr-2" style={{ wordBreak: 'break-word' }}>
+        {result.examName}
+      </h3>
       <span
-        className={`font-bold text-xl ${
+        className={`font-bold text-lg sm:text-xl flex-shrink-0 mt-0.5 ${
           result.accuracy > 70 ? "text-teal-500" : "text-red-500"
         }`}
       >
@@ -594,17 +597,6 @@ const ExamConfigModal: React.FC<{
             >
               Start Exam
             </Button>
-          </div>
-          
-          <div className="mt-2 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
-            <p className="text-xs text-yellow-600 dark:text-yellow-400 flex items-start gap-2">
-              <AlertTriangle size={14} className="mt-0.5 flex-shrink-0" />
-              <span>
-                <strong>Note on Mixed Patterns:</strong> Pariksha currently applies a uniform marking scheme. 
-                For exams like CSIR NET or GATE which have different marks/penalties per section (or no penalties for NATs/MSQs), 
-                the values above represent an <em>average or default</em> global scheme.
-              </span>
-            </p>
           </div>
         </div>
       </Card>
@@ -1018,34 +1010,34 @@ const HomeScreen: React.FC<{
   );
 
   return (
-    <div className="science-grid min-h-[calc(100vh-68px)] transition-all">
-      <div className="max-w-7xl mx-auto p-4 md:p-8 dark:text-slate-300 text-slate-700">
+    <div className="science-grid min-h-[calc(100vh-68px)] transition-all overflow-x-hidden">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 md:p-8 dark:text-slate-300 text-slate-700 w-full">
         
         {/* Main Action Area */}
-        <div className="grid lg:grid-cols-12 gap-8 mb-12">
-          <div className="lg:col-span-8">
-            <h2 className="text-4xl font-bold text-slate-800 dark:text-white mb-4">
+        <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 mb-8 sm:mb-12">
+          <div className="lg:col-span-8 w-full">
+            <h2 className="text-2xl sm:text-4xl font-bold text-slate-800 dark:text-white mb-4">
               Scientific Exam <span className="text-teal-500">Simulator</span>
             </h2>
-            <p className="text-lg text-slate-500 dark:text-slate-400 mb-8 max-w-2xl">
+            <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 mb-6 sm:mb-8 max-w-2xl">
               Master complex physics concepts through our AI-enhanced question bank. 
               Practice for GATE, NET, and TIFR with real-world patterns.
             </p>
             
-            <div className="grid md:grid-cols-2 gap-4">
-              <Button onClick={() => setIsPhysicsGenModalOpen(true)} variant="blue" className="h-24 text-xl">
-                <Zap size={28} /> Auto-Generate Physics Exam
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Button onClick={() => setIsPhysicsGenModalOpen(true)} variant="blue" className="h-20 sm:h-24 text-lg sm:text-xl">
+                <Zap size={24} className="sm:w-7 sm:h-7" /> Auto-Generate
               </Button>
-              <Button onClick={() => setIsAiModalOpen(true)} className="h-24 text-xl">
-                <Bot size={28} /> Custom AI Generation
+              <Button onClick={() => setIsAiModalOpen(true)} className="h-20 sm:h-24 text-lg sm:text-xl">
+                <Bot size={24} className="sm:w-7 sm:h-7" /> Custom AI
               </Button>
             </div>
           </div>
           
-          <div className="lg:col-span-4 flex flex-col gap-4">
+          <div className="lg:col-span-4 flex flex-col gap-4 w-full">
             <Card className="bg-teal-500/5 border-teal-500/20">
-              <h3 className="font-bold text-teal-500 flex items-center gap-2 mb-2"><Shield size={18}/> Question Bank Status</h3>
-              <p className="text-sm text-slate-500">840 Questions across 42 Physics Topics. Fully indexed and AI-verified.</p>
+              <h3 className="font-bold text-teal-500 flex items-center gap-2 mb-2 text-sm sm:text-base"><Shield size={18}/> Question Bank Status</h3>
+              <p className="text-xs sm:text-sm text-slate-500">840 Questions across 42 Physics Topics. Fully indexed and AI-verified.</p>
               <div className="mt-4 flex gap-2">
                 <div className="h-1 bg-teal-500 flex-1 rounded-full"></div>
                 <div className="h-1 bg-teal-500 flex-1 rounded-full"></div>
@@ -1082,11 +1074,11 @@ const HomeScreen: React.FC<{
           />
         )}
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           <Card
             title="Available Exams"
             icon={<FileText />}
-            className="lg:col-span-2"
+            className="lg:col-span-2 w-full overflow-hidden"
           >
             <div className="flex items-center gap-2 mb-6">
               <div className="relative w-full">
@@ -1094,32 +1086,32 @@ const HomeScreen: React.FC<{
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full p-4 pl-12 rounded-xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-teal-500 outline-none transition-all"
+                  className="w-full p-3 sm:p-4 pl-10 sm:pl-12 rounded-xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-teal-500 outline-none transition-all text-sm sm:text-base"
                   placeholder="Search exam bank..."
                 />
                 <Search
-                  size={20}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+                  size={18}
+                  className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-slate-400"
                 />
               </div>
               <Button
                 onClick={fetchExams}
                 variant="secondary"
                 disabled={isLoading}
-                className="p-4"
+                className="p-3 sm:p-4"
               >
                 <RefreshCw
-                  size={20}
+                  size={18}
                   className={isLoading ? "animate-spin" : ""}
                 />
               </Button>
             </div>
             
-            <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="space-y-4 max-h-[600px] overflow-y-auto pr-1 sm:pr-2 custom-scrollbar">
               {filteredLocalExams.length > 0 && (
                 <>
-                  <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-teal-500"></div> Local Exams
+                  <h3 className="text-[10px] sm:text-sm font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-teal-500"></div> Local Exams
                   </h3>
                   <div className="grid gap-3 mb-6">
                     {filteredLocalExams.map((exam, index) => {
@@ -1141,8 +1133,8 @@ const HomeScreen: React.FC<{
                 </>
               )}
               
-              <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-blue-500"></div> Community Exams
+              <h3 className="text-[10px] sm:text-sm font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-500"></div> Community Exams
               </h3>
               {isLoading ? (
                 <div className="flex justify-center items-center p-8">
@@ -1162,16 +1154,16 @@ const HomeScreen: React.FC<{
                       />
                     ))}
                   </div>
-                  <div className="flex justify-between items-center mt-6 p-4 bg-slate-100 dark:bg-slate-800/50 rounded-xl">
+                  <div className="flex flex-col sm:flex-row justify-between items-center mt-6 p-3 sm:p-4 bg-slate-100 dark:bg-slate-800/50 rounded-xl gap-3">
                     <Button
                       onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
                       variant="secondary"
-                      className="px-4 py-2"
+                      className="w-full sm:w-auto px-4 py-2 text-xs sm:text-sm"
                     >
                       Prev
                     </Button>
-                    <span className="text-sm font-medium text-slate-500">
+                    <span className="text-xs sm:text-sm font-medium text-slate-500">
                       Page {currentPage} of {totalPages}
                     </span>
                     <Button
@@ -1180,20 +1172,20 @@ const HomeScreen: React.FC<{
                       }
                       disabled={currentPage === totalPages}
                       variant="secondary"
-                      className="px-4 py-2"
+                      className="w-full sm:w-auto px-4 py-2 text-xs sm:text-sm"
                     >
                       Next
                     </Button>
                   </div>
                 </>
               ) : (
-                <p className="text-slate-500 text-center py-10 italic">No community exams found matching your search.</p>
+                <p className="text-slate-500 text-center py-10 italic text-sm">No community exams found.</p>
               )}
             </div>
           </Card>
           
-          <Card title="Recent History" icon={<History />}>
-            <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+          <Card title="Recent History" icon={<History />} className="w-full overflow-hidden">
+            <div className="space-y-4 max-h-[500px] overflow-y-auto pr-1 sm:pr-2 custom-scrollbar">
               {examHistory.length > 0 ? (
                 examHistory.map((result) => (
                   <ExamHistoryItem
@@ -1239,8 +1231,10 @@ import { ExamScreen } from "./components/ExamScreen";
 
 const ResultsScreen: React.FC<{
   result: ExamResult;
-  setScreen: (screen: "home") => void;
-}> = ({ result, setScreen }) => {
+  setScreen: (screen: "home" | "exam") => void;
+  onSaveToLocal?: (config: ExamConfig) => void;
+  onReattempt?: (config: ExamConfig) => void;
+}> = ({ result, setScreen, onSaveToLocal, onReattempt }) => {
   const [reviewQuestionId, setReviewQuestionId] = React.useState<string | null>(
     result.originalQuestions[0]?.id || null,
   );
@@ -1258,6 +1252,37 @@ const ResultsScreen: React.FC<{
     document.body.appendChild(downloadAnchorNode);
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
+  };
+
+  const handleSaveToLocal = () => {
+    if (onSaveToLocal) {
+      if (result.originalConfig) {
+        onSaveToLocal(result.originalConfig);
+        alert("Exam saved to local successfully!");
+      } else {
+        // Fallback: reconstruct config from originalQuestions
+        const config: ExamConfig = {
+          name: result.examName,
+          questions: result.originalQuestions
+        };
+        onSaveToLocal(config);
+        alert("Exam saved to local successfully! (Note: sections and marking scheme might be basic for older results)");
+      }
+    }
+  };
+
+  const handleReattempt = () => {
+    if (onReattempt) {
+      if (result.originalConfig) {
+        onReattempt(result.originalConfig);
+      } else {
+        const config: ExamConfig = {
+          name: result.examName,
+          questions: result.originalQuestions
+        };
+        onReattempt(config);
+      }
+    }
   };
 
   const SWOTIcon = ({ type }: { type: "S" | "W" | "O" | "T" }) => {
@@ -1531,13 +1556,24 @@ const ResultsScreen: React.FC<{
         </div>
       </Card>
 
-      <div className="mt-8 flex justify-center gap-4">
-        <Button onClick={() => setScreen("home")} variant="secondary" className="px-8">
-          <Home size={20} /> Back to Home
-        </Button>
-        <Button onClick={downloadResults} className="px-8">
-          <Download size={20} /> Download Results
-        </Button>
+      <div className="mt-12 p-4 md:p-6 bg-white dark:bg-science-900/80 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-[2rem] shadow-xl flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="flex w-full md:w-auto gap-3">
+          <Button onClick={() => setScreen("home")} variant="secondary" className="flex-1 md:flex-none py-3 px-6 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border-0 rounded-xl">
+            <Home size={18} className="mr-2" /> Home
+          </Button>
+          <Button onClick={handleReattempt} variant="primary" className="flex-1 md:flex-none py-3 px-6 bg-teal-600 hover:bg-teal-500 text-white shadow-lg shadow-teal-500/20 border-0 rounded-xl">
+            <RefreshCw size={18} className="mr-2" /> Re-attempt
+          </Button>
+        </div>
+        
+        <div className="flex w-full md:w-auto gap-3">
+          <Button onClick={handleSaveToLocal} variant="secondary" className="flex-1 md:flex-none py-3 px-6 bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 border-0 rounded-xl transition-colors">
+            <Save size={18} className="mr-2" /> Save Exam
+          </Button>
+          <Button onClick={downloadResults} variant="secondary" className="flex-1 md:flex-none py-3 px-6 bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 border-0 rounded-xl transition-colors">
+            <Download size={18} className="mr-2" /> Download Results
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -1592,6 +1628,15 @@ export default function App() {
     ]);
   };
 
+  const handleReattempt = (config: ExamConfig) => {
+    setTimerConfig({
+      hours: config.settings?.timerHours ?? 1,
+      minutes: config.settings?.timerMinutes ?? 30,
+    });
+    setExamConfig(config);
+    setScreen("exam");
+  };
+
   const viewResult = (result: ExamResult) => {
     setLastResult(result);
     setScreen("results");
@@ -1624,7 +1669,14 @@ export default function App() {
           setScreen("home");
           return null;
         }
-        return <ResultsScreen result={lastResult} setScreen={setScreen} />;
+        return (
+          <ResultsScreen
+            result={lastResult}
+            setScreen={setScreen as any}
+            onSaveToLocal={handleFileUpload}
+            onReattempt={handleReattempt}
+          />
+        );
       case "home":
       default:
         return (

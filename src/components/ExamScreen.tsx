@@ -11,7 +11,6 @@ import {
   GripVertical,
   Target,
   Zap,
-  Menu,
   X
 } from "lucide-react";
 import { Latex } from "./Latex";
@@ -140,7 +139,7 @@ export const ExamScreen: React.FC<{
   const [questionTimers, setQuestionTimers] = React.useState<Record<string, number>>({});
   const [topicTimers, setTopicTimers] = React.useState<Record<string, number>>({});
   const [isSubmitModalOpen, setIsSubmitModalOpen] = React.useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(window.innerWidth >= 768);
 
   const startTimeRef = React.useRef(Date.now());
   const questionStartTimeRef = React.useRef(Date.now());
@@ -253,6 +252,7 @@ export const ExamScreen: React.FC<{
       answers: processedAnswers,
       originalQuestions: questions,
       sectionScores,
+      originalConfig: config,
       swot: { strengths: [], weaknesses: [], opportunities: [], threats: [] },
     };
     result.swot = generateSwotAnalysis(result);
@@ -383,37 +383,69 @@ export const ExamScreen: React.FC<{
   const currentSection = config.sections?.find(s => s.questions.some(sq => sq.id === qId));
 
   return (
-    <div className="flex h-[calc(100vh-68px)] bg-slate-50 dark:bg-science-950 overflow-hidden science-grid">
+    <div className="flex h-[calc(100vh-68px)] bg-slate-50 dark:bg-science-950 overflow-hidden science-grid relative">
+      {/* Mobile Backdrop Overlay */}
+      <div 
+        className={`fixed inset-0 top-[68px] z-[45] bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+          isSidebarOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={() => setIsSidebarOpen(false)}
+      />
+
+      {/* Upgraded Mobile FAB */}
       <button 
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="fixed bottom-24 right-6 z-[60] md:hidden w-14 h-14 bg-teal-500 text-white rounded-full shadow-2xl flex items-center justify-center active:scale-95 transition-all"
+        className={`fixed bottom-24 z-[60] md:hidden h-14 rounded-full shadow-2xl shadow-teal-500/30 flex items-center justify-center active:scale-95 transition-all duration-300 ${
+          isSidebarOpen 
+            ? "w-14 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700 right-6"
+            : "px-6 bg-gradient-to-r from-teal-500 to-blue-500 text-white right-6 hover:shadow-teal-500/50"
+        }`}
       >
-        {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+        {isSidebarOpen ? (
+          <X size={24} />
+        ) : (
+          <>
+            <Layers size={20} className="mr-2" /> 
+            <span className="font-bold tracking-wider text-sm">NAVIGATOR</span>
+          </>
+        )}
       </button>
 
-      <div className={`flex-grow flex flex-col transition-all duration-300 ${isSidebarOpen ? "md:mr-80" : ""}`}>
+      <div className={`flex-grow flex flex-col transition-all duration-300 w-full ${isSidebarOpen ? "md:mr-80 md:w-[calc(100%-20rem)]" : ""}`}>
         <main className="flex-grow p-4 md:p-8 overflow-y-auto custom-scrollbar">
           <div className="max-w-4xl mx-auto space-y-6">
-            <div className="flex justify-between items-start">
-              <div className="space-y-2">
-                <div className="flex gap-2 items-center">
-                  <span className="text-[10px] font-black text-white uppercase tracking-[0.2em] bg-teal-600 px-3 py-1 rounded-md shadow-sm">
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+              <div className="space-y-2 min-w-0 w-full">
+                <div className="flex flex-wrap gap-2 items-center">
+                  <span className="text-[10px] font-black text-white uppercase tracking-[0.2em] bg-teal-600 px-3 py-1 rounded-md shadow-sm truncate max-w-[150px] sm:max-w-xs">
                     {currentSection?.name || "General"}
                   </span>
-                  <span className="text-[10px] font-bold text-slate-400 bg-slate-200 dark:bg-slate-800/80 px-2 py-1 rounded-md">
+                  <span className="text-[10px] font-bold text-slate-400 bg-slate-200 dark:bg-slate-800/80 px-2 py-1 rounded-md flex-shrink-0">
                     {qType}
                   </span>
                   {selectedAnswer.isFlagged && (
-                    <span className="flex items-center gap-1 text-[10px] font-bold text-orange-500 bg-orange-500/10 px-2 py-1 rounded-md animate-pulse">
+                    <span className="flex items-center gap-1 text-[10px] font-bold text-orange-500 bg-orange-500/10 px-2 py-1 rounded-md animate-pulse flex-shrink-0">
                       <Flag size={10} fill="currentColor" /> FLAGGED
                     </span>
                   )}
                 </div>
-                <h1 className="text-sm font-medium text-slate-500 uppercase tracking-widest">
-                  Question <span className="text-slate-900 dark:text-white font-black">{currentQuestionIndex + 1}</span> of {questions.length}
-                </h1>
+                <div className="flex items-center justify-between sm:justify-start w-full gap-4">
+                  <h1 className="text-sm font-medium text-slate-500 uppercase tracking-widest truncate">
+                    Question <span className="text-slate-900 dark:text-white font-black">{currentQuestionIndex + 1}</span> of {questions.length}
+                  </h1>
+                  <button 
+                    onClick={toggleFlag}
+                    className={`sm:hidden p-2 rounded-xl border-2 transition-all flex-shrink-0 ${
+                      selectedAnswer.isFlagged 
+                      ? "bg-orange-500/10 border-orange-500 text-orange-500 shadow-lg shadow-orange-500/10" 
+                      : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-400 hover:border-orange-500/50"
+                    }`}
+                  >
+                    <Flag size={18} fill={selectedAnswer.isFlagged ? "currentColor" : "none"} />
+                  </button>
+                </div>
               </div>
-              <div className="flex gap-2">
+              <div className="hidden sm:flex gap-2 flex-shrink-0">
                 <button 
                   onClick={toggleFlag}
                   className={`p-2 rounded-xl border-2 transition-all ${
@@ -427,59 +459,59 @@ export const ExamScreen: React.FC<{
               </div>
             </div>
 
-            <div className="relative group">
+            <div className="relative group w-full">
               <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 to-blue-500 rounded-[2rem] blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
-              <div className="relative p-8 md:p-12 bg-white dark:bg-science-900/80 backdrop-blur-xl rounded-[2rem] border border-slate-200 dark:border-white/10 shadow-2xl space-y-8">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/5 border border-teal-500/10 text-[10px] font-mono text-teal-500 font-bold uppercase tracking-tighter">
-                  <Target size={12} /> {currentQuestion.topic}
+              <div className="relative p-4 sm:p-8 md:p-12 bg-white dark:bg-science-900/80 backdrop-blur-xl rounded-[1.5rem] sm:rounded-[2rem] border border-slate-200 dark:border-white/10 shadow-2xl space-y-6 sm:space-y-8 w-full overflow-hidden">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/5 border border-teal-500/10 text-[10px] font-mono text-teal-500 font-bold uppercase tracking-tighter truncate max-w-full">
+                  <Target size={12} className="flex-shrink-0" /> <span className="truncate">{currentQuestion.topic}</span>
                 </div>
-                <div className="text-xl md:text-2xl font-medium leading-relaxed text-slate-800 dark:text-slate-100">
+                <div className="text-lg sm:text-xl md:text-2xl font-medium leading-relaxed text-slate-800 dark:text-slate-100 break-words overflow-x-auto custom-scrollbar pb-2">
                   <Latex>{currentQuestion.question}</Latex>
                 </div>
                 {currentQuestion.image_path && (
-                  <div className="p-4 bg-slate-100 dark:bg-black/40 rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden">
+                  <div className="p-2 sm:p-4 bg-slate-100 dark:bg-black/40 rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden">
                     <img src={resolveImagePath(currentQuestion.image_path)} alt="Scientific Visualization" className="max-w-full h-auto rounded-xl mx-auto shadow-2xl" />
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6 w-full">
               {qType === "NAT" ? (
-                <div className="p-8 bg-white dark:bg-science-900/60 backdrop-blur-xl rounded-[2rem] border-2 border-teal-500/20 focus-within:border-teal-500/50 transition-all shadow-xl">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-10 h-10 bg-teal-500/10 rounded-xl flex items-center justify-center text-teal-500">
-                      <Type size={20} />
+                <div className="p-6 sm:p-8 bg-white dark:bg-science-900/60 backdrop-blur-xl rounded-[1.5rem] sm:rounded-[2rem] border-2 border-teal-500/20 focus-within:border-teal-500/50 transition-all shadow-xl">
+                  <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-teal-500/10 rounded-xl flex items-center justify-center text-teal-500 flex-shrink-0">
+                      <Type size={16} className="sm:w-5 sm:h-5" />
                     </div>
-                    <span className="font-bold text-slate-500 uppercase tracking-widest text-xs">Numerical Response</span>
+                    <span className="font-bold text-slate-500 uppercase tracking-widest text-[10px] sm:text-xs">Numerical Response</span>
                   </div>
                   <input
                     type="number" step="any" autoFocus value={selectedAnswer.text || ""}
                     onChange={(e) => handleNATChange(e.target.value)}
                     placeholder="Enter value..."
-                    className="w-full bg-slate-50 dark:bg-science-950 border-2 border-slate-200 dark:border-slate-800 rounded-2xl p-6 text-3xl font-mono focus:border-teal-500 focus:outline-none dark:text-white transition-all"
+                    className="w-full bg-slate-50 dark:bg-science-950 border-2 border-slate-200 dark:border-slate-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-xl sm:text-3xl font-mono focus:border-teal-500 focus:outline-none dark:text-white transition-all"
                   />
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   {currentQuestion.shuffledOptions.map((option, index) => {
                     const isSelected = qType === "MCQ" ? selectedAnswer.label === option.label : selectedAnswer.labels?.includes(option.label);
                     return (
                       <button
                         key={option.label}
                         onClick={() => qType === "MCQ" ? handleMCQSelect(option.label) : handleMSQToggle(option.label)}
-                        className={`p-6 rounded-[1.5rem] text-left transition-all duration-300 border-2 group relative overflow-hidden flex items-start gap-4 ${
+                        className={`p-4 sm:p-6 rounded-[1rem] sm:rounded-[1.5rem] text-left transition-all duration-300 border-2 group relative overflow-hidden flex items-start gap-3 sm:gap-4 w-full ${
                           isSelected
                             ? "bg-teal-500/10 border-teal-500 ring-4 ring-teal-500/10 shadow-lg"
                             : "bg-white dark:bg-science-900/40 backdrop-blur-md border-slate-200 dark:border-white/5 hover:border-teal-500/30"
                         }`}
                       >
-                        <div className={`mt-1 flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center border-2 transition-all ${
+                        <div className={`mt-0.5 sm:mt-1 flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 rounded-md flex items-center justify-center border-2 transition-all ${
                           isSelected ? "bg-teal-500 border-teal-500 text-white" : "border-slate-300 dark:border-slate-700"
                         }`}>
-                          {qType === "MSQ" ? (isSelected ? <CheckSquare size={14} /> : null) : <span className="text-[10px] font-black">{optionLetters[index]}</span>}
+                          {qType === "MSQ" ? (isSelected ? <CheckSquare size={12} className="sm:w-3.5 sm:h-3.5" /> : null) : <span className="text-[9px] sm:text-[10px] font-black">{optionLetters[index]}</span>}
                         </div>
-                        <div className="text-base md:text-lg dark:text-slate-200">
+                        <div className="text-sm sm:text-base md:text-lg dark:text-slate-200 break-words min-w-0 overflow-x-auto custom-scrollbar">
                           <Latex>{option.value}</Latex>
                         </div>
                       </button>
@@ -491,10 +523,10 @@ export const ExamScreen: React.FC<{
           </div>
         </main>
 
-        <footer className="p-4 md:p-6 bg-white dark:bg-science-900/80 backdrop-blur-xl border-t border-slate-200 dark:border-white/10">
-          <div className="max-w-4xl mx-auto flex justify-between items-center gap-8">
-            <Button onClick={() => setCurrentQuestionIndex(prev => prev - 1)} disabled={currentQuestionIndex === 0} variant="secondary" className="flex-1 max-w-[140px] h-12 rounded-xl font-bold">
-              <ChevronsLeft size={20} className="mr-1" /> PREV
+        <footer className="p-3 sm:p-4 md:p-6 bg-white dark:bg-science-900/80 backdrop-blur-xl border-t border-slate-200 dark:border-white/10">
+          <div className="max-w-4xl mx-auto flex justify-between items-center gap-2 sm:gap-4 md:gap-8">
+            <Button onClick={() => setCurrentQuestionIndex(prev => prev - 1)} disabled={currentQuestionIndex === 0} variant="secondary" className="flex-1 max-w-[100px] sm:max-w-[140px] h-10 sm:h-12 rounded-xl font-bold px-2 sm:px-6">
+              <ChevronsLeft size={20} className="sm:mr-1" /> <span className="hidden sm:inline">PREV</span>
             </Button>
             
             <div className="hidden md:block flex-grow h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full relative overflow-visible mx-4">
@@ -521,18 +553,18 @@ export const ExamScreen: React.FC<{
               })}
             </div>
 
-            <div className="flex gap-3 flex-1 justify-end">
-              <Button onClick={handleSubmitClick} variant="danger" className="px-6 h-12 rounded-xl font-bold shadow-lg shadow-red-500/10">FINISH</Button>
-              <Button onClick={() => setCurrentQuestionIndex(prev => prev + 1)} disabled={currentQuestionIndex === questions.length - 1} variant="primary" className="flex-1 max-w-[140px] h-12 rounded-xl font-bold bg-teal-600 hover:bg-teal-500">
-                NEXT <ChevronsRight size={20} className="ml-1" />
+            <div className="flex gap-2 sm:gap-3 flex-1 justify-end">
+              <Button onClick={handleSubmitClick} variant="danger" className="px-3 sm:px-6 h-10 sm:h-12 rounded-xl font-bold shadow-lg shadow-red-500/10 text-xs sm:text-base">FINISH</Button>
+              <Button onClick={() => setCurrentQuestionIndex(prev => prev + 1)} disabled={currentQuestionIndex === questions.length - 1} variant="primary" className="flex-1 max-w-[100px] sm:max-w-[140px] h-10 sm:h-12 rounded-xl font-bold bg-teal-600 hover:bg-teal-500 px-2 sm:px-6">
+                <span className="hidden sm:inline">NEXT</span> <ChevronsRight size={20} className="sm:ml-1" />
               </Button>
             </div>
           </div>
         </footer>
       </div>
 
-      <aside className={`fixed top-[68px] right-0 bottom-0 w-80 bg-white dark:bg-science-900 border-l border-slate-200 dark:border-white/10 z-40 transition-transform duration-500 transform ${isSidebarOpen ? "translate-x-0" : "translate-x-full"} hidden md:flex flex-col shadow-2xl`}>
-        <div className="p-6 space-y-8 flex-grow overflow-y-auto custom-scrollbar">
+      <aside className={`fixed top-0 md:top-[68px] right-0 bottom-0 w-[85vw] max-w-[320px] md:w-80 bg-white/95 dark:bg-science-900/95 backdrop-blur-xl border-l border-slate-200 dark:border-white/10 z-[55] md:z-50 transition-transform duration-500 transform ${isSidebarOpen ? "translate-x-0" : "translate-x-full"} flex flex-col shadow-2xl`}>
+        <div className="p-6 pt-12 md:pt-6 space-y-8 flex-grow overflow-y-auto custom-scrollbar">
           <div className="space-y-4">
             <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] flex items-center gap-2"><Layers size={14} /> Sections</h3>
             <div className="grid gap-2">

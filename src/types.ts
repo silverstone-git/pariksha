@@ -85,6 +85,7 @@ export interface ExamResult {
   answers: UserAnswer[];
   originalQuestions: ShuffledQuestion[];
   sectionScores?: Record<string, number>;
+  originalConfig?: ExamConfig;
 }
 
 export interface ServerExam {
