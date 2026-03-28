@@ -105,8 +105,8 @@ const Header: React.FC<{
   return (
     <header className="flex flex-wrap justify-between items-center px-2 py-2 sm:px-4 sm:py-4 glass sticky top-0 z-50 transition-all border-b border-white/20 dark:border-white/10 gap-1 sm:gap-2">
       <div className="flex items-center flex-shrink min-w-0 pr-1">
-        <h1 className="text-lg sm:text-3xl font-bold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent font-bebas tracking-wider truncate">
-          Pariksha <span className="hidden xs:inline text-[10px] sm:text-sm font-sans font-light text-slate-400 align-middle ml-1 sm:ml-2 uppercase tracking-tighter">Physics</span>
+        <h1 className="text-lg sm:text-3xl font-bold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent font-sans tracking-wider truncate">
+          pariksha. <span className="hidden xs:inline text-[10px] sm:text-sm font-sans font-light text-slate-400 align-middle ml-1 sm:ml-2 uppercase tracking-tighter">Physics</span>
         </h1>
       </div>
       <div className="flex items-center gap-1 sm:gap-4 flex-shrink-0">
