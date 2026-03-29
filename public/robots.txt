@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemaps (uncomment if you have one)
+# Sitemap: https://pariksha.aryan.cfd/sitemap.xml
