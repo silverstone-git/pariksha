@@ -38,8 +38,6 @@ logger = logging.getLogger(__name__)
 # Constants
 CHROMA_HOST = "localhost"
 CHROMA_PORT = 9000
-TEXT_COLLECTION_NAME = "text_data"
-KNOWLEDGE_BASE_DIR = Path("cli/knowledge_base")
 
 class R2Uploader:
     """Helper to upload local images to Cloudflare R2"""
@@ -112,6 +110,7 @@ class ExamConfig:
     description: str
     num_questions: int = 10
     difficulty: str = "intermediate"
+    group: str = "pg_physics"
     model_name: str = "models/gemini-3-flash-preview"
     embed_model: str = "models/gemini-embedding-2-preview"
     api_key: Optional[str] = None
@@ -122,6 +121,8 @@ class ExamGeneratorAgent:
 
     def __init__(self, config: ExamConfig):
         self.config = config
+        self.knowledge_base_dir = Path(f"cli/{self.config.group}_knowledge_base")
+        self.text_collection_name = f"text_data_{self.config.group}"
         self._setup_llamaindex()
         self.index = self._load_index()
         self.uploader = R2Uploader()
@@ -149,7 +150,7 @@ class ExamGeneratorAgent:
             db_path = str(Path(__file__).parent / "chroma_db")
             remote_db = chromadb.PersistentClient(path=db_path)
 
-        text_collection = remote_db.get_or_create_collection(TEXT_COLLECTION_NAME)
+        text_collection = remote_db.get_or_create_collection(self.text_collection_name)
         text_store = ChromaVectorStore(chroma_collection=text_collection)
         return VectorStoreIndex.from_vector_store(vector_store=text_store)
 
@@ -172,12 +173,12 @@ class ExamGeneratorAgent:
                     resolved_paths.append(str(potential))
                     continue
             
-            potential = KNOWLEDGE_BASE_DIR / img_path
+            potential = self.knowledge_base_dir / img_path
             if potential.exists():
                 resolved_paths.append(str(potential))
                 continue
                 
-            for found in KNOWLEDGE_BASE_DIR.rglob(img_path.name):
+            for found in self.knowledge_base_dir.rglob(img_path.name):
                 resolved_paths.append(str(found))
                 break
                 
@@ -187,9 +188,9 @@ class ExamGeneratorAgent:
         """Convert a path found in JSON to an absolute local path for uploading"""
         p = Path(path_str)
         if p.is_absolute() and p.exists(): return str(p)
-        potential = KNOWLEDGE_BASE_DIR / p
+        potential = self.knowledge_base_dir / p
         if potential.exists(): return str(potential)
-        for found in KNOWLEDGE_BASE_DIR.rglob(p.name):
+        for found in self.knowledge_base_dir.rglob(p.name):
             return str(found)
         return None
 

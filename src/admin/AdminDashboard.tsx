@@ -8,7 +8,9 @@ import {
   ArrowLeft,
   RefreshCw,
   Search,
-  BookOpen
+  BookOpen,
+  UploadCloud,
+  FolderOpen
 } from "lucide-react";
 import { Card } from "../components/Card";
 import { Button } from "../components/Button";
@@ -23,9 +25,10 @@ interface TopicSummary {
 const GenerateQuestionsModal: React.FC<{
   isOpen: boolean;
   topic: string;
+  group: string;
   onClose: () => void;
   onSuccess: () => void;
-}> = ({ isOpen, topic, onClose, onSuccess }) => {
+}> = ({ isOpen, topic, group, onClose, onSuccess }) => {
   const [count, setCount] = React.useState(20);
   const [difficulty, setDifficulty] = React.useState("intermediate");
   const [isGenerating, setIsGenerating] = React.useState(false);
@@ -42,13 +45,13 @@ const GenerateQuestionsModal: React.FC<{
 
   const handleStart = async () => {
     setIsGenerating(true);
-    setLogs(`Starting generation for: ${topic}\nTarget: ${count} questions at ${difficulty} level...\n\n`);
+    setLogs(`Starting generation for: ${topic}\nTarget: ${count} questions at ${difficulty} level in group [${group}]...\n\n`);
     
     try {
       const response = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, count, difficulty }),
+        body: JSON.stringify({ topic, count, difficulty, group }),
       });
 
       if (!response.ok) throw new Error("Failed to start generation");
@@ -126,29 +129,224 @@ const GenerateQuestionsModal: React.FC<{
   );
 };
 
+
+const AddTopicGroupModal: React.FC<{
+  isOpen: boolean;
+  onClose: () => void;
+  onSuccess: () => void;
+}> = ({ isOpen, onClose, onSuccess }) => {
+  const [groupName, setGroupName] = React.useState("");
+  const [topicsFile, setTopicsFile] = React.useState<File | null>(null);
+  const [kbFiles, setKbFiles] = React.useState<File[]>([]);
+  
+  const [isProcessing, setIsProcessing] = React.useState(false);
+  const [logs, setLogs] = React.useState("");
+  const logsEndRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (logsEndRef.current) {
+      logsEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [logs]);
+
+  if (!isOpen) return null;
+
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        let encoded = reader.result as string;
+        // strip the data:image/png;base64, prefix
+        encoded = encoded.split(',')[1] || encoded;
+        resolve(encoded);
+      };
+      reader.onerror = error => reject(error);
+    });
+  };
+
+  const fileToText = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
+
+  const handleSubmit = async () => {
+    if (!groupName || !topicsFile || kbFiles.length === 0) {
+      alert("Please provide a group name, a topics .txt file, and at least one knowledge base file.");
+      return;
+    }
+
+    setIsProcessing(true);
+    setLogs("Preparing payload...\n");
+
+    try {
+      const topicsContent = await fileToText(topicsFile);
+      
+      const knowledgeFiles = [];
+      for (const f of kbFiles) {
+        if (f.name.endsWith('.txt') || f.name.endsWith('.md') || f.name.endsWith('.html')) {
+          knowledgeFiles.push({ name: f.name, content: await fileToText(f) });
+        } else {
+          knowledgeFiles.push({ name: f.name, contentBase64: await fileToBase64(f) });
+        }
+      }
+
+      setLogs(prev => prev + "Uploading to Admin Backend...\n\n");
+
+      const response = await fetch('/api/upload_topic_group', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ groupName, topicsContent, knowledgeFiles }),
+      });
+
+      if (!response.ok) throw new Error("Failed to start initialization process");
+
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const text = decoder.decode(value);
+          setLogs(prev => prev + text);
+        }
+      }
+      
+      setLogs(prev => prev + "\n\nDONE! You can now close this window and refresh the dashboard.");
+      onSuccess();
+    } catch (err: any) {
+      setLogs(prev => prev + `\n\n[FATAL ERROR] ${err.message}`);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex justify-center items-center z-[70] p-4">
+      <Card title={`Initialize New Topic Group`} className="w-full max-w-4xl border-teal-500/50 shadow-2xl">
+        <div className="grid md:grid-cols-2 gap-6 mb-6">
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-400 mb-2 uppercase tracking-wider">Group Name</label>
+              <input 
+                type="text" 
+                value={groupName} 
+                onChange={(e) => setGroupName(e.target.value)}
+                disabled={isProcessing}
+                placeholder="e.g. UG Social Sciences"
+                className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none disabled:opacity-50"
+              />
+            </div>
+            
+            <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 text-center">
+              <p className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-2">Topics List (.txt)</p>
+              <input 
+                type="file" 
+                accept=".txt" 
+                disabled={isProcessing}
+                onChange={(e) => setTopicsFile(e.target.files?.[0] || null)}
+                className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100"
+              />
+              {topicsFile && <p className="text-xs text-teal-500 mt-2">{topicsFile.name} loaded.</p>}
+            </div>
+
+            <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 text-center">
+              <p className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-2">Knowledge Base Files</p>
+              <input 
+                type="file" 
+                multiple 
+                disabled={isProcessing}
+                accept=".md,.txt,.html,image/*"
+                onChange={(e) => {
+                  if (e.target.files) setKbFiles(Array.from(e.target.files));
+                }}
+                className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+              />
+              {kbFiles.length > 0 && <p className="text-xs text-blue-500 mt-2">{kbFiles.length} files queued.</p>}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-400 mb-2 uppercase tracking-wider flex items-center gap-2">
+              <Activity size={16} /> Console Output
+            </label>
+            <div className="bg-[#0c0c0c] border border-slate-700 rounded-xl p-4 h-[300px] overflow-y-auto font-mono text-sm text-green-400 shadow-inner">
+              {logs ? (
+                <pre className="whitespace-pre-wrap text-xs">{logs}</pre>
+              ) : (
+                <span className="text-slate-600 italic">Waiting for form submission...</span>
+              )}
+              <div ref={logsEndRef} />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+          <Button onClick={onClose} variant="secondary" disabled={isProcessing}>Close</Button>
+          <Button onClick={handleSubmit} disabled={isProcessing || !groupName || !topicsFile || kbFiles.length === 0} className="bg-teal-600 hover:bg-teal-500 shadow-teal-500/20 shadow-lg">
+            {isProcessing ? <><RefreshCw className="animate-spin" size={18} /> Processing...</> : <><UploadCloud size={18} /> Initialize Group</>}
+          </Button>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+
 // --- Admin Dashboard Component ---
 export default function AdminDashboard({ onBack }: { onBack: () => void }) {
   const [topics, setTopics] = React.useState<TopicSummary[]>([]);
+  const [groups, setGroups] = React.useState<string[]>(['pg_physics']);
+  const [selectedGroup, setSelectedGroup] = React.useState<string>('pg_physics');
+  
   const [loading, setLoading] = React.useState(true);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedTopic, setSelectedTopic] = React.useState<string | null>(null);
+  
   const [generatorModalTopic, setGeneratorModalTopic] = React.useState<string | null>(null);
+  const [isAddGroupModalOpen, setIsAddGroupModalOpen] = React.useState(false);
+
+  const fetchGroups = async () => {
+    try {
+      const res = await fetch('/api/groups');
+      const data = await res.json();
+      if (data && data.length) {
+        setGroups(data);
+        if (!data.includes(selectedGroup)) {
+          setSelectedGroup(data[0]);
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchGroups();
+  }, []);
 
   const fetchTopics = async () => {
     setLoading(true);
+    setTopics([]);
+    setSelectedTopic(null);
     try {
-      // 1. Fetch the master list of topics from the plan file (accessible via public/proxy)
-      const topicsResponse = await fetch("/physics_question_bank_plan.txt");
+      // 1. Fetch the dynamic list of topics for the selected group
+      const topicsResponse = await fetch(`/api/topics?group=${selectedGroup}`);
       if (!topicsResponse.ok) throw new Error("Failed to load topic plan");
       const text = await topicsResponse.text();
-      const topicNames = text.split("\n").map(t => t.replace(/^\* /, "").trim()).filter(t => t.length > 0);
+      const topicNames = text.split("\n").map(t => t.replace(/^#+/, '').replace(/^\* /, "").trim()).filter(t => t.length > 0);
 
-      // 2. Map through topic names and fetch their local bank files to get counts
+      // 2. Map through topic names and fetch their local bank files
       const summaryData: TopicSummary[] = await Promise.all(
         topicNames.map(async (name) => {
           const fileName = name.replace(/ /g, "_").toLowerCase() + ".json";
           try {
-            const response = await fetch(`/question_bank/${fileName}`);
+            const response = await fetch(`/api/local_bank/${selectedGroup}/${fileName}`);
             if (!response.ok) return { name, count: 0, lastUpdated: "Never" };
             
             const questions = await response.json();
@@ -173,7 +371,7 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
 
   React.useEffect(() => {
     fetchTopics();
-  }, []);
+  }, [selectedGroup]);
 
   const handleGenerateMore = (topic: string) => {
     setGeneratorModalTopic(topic);
@@ -199,12 +397,21 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
               Pariksha Admin
             </h1>
           </div>
-          <div className="flex gap-4">
+          
+          <div className="flex items-center gap-4">
+            <select
+              value={selectedGroup}
+              onChange={(e) => setSelectedGroup(e.target.value)}
+              className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-medium outline-none focus:border-teal-500 text-sm"
+            >
+              {groups.map(g => <option key={g} value={g}>{g.replace(/_/g, ' ').toUpperCase()}</option>)}
+            </select>
+            
             <Button onClick={fetchTopics} variant="secondary">
-              <RefreshCw size={20} className={loading ? "animate-spin" : ""} /> Sync Bank
+              <RefreshCw size={20} className={loading ? "animate-spin" : ""} />
             </Button>
-            <Button className="bg-teal-600 hover:bg-teal-500 shadow-teal-900/20">
-              <Plus size={20} /> Add Topic
+            <Button onClick={() => setIsAddGroupModalOpen(true)} className="bg-teal-600 hover:bg-teal-500 shadow-teal-900/20">
+              <FolderOpen size={20} /> New Topic Group
             </Button>
           </div>
         </div>
@@ -218,7 +425,9 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
               </div>
               <div>
                 <p className="text-slate-500 text-sm uppercase tracking-wider">Total Questions</p>
-                <p className="text-2xl font-bold text-slate-800 dark:text-white">840</p>
+                <p className="text-2xl font-bold text-slate-800 dark:text-white">
+                  {topics.reduce((sum, t) => sum + t.count, 0)}
+                </p>
               </div>
             </div>
           </Card>
@@ -250,7 +459,7 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
         <div className="relative mb-6">
           <input 
             type="text"
-            placeholder="Search topics in question bank..."
+            placeholder={`Search topics in ${selectedGroup.replace(/_/g, ' ')}...`}
             className="w-full glass rounded-2xl p-4 pl-12 focus:ring-2 focus:ring-teal-500 outline-none transition-all dark:text-white"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -347,13 +556,21 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
       <GenerateQuestionsModal 
         isOpen={!!generatorModalTopic}
         topic={generatorModalTopic || ""}
+        group={selectedGroup}
         onClose={() => {
           setGeneratorModalTopic(null);
-          fetchTopics();
         }}
         onSuccess={() => fetchTopics()}
       />
 
+      <AddTopicGroupModal
+        isOpen={isAddGroupModalOpen}
+        onClose={() => setIsAddGroupModalOpen(false)}
+        onSuccess={() => {
+          fetchGroups();
+          setIsAddGroupModalOpen(false);
+        }}
+      />
 
       <style>{`
         .custom-scrollbar::-webkit-scrollbar {

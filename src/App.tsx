@@ -48,7 +48,7 @@ import {
   API_BASE_URL,
   generatePresetExam,
   isLocalhost,
-  SUBJECT_GROUPS,
+  
   resolveImagePath,
   type CustomConfig,
 } from "./utils";
@@ -612,7 +612,7 @@ interface CustomSectionConfig {
   maxAttempts?: number;
 }
 
-const PhysicsExamGeneratorModal: React.FC<{
+const AutoGenerateExamModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
   onExamGenerated: (config: ExamConfig) => void;
@@ -621,15 +621,64 @@ const PhysicsExamGeneratorModal: React.FC<{
   const [isGenerating, setIsGenerating] = React.useState(false);
   const [isCustomMode, setIsCustomMode] = React.useState(false);
   
-  // Custom multi-section state
-  const [customSections, setCustomSections] = React.useState<CustomSectionConfig[]>([
-    {
-      name: "Section 1",
-      topicWeights: Object.keys(SUBJECT_GROUPS).reduce((acc, group) => ({ ...acc, [group]: group === "Quantum Mechanics" ? 5 : 0 }), {}),
-      marking: { positive: 1, negative: 0 },
-      allowedTypes: ["MCQ", "MSQ", "NAT"],
+  // Topic Groups state
+  const [groups, setGroups] = React.useState<string[]>(['pg_physics']);
+  const [selectedGroup, setSelectedGroup] = React.useState<string>('pg_physics');
+  const [subjectGroups, setSubjectGroups] = React.useState<Record<string, string[]>>({});
+  const [loadingTopics, setLoadingTopics] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      fetch('/api/groups').then(r => r.json()).then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setGroups(data);
+          if (!data.includes(selectedGroup)) setSelectedGroup(data[0]);
+        }
+      }).catch(console.error);
     }
-  ]);
+  }, [isOpen]);
+
+  React.useEffect(() => {
+    let active = true;
+    if (isOpen) {
+      setLoadingTopics(true);
+      fetch(`/api/topics?group=${selectedGroup}`).then(r => r.text()).then(text => {
+        if (!active) return;
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+        const result: Record<string, string[]> = {};
+        let currentCategory = "General";
+        
+        for (const line of lines) {
+          if (line.startsWith('#')) {
+            currentCategory = line.replace(/^#+/, '').trim();
+          } else {
+            if (!result[currentCategory]) result[currentCategory] = [];
+            result[currentCategory].push(line.replace(/^\* /, '').trim());
+          }
+        }
+        if (Object.keys(result).length === 0 && lines.length > 0) result["General"] = lines;
+        
+        setSubjectGroups(result);
+        
+        // Reset custom sections to reflect new topics
+        setCustomSections([
+          {
+            name: "Section 1",
+            topicWeights: Object.keys(result).reduce((acc, g) => ({ ...acc, [g]: 0 }), {}),
+            marking: { positive: 1, negative: 0 },
+            allowedTypes: ["MCQ", "MSQ", "NAT"],
+          }
+        ]);
+        setActiveSectionIdx(0);
+      }).finally(() => {
+        if (active) setLoadingTopics(false);
+      });
+    }
+    return () => { active = false; };
+  }, [selectedGroup, isOpen]);
+
+  // Custom multi-section state
+  const [customSections, setCustomSections] = React.useState<CustomSectionConfig[]>([]);
   const [activeSectionIdx, setActiveSectionIdx] = React.useState(0);
 
   const presets: { id: ExamPreset; name: string; desc: string }[] = [
@@ -648,28 +697,19 @@ const PhysicsExamGeneratorModal: React.FC<{
     try {
       let config: ExamConfig;
       if (presetId === "CUSTOM") {
-        const customConfig: CustomConfig = {
-          sections: customSections
-        };
-        config = await generatePresetExam("CUSTOM", customConfig);
+        const customConfig: CustomConfig = { sections: customSections };
+        config = await generatePresetExam("CUSTOM", customConfig, selectedGroup);
       } else {
-        config = await generatePresetExam(presetId);
+        config = await generatePresetExam(presetId, undefined, selectedGroup);
       }
       
       if (shouldUpload) {
         try {
-          // If the exam has sections, we upload the consolidated questions for legacy compatibility
-          const allQs = config.sections 
-            ? config.sections.flatMap(s => s.questions)
-            : config.questions;
-
+          const allQs = config.sections ? config.sections.flatMap(s => s.questions) : config.questions;
           await fetch(`${API_BASE_URL}/pariksha`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              exam_title: config.name,
-              exam_json_str: JSON.stringify(allQs),
-            }),
+            body: JSON.stringify({ exam_title: config.name, exam_json_str: JSON.stringify(allQs) }),
           });
         } catch (uploadErr) {
           console.warn("Failed to upload auto-generated exam to community server.");
@@ -688,7 +728,7 @@ const PhysicsExamGeneratorModal: React.FC<{
   const addSection = () => {
     const newSection: CustomSectionConfig = {
       name: `Section ${customSections.length + 1}`,
-      topicWeights: Object.keys(SUBJECT_GROUPS).reduce((acc, group) => ({ ...acc, [group]: 0 }), {}),
+      topicWeights: Object.keys(subjectGroups).reduce((acc, g) => ({ ...acc, [g]: 0 }), {}),
       marking: { positive: 1, negative: 0 },
       allowedTypes: ["MCQ", "MSQ", "NAT"],
     };
@@ -709,28 +749,49 @@ const PhysicsExamGeneratorModal: React.FC<{
     setCustomSections(newSections);
   };
 
-  const handleTopicWeightChange = (group: string, val: string) => {
-    const newWeights = { ...activeSection.topicWeights, [group]: Math.max(0, parseInt(val) || 0) };
+  const handleTopicWeightChange = (groupKey: string, val: string) => {
+    const newWeights = { ...activeSection.topicWeights, [groupKey]: Math.max(0, parseInt(val) || 0) };
     updateActiveSection({ topicWeights: newWeights });
   };
 
   const toggleType = (type: QuestionType) => {
+    if (!activeSection) return;
     const current = activeSection.allowedTypes;
-    const next = current.includes(type) 
-      ? current.filter(t => t !== type)
-      : [...current, type];
+    const next = current.includes(type) ? current.filter(t => t !== type) : [...current, type];
     updateActiveSection({ allowedTypes: next });
   };
 
-  const totalQuestions = customSections.reduce((sum, s) => 
-    sum + Object.values(s.topicWeights).reduce((a, b) => a + b, 0), 0
-  );
+  const totalQuestions = customSections.reduce((sum, s) => sum + Object.values(s.topicWeights).reduce((a, b) => a + b, 0), 0);
 
-  if (isCustomMode) {
+  if (isCustomMode && activeSection) {
     return (
       <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex justify-center items-center z-[60] p-4">
         <Card title="Advanced Preset Editor" className="w-full max-w-5xl border-teal-500/50 max-h-[95vh] flex flex-col overflow-hidden">
-          <div className="flex flex-col md:flex-row gap-6 flex-grow overflow-hidden">
+          
+          <div className="mb-6 flex items-center justify-between bg-slate-100 dark:bg-slate-800 p-4 rounded-xl">
+            <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">Topic Group:</span>
+            <select
+              value={selectedGroup}
+              onChange={(e) => setSelectedGroup(e.target.value)}
+              className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-medium outline-none focus:border-teal-500 min-w-[200px]"
+            >
+              {groups.map(g => <option key={g} value={g}>{g.replace(/_/g, ' ').toUpperCase()}</option>)}
+            </select>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-6 flex-grow overflow-hidden relative">
+            
+            {/* Progress Overlay */}
+            {isGenerating && (
+              <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm z-10 flex flex-col items-center justify-center rounded-xl">
+                <RefreshCw size={48} className="animate-spin text-teal-500 mb-4" />
+                <div className="text-lg font-bold text-white mb-2">Generating Exam...</div>
+                <div className="w-64 h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-full bg-teal-500 animate-pulse w-full"></div>
+                </div>
+              </div>
+            )}
+
             {/* Left Sidebar: Section List */}
             <div className="w-full md:w-64 flex flex-col gap-2 overflow-y-auto pr-2 border-r border-slate-200 dark:border-slate-800">
               <div className="flex justify-between items-center mb-2">
@@ -823,25 +884,29 @@ const PhysicsExamGeneratorModal: React.FC<{
 
               <div className="space-y-4">
                 <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest">Topic Distribution</label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {Object.keys(SUBJECT_GROUPS).map(group => (
-                    <div key={group} className="flex justify-between items-center p-2 px-3 glass rounded-xl border border-white/5">
-                      <span className="text-xs font-medium text-slate-600 dark:text-slate-400">{group}</span>
-                      <input 
-                        type="number"
-                        min="0"
-                        value={activeSection.topicWeights[group]}
-                        onChange={(e) => handleTopicWeightChange(group, e.target.value)}
-                        className="w-16 p-1 text-center text-sm rounded-lg bg-slate-200/50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-700 outline-none focus:border-teal-500"
-                      />
-                    </div>
-                  ))}
-                </div>
+                {loadingTopics ? (
+                  <div className="p-4 text-center text-slate-500">Loading topics...</div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {Object.keys(subjectGroups).map(g => (
+                      <div key={g} className="flex justify-between items-center p-2 px-3 glass rounded-xl border border-white/5">
+                        <span className="text-xs font-medium text-slate-600 dark:text-slate-400 truncate mr-2" title={g}>{g}</span>
+                        <input 
+                          type="number"
+                          min="0"
+                          value={activeSection.topicWeights[g] || 0}
+                          onChange={(e) => handleTopicWeightChange(g, e.target.value)}
+                          className="w-16 p-1 text-center text-sm rounded-lg bg-slate-200/50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-700 outline-none focus:border-teal-500 flex-shrink-0"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
 
-          <div className="flex justify-between items-center pt-6 border-t border-slate-200 dark:border-slate-800 mt-6">
+          <div className="flex justify-between items-center pt-6 border-t border-slate-200 dark:border-slate-800 mt-6 relative z-20">
             <div className="flex items-center gap-6">
               <div className="text-sm">
                 <span className="text-slate-500 uppercase tracking-widest font-bold text-[10px] block">Global Total</span>
@@ -852,7 +917,7 @@ const PhysicsExamGeneratorModal: React.FC<{
               <div className="text-sm">
                 <span className="text-slate-500 uppercase tracking-widest font-bold text-[10px] block">Current Section</span>
                 <span className="text-xl font-bold text-slate-800 dark:text-slate-200">
-                  {Object.values(activeSection.topicWeights).reduce((a, b) => a + b, 0)} Qs
+                  {Object.values(activeSection.topicWeights || {}).reduce((a, b) => a + b, 0)} Qs
                 </span>
               </div>
             </div>
@@ -870,36 +935,62 @@ const PhysicsExamGeneratorModal: React.FC<{
 
   return (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex justify-center items-center z-[60] p-4">
-      <Card title="Physics Exam Generator" className="w-full max-w-2xl border-blue-500/50">
-        <div className="grid md:grid-cols-2 gap-4 mb-6">
-          {presets.map(p => (
-            <button
-              key={p.id}
-              onClick={() => handleGenerate(p.id)}
-              disabled={isGenerating}
-              className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-left hover:-translate-y-1 hover:shadow-xl hover:border-blue-500 transition-all group disabled:opacity-50"
-            >
-              <h3 className="font-bold text-lg group-hover:text-blue-500">{p.name}</h3>
-              <p className="text-sm text-slate-500">{p.desc}</p>
-            </button>
-          ))}
-        </div>
+      <Card title="Auto Generate Exam" className="w-full max-w-2xl border-blue-500/50 relative overflow-hidden">
         
-        <div className="flex flex-col gap-4 mb-6">
+        {/* Progress Overlay for standard presets */}
+        {isGenerating && (
+          <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-md z-10 flex flex-col items-center justify-center rounded-2xl">
+            <RefreshCw size={48} className="animate-spin text-blue-500 mb-4" />
+            <div className="text-lg font-bold text-white mb-2">Generating Exam...</div>
+            <div className="w-64 h-2 bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-full bg-blue-500 animate-pulse w-full"></div>
+            </div>
+          </div>
+        )}
+
+        <div className="mb-6 flex items-center justify-between bg-slate-100 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+          <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">Select Subject/Group:</span>
+          <select
+            value={selectedGroup}
+            onChange={(e) => setSelectedGroup(e.target.value)}
+            disabled={isGenerating}
+            className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-medium outline-none focus:border-blue-500 min-w-[200px] disabled:opacity-50"
+          >
+            {groups.map(g => <option key={g} value={g}>{g.replace(/_/g, ' ').toUpperCase()}</option>)}
+          </select>
+        </div>
+
+        {selectedGroup === "pg_physics" && (
+          <div className="grid md:grid-cols-2 gap-4 mb-6 relative z-0">
+            {presets.map(p => (
+              <button
+                key={p.id}
+                onClick={() => handleGenerate(p.id)}
+                disabled={isGenerating}
+                className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-left hover:-translate-y-1 hover:shadow-xl hover:border-blue-500 transition-all group disabled:opacity-50"
+              >
+                <h3 className="font-bold text-lg group-hover:text-blue-500">{p.name}</h3>
+                <p className="text-sm text-slate-500">{p.desc}</p>
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className="flex flex-col gap-4 mb-6 relative z-0">
           <div className="p-4 bg-blue-500/5 border border-blue-500/20 rounded-2xl">
             <h4 className="font-semibold text-blue-500 flex items-center gap-2 mb-2 text-sm uppercase tracking-wider">
               <Zap size={14} /> Custom Preset
             </h4>
             <p className="text-xs text-slate-500 mb-3">
-              Adjust topic weightage manually to create a tailored practice session (e.g. 50% QM, 50% EMT).
+              Adjust topic weightage manually to create a tailored practice session.
             </p>
-            <Button onClick={() => setIsCustomMode(true)} variant="secondary" className="w-full text-xs py-2 bg-slate-200/50 dark:bg-slate-900/50 border-blue-500/30 hover:border-blue-500 text-blue-500">
+            <Button onClick={() => setIsCustomMode(true)} variant="secondary" disabled={isGenerating} className="w-full text-xs py-2 bg-slate-200/50 dark:bg-slate-900/50 border-blue-500/30 hover:border-blue-500 text-blue-500">
               Open Advanced Preset Editor
             </Button>
           </div>
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-end relative z-20">
           <Button onClick={onClose} variant="secondary" disabled={isGenerating}>Cancel</Button>
         </div>
       </Card>
@@ -1058,7 +1149,7 @@ const HomeScreen: React.FC<{
         )}
 
         {isPhysicsGenModalOpen && (
-          <PhysicsExamGeneratorModal
+          <AutoGenerateExamModal
             isOpen={isPhysicsGenModalOpen}
             onClose={() => setIsPhysicsGenModalOpen(false)}
             onExamGenerated={handleFileUpload}

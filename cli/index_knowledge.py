@@ -1,7 +1,9 @@
 import os
+import sys
 import json
 import logging
 import hashlib
+import argparse
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
@@ -17,11 +19,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # Constants
-KNOWLEDGE_BASE_DIR = Path("cli/knowledge_base")
-CHECKPOINT_FILE = Path("cli/index_checkpoint.json")
 CHROMA_HOST = "localhost"
 CHROMA_PORT = 9000
-TEXT_COLLECTION_NAME = "text_data"
 
 # Model names
 LLM_MODEL = "models/gemini-3-flash-preview"
@@ -41,20 +40,33 @@ def get_file_hash(file_path: Path) -> str:
         logger.error(f"Error hashing file {file_path}: {e}")
         return ""
 
-def load_checkpoint() -> Dict[str, str]:
-    if CHECKPOINT_FILE.exists():
+def load_checkpoint(checkpoint_file: Path) -> Dict[str, str]:
+    if checkpoint_file.exists():
         try:
-            with open(CHECKPOINT_FILE, 'r') as f:
+            with open(checkpoint_file, 'r') as f:
                 return json.load(f)
         except Exception:
             return {}
     return {}
 
-def save_checkpoint(checkpoint: Dict[str, str]):
-    with open(CHECKPOINT_FILE, 'w') as f:
+def save_checkpoint(checkpoint_file: Path, checkpoint: Dict[str, str]):
+    with open(checkpoint_file, 'w') as f:
         json.dump(checkpoint, f, indent=2)
 
 def main():
+    parser = argparse.ArgumentParser(description="Index knowledge base files into ChromaDB.")
+    parser.add_argument("--group", type=str, default="pg_physics", help="Topic group name (e.g., pg_physics)")
+    args = parser.parse_args()
+
+    group = args.group
+    KNOWLEDGE_BASE_DIR = Path(f"cli/{group}_knowledge_base")
+    CHECKPOINT_FILE = Path(f"cli/{group}_index_checkpoint.json")
+    TEXT_COLLECTION_NAME = f"text_data_{group}"
+
+    if not KNOWLEDGE_BASE_DIR.exists():
+        logger.warning(f"Knowledge base directory {KNOWLEDGE_BASE_DIR} does not exist. Creating it.")
+        KNOWLEDGE_BASE_DIR.mkdir(parents=True, exist_ok=True)
+
     dotenv_path = Path(__file__).parent / ".env"
     load_dotenv(dotenv_path=dotenv_path)
     
@@ -78,7 +90,7 @@ def main():
     storage_context = StorageContext.from_defaults(vector_store=text_store)
 
     # Load checkpoint
-    checkpoint = load_checkpoint()
+    checkpoint = load_checkpoint(CHECKPOINT_FILE)
     
     # Identify ONLY text files (MD, HTML)
     all_files = list(KNOWLEDGE_BASE_DIR.rglob("*"))
@@ -93,10 +105,10 @@ def main():
                 files_to_index.append(file_path)
 
     if not files_to_index:
-        logger.info("All text files are already indexed.")
+        logger.info(f"All text files in {group} are already indexed.")
         return
 
-    logger.info(f"Found {len(files_to_index)} text files to index.")
+    logger.info(f"Found {len(files_to_index)} text files to index in {group}.")
 
     # Initialize index
     index = VectorStoreIndex.from_documents(
@@ -119,14 +131,14 @@ def main():
             for file_path in batch:
                 file_rel_path = str(file_path.relative_to(KNOWLEDGE_BASE_DIR))
                 checkpoint[file_rel_path] = get_file_hash(file_path)
-            save_checkpoint(checkpoint)
+            save_checkpoint(CHECKPOINT_FILE, checkpoint)
             logger.info(f"Batch {i//batch_size + 1} indexed successfully.")
 
         except Exception as e:
             logger.error(f"Error indexing batch: {e}")
             if "429" in str(e) or "ResourceExhausted" in str(e):
                 return
-            save_checkpoint(checkpoint)
+            save_checkpoint(CHECKPOINT_FILE, checkpoint)
 
     logger.info("Indexing complete!")
 

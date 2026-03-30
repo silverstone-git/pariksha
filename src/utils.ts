@@ -108,6 +108,37 @@ export const SUBJECT_GROUPS: Record<string, string[]> = {
   "Electronics": ["Analog Electronics", "Digital Electronics"],
 };
 
+export const fetchSubjectGroups = async (groupName: string): Promise<Record<string, string[]>> => {
+  if (groupName === 'pg_physics') return SUBJECT_GROUPS;
+
+  try {
+    const res = await fetch(`/api/topics?group=${groupName}`);
+    if (!res.ok) return { "General": [] };
+    const text = await res.text();
+    const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+    
+    const result: Record<string, string[]> = {};
+    let currentCategory = "General";
+    
+    for (const line of lines) {
+      if (line.startsWith('#')) {
+        currentCategory = line.replace(/^#+/, '').trim();
+      } else {
+        if (!result[currentCategory]) result[currentCategory] = [];
+        result[currentCategory].push(line.replace(/^\* /, '').trim());
+      }
+    }
+    
+    if (Object.keys(result).length === 0 && lines.length > 0) {
+      result["General"] = lines;
+    }
+    return result;
+  } catch (e) {
+    console.error("Failed to fetch custom subject groups", e);
+    return { "General": [] };
+  }
+};
+
 export interface CustomConfig {
   sections: {
     name: string;
@@ -118,7 +149,9 @@ export interface CustomConfig {
   }[];
 }
 
-export const generatePresetExam = async (preset: ExamPreset, customConfig?: CustomConfig): Promise<ExamConfig> => {
+export const generatePresetExam = async (preset: ExamPreset, customConfig?: CustomConfig, group: string = "pg_physics"): Promise<ExamConfig> => {
+  const currentSubjectGroups = await fetchSubjectGroups(group);
+
   // Pattern definitions (Questions per Subject Group)
   const PATTERNS: Record<Exclude<ExamPreset, "CUSTOM">, Record<string, number>> = {
     GATE: {
@@ -170,13 +203,13 @@ export const generatePresetExam = async (preset: ExamPreset, customConfig?: Cust
     // 1. Identify all unique topics needed across all sections and their total counts
     const topicToTotalCount: Record<string, number> = {};
     customConfig.sections.forEach(s => {
-      Object.entries(s.topicWeights).forEach(([group, count]) => {
+      Object.entries(s.topicWeights).forEach(([groupName, count]) => {
         if (count > 0) {
-          const topicsInGroup = SUBJECT_GROUPS[group] || [];
+          const topicsInGroup = currentSubjectGroups[groupName] || [];
           topicsInGroup.forEach(topic => {
             // Fetch significantly more to allow for type filtering (MCQ vs MSQ vs NAT)
             const multiplier = s.allowedTypes.length === 3 ? 3 : 10;
-            topicToTotalCount[topic] = (topicToTotalCount[topic] || 0) + Math.max(20, Math.ceil((count * multiplier) / topicsInGroup.length)); 
+            topicToTotalCount[topic] = (topicToTotalCount[topic] || 0) + Math.max(20, Math.ceil((count * multiplier) / Math.max(1, topicsInGroup.length))); 
           });
         }
       });
@@ -187,12 +220,12 @@ export const generatePresetExam = async (preset: ExamPreset, customConfig?: Cust
     await Promise.all(Object.entries(topicToTotalCount).map(async ([topic, totalNeeded]) => {
       try {
         const slug = topic.replace(/ /g, "_").toLowerCase();
-        const url = `${API_BASE_URL}/api/question_bank/sample?topic=${slug}&count=${totalNeeded}`;
+        const url = `${API_BASE_URL}/api/question_bank/sample?topic=${slug}&count=${totalNeeded}&group=${group}`;
         const response = await fetch(url);
         
         let bankQuestions: Question[] = [];
         if (!response.ok) {
-          const fallbackResponse = await fetch(`/question_bank/${slug}.json`);
+          const fallbackResponse = await fetch(`/api/local_bank/${group}/${slug}.json`);
           if (fallbackResponse.ok) {
             bankQuestions = await fallbackResponse.json();
           }
@@ -211,9 +244,9 @@ export const generatePresetExam = async (preset: ExamPreset, customConfig?: Cust
       const s = customConfig.sections[i];
       const sectionPool: Question[] = [];
       
-      Object.entries(s.topicWeights).forEach(([group, count]) => {
+      Object.entries(s.topicWeights).forEach(([groupName, count]) => {
         if (count <= 0) return;
-        const topicsInGroup = SUBJECT_GROUPS[group] || [];
+        const topicsInGroup = currentSubjectGroups[groupName] || [];
         topicsInGroup.forEach(topic => {
           const questions = topicCache[topic] || [];
           // Filter by allowed types for this specific section
@@ -236,7 +269,7 @@ export const generatePresetExam = async (preset: ExamPreset, customConfig?: Cust
     }
 
     return {
-      name: "Custom Physics Exam",
+      name: `Custom Exam (${group})`,
       sections,
       settings: { timerHours: 3, timerMinutes: 0, shuffleQuestions: true, shuffleOptions: true }
     };
@@ -244,10 +277,12 @@ export const generatePresetExam = async (preset: ExamPreset, customConfig?: Cust
 
   // Handle standard presets (GATE, CSIR_NET, etc.)
   const pattern = PATTERNS[preset as keyof typeof PATTERNS];
+  if (!pattern) throw new Error("Preset not found or unsupported.");
+  
   const allQuestions: Question[] = [];
 
-  for (const [group, count] of Object.entries(pattern)) {
-    const topicsInGroup = SUBJECT_GROUPS[group] || [];
+  for (const [groupName, count] of Object.entries(pattern)) {
+    const topicsInGroup = currentSubjectGroups[groupName] || [];
     if (topicsInGroup.length === 0) continue;
 
     const questionsPerTopic = Math.ceil(count / topicsInGroup.length);
@@ -255,11 +290,11 @@ export const generatePresetExam = async (preset: ExamPreset, customConfig?: Cust
     for (const topic of topicsInGroup) {
       try {
         const slug = topic.replace(/ /g, "_").toLowerCase();
-        const url = `${API_BASE_URL}/api/question_bank/sample?topic=${slug}&count=${questionsPerTopic}`;
+        const url = `${API_BASE_URL}/api/question_bank/sample?topic=${slug}&count=${questionsPerTopic}&group=${group}`;
         const response = await fetch(url);
         
         if (!response.ok) {
-          const fallbackResponse = await fetch(`/question_bank/${slug}.json`);
+          const fallbackResponse = await fetch(`/api/local_bank/${group}/${slug}.json`);
           if (!fallbackResponse.ok) continue;
           const bankQuestions: Question[] = await fallbackResponse.json();
           allQuestions.push(...shuffleArray(bankQuestions).slice(0, questionsPerTopic));
@@ -277,8 +312,6 @@ export const generatePresetExam = async (preset: ExamPreset, customConfig?: Cust
   const finalPool = shuffleArray(allQuestions).slice(0, Object.values(pattern).reduce((a, b) => a + b, 0));
 
   if (preset === "GATE") {
-    // GATE Structure: Section A (General Aptitude - skipped here for physics), Section B (Physics)
-    // We'll split the 65 questions into 1-mark and 2-mark sections roughly
     const q1Mark = finalPool.slice(0, 25);
     const q2Mark = finalPool.slice(25, 65);
 
@@ -303,8 +336,6 @@ export const generatePresetExam = async (preset: ExamPreset, customConfig?: Cust
   }
 
   if (preset === "CSIR_NET") {
-    // CSIR NET: Part B (+3.5/-0.875) and Part C (+5/0 or -1.25)
-    // Part C usually has a choice (Answer 20 out of 30)
     const partB = finalPool.slice(0, 20);
     const partC = finalPool.slice(20, 50);
 
@@ -338,7 +369,7 @@ export const generatePresetExam = async (preset: ExamPreset, customConfig?: Cust
   }
 
   return {
-    name: `${preset.replace("_", " ")} Physics Exam`,
+    name: `${preset.replace("_", " ")} Exam`,
     questions: finalPool,
     settings: defaultSettings,
   };
