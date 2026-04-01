@@ -8,3 +8,4 @@ cli/*_question_bank
 cli/.env
 cli/__pycache__/
 
+roadmap.txt

@@ -954,7 +954,7 @@ const AutoGenerateExamModal: React.FC<{
             value={selectedGroup}
             onChange={(e) => setSelectedGroup(e.target.value)}
             disabled={isGenerating}
-            className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-medium outline-none focus:border-blue-500 min-w-[200px] disabled:opacity-50"
+            className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-medium outline-none focus:border-blue-500 min-w-[200px] disabled:opacity-50 dark:text-white"
           >
             {groups.map(g => <option key={g} value={g}>{g.replace(/_/g, ' ').toUpperCase()}</option>)}
           </select>
@@ -1126,14 +1126,15 @@ const HomeScreen: React.FC<{
           </div>
           
           <div className="lg:col-span-4 flex flex-col gap-4 w-full">
-            <Card className="bg-teal-500/5 border-teal-500/20">
-              <h3 className="font-bold text-teal-500 flex items-center gap-2 mb-2 text-sm sm:text-base"><Shield size={18}/> Question Bank Status</h3>
-              <p className="text-xs sm:text-sm text-slate-500">840 Questions across 42 Physics Topics. Fully indexed and AI-verified.</p>
-              <div className="mt-4 flex gap-2">
-                <div className="h-1 bg-teal-500 flex-1 rounded-full"></div>
-                <div className="h-1 bg-teal-500 flex-1 rounded-full"></div>
-                <div className="h-1 bg-slate-300 dark:bg-slate-700 flex-1 rounded-full"></div>
+            <Card className="bg-purple-500/5 border-purple-500/20 relative overflow-hidden group min-h-[140px] flex flex-col justify-center">
+              <div className="absolute -right-4 -top-4 text-purple-500/10 group-hover:scale-110 group-hover:-rotate-12 transition-all duration-700">
+                <Lightbulb size={120} />
               </div>
+              <h3 className="font-bold text-purple-500 flex items-center gap-2 mb-3 text-sm sm:text-base relative z-10"><Lightbulb size={18}/> Daily Insight</h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 italic relative z-10 font-medium">
+                "Not only is the Universe stranger than we think, it is stranger than we can think."
+              </p>
+              <p className="text-xs text-purple-600/80 dark:text-purple-400/80 font-bold mt-2 relative z-10 text-right uppercase tracking-widest">— Werner Heisenberg</p>
             </Card>
             <div className="flex gap-4">
               <FileUploader onFileUpload={handleFileUpload} />

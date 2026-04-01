@@ -39,7 +39,15 @@ export default defineConfig(({ mode }) => {
                   const pythonCmd = fs.existsSync(venvPython) ? venvPython : 'python3';
                   
                   console.log(`[GENERATOR] Spawning process: ${pythonCmd} ${pyPath}`);
-                  const py = spawn(pythonCmd, [pyPath, '--topic', topic, '--count', String(count), '--difficulty', difficulty, '--group', group], { 
+                  
+                  const pyArgs = [pyPath, '--count', String(count), '--difficulty', difficulty, '--group', group];
+                  if (topic === '__all__') {
+                    pyArgs.push('--all');
+                  } else {
+                    pyArgs.push('--topic', topic);
+                  }
+
+                  const py = spawn(pythonCmd, pyArgs, { 
                     cwd: cwdPath,
                     env: { ...process.env, PYTHONUNBUFFERED: "1" }
                   });

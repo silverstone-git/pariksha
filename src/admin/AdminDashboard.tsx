@@ -20,6 +20,11 @@ interface TopicSummary {
   name: string;
   count: number;
   lastUpdated: string;
+  types?: {
+    mcq: number;
+    msq: number;
+    nat: number;
+  };
 }
 
 const GenerateQuestionsModal: React.FC<{
@@ -29,7 +34,7 @@ const GenerateQuestionsModal: React.FC<{
   onClose: () => void;
   onSuccess: () => void;
 }> = ({ isOpen, topic, group, onClose, onSuccess }) => {
-  const [count, setCount] = React.useState(20);
+  const [count, setCount] = React.useState(topic === "__all__" ? 5 : 20);
   const [difficulty, setDifficulty] = React.useState("intermediate");
   const [isGenerating, setIsGenerating] = React.useState(false);
   const [logs, setLogs] = React.useState("");
@@ -43,9 +48,15 @@ const GenerateQuestionsModal: React.FC<{
 
   if (!isOpen) return null;
 
+  const isBatch = topic === "__all__";
+
   const handleStart = async () => {
     setIsGenerating(true);
-    setLogs(`Starting generation for: ${topic}\nTarget: ${count} questions at ${difficulty} level in group [${group}]...\n\n`);
+    const startMsg = isBatch 
+      ? `Starting batch expansion for ALL topics in group [${group}]...\nTarget: ${count} questions per topic at ${difficulty} level...\n\n`
+      : `Starting generation for: ${topic}\nTarget: ${count} questions at ${difficulty} level in group [${group}]...\n\n`;
+    
+    setLogs(startMsg);
     
     try {
       const response = await fetch('/api/generate', {
@@ -77,16 +88,18 @@ const GenerateQuestionsModal: React.FC<{
 
   return (
     <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex justify-center items-center z-[70] p-4">
-      <Card title={`Deepen Topic: ${topic}`} className="w-full max-w-3xl border-teal-500/50 shadow-2xl">
+      <Card title={isBatch ? `Batch Expand Group: ${group.replace(/_/g, ' ').toUpperCase()}` : `Deepen Topic: ${topic}`} className="w-full max-w-3xl border-teal-500/50 shadow-2xl">
         <div className="grid md:grid-cols-2 gap-6 mb-6">
           <div>
-            <label className="block text-sm font-medium text-slate-400 mb-2 uppercase tracking-wider">Number of Questions</label>
+            <label className="block text-sm font-medium text-slate-400 mb-2 uppercase tracking-wider">
+              {isBatch ? "Questions PER Topic" : "Number of Questions"}
+            </label>
             <input 
               type="number" 
               value={count} 
               onChange={(e) => setCount(Math.max(1, parseInt(e.target.value) || 1))}
               disabled={isGenerating}
-              className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none disabled:opacity-50"
+              className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none disabled:opacity-50 dark:text-white"
             />
           </div>
           <div>
@@ -95,7 +108,7 @@ const GenerateQuestionsModal: React.FC<{
               value={difficulty}
               onChange={(e) => setDifficulty(e.target.value)}
               disabled={isGenerating}
-              className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none disabled:opacity-50"
+              className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none disabled:opacity-50 dark:text-white"
             >
               <option value="basic">Basic (Foundations)</option>
               <option value="intermediate">Intermediate (Standard)</option>
@@ -239,7 +252,7 @@ const AddTopicGroupModal: React.FC<{
                 onChange={(e) => setGroupName(e.target.value)}
                 disabled={isProcessing}
                 placeholder="e.g. UG Social Sciences"
-                className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none disabled:opacity-50"
+                className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none disabled:opacity-50 dark:text-white"
               />
             </div>
             
@@ -346,17 +359,29 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
         topicNames.map(async (name) => {
           const fileName = name.replace(/ /g, "_").toLowerCase() + ".json";
           try {
-            const response = await fetch(`/api/local_bank/${selectedGroup}/${fileName}`);
-            if (!response.ok) return { name, count: 0, lastUpdated: "Never" };
+            const response = await fetch(`/api/local_bank/${selectedGroup}/${encodeURIComponent(fileName)}`);
+            if (!response.ok) return { name, count: 0, lastUpdated: "Never", types: { mcq: 0, msq: 0, nat: 0 } };
             
             const questions = await response.json();
+            let mcq = 0, msq = 0, nat = 0;
+            if (Array.isArray(questions)) {
+              questions.forEach((q: any) => {
+                const t = q.type?.toUpperCase();
+                if (t === 'MCQ') mcq++;
+                else if (t === 'MSQ') msq++;
+                else if (t === 'NAT') nat++;
+                else mcq++; // default to MCQ
+              });
+            }
+            
             return {
               name,
               count: Array.isArray(questions) ? questions.length : 0,
-              lastUpdated: "Local Bank"
+              lastUpdated: "Local Bank",
+              types: { mcq, msq, nat }
             };
           } catch {
-            return { name, count: 0, lastUpdated: "Not Generated" };
+            return { name, count: 0, lastUpdated: "Not Generated", types: { mcq: 0, msq: 0, nat: 0 } };
           }
         })
       );
@@ -402,7 +427,7 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
             <select
               value={selectedGroup}
               onChange={(e) => setSelectedGroup(e.target.value)}
-              className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-medium outline-none focus:border-teal-500 text-sm"
+              className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-medium outline-none focus:border-teal-500 text-sm dark:text-white"
             >
               {groups.map(g => <option key={g} value={g}>{g.replace(/_/g, ' ').toUpperCase()}</option>)}
             </select>
@@ -412,6 +437,13 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
             </Button>
             <Button onClick={() => setIsAddGroupModalOpen(true)} className="bg-teal-600 hover:bg-teal-500 shadow-teal-900/20">
               <FolderOpen size={20} /> New Topic Group
+            </Button>
+            <Button 
+              onClick={() => handleGenerateMore("__all__")} 
+              className="bg-blue-600 hover:bg-blue-500 shadow-blue-900/20"
+              title="Add 'n' questions to EVERY topic in this group"
+            >
+              <Database size={20} /> Batch Expand
             </Button>
           </div>
         </div>
@@ -505,31 +537,53 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
             </div>
           </Card>
 
-          <Card title="Concept Analytics" className="hover:-translate-y-1">
+          <Card title="Topic Composition" className="hover:-translate-y-1">
             {selectedTopic ? (
               <div className="space-y-6">
                 <div className="p-6 bg-slate-100 dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-700">
-                  <h4 className="text-xl font-bold mb-4 text-slate-800 dark:text-white">{selectedTopic} Coverage</h4>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-sm mb-1 text-slate-500 font-medium uppercase tracking-tighter">
-                        <span>Conceptual Base</span>
-                        <span>90%</span>
+                  <h4 className="text-xl font-bold mb-4 text-slate-800 dark:text-white">{selectedTopic}</h4>
+                  {(() => {
+                    const topicData = topics.find(t => t.name === selectedTopic);
+                    const count = topicData?.count || 0;
+                    if (count === 0) return <p className="text-slate-500 italic">No questions generated yet.</p>;
+                    
+                    const types = topicData?.types || { mcq: 0, msq: 0, nat: 0 };
+                    const mcqPct = Math.round((types.mcq / count) * 100);
+                    const msqPct = Math.round((types.msq / count) * 100);
+                    const natPct = Math.round((types.nat / count) * 100);
+                    
+                    return (
+                      <div className="space-y-4">
+                        <div>
+                          <div className="flex justify-between text-sm mb-1 text-slate-500 font-medium uppercase tracking-tighter">
+                            <span>MCQs (Multiple Choice)</span>
+                            <span>{types.mcq} ({mcqPct}%)</span>
+                          </div>
+                          <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+                            <div className="bg-teal-500 h-2 rounded-full transition-all duration-1000" style={{ width: `${mcqPct}%` }}></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-sm mb-1 text-slate-500 font-medium uppercase tracking-tighter">
+                            <span>MSQs (Multiple Select)</span>
+                            <span>{types.msq} ({msqPct}%)</span>
+                          </div>
+                          <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+                            <div className="bg-blue-500 h-2 rounded-full transition-all duration-1000" style={{ width: `${msqPct}%` }}></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-sm mb-1 text-slate-500 font-medium uppercase tracking-tighter">
+                            <span>NATs (Numerical Answer)</span>
+                            <span>{types.nat} ({natPct}%)</span>
+                          </div>
+                          <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+                            <div className="bg-purple-500 h-2 rounded-full transition-all duration-1000" style={{ width: `${natPct}%` }}></div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
-                        <div className="bg-teal-500 h-2 rounded-full transition-all duration-1000" style={{ width: '90%' }}></div>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm mb-1 text-slate-500 font-medium uppercase tracking-tighter">
-                        <span>Numerical Depth</span>
-                        <span>45%</span>
-                      </div>
-                      <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
-                        <div className="bg-blue-500 h-2 rounded-full transition-all duration-1000" style={{ width: '45%' }}></div>
-                      </div>
-                    </div>
-                  </div>
+                    );
+                  })()}
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <Button variant="secondary">
@@ -546,7 +600,7 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
             ) : (
               <div className="flex flex-col items-center justify-center h-[300px] text-slate-500">
                 <Activity size={48} className="mb-4 opacity-20" />
-                <p className="italic">Select a topic to analyze coverage depth</p>
+                <p className="italic">Select a topic to analyze composition</p>
               </div>
             )}
           </Card>
@@ -554,6 +608,7 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
       </div>
 
       <GenerateQuestionsModal 
+        key={generatorModalTopic || "closed"}
         isOpen={!!generatorModalTopic}
         topic={generatorModalTopic || ""}
         group={selectedGroup}

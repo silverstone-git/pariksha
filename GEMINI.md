@@ -28,7 +28,8 @@ Pariksha ("Exam") is a modern, AI-enhanced web-based exam simulator built with R
 ### 2. Administrator & Topic Management
 - **Topic Group Uploader**: Drag-and-drop interface in the Admin Dashboard for initializing new subject areas. Accepts Markdown, HTML, and image files for knowledge base and text files for topics.
 - **Real-Time Task Monitoring**: Streaming terminal output in the Admin UI for background Python tasks (indexing and question generation).
-- **Topic Explorer**: Group-aware analytics tool for monitoring question bank coverage and deepening specific topics using AI.
+- **Topic Explorer & Batch Expand**: Group-aware analytics tool for monitoring question bank coverage, generating new questions per topic, or doing a full "Batch Expand" across an entire subject group.
+- **Topic Composition Analytics**: Accurate bar graphs mapping the exact distribution of MCQs, MSQs, and NATs based on local JSON bank data.
 
 ### 3. Scientific Rendering & Navigation
 - **Robust LaTeX**: A sophisticated `Latex` component that repairs common LLM mistakes (missing delimiters) and preserves complex environments like matrices (`pmatrix`).
@@ -36,7 +37,7 @@ Pariksha ("Exam") is a modern, AI-enhanced web-based exam simulator built with R
 - **Review Flagging**: Ability to flag questions for later review during the exam.
 
 ### 4. CLI RAG Pipeline
-- **Automatic Sync**: `sync_and_summarize.py` fetches the entire deployed bank to the local `cli/pg_physics_question_bank` folder.
+- **Automatic Sync**: `sync_and_summarize.py` fetches the deployed bank down to the local `cli/<group>_question_bank/` folder, now with `--group` support to keep subjects isolated.
 - **Multimodal Generation**: `generate_question_bank.py` produces questions with R2-hosted images, now with `--group` support for isolated subject generation.
 - **Indexing**: `index_knowledge.py` supports isolation via `--group`, creating unique ChromaDB collections per subject.
 
@@ -52,6 +53,11 @@ Pariksha ("Exam") is a modern, AI-enhanced web-based exam simulator built with R
     - Question Bank: `cli/<group_name>_question_bank/`
     - Topics List: `<group_name>_question_bank_topics.txt`
 - **Indexing**: Always use `cli/venv_pariksha/bin/python3 cli/index_knowledge.py --group <name>` to ensure isolation.
+
+### Known Fixes (2026-04-01)
+- **JSON URI Encoding Fix**: Updated the Vite middleware and frontend fetch routes to use `encodeURIComponent` to correctly handle topic names containing special characters like `&` (e.g. `Fourier & Laplace Transforms`).
+- **Dark Mode UI**: Fixed `<select>` and `<input>` elements in modals to apply `dark:text-white` for proper readability on dark backgrounds.
+- **ChromaDB Renaming**: Successfully migrated old `text_data` collections to the group-aware `text_data_<group>` architecture without requiring expensive re-indexing.
 
 ### Known Fixes (2026-03-30)
 - **Vite Proxy Fix**: Updated `vite.config.ts` to use `loadEnv` and handle dynamic `/api/local_bank/` and `/api/topics` routes.
