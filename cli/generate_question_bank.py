@@ -65,8 +65,8 @@ def upload_to_question_bank(topic_slug: str, questions: List[Dict[str, Any]]):
         })
 
     try:
-        logger.info(f"Uploading {len(upload_data)} questions to {url}...")
-        response = requests.post(url, headers=headers, json=upload_data)
+        logger.info(f"Uploading {len(upload_data)} questions to {url} (PATCH)...")
+        response = requests.patch(url, headers=headers, json=upload_data)
         if response.ok:
             logger.info(f"API Upload Successful: {response.json()}")
         else:

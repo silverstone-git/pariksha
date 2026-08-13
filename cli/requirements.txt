@@ -18,4 +18,12 @@ gradio>=4.0.0
 
 # Optional dependencies for enhanced functionality
 PyYAML>=6.0
-tqdm>=4.65.0pdfplumber>=0.10.0
+tqdm>=4.65.0
+pdfplumber>=0.10.0
+chromadb
+boto3
+llama-index
+llama-index-vector-stores-chroma
+llama-index-embeddings-google-genai
+llama-index-llms-google-genai
+json-repair

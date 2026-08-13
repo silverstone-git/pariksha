@@ -14,8 +14,11 @@ Pariksha is a production-grade exam simulator designed for high-stakes scientifi
 
 The `cli/` directory contains powerful scripts for maintaining the question bank:
 
-- `sync_and_summarize.py`: Syncs your local bank with the deployed API and provides a statistical breakdown of question types (MCQ, MSQ, NAT) per topic. Group-agnostic, supporting the `--group` flag for isolated subjects.
-- `generate_question_bank.py`: Uses Gemini 3.5 Flash and RAG to generate new scientific questions from textbooks.
+- `sync_and_summarize.py`: Destructively downloads the remote bank to the local folder for a clean rebuild.
+- `generate_question_bank.py`: Uses Gemini 3.5 Flash and RAG to generate new scientific questions. Uses `PATCH` for idempotent additions to the cloud.
+- `additive_sync.py`: Performs a safe, non-destructive cloud-to-local sync, appending only missing questions locally.
+- `sync_manager.py`: Performs a "surgical sync" (Fetch-Merge-Delete-Push) to clean remote duplicates and re-upload unique questions.
+- `upload_existing_bank.py`: Safely uploads local JSON files to the cloud using `PATCH` for idempotent additions.
 
 ## 💻 Tech Stack
 

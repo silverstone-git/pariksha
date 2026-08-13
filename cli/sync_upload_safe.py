@@ -3,6 +3,7 @@ import sys
 import json
 import logging
 import requests
+import argparse
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -19,15 +20,18 @@ ADMIN_SECRET = os.getenv("PARIKSHA_ADMIN_SECRET")
 if ADMIN_SECRET:
     ADMIN_SECRET = ADMIN_SECRET.strip(' "\'')
 
-BANK_DIR = Path(__file__).parent / "question_bank"
-
 def main():
+    parser = argparse.ArgumentParser(description="Upload local question bank to API.")
+    parser.add_argument("--group", type=str, default="pg_physics", help="The topic group (e.g., pg_physics)")
+    args = parser.parse_args()
+
     if not ADMIN_SECRET:
         logger.error("PARIKSHA_ADMIN_SECRET not found in .env. Exiting.")
         sys.exit(1)
 
-    if not BANK_DIR.exists():
-        logger.error(f"Directory {BANK_DIR} does not exist.")
+    bank_dir = Path(__file__).parent / f"{args.group}_question_bank"
+    if not bank_dir.exists():
+        logger.error(f"Directory {bank_dir} does not exist.")
         sys.exit(1)
 
     headers = {
@@ -38,7 +42,7 @@ def main():
     files_uploaded = 0
     total_files = 0
 
-    for json_file in BANK_DIR.glob("*.json"):
+    for json_file in bank_dir.glob("*.json"):
         total_files += 1
         slug = json_file.stem  # Get filename without extension (e.g., 'quantum_mechanics')
         
@@ -55,7 +59,7 @@ def main():
 
         # Sanitize data to match the expected schema
         upload_data = []
-        
+
         # Helper to process a single question dictionary
         def process_question(q_dict):
             upload_data.append({
@@ -64,26 +68,25 @@ def main():
                 "options": q_dict.get("options"),
                 "answer_label": q_dict.get("answer_label"),
                 "answer_labels": q_dict.get("answer_labels"),
-                "answer_range": q_dict.get("answer_range"),
-                "answer_value": q_dict.get("answer_value"),
                 "explanation": q_dict.get("explanation"),
                 "image_path": q_dict.get("image_path")
             })
 
-        for q in questions:
-            if isinstance(q, dict):
-                process_question(q)
-            elif isinstance(q, list):
-                # Handle accidentally nested lists
-                for inner_q in q:
-                    if isinstance(inner_q, dict):
-                        process_question(inner_q)
+        # Process questions
+        if isinstance(questions, list):
+            for q in questions:
+                if isinstance(q, dict):
+                    process_question(q)
+                elif isinstance(q, list): # Handle legacy nested lists if any
+                    for inner_q in q:
+                        if isinstance(inner_q, dict):
+                            process_question(inner_q)
         
         url = f"{API_BASE_URL}/api/question_bank/topics/{slug}"
         logger.info(f"Uploading {len(upload_data)} questions for topic '{slug}' to {url}...")
         
         try:
-            response = requests.post(url, headers=headers, json=upload_data)
+            response = requests.patch(url, headers=headers, json=upload_data)
             if response.ok:
                 logger.info(f"✅ Success for '{slug}': {response.json()}")
                 files_uploaded += 1

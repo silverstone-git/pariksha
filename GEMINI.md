@@ -41,6 +41,13 @@ Pariksha ("Exam") is a modern, AI-enhanced web-based exam simulator built with R
 - **Multimodal Generation**: `generate_question_bank.py` produces questions with R2-hosted images, now with `--group` support for isolated subject generation.
 - **Indexing**: `index_knowledge.py` supports isolation via `--group`, creating unique ChromaDB collections per subject.
 
+### 5. CLI Sync Strategies (August 2026)
+To maintain data integrity and prevent duplicates, follow these strategies:
+- **Idempotent Upload**: Use `upload_existing_bank.py` (or `generate_question_bank.py`), which now uses `PATCH` instead of `POST`. This ensures only unique questions are added to the cloud.
+- **Surgical Sync**: Use `sync_manager.py` (Fetch-Merge-Delete-Push) to clean remote duplicates and ensure the remote bank is pristine.
+- **Additive Sync**: Use `additive_sync.py` for a safe, non-destructive cloud-to-local synchronization that only appends missing questions to local files.
+- **Destructive Sync**: Use `sync_and_summarize.py` for a full, clean rebuild of local files from the cloud.
+
 ## Development Notes
 
 ### R2 Image Hosting
