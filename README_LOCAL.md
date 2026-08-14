@@ -60,3 +60,7 @@
 
 - to destroy questions in cloud and instead PUT the ones which are currently local (its implemented in API as POST because it can duplicate things if run again and again without doing the DELETE first, which is handled quite well in the destructive_sync)
 > ./cli/venv_pariksha/bin/python3 cli/sync_upload_destructive.py --topic analog_electronics --group pg_physics
+
+
+- to make new questions, keep the knowledge for each group in ___my_group_name___knowledge_bank and, use the admin panel
+  batch expand option or use the CLI for generate_questions.py

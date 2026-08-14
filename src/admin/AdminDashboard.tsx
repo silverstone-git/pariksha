@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Card } from "../components/Card";
 import { Button } from "../components/Button";
+import { API_BASE_URL, formatGroupLabel } from "../utils";
 
 // --- Types ---
 interface TopicSummary {
@@ -326,7 +327,7 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
 
   const fetchGroups = async () => {
     try {
-      const res = await fetch('/api/groups');
+      const res = await fetch(`${API_BASE_URL}/api/question_bank/groups`);
       const data = await res.json();
       if (data && data.length) {
         setGroups(data);
@@ -429,7 +430,7 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
               onChange={(e) => setSelectedGroup(e.target.value)}
               className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-medium outline-none focus:border-teal-500 text-sm dark:text-white"
             >
-              {groups.map(g => <option key={g} value={g}>{g.replace(/_/g, ' ').toUpperCase()}</option>)}
+              {groups.map(g => <option key={g} value={g}>{formatGroupLabel(g)}</option>)}
             </select>
             
             <Button onClick={fetchTopics} variant="secondary">

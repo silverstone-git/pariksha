@@ -64,6 +64,7 @@ To maintain data integrity and prevent duplicates, follow these strategies:
 ### Known Fixes (2026-08-14)
 - **Topic Distribution API**: Refactored `vite.config.ts` and `App.tsx` to consume structured JSON responses for topics instead of raw text parsing. This resolves visibility issues for flat topic lists.
 - **Difficulty Proportions**: Introduced `difficulty` field in `Question` and `difficultyProportions` in `ExamSection` types. Implemented slider-based UI controls for better proportionality visualization.
+    - **Robustness Update**: Proportions now default to 1:1:1 and include runtime checks to prevent division-by-zero errors in UI components.
 - **Advanced Preset Editor UI/UX**:
     - Replaced numeric inputs with ergonomic `+/-` button controls.
     - Improved layout and responsiveness to prevent text clipping in headers.

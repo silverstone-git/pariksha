@@ -48,7 +48,7 @@ import {
   API_BASE_URL,
   generatePresetExam,
   isLocalhost,
-  
+  formatGroupLabel,
   resolveImagePath,
   type CustomConfig,
 } from "./utils";
@@ -630,7 +630,7 @@ const AutoGenerateExamModal: React.FC<{
 
   React.useEffect(() => {
     if (isOpen) {
-      fetch('/api/groups').then(r => r.json()).then(data => {
+      fetch(`${API_BASE_URL}/api/question_bank/groups`).then(r => r.json()).then(data => {
         if (Array.isArray(data) && data.length > 0) {
           setGroups(data);
           if (!data.includes(selectedGroup)) setSelectedGroup(data[0]);
@@ -651,14 +651,15 @@ const AutoGenerateExamModal: React.FC<{
           setSubjectGroups(data);
           
           // Reset custom sections to reflect new topics
-          setCustomSections([
-            {
-              name: "Section 1",
-              topicWeights: Object.keys(data).reduce((acc, g) => ({ ...acc, [g]: 0 }), {}),
-              marking: { positive: 1, negative: 0 },
-              allowedTypes: ["MCQ", "MSQ", "NAT"],
-            }
-          ]);
+              setCustomSections([
+                {
+                  name: "Section 1",
+                  topicWeights: Object.keys(data).reduce((acc, g) => ({ ...acc, [g]: 0 }), {}),
+                  marking: { positive: 1, negative: 0 },
+                  allowedTypes: ["MCQ", "MSQ", "NAT"],
+                  difficultyProportions: { easy: 1, medium: 1, hard: 1 }
+                }
+              ]);
           setActiveSectionIdx(0);
           setLoadingTopics(false);
         }).catch(err => {
@@ -767,6 +768,7 @@ const AutoGenerateExamModal: React.FC<{
       topicWeights: Object.keys(subjectGroups).reduce((acc, g) => ({ ...acc, [g]: 0 }), {}),
       marking: { positive: 1, negative: 0 },
       allowedTypes: ["MCQ", "MSQ", "NAT"],
+      difficultyProportions: { easy: 1, medium: 1, hard: 1 }
     };
     setCustomSections([...customSections, newSection]);
     setActiveSectionIdx(customSections.length);
@@ -811,8 +813,9 @@ const AutoGenerateExamModal: React.FC<{
               onChange={(e) => setSelectedGroup(e.target.value)}
               className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-medium outline-none focus:border-teal-500 min-w-[200px]"
             >
-              {groups.map(g => <option key={g} value={g}>{g.replace(/_/g, ' ').toUpperCase()}</option>)}
+              {groups.map(g => <option key={g} value={g}>{formatGroupLabel(g)}</option>)}
             </select>
+
           </div>
 
           <div className="flex flex-col md:flex-row gap-6 flex-grow overflow-hidden relative">
@@ -925,10 +928,12 @@ const AutoGenerateExamModal: React.FC<{
                 <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest">Difficulty Proportions (E/M/H)</label>
                 <div className="h-4 flex rounded-lg overflow-hidden bg-slate-700">
                   {(['easy', 'medium', 'hard'] as const).map((d) => {
-                    const total = (activeSection.difficultyProportions?.easy || 0) + 
-                                  (activeSection.difficultyProportions?.medium || 0) + 
-                                  (activeSection.difficultyProportions?.hard || 0);
-                    const width = total === 0 ? "33.33%" : `${((activeSection.difficultyProportions?.[d] || 0) / total) * 100}%`;
+                    const props = activeSection.difficultyProportions || { easy: 1, medium: 1, hard: 1 };
+                    const total = (props.easy || 0) + (props.medium || 0) + (props.hard || 0);
+                    const safeTotal = total === 0 ? 3 : total;
+                    const safeProps = total === 0 ? { easy: 1, medium: 1, hard: 1 } : props;
+                    
+                    const width = `${((safeProps[d] || 0) / safeTotal) * 100}%`;
                     const color = d === 'easy' ? 'bg-emerald-500' : d === 'medium' ? 'bg-amber-500' : 'bg-rose-500';
                     return (
                       <div key={d} style={{ width }} className={`${color} transition-all duration-300`} />
@@ -940,14 +945,14 @@ const AutoGenerateExamModal: React.FC<{
                     <div key={d} className="flex-grow">
                       <div className="flex justify-between text-[10px] text-slate-500 mb-1 uppercase">
                         {d}
-                        <span className="font-bold">{activeSection.difficultyProportions?.[d] || 0}</span>
+                        <span className="font-bold">{(activeSection.difficultyProportions?.[d] ?? 1)}</span>
                       </div>
                       <input 
                         type="range"
                         min="0"
                         max="10"
-                        value={activeSection.difficultyProportions?.[d] || 0}
-                        onChange={(e) => updateActiveSection({ difficultyProportions: { ...(activeSection.difficultyProportions || { easy: 0, medium: 0, hard: 0 }), [d]: parseInt(e.target.value) || 0 } })}
+                        value={(activeSection.difficultyProportions?.[d] ?? 1)}
+                        onChange={(e) => updateActiveSection({ difficultyProportions: { ...(activeSection.difficultyProportions || { easy: 1, medium: 1, hard: 1 }), [d]: parseInt(e.target.value) || 0 } })}
                         className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-500"
                       />
                     </div>

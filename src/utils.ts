@@ -8,9 +8,21 @@ export const isLocalhost = (): boolean => {
   );
 };
 
-export const API_BASE_URL = (
-  isLocalhost() ? "" : (import.meta.env.VITE_API_BASE_URL || "https://outsie.aryan.cfd")
-).replace(/\/$/, "");
+export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://outsie.aryan.cfd").replace(/\/$/, "");
+// console.log("DEBUG: API_BASE_URL resolution:", {
+//   VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
+//   RESOLVED: API_BASE_URL
+// });
+
+export const formatGroupLabel = (group: string): string => {
+  return group
+    .split('_')
+    .map(word => {
+      if (word.length <= 2) return word.toUpperCase();
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
+};
 
 /**
  * Converts legacy flat-question exams into the new section-based format.
