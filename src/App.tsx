@@ -610,6 +610,7 @@ interface CustomSectionConfig {
   marking: { positive: number; negative: number };
   allowedTypes: QuestionType[];
   maxAttempts?: number;
+  difficultyProportions?: { easy: number; medium: number; hard: number };
 }
 
 const AutoGenerateExamModal: React.FC<{
@@ -923,7 +924,7 @@ const AutoGenerateExamModal: React.FC<{
               <div className="space-y-4">
                 <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest">Difficulty Proportions (E/M/H)</label>
                 <div className="h-4 flex rounded-lg overflow-hidden bg-slate-700">
-                  {(['easy', 'medium', 'hard'] as const).map((d, i) => {
+                  {(['easy', 'medium', 'hard'] as const).map((d) => {
                     const total = (activeSection.difficultyProportions?.easy || 0) + 
                                   (activeSection.difficultyProportions?.medium || 0) + 
                                   (activeSection.difficultyProportions?.hard || 0);

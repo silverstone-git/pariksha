@@ -1,8 +1,17 @@
-# 🎓 Pariksha - AI-Enhanced Physics Exam Simulator
+## 🎓 Pariksha - AI-Enhanced Physics Exam Simulator
 
 Pariksha is a production-grade exam simulator designed for high-stakes scientific exams (GATE, CSIR NET, TIFR). It leverages AI to generate high-quality questions and provides a professional, distraction-free environment for practice.
 
+## 🚀 August 2026 Updates: Advanced Preset Editor
+We have overhauled the Advanced Preset Editor for better precision and workflow:
+- **Difficulty Proportionality**: Visually set the ratio of Easy, Medium, and Hard questions using intuitive slider controls.
+- **Random Topic Injection**: Quickly add varied questions using the "Random Topic" generator.
+- **Enhanced Validation**: Intelligent form validation ensures section configurations are always valid before generation.
+- **Confirmation Workflow**: New preset confirmation modal provides a quick summary before generating your exam.
+- **Robust Topic Selection**: Improved API integration ensures all topics are correctly structured and visible in the selector.
+
 ## 🚀 Key Features
+...
 
 - **Advanced Exam Engine**: Full support for Multiple Choice (MCQ), Multiple Select (MSQ), and Numerical Answer Type (NAT) questions.
 - **Sectional Infrastructure**: Create exams with specific sections (e.g., General Aptitude, Core Physics) each with its own marking scheme and attempt caps.

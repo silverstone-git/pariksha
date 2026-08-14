@@ -61,10 +61,18 @@ To maintain data integrity and prevent duplicates, follow these strategies:
     - Topics List: `<group_name>_question_bank_topics.txt`
 - **Indexing**: Always use `cli/venv_pariksha/bin/python3 cli/index_knowledge.py --group <name>` to ensure isolation.
 
-### Known Fixes (2026-04-01)
-- **JSON URI Encoding Fix**: Updated the Vite middleware and frontend fetch routes to use `encodeURIComponent` to correctly handle topic names containing special characters like `&` (e.g. `Fourier & Laplace Transforms`).
-- **Dark Mode UI**: Fixed `<select>` and `<input>` elements in modals to apply `dark:text-white` for proper readability on dark backgrounds.
-- **ChromaDB Renaming**: Successfully migrated old `text_data` collections to the group-aware `text_data_<group>` architecture without requiring expensive re-indexing.
+### Known Fixes (2026-08-14)
+- **Topic Distribution API**: Refactored `vite.config.ts` and `App.tsx` to consume structured JSON responses for topics instead of raw text parsing. This resolves visibility issues for flat topic lists.
+- **Difficulty Proportions**: Introduced `difficulty` field in `Question` and `difficultyProportions` in `ExamSection` types. Implemented slider-based UI controls for better proportionality visualization.
+- **Advanced Preset Editor UI/UX**:
+    - Replaced numeric inputs with ergonomic `+/-` button controls.
+    - Improved layout and responsiveness to prevent text clipping in headers.
+    - Implemented `PresetConfirmationModal` for generation workflows.
+    - Added comprehensive validation for section configuration (positive/negative marks, question counts).
+- **Pitfalls to Avoid**: 
+    - **Frontend Parsing**: Avoid complex client-side parsing of raw text files; favor structured JSON APIs.
+    - **CSS Clipping**: Avoid `truncate` on container titles if the text length can vary and space permits wrapping.
+    - **React State Conventions**: Always use `React.useState` consistently within the same component file to avoid `ReferenceError` when mixing with `useState` from imports.
 
 ### Known Fixes (2026-03-30)
 - **Vite Proxy Fix**: Updated `vite.config.ts` to use `loadEnv` and handle dynamic `/api/local_bank/` and `/api/topics` routes.
