@@ -15,6 +15,7 @@ export interface Question {
   answer_range?: { min: number; max: number }; // NAT range
   answer_value?: string; // NAT exact
   topic: string;
+  difficulty?: 'easy' | 'medium' | 'hard';
   explanation: string;
   image_path?: string;
 }
@@ -26,6 +27,7 @@ export interface ExamSection {
   marking: { positive: number; negative: number };
   maxAttempts?: number; // e.g., "Answer 15/20"
   allowedTypes?: QuestionType[]; // New: Filter by question type for this section
+  difficultyProportions?: { easy: number; medium: number; hard: number };
 }
 
 export interface ShuffledQuestion extends Question {

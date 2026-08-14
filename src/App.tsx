@@ -642,37 +642,28 @@ const AutoGenerateExamModal: React.FC<{
     let active = true;
     if (isOpen) {
       setLoadingTopics(true);
-      fetch(`/api/topics?group=${selectedGroup}`).then(r => r.text()).then(text => {
-        if (!active) return;
-        const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-        const result: Record<string, string[]> = {};
-        let currentCategory = "General";
-        
-        for (const line of lines) {
-          if (line.startsWith('#')) {
-            currentCategory = line.replace(/^#+/, '').trim();
-          } else {
-            if (!result[currentCategory]) result[currentCategory] = [];
-            result[currentCategory].push(line.replace(/^\* /, '').trim());
-          }
-        }
-        if (Object.keys(result).length === 0 && lines.length > 0) result["General"] = lines;
-        
-        setSubjectGroups(result);
-        
-        // Reset custom sections to reflect new topics
-        setCustomSections([
-          {
-            name: "Section 1",
-            topicWeights: Object.keys(result).reduce((acc, g) => ({ ...acc, [g]: 0 }), {}),
-            marking: { positive: 1, negative: 0 },
-            allowedTypes: ["MCQ", "MSQ", "NAT"],
-          }
-        ]);
-        setActiveSectionIdx(0);
-      }).finally(() => {
-        if (active) setLoadingTopics(false);
-      });
+      fetch(`/api/question_bank/topics?group=${selectedGroup}`)
+        .then(r => r.json())
+        .then(data => {
+          if (!active) return;
+          
+          setSubjectGroups(data);
+          
+          // Reset custom sections to reflect new topics
+          setCustomSections([
+            {
+              name: "Section 1",
+              topicWeights: Object.keys(data).reduce((acc, g) => ({ ...acc, [g]: 0 }), {}),
+              marking: { positive: 1, negative: 0 },
+              allowedTypes: ["MCQ", "MSQ", "NAT"],
+            }
+          ]);
+          setActiveSectionIdx(0);
+          setLoadingTopics(false);
+        }).catch(err => {
+          console.error(err);
+          if (active) setLoadingTopics(false);
+        });
     }
     return () => { active = false; };
   }, [selectedGroup, isOpen]);
@@ -681,6 +672,9 @@ const AutoGenerateExamModal: React.FC<{
   const [customSections, setCustomSections] = React.useState<CustomSectionConfig[]>([]);
   const [activeSectionIdx, setActiveSectionIdx] = React.useState(0);
 
+  // Confirmation Modal
+  const [showConfirmation, setShowConfirmation] = React.useState<ExamPreset | null>(null);
+  
   const presets: { id: ExamPreset; name: string; desc: string }[] = [
     { id: "GATE", name: "GATE Physics", desc: "65 Questions | 180 Mins | Precise Pattern" },
     { id: "CSIR_NET", name: "CSIR NET Physical Sciences", desc: "75 Questions | Part A, B & C" },
@@ -688,11 +682,44 @@ const AutoGenerateExamModal: React.FC<{
     { id: "BARC_OCES", name: "BARC OCES", desc: "100 Questions | Speed Test Pattern" },
   ];
 
+  const PresetConfirmationModal = () => {
+    if (!showConfirmation) return null;
+    const preset = presets.find(p => p.id === showConfirmation);
+    
+    return (
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-[70] p-4">
+        <Card className="w-full max-w-md p-6">
+          <h2 className="text-xl font-bold mb-4">Generate {preset?.name}?</h2>
+          <p className="text-sm text-slate-500 mb-6">{preset?.desc}</p>
+          <div className="flex gap-4">
+            <Button variant="secondary" className="flex-1" onClick={() => setShowConfirmation(null)}>Cancel</Button>
+            <Button className="flex-1 bg-blue-600" onClick={() => { setShowConfirmation(null); handleGenerate(showConfirmation); }}>Continue</Button>
+          </div>
+        </Card>
+      </div>
+    );
+  };
+
   if (!isOpen) return null;
 
   const activeSection = customSections[activeSectionIdx];
 
   const handleGenerate = async (presetId: ExamPreset) => {
+    // 1. Validation for CUSTOM
+    if (presetId === "CUSTOM") {
+      for (const s of customSections) {
+        const totalQs = Object.values(s.topicWeights).reduce((a, b) => a + b, 0);
+        if (totalQs === 0) {
+          alert(`Section "${s.name}" has 0 questions.`);
+          return;
+        }
+        if (s.marking.positive <= 0 || s.marking.negative < 0) {
+          alert(`Section "${s.name}" has invalid marking values.`);
+          return;
+        }
+      }
+    }
+
     setIsGenerating(true);
     try {
       let config: ExamConfig;
@@ -703,6 +730,14 @@ const AutoGenerateExamModal: React.FC<{
         config = await generatePresetExam(presetId, undefined, selectedGroup);
       }
       
+      // 2. Error handling if no questions found
+      const totalQuestionsFound = config.sections ? config.sections.flatMap(s => s.questions).length : config.questions?.length || 0;
+      if (totalQuestionsFound === 0) {
+        alert("No questions found for the selected configuration. Please adjust your criteria.");
+        setIsGenerating(false);
+        return;
+      }
+
       if (shouldUpload) {
         try {
           const allQs = config.sections ? config.sections.flatMap(s => s.questions) : config.questions;
@@ -766,7 +801,7 @@ const AutoGenerateExamModal: React.FC<{
   if (isCustomMode && activeSection) {
     return (
       <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex justify-center items-center z-[60] p-4">
-        <Card title="Advanced Preset Editor" className="w-full max-w-5xl border-teal-500/50 max-h-[95vh] flex flex-col overflow-hidden">
+        <Card title="Advanced Preset Editor" className="w-full max-w-5xl border-teal-500/50 max-h-[95vh] flex flex-col overflow-hidden p-4 sm:p-6">
           
           <div className="mb-6 flex items-center justify-between bg-slate-100 dark:bg-slate-800 p-4 rounded-xl">
             <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">Topic Group:</span>
@@ -851,13 +886,16 @@ const AutoGenerateExamModal: React.FC<{
                     </div>
                     <div className="flex-grow">
                       <div className="text-[10px] text-slate-500 mb-1">WRONG</div>
-                      <input 
-                        type="number"
-                        step="0.1"
-                        value={activeSection.marking.negative}
-                        onChange={(e) => updateActiveSection({ marking: { ...activeSection.marking, negative: parseFloat(e.target.value) || 0 } })}
-                        className="w-full p-2 text-center rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-teal-500"
-                      />
+                      <div className="flex items-center">
+                        <span className="mr-2 text-slate-500 font-bold">-</span>
+                        <input 
+                          type="number"
+                          step="0.1"
+                          value={activeSection.marking.negative}
+                          onChange={(e) => updateActiveSection({ marking: { ...activeSection.marking, negative: parseFloat(e.target.value) || 0 } })}
+                          className="w-full p-2 text-center rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-teal-500"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -883,26 +921,87 @@ const AutoGenerateExamModal: React.FC<{
               </div>
 
               <div className="space-y-4">
-                <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest">Topic Distribution</label>
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest">Difficulty Proportions (E/M/H)</label>
+                <div className="h-4 flex rounded-lg overflow-hidden bg-slate-700">
+                  {(['easy', 'medium', 'hard'] as const).map((d, i) => {
+                    const total = (activeSection.difficultyProportions?.easy || 0) + 
+                                  (activeSection.difficultyProportions?.medium || 0) + 
+                                  (activeSection.difficultyProportions?.hard || 0);
+                    const width = total === 0 ? "33.33%" : `${((activeSection.difficultyProportions?.[d] || 0) / total) * 100}%`;
+                    const color = d === 'easy' ? 'bg-emerald-500' : d === 'medium' ? 'bg-amber-500' : 'bg-rose-500';
+                    return (
+                      <div key={d} style={{ width }} className={`${color} transition-all duration-300`} />
+                    );
+                  })}
+                </div>
+                <div className="flex gap-4">
+                  {(['easy', 'medium', 'hard'] as const).map(d => (
+                    <div key={d} className="flex-grow">
+                      <div className="flex justify-between text-[10px] text-slate-500 mb-1 uppercase">
+                        {d}
+                        <span className="font-bold">{activeSection.difficultyProportions?.[d] || 0}</span>
+                      </div>
+                      <input 
+                        type="range"
+                        min="0"
+                        max="10"
+                        value={activeSection.difficultyProportions?.[d] || 0}
+                        onChange={(e) => updateActiveSection({ difficultyProportions: { ...(activeSection.difficultyProportions || { easy: 0, medium: 0, hard: 0 }), [d]: parseInt(e.target.value) || 0 } })}
+                        className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-500"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest">Topic Distribution</label>
+                  <Button 
+                    variant="secondary" 
+                    className="text-[10px] py-1 px-2 h-auto"
+                    onClick={() => {
+                      const allTopics = Object.values(subjectGroups).flat();
+                      const randomTopic = allTopics[Math.floor(Math.random() * allTopics.length)];
+                      handleTopicWeightChange(randomTopic, (parseInt(String(activeSection.topicWeights[randomTopic] || 0)) + 1).toString());
+                    }}
+                  >
+                    + Random
+                  </Button>
+                </div>
                 {loadingTopics ? (
                   <div className="p-4 text-center text-slate-500">Loading topics...</div>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {Object.keys(subjectGroups).map(g => (
-                      <div key={g} className="flex justify-between items-center p-2 px-3 glass rounded-xl border border-white/5">
-                        <span className="text-xs font-medium text-slate-600 dark:text-slate-400 truncate mr-2" title={g}>{g}</span>
-                        <input 
-                          type="number"
-                          min="0"
-                          value={activeSection.topicWeights[g] || 0}
-                          onChange={(e) => handleTopicWeightChange(g, e.target.value)}
-                          className="w-16 p-1 text-center text-sm rounded-lg bg-slate-200/50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-700 outline-none focus:border-teal-500 flex-shrink-0"
-                        />
+                  <div className="space-y-6">
+                    {Object.entries(subjectGroups).map(([category, topics]) => (
+                      <div key={category}>
+                        <h4 className="text-[10px] font-bold text-slate-500 uppercase mb-3 bg-slate-800/30 p-1 px-2 rounded-md inline-block">{category.replace(/_/g, ' ')}</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {topics.map(topic => (
+                            <div key={topic} className="flex justify-between items-center bg-slate-800/50 hover:bg-slate-800 transition-colors rounded-xl border border-white/5 p-2 px-3">
+                              <span className="text-xs font-medium text-slate-300 truncate mr-2" title={topic}>{topic}</span>
+                              <div className="flex items-center gap-1">
+                                <button 
+                                  onClick={() => handleTopicWeightChange(topic, (Math.max(0, (parseInt(String(activeSection.topicWeights[topic] || 0)) - 1))).toString())}
+                                  className="w-6 h-6 flex items-center justify-center rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200"
+                                >-</button>
+                                <span className="w-8 text-center text-xs font-bold text-white">
+                                  {activeSection.topicWeights[topic] || 0}
+                                </span>
+                                <button 
+                                  onClick={() => handleTopicWeightChange(topic, (parseInt(String(activeSection.topicWeights[topic] || 0)) + 1).toString())}
+                                  className="w-6 h-6 flex items-center justify-center rounded-lg bg-teal-600 hover:bg-teal-500 text-white"
+                                >+</button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     ))}
                   </div>
                 )}
               </div>
+
             </div>
           </div>
 
@@ -965,7 +1064,7 @@ const AutoGenerateExamModal: React.FC<{
             {presets.map(p => (
               <button
                 key={p.id}
-                onClick={() => handleGenerate(p.id)}
+                onClick={() => setShowConfirmation(p.id)}
                 disabled={isGenerating}
                 className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-left hover:-translate-y-1 hover:shadow-xl hover:border-blue-500 transition-all group disabled:opacity-50"
               >
@@ -973,9 +1072,10 @@ const AutoGenerateExamModal: React.FC<{
                 <p className="text-sm text-slate-500">{p.desc}</p>
               </button>
             ))}
-          </div>
-        )}
+            </div>
+            )}
 
+            <PresetConfirmationModal />
         <div className="flex flex-col gap-4 mb-6 relative z-0">
           <div className="p-4 bg-blue-500/5 border border-blue-500/20 rounded-2xl">
             <h4 className="font-semibold text-blue-500 flex items-center gap-2 mb-2 text-sm uppercase tracking-wider">

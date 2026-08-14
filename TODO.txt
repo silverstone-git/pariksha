@@ -4,7 +4,17 @@
 The engine has been architecturally rewritten to support complex scientific exam formats.
 - **Completed**: Core types, Normalization layer, UI for sections, and MSQ/NAT support.
 
-## 2. Centralized Question Bank API (Production Readiness) [COMPLETED]
+## 2. Advanced Preset Editor & Preset Generation [COMPLETED - AUGUST 2026]
+Addressed issues regarding topic selection, difficulty customization, and preset flow.
+- **Completed**:
+  - Fixed topic visibility issue for grouped topics.
+  - Added slider-based UI for 'difficulty proportions'.
+  - Added "Random Topic" injection button.
+  - Implemented form validation for exam generation and error toast handling.
+  - Added preset confirmation modal.
+  - Implemented backend integration for 'difficulty' parameter.
+
+## 3. Centralized Question Bank API (Production Readiness) [COMPLETED]
 The system now uses a structured API for managing and sampling questions.
 - **Completed**: 
   - Frontend `generatePresetExam` now hits `/api/question_bank/sample` with local fallback.
@@ -12,7 +22,7 @@ The system now uses a structured API for managing and sampling questions.
   - CLI supports generation of rich MSQ and NAT content.
   - Automates Cloudflare R2 image hosting with public read access.
 
-## 3. Scientific Visualization & R2 Hosting (Infrastructure)
+## 4. Scientific Visualization & R2 Hosting (Infrastructure)
 The multimodal generator uses Cloudflare R2 to host scientific diagrams.
 - **Current State**: Images are uploaded to a dedicated `pariksha` bucket with public dev URLs.
 - **Key Insight (The 401 Issue)**: Cloudflare R2 does **not** support S3-style Object ACLs (`public-read`). Public access must be enabled at the **Bucket Level** via the Cloudflare Dashboard.
@@ -24,7 +34,7 @@ The multimodal generator uses Cloudflare R2 to host scientific diagrams.
   * **Token Scoping**: Migration scripts will fail with `AccessDenied` if the R2 API Token is restricted to a single bucket. Tokens must be scoped to "All Buckets" or specifically include the new destination.
   * **CORS**: Ensure the R2 bucket has a CORS policy that allows the frontend domain.
 
-## 4. Future Polish & UI/UX Enhancements
+## 5. Future Polish & UI/UX Enhancements
 - **Dark Mode CSS Variable Sync**: While the `.dark` class is applied to `<html>`, some Tailwind v4 styles (specifically the `science-grid` background) may require manual HMR restarts or full page reloads to update reliably.
 - **Offline Mode Persistence**: Enhance `IndexedDB` usage for storing entire question banks locally for true offline-first exam taking.
 - **Proctoring Features**: Implement basic "Tab Switch" detection and full-screen enforcement for serious practice sessions.

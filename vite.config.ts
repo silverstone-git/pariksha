@@ -167,12 +167,26 @@ export default defineConfig(({ mode }) => {
               const group = url.searchParams.get('group') || 'pg_physics';
               const filePath = path.resolve(__dirname, `${group}_question_bank_topics.txt`);
               if (fs.existsSync(filePath)) {
-                res.setHeader('Content-Type', 'text/plain');
-                res.end(fs.readFileSync(filePath));
+                const content = fs.readFileSync(filePath, 'utf-8');
+                const lines = content.split('\n').map(l => l.trim()).filter(l => l);
+                const result: Record<string, string[]> = {};
+                let currentCategory = "General";
+                
+                for (const line of lines) {
+                  if (line.startsWith('#')) {
+                    currentCategory = line.replace(/^#+/, '').trim();
+                  } else {
+                    if (!result[currentCategory]) result[currentCategory] = [];
+                    result[currentCategory].push(line.replace(/^\* /, '').trim());
+                  }
+                }
+                
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify(result));
                 return;
               } else {
                 res.statusCode = 404;
-                res.end('Topics not found');
+                res.end(JSON.stringify({ "General": [] }));
                 return;
               }
             }
