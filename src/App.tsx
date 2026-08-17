@@ -732,8 +732,12 @@ const AutoGenerateExamModal: React.FC<{
         config = await generatePresetExam(presetId, undefined, selectedGroup);
       }
       
+      console.log("DEBUG: Generated Exam Config:", config);
+      
       // 2. Error handling if no questions found
       const totalQuestionsFound = config.sections ? config.sections.flatMap(s => s.questions).length : config.questions?.length || 0;
+      console.log("DEBUG: Total Questions Found:", totalQuestionsFound);
+      
       if (totalQuestionsFound === 0) {
         alert("No questions found for the selected configuration. Please adjust your criteria.");
         setIsGenerating(false);

@@ -124,29 +124,12 @@ export const fetchSubjectGroups = async (groupName: string): Promise<Record<stri
   if (groupName === 'pg_physics') return SUBJECT_GROUPS;
 
   try {
-    const res = await fetch(`/api/topics?group=${groupName}`);
+    const res = await fetch(`${API_BASE_URL}/api/question_bank/topics?group=${groupName}`);
     if (!res.ok) return { "General": [] };
-    const text = await res.text();
-    const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-    
-    const result: Record<string, string[]> = {};
-    let currentCategory = "General";
-    
-    for (const line of lines) {
-      if (line.startsWith('#')) {
-        currentCategory = line.replace(/^#+/, '').trim();
-      } else {
-        if (!result[currentCategory]) result[currentCategory] = [];
-        result[currentCategory].push(line.replace(/^\* /, '').trim());
-      }
-    }
-    
-    if (Object.keys(result).length === 0 && lines.length > 0) {
-      result["General"] = lines;
-    }
-    return result;
-  } catch (e) {
-    console.error("Failed to fetch custom subject groups", e);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error("Failed to fetch custom subject groups", err);
     return { "General": [] };
   }
 };
@@ -212,16 +195,23 @@ export const generatePresetExam = async (preset: ExamPreset, customConfig?: Cust
   if (preset === "CUSTOM" && customConfig) {
     const sections: ExamSection[] = [];
     
+    // In the JSON structure returned by the API, the topics are under the key of the group name itself.
+    // e.g. { "pg_physics": [...] }
+    const groupTopics = currentSubjectGroups[group] || Object.values(currentSubjectGroups).flat();
+    
     // 1. Identify all unique topics needed across all sections and their total counts
     const topicToTotalCount: Record<string, number> = {};
     customConfig.sections.forEach(s => {
-      Object.entries(s.topicWeights).forEach(([groupName, count]) => {
+      Object.entries(s.topicWeights).forEach(([categoryOrTopic, count]) => {
         if (count > 0) {
-          const topicsInGroup = currentSubjectGroups[groupName] || [];
-          topicsInGroup.forEach(topic => {
-            // Fetch significantly more to allow for type filtering (MCQ vs MSQ vs NAT)
+          // If the topic exists directly, use it, otherwise treat as category
+          const topicsToUse = groupTopics.includes(categoryOrTopic) 
+            ? [categoryOrTopic] 
+            : (currentSubjectGroups[categoryOrTopic] || []);
+          
+          topicsToUse.forEach(topic => {
             const multiplier = s.allowedTypes.length === 3 ? 3 : 10;
-            topicToTotalCount[topic] = (topicToTotalCount[topic] || 0) + Math.max(20, Math.ceil((count * multiplier) / Math.max(1, topicsInGroup.length))); 
+            topicToTotalCount[topic] = (topicToTotalCount[topic] || 0) + Math.max(20, Math.ceil((count * multiplier) / Math.max(1, topicsToUse.length))); 
           });
         }
       });
@@ -256,10 +246,13 @@ export const generatePresetExam = async (preset: ExamPreset, customConfig?: Cust
       const s = customConfig.sections[i];
       const sectionPool: Question[] = [];
       
-      Object.entries(s.topicWeights).forEach(([groupName, count]) => {
+      Object.entries(s.topicWeights).forEach(([categoryOrTopic, count]) => {
         if (count <= 0) return;
-        const topicsInGroup = currentSubjectGroups[groupName] || [];
-        topicsInGroup.forEach(topic => {
+        const topicsToUse = groupTopics.includes(categoryOrTopic) 
+            ? [categoryOrTopic] 
+            : (currentSubjectGroups[categoryOrTopic] || []);
+        
+        topicsToUse.forEach(topic => {
           const questions = topicCache[topic] || [];
           // Filter by allowed types for this specific section
           const filtered = s.allowedTypes.length > 0 
