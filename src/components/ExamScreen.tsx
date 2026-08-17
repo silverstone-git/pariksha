@@ -93,7 +93,7 @@ const generateSwotAnalysis = (results: ExamResult): SWOTAnalysis => {
   };
   const topics = Object.keys(results.timePerTopic);
   if (topics.length === 0) return swot;
-  const avgAccuracy = results.accuracy;
+  
   const avgTimePerQuestion = results.totalQuestions > 0 ? results.totalTimeTaken / results.totalQuestions : 0;
 
   topics.forEach((topic) => {
@@ -102,19 +102,28 @@ const generateSwotAnalysis = (results: ExamResult): SWOTAnalysis => {
     const numQuestionsInTopic = questionsInTopic.length;
     const totalTimeForTopic = results.timePerTopic[topic] || 0;
     const topicTimePerQuestion = numQuestionsInTopic > 0 ? totalTimeForTopic / numQuestionsInTopic : 0;
-    const isAccurate = topicAccuracy > avgAccuracy + 5;
-    const isFast = topicTimePerQuestion < avgTimePerQuestion - 5;
-    const isSlow = topicTimePerQuestion > avgTimePerQuestion + 10;
-    const isInaccurate = topicAccuracy < avgAccuracy - 10;
-    if (isAccurate && isFast) swot.strengths.push(`${topic}: High accuracy with excellent speed.`);
-    else if (isAccurate && !isFast) swot.opportunities.push(`${topic}: Good accuracy, but speed can be improved.`);
-    else if (isInaccurate && isSlow) swot.weaknesses.push(`${topic}: Low accuracy and slow speed indicate a need for fundamental review.`);
-    else if (isInaccurate && !isSlow) swot.threats.push(`${topic}: Low accuracy with fast speed might suggest guessing or careless errors.`);
+
+    const isHighAccuracy = topicAccuracy >= 80;
+    const isLowAccuracy = topicAccuracy <= 50;
+    const isFast = topicTimePerQuestion < avgTimePerQuestion;
+    const isSlow = topicTimePerQuestion > avgTimePerQuestion * 1.5;
+
+    if (isHighAccuracy && isFast) {
+      swot.strengths.push(`${topic}: Mastered. High accuracy with excellent pace.`);
+    } else if (isLowAccuracy && isSlow) {
+      swot.weaknesses.push(`${topic}: Conceptual Gaps. Low accuracy and slow speed require fundamental review.`);
+    } else if (isHighAccuracy && isSlow) {
+      swot.opportunities.push(`${topic}: Speed Practice. Good accuracy, but needs more practice to reduce time per question.`);
+    } else if (isLowAccuracy && isFast) {
+      swot.threats.push(`${topic}: Accuracy Risk. Low accuracy with fast speed suggests guessing or careless errors.`);
+    }
   });
-  if (swot.strengths.length === 0) swot.strengths.push("No standout strengths identified. Focus on overall improvement.");
-  if (swot.weaknesses.length === 0) swot.weaknesses.push("No major weaknesses identified. Continue to practice consistently.");
-  if (swot.opportunities.length === 0) swot.opportunities.push("Keep practicing all topics to improve speed and maintain accuracy.");
-  if (swot.threats.length === 0) swot.threats.push("Be mindful of careless errors and avoid guessing. Review questions you are unsure about.");
+
+  if (swot.strengths.length === 0) swot.strengths.push("No standout strengths identified yet. Keep practicing!");
+  if (swot.weaknesses.length === 0) swot.weaknesses.push("No major conceptual weaknesses identified. Maintain consistency.");
+  if (swot.opportunities.length === 0) swot.opportunities.push("Focus on increasing speed in topics where you have good accuracy.");
+  if (swot.threats.length === 0) swot.threats.push("Avoid the temptation to guess when you're moving quickly through questions.");
+  
   return swot;
 };
 
@@ -142,7 +151,6 @@ export const ExamScreen: React.FC<{
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(window.innerWidth >= 768);
 
   const startTimeRef = React.useRef(Date.now());
-  const questionStartTimeRef = React.useRef(Date.now());
   const timerInitialized = React.useRef(false);
 
   React.useEffect(() => {
@@ -166,16 +174,7 @@ export const ExamScreen: React.FC<{
     setTopicTimers(initialTopicTimers);
   }, [config]);
 
-  const updateQuestionTime = React.useCallback(() => {
-    if (questions.length === 0) return;
-    const currentQuestionId = questions[currentQuestionIndex].id;
-    const timeSpent = (Date.now() - questionStartTimeRef.current) / 1000;
-    setQuestionTimers((prev) => ({ ...prev, [currentQuestionId]: (prev[currentQuestionId] || 0) + timeSpent }));
-    questionStartTimeRef.current = Date.now();
-  }, [currentQuestionIndex, questions]);
-
   const submitExam = React.useCallback(() => {
-    updateQuestionTime();
     let totalCorrect = 0;
     let totalScore = 0;
     const sectionScores: Record<string, number> = {};
@@ -258,7 +257,7 @@ export const ExamScreen: React.FC<{
     result.swot = generateSwotAnalysis(result);
     setLastResult(result);
     setScreen("results");
-  }, [userAnswers, questions, questionTimers, topicTimers, config, setLastResult, setScreen, updateQuestionTime]);
+  }, [userAnswers, questions, questionTimers, topicTimers, config, setLastResult, setScreen]);
 
   const toggleFlag = () => {
     const qId = questions[currentQuestionIndex].id;
@@ -269,7 +268,6 @@ export const ExamScreen: React.FC<{
   };
 
   const jumpToQuestion = (index: number) => {
-    updateQuestionTime();
     setCurrentQuestionIndex(index);
   };
 
@@ -287,7 +285,6 @@ export const ExamScreen: React.FC<{
     const firstQIndex = questions.findIndex(q => q.id === firstQId || q.question === section.questions[0].question);
 
     if (firstQIndex !== -1) {
-      updateQuestionTime();
       setCurrentQuestionIndex(firstQIndex);
       if (window.innerWidth < 768) setIsSidebarOpen(false);
     } else {
@@ -334,7 +331,10 @@ export const ExamScreen: React.FC<{
         return prev - 1;
       });
       const currentQuestion = questions[currentQuestionIndex];
-      if (currentQuestion) setTopicTimers((prev) => ({ ...prev, [currentQuestion.topic]: (prev[currentQuestion.topic] || 0) + 1 }));
+      if (currentQuestion) {
+        setTopicTimers((prev) => ({ ...prev, [currentQuestion.topic]: (prev[currentQuestion.topic] || 0) + 1 }));
+        setQuestionTimers((prev) => ({ ...prev, [currentQuestion.id]: (prev[currentQuestion.id] || 0) + 1 }));
+      }
     }, 1000);
     return () => clearInterval(interval);
   }, [questions, currentQuestionIndex, submitExam, timerConfig, setMainTimer]);

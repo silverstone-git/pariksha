@@ -643,7 +643,7 @@ const AutoGenerateExamModal: React.FC<{
     let active = true;
     if (isOpen) {
       setLoadingTopics(true);
-      fetch(`/api/question_bank/topics?group=${selectedGroup}`)
+      fetch(`${API_BASE_URL}/api/question_bank/topics?group=${selectedGroup}`)
         .then(r => r.json())
         .then(data => {
           if (!active) return;
@@ -880,25 +880,34 @@ const AutoGenerateExamModal: React.FC<{
                   <div className="flex gap-4">
                     <div className="flex-grow">
                       <div className="text-[10px] text-slate-500 mb-1">CORRECT</div>
-                      <input 
-                        type="number"
-                        step="0.1"
-                        value={activeSection.marking.positive}
-                        onChange={(e) => updateActiveSection({ marking: { ...activeSection.marking, positive: parseFloat(e.target.value) || 0 } })}
-                        className="w-full p-2 text-center rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-teal-500"
-                      />
+                      <div className="flex items-center gap-1">
+                        <button 
+                          onClick={() => updateActiveSection({ marking: { ...activeSection.marking, positive: Math.max(0, parseFloat((activeSection.marking.positive - 0.5).toFixed(1))) } })}
+                          className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200"
+                        >-</button>
+                        <span className="w-10 text-center text-sm font-bold text-white">
+                          {activeSection.marking.positive}
+                        </span>
+                        <button 
+                          onClick={() => updateActiveSection({ marking: { ...activeSection.marking, positive: parseFloat((activeSection.marking.positive + 0.5).toFixed(1)) } })}
+                          className="w-8 h-8 flex items-center justify-center rounded-lg bg-teal-600 hover:bg-teal-500 text-white"
+                        >+</button>
+                      </div>
                     </div>
                     <div className="flex-grow">
                       <div className="text-[10px] text-slate-500 mb-1">WRONG</div>
-                      <div className="flex items-center">
-                        <span className="mr-2 text-slate-500 font-bold">-</span>
-                        <input 
-                          type="number"
-                          step="0.1"
-                          value={activeSection.marking.negative}
-                          onChange={(e) => updateActiveSection({ marking: { ...activeSection.marking, negative: parseFloat(e.target.value) || 0 } })}
-                          className="w-full p-2 text-center rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:border-teal-500"
-                        />
+                      <div className="flex items-center gap-1">
+                        <button 
+                          onClick={() => updateActiveSection({ marking: { ...activeSection.marking, negative: Math.max(0, parseFloat((activeSection.marking.negative - 0.5).toFixed(1))) } })}
+                          className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200"
+                        >-</button>
+                        <span className="w-10 text-center text-sm font-bold text-white">
+                          {activeSection.marking.negative}
+                        </span>
+                        <button 
+                          onClick={() => updateActiveSection({ marking: { ...activeSection.marking, negative: parseFloat((activeSection.marking.negative + 0.5).toFixed(1)) } })}
+                          className="w-8 h-8 flex items-center justify-center rounded-lg bg-rose-600 hover:bg-rose-500 text-white"
+                        >+</button>
                       </div>
                     </div>
                   </div>
@@ -1593,9 +1602,17 @@ const ResultsScreen: React.FC<{
                     }}
                   ></div>
                 </div>
-                <p className="text-xs text-right text-gray-500 dark:text-gray-400 mt-1">
-                  Total time: {formatTime(result.timePerTopic[topic])}
-                </p>
+                <div className="flex justify-between text-[10px] text-gray-500 dark:text-gray-400 mt-1 uppercase tracking-tighter font-bold">
+                  <span>
+                    Efficiency: {(() => {
+                      const correctInTopic = result.originalQuestions.filter(q => q.topic === topic && result.answers.find(a => a.questionId === q.id)?.isCorrect).length;
+                      return correctInTopic > 0 
+                        ? `${((result.timePerTopic[topic] || 0) / correctInTopic).toFixed(1)}s/correct`
+                        : "N/A (No Correct)";
+                    })()}
+                  </span>
+                  <span>Total time: {formatTime(result.timePerTopic[topic])}</span>
+                </div>
               </div>
             ))}
           </div>
@@ -1651,6 +1668,9 @@ const ResultsScreen: React.FC<{
           <div className="max-h-[600px] overflow-y-auto space-y-2 pr-2 custom-scrollbar">
             {result.originalQuestions.map((q, index) => {
               const answer = result.answers.find((a) => a.questionId === q.id);
+              const avgTime = result.totalTimeTaken / result.totalQuestions;
+              const isSlow = answer?.timeSpent && answer.timeSpent > avgTime * 1.5;
+
               return (
                 <div
                   key={q.id}
@@ -1669,9 +1689,14 @@ const ResultsScreen: React.FC<{
                     )}
                     <span className="font-medium text-sm">Question {index + 1}</span>
                   </div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
-                    {q.type || "MCQ"}
-                  </span>
+                  <div className="flex flex-col items-end">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+                      {q.type || "MCQ"}
+                    </span>
+                    <span className={`text-[10px] font-mono ${isSlow ? "text-orange-500 font-bold" : "text-slate-500"}`}>
+                      ⏱ {answer?.timeSpent?.toFixed(0) || 0}s
+                    </span>
+                  </div>
                 </div>
               );
             })}
@@ -1680,7 +1705,10 @@ const ResultsScreen: React.FC<{
             {reviewingQuestion && reviewingAnswer ? (
               <div className="animate-in fade-in slide-in-from-right-4 duration-300">
                 <div className="p-6 bg-slate-100 dark:bg-slate-800/80 rounded-2xl mb-6 border border-slate-200 dark:border-white/5 shadow-inner">
-                  <div className="text-[10px] font-bold text-teal-500 mb-2 uppercase tracking-widest">{reviewingQuestion.topic}</div>
+                  <div className="flex justify-between items-center mb-2">
+                    <div className="text-[10px] font-bold text-teal-500 uppercase tracking-widest">{reviewingQuestion.topic}</div>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Time Spent: {reviewingAnswer.timeSpent.toFixed(1)}s</div>
+                  </div>
                   <Latex>{reviewingQuestion.question}</Latex>
                   {reviewingQuestion.image_path && (
                     <div className="mt-4 flex justify-center p-2 bg-white/5 rounded-lg">
