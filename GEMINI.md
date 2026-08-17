@@ -70,10 +70,15 @@ To maintain data integrity and prevent duplicates, follow these strategies:
     - Improved layout and responsiveness to prevent text clipping in headers.
     - Implemented `PresetConfirmationModal` for generation workflows.
     - Added comprehensive validation for section configuration (positive/negative marks, question counts).
+- **Enhanced Exam Analysis**:
+    - **Refined SWOT Logic**: Uses absolute accuracy thresholds (80% for high, 50% for low) and relative speed thresholds (1.5x average) to categorize performance into Mastered, Conceptual Gaps, Speed Practice, or Accuracy Risk.
+    - **Topic Efficiency**: Introduced "Efficiency" metric (time per correct answer) to Topic Performance analytics.
+    - **Question-Level Timing**: Displaying individual time spent per question in results review with highlighting for "time sinks."
 - **Pitfalls to Avoid**: 
     - **Frontend Parsing**: Avoid complex client-side parsing of raw text files; favor structured JSON APIs.
     - **CSS Clipping**: Avoid `truncate` on container titles if the text length can vary and space permits wrapping.
     - **React State Conventions**: Always use `React.useState` consistently within the same component file to avoid `ReferenceError` when mixing with `useState` from imports.
+    - **Metric Zero-Checks**: Always perform zero-checks (or use `Math.max(1, ...)` / conditional returns) when calculating performance metrics like Accuracy or Efficiency to avoid `NaN` or `Infinity`.
 
 ### Known Fixes (2026-03-30)
 - **Vite Proxy Fix**: Updated `vite.config.ts` to use `loadEnv` and handle dynamic `/api/local_bank/` and `/api/topics` routes.

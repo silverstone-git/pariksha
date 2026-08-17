@@ -60,7 +60,7 @@ const GenerateQuestionsModal: React.FC<{
     setLogs(startMsg);
     
     try {
-      const response = await fetch('/api/generate', {
+      const response = await fetch(`${API_BASE_URL}/api/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ topic, count, difficulty, group }),
@@ -211,7 +211,7 @@ const AddTopicGroupModal: React.FC<{
 
       setLogs(prev => prev + "Uploading to Admin Backend...\n\n");
 
-      const response = await fetch('/api/upload_topic_group', {
+      const response = await fetch(`${API_BASE_URL}/api/upload_topic_group`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ groupName, topicsContent, knowledgeFiles }),
@@ -350,17 +350,19 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
     setSelectedTopic(null);
     try {
       // 1. Fetch the dynamic list of topics for the selected group
-      const topicsResponse = await fetch(`/api/topics?group=${selectedGroup}`);
+      const topicsResponse = await fetch(`${API_BASE_URL}/api/question_bank/topics?group=${selectedGroup}`);
       if (!topicsResponse.ok) throw new Error("Failed to load topic plan");
-      const text = await topicsResponse.text();
-      const topicNames = text.split("\n").map(t => t.replace(/^#+/, '').replace(/^\* /, "").trim()).filter(t => t.length > 0);
+      const data = await topicsResponse.json();
+      
+      // Determine if we get back the new structured JSON or need to parse
+      const topicNames = Array.isArray(data) ? data : (data[selectedGroup] || Object.values(data).flat());
 
       // 2. Map through topic names and fetch their local bank files
       const summaryData: TopicSummary[] = await Promise.all(
-        topicNames.map(async (name) => {
+        topicNames.map(async (name: string) => {
           const fileName = name.replace(/ /g, "_").toLowerCase() + ".json";
           try {
-            const response = await fetch(`/api/local_bank/${selectedGroup}/${encodeURIComponent(fileName)}`);
+            const response = await fetch(`${API_BASE_URL}/api/local_bank/${selectedGroup}/${encodeURIComponent(fileName)}`);
             if (!response.ok) return { name, count: 0, lastUpdated: "Never", types: { mcq: 0, msq: 0, nat: 0 } };
             
             const questions = await response.json();
