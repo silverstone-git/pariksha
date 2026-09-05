@@ -102,3 +102,11 @@ To maintain data integrity and prevent duplicates, follow these strategies:
 - **`VITE_LOCAL_ONLY` Flag**: `vite.config.ts` now sets `process.env.VITE_LOCAL_ONLY` to `'true'` if `PARIKSHA_ADMIN_SECRET` is absent, and `'false'` if it is set. This compile-time flag gates cloud-only UI panels in `AdminDashboard.tsx`.
 - **`SyncOperationModal` Component** (`AdminDashboard.tsx`): New reusable modal component used for both upload and download sync operations. Shares the same console-output streaming architecture as `GenerateQuestionsModal` (chunked `fetch` → `ReadableStream` → append to log textarea).
 - **CLI Cleanup**: Deleted obsolete/prototype CLI files (`exam_generator_smol.py`, `inference.py`, `search.py`, `stateful_agent.py`, `test_exam_generator.py`, `test_rag.py`) and legacy `sample_exams/` JSON files to reduce repo noise.
+- **Optimistic Sync State Updates** (`AdminDashboard.tsx`):
+    - When a sync operation (upload or download) completes successfully in `SyncOperationModal`, the local React state (`topics`) is optimistically updated immediately (`remoteCount = count` on upload, `count = remoteCount` on download, discrepancy reset to 0) before initiating a background `fetchTopics()` reconciliation.
+- **Local Bank Auto-Deduplication** (`AdminDashboard.tsx` & `vite.config.ts`):
+    - During local bank load in `AdminDashboard.tsx`, questions are checked for duplicates by `id`, falling back to question text or JSON serialization.
+    - If duplicate removal yields a count matching the cloud's `remoteCount`, the deduplicated set is silently saved back to disk via `POST /api/local_bank/dedup` without noisy warnings.
+- **Ghost Duplicate Reconciliation on Safe Upload** (`cli/sync_upload_safe.py`):
+    - When uploading a topic file via PATCH, if the cloud reports a total count different from the local question count (indicating server-side content-hash deduplication of duplicate questions with unique IDs), `sync_upload_safe.py` requests the canonical cloud question list from `GET /api/question_bank/sample?topic={slug}&count=1000` and overwrites the local file to reconcile the difference automatically.
+

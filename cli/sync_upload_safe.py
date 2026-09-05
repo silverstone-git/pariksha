@@ -59,13 +59,43 @@ def upload_topic_file(json_file: Path, headers: dict) -> bool:
                     if isinstance(inner_q, dict):
                         process_question(inner_q)
 
+    local_count = len(upload_data)
     url = f"{API_BASE_URL}/api/question_bank/topics/{slug}"
-    logger.info(f"Uploading {len(upload_data)} questions for topic '{slug}' to {url} (PATCH)...")
+    logger.info(f"Uploading {local_count} questions for topic '{slug}' to {url} (PATCH)...")
 
     try:
         response = requests.patch(url, headers=headers, json=upload_data)
         if response.ok:
-            logger.info(f"✅ Success for '{slug}': {response.json()}")
+            result = response.json()
+            cloud_total = result.get("total", local_count)
+            logger.info(f"✅ Success for '{slug}': {result}")
+
+            # If cloud total differs from local count, the cloud deduped some questions.
+            # Fetch the canonical cloud list and overwrite local to stay in sync.
+            if cloud_total != local_count:
+                logger.info(
+                    f"⚠️  Local had {local_count} questions but cloud has {cloud_total}. "
+                    f"Fetching canonical cloud list to reconcile local file..."
+                )
+                try:
+                    fetch_url = f"{API_BASE_URL}/api/question_bank/sample?topic={slug}&count=1000"
+                    fetch_resp = requests.get(fetch_url, headers=headers)
+                    if fetch_resp.ok:
+                        cloud_questions = fetch_resp.json()
+                        if isinstance(cloud_questions, list) and len(cloud_questions) == cloud_total:
+                            with open(json_file, 'w', encoding='utf-8') as out:
+                                json.dump(cloud_questions, out, indent=2, ensure_ascii=False)
+                            logger.info(
+                                f"✅ Local file overwritten with {cloud_total} canonical cloud questions. "
+                                f"Removed {local_count - cloud_total} ghost duplicate(s)."
+                            )
+                        else:
+                            logger.warning(f"Cloud returned unexpected count/format for '{slug}' (got {len(cloud_questions) if isinstance(cloud_questions, list) else 'non-list'}, expected {cloud_total}), skipping local overwrite.")
+                    else:
+                        logger.warning(f"Could not fetch canonical cloud list for '{slug}' (status {fetch_resp.status_code}).")
+                except Exception as fetch_err:
+                    logger.warning(f"Failed to fetch canonical cloud list for '{slug}': {fetch_err}")
+
             return True
         else:
             logger.error(f"❌ Failed for '{slug}' (Status {response.status_code}): {response.text}")

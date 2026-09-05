@@ -199,8 +199,17 @@ const SyncOperationModal: React.FC<SyncModalProps> = ({
   onSuccess
 }) => {
   const [isRunning, setIsRunning] = React.useState(false);
+  const [isCompleted, setIsCompleted] = React.useState(false);
   const [logs, setLogs] = React.useState("");
   const logsEndRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setIsRunning(false);
+      setIsCompleted(false);
+      setLogs("");
+    }
+  }, [isOpen]);
 
   React.useEffect(() => {
     if (logsEndRef.current) {
@@ -217,6 +226,7 @@ const SyncOperationModal: React.FC<SyncModalProps> = ({
 
   const handleStartSync = async () => {
     setIsRunning(true);
+    setIsCompleted(false);
     const endpoint = type === 'upload' ? '/api/sync/upload_safe' : '/api/sync/download_safe';
     const startMsg = type === 'upload'
       ? `[SYNC] Initiating Safe Upload (PATCH) to Cloud...\nScope: ${isBatch ? `All topics in ${group}` : topic}\n\n`
@@ -247,6 +257,7 @@ const SyncOperationModal: React.FC<SyncModalProps> = ({
           setLogs(prev => prev + text);
         }
       }
+      setIsCompleted(true);
       onSuccess();
     } catch (err: any) {
       setLogs(prev => prev + `\n\n[FATAL ERROR] ${err.message}`);
@@ -286,17 +297,19 @@ const SyncOperationModal: React.FC<SyncModalProps> = ({
 
         <div className="flex justify-end gap-4">
           <Button onClick={onClose} variant="secondary" disabled={isRunning}>Close</Button>
-          <Button
-            onClick={handleStartSync}
-            disabled={isRunning}
-            className={type === 'upload' ? 'bg-amber-600 hover:bg-amber-500 text-white' : 'bg-blue-600 hover:bg-blue-500 text-white'}
-          >
-            {isRunning ? (
-              <><RefreshCw className="animate-spin" size={18} /> Running CLI Sync...</>
-            ) : (
-              <>{type === 'upload' ? <CloudUpload size={18} /> : <CloudDownload size={18} />} Execute Sync</>
-            )}
-          </Button>
+          {!isCompleted && (
+            <Button
+              onClick={handleStartSync}
+              disabled={isRunning}
+              className={type === 'upload' ? 'bg-amber-600 hover:bg-amber-500 text-white' : 'bg-blue-600 hover:bg-blue-500 text-white'}
+            >
+              {isRunning ? (
+                <><RefreshCw className="animate-spin" size={18} /> Running CLI Sync...</>
+              ) : (
+                <>{type === 'upload' ? <CloudUpload size={18} /> : <CloudDownload size={18} />} Execute Sync</>
+              )}
+            </Button>
+          )}
         </div>
       </Card>
     </div>
@@ -570,9 +583,31 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
               };
             }
             const questions = await response.json();
-            let mcq = 0, msq = 0, nat = 0;
+
+            // Deduplicate by id (fallback: question text)
+            let workingSet = questions;
             if (Array.isArray(questions)) {
-              questions.forEach((q: any) => {
+              const seen = new Set<string>();
+              workingSet = questions.filter((q: any) => {
+                const key = q.id || q.question || JSON.stringify(q);
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+              });
+              const dupCount = questions.length - workingSet.length;
+              // Auto-write back if dedup reconciles local count with cloud
+              if (dupCount > 0 && remoteCount !== undefined && workingSet.length === remoteCount) {
+                fetch(`/api/local_bank/dedup`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ group: selectedGroup, fileName, questions: workingSet }),
+                }).catch(console.error);
+              }
+            }
+
+            let mcq = 0, msq = 0, nat = 0;
+            if (Array.isArray(workingSet)) {
+              workingSet.forEach((q: any) => {
                 const t = q.type?.toUpperCase();
                 if (t === 'MCQ') mcq++;
                 else if (t === 'MSQ') msq++;
@@ -581,7 +616,7 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
               });
             }
             
-            const localCount = Array.isArray(questions) ? questions.length : 0;
+            const localCount = Array.isArray(workingSet) ? workingSet.length : 0;
             return {
               name,
               count: localCount,
@@ -981,7 +1016,25 @@ export default function AdminDashboard({ onBack }: { onBack: () => void }) {
         group={selectedGroup}
         topic={syncModalConfig.topic}
         onClose={() => setSyncModalConfig(prev => ({ ...prev, isOpen: false }))}
-        onSuccess={() => fetchTopics()}
+        onSuccess={() => {
+          // Optimistic update: immediately clear discrepancy for synced topics
+          // so the UI reflects sync without waiting for a full refetch.
+          const { type, topic } = syncModalConfig;
+          const isBatch = !topic || topic === '__all__';
+          setTopics(prev => prev.map(t => {
+            if (!isBatch && t.name !== topic) return t;
+            if (type === 'upload') {
+              // Local pushed to cloud → remote now matches local
+              return { ...t, remoteCount: t.count, discrepancy: 0 };
+            } else {
+              // Cloud pulled to local → local now matches remote
+              const newCount = t.remoteCount ?? t.count;
+              return { ...t, count: newCount, discrepancy: 0, lastUpdated: 'Local Bank' };
+            }
+          }));
+          // Then re-fetch for ground-truth accuracy
+          fetchTopics();
+        }}
       />
 
       <AddTopicGroupModal

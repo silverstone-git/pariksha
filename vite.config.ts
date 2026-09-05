@@ -327,7 +327,27 @@ export default defineConfig(({ mode }) => {
               }
             }
 
-            // 4. Serve Dynamic Question Bank JSONs
+            // 4. Write deduplicated question bank back to disk
+            if (req.url === '/api/local_bank/dedup' && req.method === 'POST') {
+              let body = '';
+              req.on('data', chunk => body += chunk.toString());
+              req.on('end', () => {
+                try {
+                  const { group, fileName, questions } = JSON.parse(body);
+                  const filePath = path.resolve(__dirname, 'cli', `${group}_question_bank`, fileName);
+                  fs.writeFileSync(filePath, JSON.stringify(questions, null, 2), 'utf-8');
+                  console.log(`[DEDUP] Wrote ${questions.length} unique questions to ${filePath}`);
+                  res.setHeader('Content-Type', 'application/json');
+                  res.end(JSON.stringify({ ok: true, count: questions.length }));
+                } catch (e: any) {
+                  res.statusCode = 500;
+                  res.end(JSON.stringify({ ok: false, error: e.message }));
+                }
+              });
+              return;
+            }
+
+            // 4b. Serve Dynamic Question Bank JSONs
             // Expected format: /api/local_bank/:group/:filename
             if (req.url?.startsWith('/api/local_bank/')) {
               const urlPath = new URL(req.url, 'http://localhost').pathname;
