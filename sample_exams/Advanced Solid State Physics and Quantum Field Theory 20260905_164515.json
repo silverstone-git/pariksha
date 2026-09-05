@@ -1,0 +1,125 @@
+[
+  {
+    "type": "MCQ",
+    "question": "In the context of second quantization for fermions, let $\\{c_i, c_j^\\dagger\\} = \\delta_{ij}$ and $\\{c_i, c_j\\} = \\{c_i^\\dagger, c_j^\\dagger\\} = 0$. Consider the number operator $\\hat{N}_i = c_i^\\dagger c_i$. What is the commutator $[\\hat{N}_i, c_j^\\dagger]$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$\\delta_{ij} c_i^\\dagger$"
+      },
+      {
+        "label": 2,
+        "value": "$-\\delta_{ij} c_i^\\dagger$"
+      },
+      {
+        "label": 3,
+        "value": "$\\delta_{ij} c_i$"
+      },
+      {
+        "label": 4,
+        "value": "$0$"
+      }
+    ],
+    "answer_label": 1,
+    "topic": "Second Quantization",
+    "explanation": "Using the operator identity $[AB, C] = A\\{B, C\\} - \\{A, C\\}B$, we find $[c_i^\\dagger c_i, c_j^\\dagger] = c_i^\\dagger \\{c_i, c_j^\\dagger\\} - \\{c_i^\\dagger, c_j^\\dagger\\} c_i = c_i^\\dagger \\delta_{ij} - 0 = \\delta_{ij} c_i^\\dagger$.",
+    "image_path": null
+  },
+  {
+    "type": "MCQ",
+    "question": "In the single-band Fermi-Hubbard model at half-filling ($n=1$) in the strongly interacting limit ($U \\gg t$), the low-energy effective Hamiltonian maps onto the spin-$1/2$ antiferromagnetic Heisenberg model $H_{\\text{eff}} = J \\sum_{\\langle i,j \\rangle} \\mathbf{S}_i \\cdot \\mathbf{S}_j$. What is the effective exchange coupling constant $J$ to leading order in $t/U$?",
+    "options": [
+      {
+        "label": 1,
+        "value": "$J = \\frac{2t^2}{U}$"
+      },
+      {
+        "label": 2,
+        "value": "$J = \\frac{4t^2}{U}$"
+      },
+      {
+        "label": 3,
+        "value": "$J = \\frac{t^2}{2U}$"
+      },
+      {
+        "label": 4,
+        "value": "$J = \\frac{8t^2}{U}$"
+      }
+    ],
+    "answer_label": 2,
+    "topic": "Hubbard Model",
+    "explanation": "Using second-order degenerate perturbation theory (Schrieffer-Wolff transformation) on the Hubbard model at half-filling with virtual intermediate states having energy cost $U$, the effective exchange coupling between neighboring spins is $J = \\frac{4t^2}{U}$.",
+    "image_path": null
+  },
+  {
+    "type": "MSQ",
+    "question": "Which of the following statements regarding the Berry phase, Berry connection, and Chern numbers are correct?",
+    "options": [
+      {
+        "label": 1,
+        "value": "The Berry connection $\\mathbf{A}_n(\\mathbf{k}) = i \\langle u_n(\\mathbf{k}) | \\nabla_\\mathbf{k} | u_n(\\mathbf{k}) \\rangle$ is gauge-dependent under local phase transformations $|u_n(\\mathbf{k})\\rangle \\to e^{i\\phi(\\mathbf{k})}|u_n(\\mathbf{k})\\rangle$."
+      },
+      {
+        "label": 2,
+        "value": "The Berry curvature $\\mathbf{\\Omega}_n(\\mathbf{k}) = \\nabla_\\mathbf{k} \\times \\mathbf{A}_n(\\mathbf{k})$ is gauge-invariant."
+      },
+      {
+        "label": 3,
+        "value": "In a 2D crystal with both time-reversal symmetry $\\mathcal{T}$ and inversion symmetry $\\mathcal{P}$, the Berry curvature $\\mathbf{\\Omega}_n(\\mathbf{k})$ must vanish everywhere in the Brillouin zone."
+      },
+      {
+        "label": 4,
+        "value": "The first Chern number of an isolated 2D band can take any arbitrary real value."
+      }
+    ],
+    "answer_labels": [
+      1,
+      2,
+      3
+    ],
+    "topic": "Berry Phase and Topology",
+    "explanation": "Statement 1 is true: the Berry connection transforms as $\\mathbf{A}_n \\to \\mathbf{A}_n - \\nabla_\\mathbf{k}\\phi(\\mathbf{k})$. Statement 2 is true: the Berry curvature is the curl of the connection and represents a physical gauge-invariant field strength. Statement 3 is true: $\\mathcal{T}$ enforces $\\mathbf{\\Omega}(-\\mathbf{k}) = -\\mathbf{\\Omega}(\\mathbf{k})$, while $\\mathcal{P}$ enforces $\\mathbf{\\Omega}(-\\mathbf{k}) = \\mathbf{\\Omega}(\\mathbf{k})$, together implying $\\mathbf{\\Omega}(\\mathbf{k}) = 0$. Statement 4 is false: the Chern number is topologically quantized and must be an integer ($C \\in \\mathbb{Z}$).",
+    "image_path": null
+  },
+  {
+    "type": "MSQ",
+    "question": "Which of the following statements about imaginary-time Green's functions and Matsubara frequencies are correct?",
+    "options": [
+      {
+        "label": 1,
+        "value": "Fermionic Matsubara frequencies are given by $\\omega_n = \\frac{(2n+1)\\pi}{\\beta}$, where $n \\in \\mathbb{Z}$ and $\\beta = 1/(k_B T)$."
+      },
+      {
+        "label": 2,
+        "value": "Bosonic Matsubara frequencies are given by $\\nu_n = \\frac{2n\\pi}{\\beta}$, where $n \\in \\mathbb{Z}$."
+      },
+      {
+        "label": 3,
+        "value": "The fermionic imaginary-time Green's function satisfies the anti-periodic boundary condition $G(\\tau + \\beta) = -G(\\tau)$ for $-\\beta < \\tau < 0$."
+      },
+      {
+        "label": 4,
+        "value": "The spectral function $A(\\mathbf{k}, \\omega)$ associated with the single-particle Green's function satisfies the sum rule $\\int_{-\\infty}^{\\infty} \\frac{d\\omega}{2\\pi} A(\\mathbf{k}, \\omega) = 0$."
+      }
+    ],
+    "answer_labels": [
+      1,
+      2,
+      3
+    ],
+    "topic": "Many-Body Physics",
+    "explanation": "Statements 1 and 2 correctly give the discrete Matsubara poles originating from KMS thermal boundary conditions. Statement 3 describes the anti-periodicity of fermionic Green's functions in imaginary time due to the cyclic property of the trace and fermionic anticommutation. Statement 4 is incorrect because the spectral function satisfies the total weight sum rule $\\int_{-\\infty}^{\\infty} \\frac{d\\omega}{2\\pi} A(\\mathbf{k}, \\omega) = 1$, not 0.",
+    "image_path": null
+  },
+  {
+    "type": "NAT",
+    "question": "Consider a two-dimensional Chern insulator (e.g., Haldane model) where the occupied valence band has a first Chern number $C = 1$. According to the Thouless-Kohmoto-Nightingale-den Nijs (TKNN) formula, the quantized Hall conductance is given by $\\sigma_{xy} = C \\frac{e^2}{h}$. If $e = 1.602 \\times 10^{-19}\\text{ C}$ and $h = 6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$, calculate the value of $\\sigma_{xy}$ in units of micro-Siemens ($\\mu\\text{S}$).",
+    "answer_range": {
+      "min": 38.6,
+      "max": 38.9
+    },
+    "topic": "Topological Insulators",
+    "explanation": "The quantum of conductance is $e^2/h \\approx (1.60217663 \\times 10^{-19})^2 / (6.62607015 \\times 10^{-34}) \\approx 3.874 \\times 10^{-5}\\text{ S} = 38.74\\;\\mu\\text{S}$. For $C = 1$, $\\sigma_{xy} = 1 \\times 38.74\\;\\mu\\text{S} = 38.74\\;\\mu\\text{S}$.",
+    "image_path": null
+  }
+]

@@ -9,7 +9,13 @@ import { spawn } from "child_process";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   
+  console.log(`[CONFIG] PARIKSHA_ADMIN_SECRET: ${env.PARIKSHA_ADMIN_SECRET ? 'SET (Prod Mode)' : 'UNSET (Local Mode)'}`);
+  console.log(`[CONFIG] VITE_LOCAL_ONLY defined as: ${!env.PARIKSHA_ADMIN_SECRET}`);
+
   return {
+    define: {
+      'process.env.VITE_LOCAL_ONLY': JSON.stringify(env.PARIKSHA_ADMIN_SECRET ? 'false' : 'true')
+    },
     plugins: [
       react(), 
       tailwindcss(),
@@ -24,8 +30,8 @@ export default defineConfig(({ mode }) => {
               req.on('data', chunk => body += chunk.toString());
               req.on('end', () => {
                 try {
-                  const { topic, count, difficulty, group = "pg_physics" } = JSON.parse(body);
-                  console.log(`[GENERATOR] Starting generation for ${topic} (${count} qs, ${difficulty}, group: ${group})`);
+                  const { topic, count, difficulty, group = "pg_physics", provider = "openai", model } = JSON.parse(body);
+                  console.log(`[GENERATOR] Starting generation for ${topic} (${count} qs, ${difficulty}, group: ${group}, provider: ${provider}, model: ${model})`);
                   
                   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
                   res.setHeader('Transfer-Encoding', 'chunked');
@@ -40,7 +46,11 @@ export default defineConfig(({ mode }) => {
                   
                   console.log(`[GENERATOR] Spawning process: ${pythonCmd} ${pyPath}`);
                   
-                  const pyArgs = [pyPath, '--count', String(count), '--difficulty', difficulty, '--group', group];
+                  const pyArgs = [pyPath, '--count', String(count), '--difficulty', difficulty, '--group', group, '--provider', provider];
+                  if (model) {
+                    pyArgs.push('--model', model);
+                  }
+                  
                   if (topic === '__all__') {
                     pyArgs.push('--all');
                   } else {
@@ -161,6 +171,132 @@ export default defineConfig(({ mode }) => {
               return;
             }
 
+            // 2.1 Safe Cloud Upload (sync_upload_safe.py)
+            if (req.url === '/api/sync/upload_safe' && req.method === 'POST') {
+              console.log(`[SYNC] Received safe upload request`);
+              let body = '';
+              req.on('data', chunk => body += chunk.toString());
+              req.on('end', () => {
+                try {
+                  const { group = "pg_physics", topic } = JSON.parse(body || '{}');
+                  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+                  res.setHeader('Transfer-Encoding', 'chunked');
+                  res.setHeader('Cache-Control', 'no-cache');
+                  res.setHeader('Connection', 'keep-alive');
+
+                  const pyPath = path.resolve(__dirname, 'cli', 'sync_upload_safe.py');
+                  const cwdPath = path.resolve(__dirname, 'cli');
+                  const venvPython = path.resolve(__dirname, 'cli', 'venv_pariksha', 'bin', 'python3');
+                  const pythonCmd = fs.existsSync(venvPython) ? venvPython : 'python3';
+
+                  const pyArgs = [pyPath, '--group', group];
+                  if (topic && topic !== '__all__') {
+                    pyArgs.push('--topic', topic);
+                  }
+
+                  res.write(`Spawning safe cloud upload: ${pythonCmd} ${pyPath} ${pyArgs.slice(1).join(' ')}\n\n`);
+
+                  const py = spawn(pythonCmd, pyArgs, {
+                    cwd: cwdPath,
+                    env: {
+                      ...process.env,
+                      PYTHONUNBUFFERED: "1",
+                      ...(env.PARIKSHA_ADMIN_SECRET ? { PARIKSHA_ADMIN_SECRET: env.PARIKSHA_ADMIN_SECRET } : {}),
+                      ...(env.VITE_API_BASE_URL ? { VITE_API_BASE_URL: env.VITE_API_BASE_URL } : {})
+                    }
+                  });
+
+                  py.on('error', err => {
+                    res.write(`[FATAL ERROR] Failed to start sync process: ${err.message}\n`);
+                    res.end();
+                  });
+
+                  py.stdout.on('data', data => {
+                    try { res.write(data.toString()); } catch (e) {}
+                  });
+
+                  py.stderr.on('data', data => {
+                    try { res.write(data.toString()); } catch (e) {}
+                  });
+
+                  py.on('close', code => {
+                    if (!res.writableEnded) {
+                      res.write(`\n--- Safe upload finished with exit code ${code} ---\n`);
+                      res.end();
+                    }
+                  });
+                } catch (e: any) {
+                  res.statusCode = 500;
+                  res.end(e.message);
+                }
+              });
+              return;
+            }
+
+            // 2.2 Safe Cloud Download (sync_download_safe.py)
+            if (req.url === '/api/sync/download_safe' && req.method === 'POST') {
+              console.log(`[SYNC] Received safe download request`);
+              let body = '';
+              req.on('data', chunk => body += chunk.toString());
+              req.on('end', () => {
+                try {
+                  const { group = "pg_physics", topic } = JSON.parse(body || '{}');
+                  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+                  res.setHeader('Transfer-Encoding', 'chunked');
+                  res.setHeader('Cache-Control', 'no-cache');
+                  res.setHeader('Connection', 'keep-alive');
+
+                  const pyPath = path.resolve(__dirname, 'cli', 'sync_download_safe.py');
+                  const cwdPath = path.resolve(__dirname, 'cli');
+                  const venvPython = path.resolve(__dirname, 'cli', 'venv_pariksha', 'bin', 'python3');
+                  const pythonCmd = fs.existsSync(venvPython) ? venvPython : 'python3';
+
+                  const pyArgs = [pyPath, '--group', group];
+                  if (!topic || topic === '__all__') {
+                    pyArgs.push('--all');
+                  } else {
+                    pyArgs.push('--topic', topic);
+                  }
+
+                  res.write(`Spawning safe cloud download: ${pythonCmd} ${pyPath} ${pyArgs.slice(1).join(' ')}\n\n`);
+
+                  const py = spawn(pythonCmd, pyArgs, {
+                    cwd: cwdPath,
+                    env: {
+                      ...process.env,
+                      PYTHONUNBUFFERED: "1",
+                      ...(env.PARIKSHA_ADMIN_SECRET ? { PARIKSHA_ADMIN_SECRET: env.PARIKSHA_ADMIN_SECRET } : {}),
+                      ...(env.VITE_API_BASE_URL ? { VITE_API_BASE_URL: env.VITE_API_BASE_URL } : {})
+                    }
+                  });
+
+                  py.on('error', err => {
+                    res.write(`[FATAL ERROR] Failed to start sync process: ${err.message}\n`);
+                    res.end();
+                  });
+
+                  py.stdout.on('data', data => {
+                    try { res.write(data.toString()); } catch (e) {}
+                  });
+
+                  py.stderr.on('data', data => {
+                    try { res.write(data.toString()); } catch (e) {}
+                  });
+
+                  py.on('close', code => {
+                    if (!res.writableEnded) {
+                      res.write(`\n--- Safe download finished with exit code ${code} ---\n`);
+                      res.end();
+                    }
+                  });
+                } catch (e: any) {
+                  res.statusCode = 500;
+                  res.end(e.message);
+                }
+              });
+              return;
+            }
+
             // 3. Serve Dynamic Topics File
             if (req.url?.startsWith('/api/topics')) {
               const url = new URL(req.url, 'http://localhost');
@@ -206,6 +342,7 @@ export default defineConfig(({ mode }) => {
                   res.end(fs.readFileSync(filePath));
                   return;
                 } else {
+                  console.log(`[BANK] File not found: ${filePath}`);
                   res.statusCode = 404;
                   res.end('[]');
                   return;

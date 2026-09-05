@@ -86,7 +86,7 @@ def save_topic_questions(topic: str, group: str, questions: List[Dict[str, Any]]
     with open(topic_file, 'w', encoding='utf-8') as f:
         json.dump(questions, f, indent=2, ensure_ascii=False)
 
-def generate_for_topic(topic: str, group: str, count: int = 20, difficulty: str = "intermediate"):
+def generate_for_topic(topic: str, group: str, count: int = 20, difficulty: str = "intermediate", provider: str = "openai", model: Optional[str] = None):
     existing = get_existing_questions(topic, group)
     existing_concepts = [q.get('question', '')[:100] for q in existing]
     
@@ -111,7 +111,9 @@ def generate_for_topic(topic: str, group: str, count: int = 20, difficulty: str 
         description=depth_prompt,
         num_questions=count,
         difficulty=applied_diff,
-        group=group
+        group=group,
+        provider=provider,
+        model_name=model
     )
     
     generator = ExamGeneratorAgent(config)
@@ -137,6 +139,8 @@ def main():
     parser.add_argument("--all", action="store_true", help="Run for all topics in the plan file")
     parser.add_argument("--local-api", action="store_true", help="Use http://localhost:8671 instead of the default actual API")
     parser.add_argument("--group", type=str, default="pg_physics", help="The topic group (e.g., pg_physics)")
+    parser.add_argument("--provider", type=str, default="openai", help="LLM provider (google, openai, anthropic)")
+    parser.add_argument("--model", type=str, help="Specific model name")
     
     args = parser.parse_args()
 
@@ -145,7 +149,7 @@ def main():
         logger.info(f"Using local API at: {API_BASE_URL}")
 
     if args.topic:
-        generate_for_topic(args.topic, args.group, args.count, args.difficulty)
+        generate_for_topic(args.topic, args.group, args.count, args.difficulty, args.provider, args.model)
     elif args.all:
         TOPICS_FILE = f"{args.group}_question_bank_topics.txt"
         # Move up one directory to read the plan file correctly if run from cli dir
@@ -161,7 +165,7 @@ def main():
             topics = [line.strip().replace("* ", "") for line in f if line.strip() and not line.strip().startswith("#")]
 
         for t in topics:
-            generate_for_topic(t, args.group, args.count, args.difficulty)
+            generate_for_topic(t, args.group, args.count, args.difficulty, args.provider, args.model)
     else:
         parser.print_help()
 

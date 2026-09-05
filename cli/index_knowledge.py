@@ -23,7 +23,7 @@ CHROMA_HOST = "localhost"
 CHROMA_PORT = 9000
 
 # Model names
-LLM_MODEL = "models/gemini-3-flash-preview"
+LLM_MODEL = "models/gemini-3.5-flash-lite"
 EMBED_MODEL = "models/gemini-embedding-2-preview"
 
 def get_file_hash(file_path: Path) -> str:

@@ -86,3 +86,19 @@ To maintain data integrity and prevent duplicates, follow these strategies:
 - **Streaming Logs**: Python processes are run with `PYTHONUNBUFFERED="1"` to enable real-time log streaming to the React frontend.
 - **Stable IDs**: `normalizeExamConfig` ensures every question and section has a stable ID, fixing navigation and scoring mismatches.
 - **Auto-Renaming**: `handleFileUpload` automatically appends a counter to duplicate exam names to prevent collisions.
+
+### Known Fixes (2026-09-06)
+- **Admin API Endpoint Routing Fix**: `AdminDashboard.tsx` was incorrectly calling `/api/generate` and `/api/upload_topic_group` via `${API_BASE_URL}` (the remote backend URL). These are **Vite middleware-only** endpoints that only exist locally. Fixed by changing all such calls to **relative paths** (`/api/generate`, `/api/upload_topic_group`) so the browser targets the Vite dev server, not the remote FastAPI backend.
+    - **Rule**: Any endpoint handled in `vite.config.ts` middleware **must** be called with a relative URL (no `API_BASE_URL` prefix).
+- **Cloud Sync Discrepancy Panel** (`AdminDashboard.tsx`): When `PARIKSHA_ADMIN_SECRET` is present (non-local mode), the Admin Dashboard now:
+    - Fetches remote question counts per topic from the cloud API and compares them to local JSON bank counts.
+    - Shows a **"Cloud Discrepancy"** stat card displaying `+N Local Ahead`, `N Cloud Ahead`, or `In Sync`.
+    - Shows per-topic sync status badges (amber for local ahead, blue for cloud ahead, teal for synced).
+    - Exposes **↑↓ per-topic** and **group-level "Push Cloud" / "Pull Cloud"** buttons — each opens a `SyncOperationModal` with a console-output themed streaming display.
+- **New Vite Middleware Endpoints** (`vite.config.ts`):
+    - `POST /api/sync/upload_safe` — spawns `cli/sync_upload_safe.py --group <group> [--topic <topic>]`, streams stdout/stderr. Forwards `PARIKSHA_ADMIN_SECRET` and `VITE_API_BASE_URL` env vars to the subprocess.
+    - `POST /api/sync/download_safe` — spawns `cli/sync_download_safe.py --group <group> [--all | --topic <topic>]`, streams stdout/stderr similarly.
+- **`/api/generate` Provider & Model Support**: The Vite middleware `/api/generate` endpoint now accepts `provider` and `model` fields in the JSON body and passes them as `--provider` and `--model` CLI args to `generate_question_bank.py`. The UI exposes provider selection (openai / anthropic / google) and an optional model name input.
+- **`VITE_LOCAL_ONLY` Flag**: `vite.config.ts` now sets `process.env.VITE_LOCAL_ONLY` to `'true'` if `PARIKSHA_ADMIN_SECRET` is absent, and `'false'` if it is set. This compile-time flag gates cloud-only UI panels in `AdminDashboard.tsx`.
+- **`SyncOperationModal` Component** (`AdminDashboard.tsx`): New reusable modal component used for both upload and download sync operations. Shares the same console-output streaming architecture as `GenerateQuestionsModal` (chunked `fetch` → `ReadableStream` → append to log textarea).
+- **CLI Cleanup**: Deleted obsolete/prototype CLI files (`exam_generator_smol.py`, `inference.py`, `search.py`, `stateful_agent.py`, `test_exam_generator.py`, `test_rag.py`) and legacy `sample_exams/` JSON files to reduce repo noise.

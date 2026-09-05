@@ -259,7 +259,7 @@ The CLI generates JSON files compatible with Pariksha's format:
     "name": "Exam Name",
     "description": "Exam description",
     "generated_at": "2025-01-02T10:30:00",
-    "model_used": "gemini-3-flash-preview",
+    "model_used": "gemini-3.5-flash-lite",
     "difficulty": "intermediate",
     "total_questions": 10
   },

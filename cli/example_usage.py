@@ -23,7 +23,7 @@ def example_basic_usage():
         description="Basic concepts of machine learning including supervised learning, neural networks, and evaluation metrics",
         num_questions=5,
         difficulty="intermediate",
-        model_name="gemini-3-flash-preview"
+        model_name="gemini-3.5-flash-lite"
     )
 
     try:
@@ -60,7 +60,7 @@ def example_math_exam():
         description="College-level integration techniques including substitution, integration by parts, and definite integrals",
         num_questions=3,
         difficulty="hard",
-        model_name="gemini-3-flash-preview"
+        model_name="gemini-3.5-flash-lite"
     )
 
     try:
@@ -92,7 +92,7 @@ def example_with_custom_output():
         description="Fundamental Python concepts including data types, control structures, and functions",
         num_questions=4,
         difficulty="easy",
-        model_name="gemini-3-flash-preview",
+        model_name="gemini-3.5-flash-lite",
         output_path="my_python_exam.json"
     )
 
@@ -131,7 +131,7 @@ def example_different_models():
 
     # Check which API keys are available
     if os.getenv("GEMINI_API_KEY"):
-        models_to_test.append("gemini-3-flash-preview")
+        models_to_test.append("gemini-3.5-flash-lite")
     if os.getenv("OPENAI_API_KEY"):
         models_to_test.append("gpt-4o-mini")
     if os.getenv("ANTHROPIC_API_KEY"):

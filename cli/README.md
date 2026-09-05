@@ -75,7 +75,7 @@ python exam_generator.py --check-keys
 |--------|-------|-------------|---------|
 | `--name` | `-n` | Name of the exam | Required |
 | `--description` | `-d` | Description of exam content | Required |
-| `--model` | `-m` | AI model to use | gemini-3-flash-preview |
+| `--model` | `-m` | AI model to use | gemini-3.5-flash-lite |
 | `--questions` | `-q` | Number of questions | 10 |
 | `--difficulty` | | Difficulty level (easy/intermediate/hard) | intermediate |
 | `--api-key` | | API key for selected model | From env |
@@ -87,7 +87,7 @@ python exam_generator.py --check-keys
 
 | Model | Provider | Required API Key |
 |-------|----------|------------------|
-| gemini-3-flash-preview | Google | GEMINI_API_KEY |
+| gemini-3.5-flash-lite | Google | GEMINI_API_KEY |
 | gemini-2.5-flash | Google | GEMINI_API_KEY |
 | gemini-2.0-pro | Google | GEMINI_API_KEY |
 | gpt-4o-mini | OpenAI | OPENAI_API_KEY |

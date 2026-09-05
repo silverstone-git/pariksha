@@ -21,7 +21,7 @@ A production-grade CLI tool that generates exam questions using AI and web searc
    - Quality validation and formatting
 
 3. **Multi-Model Support**
-   - Google Gemini (default: gemini-3-flash-preview)
+   - Google Gemini (default: gemini-3.5-flash-lite)
    - OpenAI GPT models
    - Anthropic Claude
    - Hugging Face models
@@ -108,7 +108,7 @@ config = ExamConfig(
     name="Machine Learning Basics",
     description="Introduction to ML concepts",
     num_questions=10,
-    model_name="gemini-3-flash-preview"
+    model_name="gemini-3.5-flash-lite"
 )
 
 generator = ExamGeneratorAgent(config)

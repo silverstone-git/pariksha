@@ -24,6 +24,8 @@ from llama_index.core import StorageContext, Settings, VectorStoreIndex
 from llama_index.core.schema import ImageDocument
 from llama_index.embeddings.google_genai import GoogleGenAIEmbedding
 from llama_index.llms.google_genai import GoogleGenAI
+from llama_index.llms.openai import OpenAI as LlamaOpenAI
+from llama_index.llms.openai_like import OpenAILike
 
 # Import utility functions
 from utils import remove_bs
@@ -111,7 +113,8 @@ class ExamConfig:
     num_questions: int = 10
     difficulty: str = "intermediate"
     group: str = "pg_physics"
-    model_name: str = "models/gemini-3-flash-preview"
+    model_name: str = "gpt-4o-mini"
+    provider: str = "openai" # "openai", "anthropic", "google"
     embed_model: str = "models/gemini-embedding-2-preview"
     api_key: Optional[str] = None
     output_path: Optional[str] = None
@@ -132,12 +135,32 @@ class ExamGeneratorAgent:
         dotenv_path = Path(__file__).parent / ".env"
         load_dotenv(dotenv_path=dotenv_path)
 
-        api_key = self.config.api_key or os.getenv("GEMINI_API_KEY")
-        if not api_key:
-            raise ValueError("GEMINI_API_KEY not found in environment.")
+        # Embedding model remains Google for now
+        embed_api_key = os.getenv("GEMINI_API_KEY")
+        if not embed_api_key:
+            raise ValueError("GEMINI_API_KEY required for embeddings.")
+        Settings.embed_model = GoogleGenAIEmbedding(model_name=self.config.embed_model, api_key=embed_api_key)
 
-        Settings.llm = GoogleGenAI(model_name=self.config.model_name, api_key=api_key)
-        Settings.embed_model = GoogleGenAIEmbedding(model_name=self.config.embed_model, api_key=api_key)
+        # LLM setup
+        if self.config.provider == "google":
+            api_key = self.config.api_key or os.getenv("GEMINI_API_KEY")
+            if not api_key: raise ValueError("GEMINI_API_KEY not found.")
+            Settings.llm = GoogleGenAI(model_name=self.config.model_name, api_key=api_key)
+        elif self.config.provider == "openai":
+            api_key = self.config.api_key or os.getenv("OPENAI_API_KEY")
+            if not api_key: raise ValueError("OPENAI_API_KEY not found.")
+            Settings.llm = LlamaOpenAI(model=self.config.model_name, api_key=api_key)
+        elif self.config.provider == "anthropic":
+            api_key = self.config.api_key or os.getenv("ANTHROPIC_API_KEY")
+            if not api_key: raise ValueError("ANTHROPIC_API_KEY not found.")
+            Settings.llm = OpenAILike(
+                model=self.config.model_name,
+                api_key=api_key,
+                api_base="https://api.anthropic.com/v1/",
+                is_chat_model=True
+            )
+        else:
+            raise ValueError(f"Unsupported provider: {self.config.provider}")
 
     def _load_index(self):
         """Connect to ChromaDB and load the index"""
@@ -334,13 +357,29 @@ def main():
     parser.add_argument("--description", "-d", required=True)
     parser.add_argument("--questions", "-q", type=int, default=10)
     parser.add_argument("--difficulty", choices=["easy", "intermediate", "hard"], default="intermediate")
+    parser.add_argument("--provider", choices=["google", "openai", "anthropic"], default="openai")
+    parser.add_argument("--model", "-m", help="Model name")
     parser.add_argument("--verbose", "-v", action="store_true")
 
     args = parser.parse_args()
     if args.verbose: logging.getLogger().setLevel(logging.DEBUG)
 
+    # Set default models if not provided
+    model = args.model
+    if not model:
+        if args.provider == "google": model = "models/gemini-3.5-flash-lite"
+        elif args.provider == "openai": model = "gpt-4o-mini"
+        elif args.provider == "anthropic": model = "claude-3-5-sonnet-20241022"
+
     try:
-        config = ExamConfig(name=args.name, description=args.description, num_questions=args.questions, difficulty=args.difficulty)
+        config = ExamConfig(
+            name=args.name, 
+            description=args.description, 
+            num_questions=args.questions, 
+            difficulty=args.difficulty,
+            provider=args.provider,
+            model_name=model
+        )
         generator = ExamGeneratorAgent(config)
         exam_data = generator.generate_exam()
         output_path = save_exam(exam_data, config)

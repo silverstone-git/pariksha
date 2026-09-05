@@ -8,9 +8,9 @@ Migrate the existing CLI exam generation system from `smolagents` to a LlamaInde
 - **Existing CLI:** `cli/exam_generator.py`, `cli/search.py`, `cli/utils.py`.
 - **ChromaDB:** Running on `localhost:9000`.
 - **Models:** 
-  - LLM: `gemini-3-flash-preview`
+  - LLM: `gemini-3.5-flash-lite`
   - Embeddings: `gemini-embedding-2-preview`
-  - MultiModal LLM: `gemini-3-flash-preview`
+  - MultiModal LLM: `gemini-3.5-flash-lite`
 
 ## Implementation Steps
 
