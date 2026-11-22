@@ -52,6 +52,12 @@ const GenerateQuestionsModal: React.FC<{
   const [isGenerating, setIsGenerating] = React.useState(false);
   const [logs, setLogs] = React.useState("");
   const logsEndRef = React.useRef<HTMLDivElement>(null);
+  // "cloud" = outsie's POST /api/question_bank/generate (agentcyto KB retrieval + LLM); works on the
+  // deployed site. "local" = the Vite dev-server middleware + cli/*.py (dev only).
+  const [engine, setEngine] = React.useState<"cloud" | "local">(import.meta.env.DEV ? "local" : "cloud");
+  const [adminSecret, setAdminSecret] = React.useState(() => sessionStorage.getItem("pariksha_admin_secret") || "");
+  const [skill, setSkill] = React.useState(() => (group.match(/physics|chemistry|biology|history|geography|math\w*/i)?.[0] || "").toLowerCase());
+  const [audience, setAudience] = React.useState(group.startsWith("pg_") ? "postgraduate entrance exam (GATE / CSIR NET / TIFR level)" : "");
 
   React.useEffect(() => {
     if (logsEndRef.current) {
@@ -63,7 +69,54 @@ const GenerateQuestionsModal: React.FC<{
 
   const isBatch = topic === "__all__";
 
+  const runCloud = async () => {
+    sessionStorage.setItem("pariksha_admin_secret", adminSecret);
+    const diff = difficulty === "intermediate" ? "medium" : difficulty;
+    let topicsToRun = [topic];
+    if (isBatch) {
+      const r = await fetch(`${API_BASE_URL}/api/question_bank/topics?group=${encodeURIComponent(group)}`);
+      const data = await r.json();
+      topicsToRun = (data?.[group] as string[] | undefined) ?? [];
+      setLogs(prev => prev + `Found ${topicsToRun.length} topics in ${group}.\n`);
+    }
+    let added = 0;
+    for (const t of topicsToRun) {
+      let left = count;
+      while (left > 0) {
+        const n = Math.min(20, left);
+        left -= n;
+        setLogs(prev => prev + `→ ${t}: generating ${n} (${diff})… `);
+        const r = await fetch(`${API_BASE_URL}/api/question_bank/generate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${adminSecret}` },
+          body: JSON.stringify({ topic: t, group, count: n, difficulty: diff, save: true,
+            skill: skill || undefined, audience: audience || undefined }),
+        });
+        if (r.status === 401) throw new Error("Wrong admin secret");
+        if (!r.ok) { setLogs(prev => prev + `failed (${r.status}): ${(await r.text()).slice(0, 200)}\n`); continue; }
+        const d = await r.json();
+        added += d.saved?.added ?? 0;
+        setLogs(prev => prev + `${d.questions.length} valid, ${d.rejected.length} rejected, ${d.saved?.added ?? 0} added` +
+          ` · ${d.sources?.length ?? 0} KB sources (${d.retrieval_method || "no retrieval"}, skill ${d.skill})\n`);
+      }
+    }
+    setLogs(prev => prev + `\nDone: ${added} new questions saved.\n`);
+  };
+
   const handleStart = async () => {
+    if (engine === "cloud") {
+      setIsGenerating(true);
+      setLogs(`Generating via ${API_BASE_URL} (KB-grounded)…\n\n`);
+      try {
+        await runCloud();
+        onSuccess();
+      } catch (err: any) {
+        setLogs(prev => prev + `\n\n[FATAL ERROR] ${err.message}`);
+      } finally {
+        setIsGenerating(false);
+      }
+      return;
+    }
     setIsGenerating(true);
     const startMsg = isBatch
       ? `Starting batch expansion for ALL topics in group [${group}]...\nTarget: ${count} questions per topic at ${difficulty} level using ${provider} (${model || 'default model'})...\n\n`
@@ -156,6 +209,27 @@ const GenerateQuestionsModal: React.FC<{
           </div>
         </div>
 
+        <div className="mb-6 space-y-4">
+          <div className="flex gap-2">
+            {(["cloud", "local"] as const).map(e => (
+              <button key={e} type="button" onClick={() => setEngine(e)} disabled={isGenerating}
+                className={`flex-1 p-2 rounded-xl text-sm ${engine === e ? 'bg-teal-600 text-white' : 'bg-slate-200 dark:bg-slate-800'}`}>
+                {e === "cloud" ? "Cloud (outsie + agentcyto KB)" : "Local CLI (dev server only)"}
+              </button>
+            ))}
+          </div>
+          {engine === "cloud" && (
+            <div className="grid md:grid-cols-3 gap-4">
+              <input type="password" value={adminSecret} onChange={e => setAdminSecret(e.target.value)} placeholder="Admin secret" disabled={isGenerating}
+                className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none dark:text-white" />
+              <input value={skill} onChange={e => setSkill(e.target.value)} placeholder="KB skill (physics, history…)" disabled={isGenerating}
+                className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none dark:text-white" />
+              <input value={audience} onChange={e => setAudience(e.target.value)} placeholder="Audience (e.g. Class 10 CBSE)" disabled={isGenerating}
+                className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none dark:text-white" />
+            </div>
+          )}
+        </div>
+
         <div className="mb-6">
           <label className="block text-sm font-medium text-slate-400 mb-2 uppercase tracking-wider flex items-center gap-2">
             <Activity size={16} /> Console Output
@@ -173,7 +247,7 @@ const GenerateQuestionsModal: React.FC<{
         <div className="flex justify-end gap-4">
           <Button onClick={onClose} variant="secondary" disabled={isGenerating}>Close</Button>
           <Button onClick={handleStart} disabled={isGenerating} className="bg-teal-600 hover:bg-teal-500">
-            {isGenerating ? <><RefreshCw className="animate-spin" size={18} /> Running CLI...</> : "Start Process"}
+            {isGenerating ? <><RefreshCw className="animate-spin" size={18} /> {engine === "cloud" ? "Generating..." : "Running CLI..."}</> : "Start Process"}
           </Button>
         </div>
       </Card>
@@ -279,6 +353,27 @@ const SyncOperationModal: React.FC<SyncModalProps> = ({
               ? "Uploads local questions using idempotent PATCH requests. Cloud question bank is enriched without duplicate insertion or deleting existing questions."
               : "Downloads cloud questions additively. Uses hash-based deduplication to only insert questions that are missing from your local JSON files."}
           </p>
+        </div>
+
+        <div className="mb-6 space-y-4">
+          <div className="flex gap-2">
+            {(["cloud", "local"] as const).map(e => (
+              <button key={e} type="button" onClick={() => setEngine(e)} disabled={isGenerating}
+                className={`flex-1 p-2 rounded-xl text-sm ${engine === e ? 'bg-teal-600 text-white' : 'bg-slate-200 dark:bg-slate-800'}`}>
+                {e === "cloud" ? "Cloud (outsie + agentcyto KB)" : "Local CLI (dev server only)"}
+              </button>
+            ))}
+          </div>
+          {engine === "cloud" && (
+            <div className="grid md:grid-cols-3 gap-4">
+              <input type="password" value={adminSecret} onChange={e => setAdminSecret(e.target.value)} placeholder="Admin secret" disabled={isGenerating}
+                className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none dark:text-white" />
+              <input value={skill} onChange={e => setSkill(e.target.value)} placeholder="KB skill (physics, history…)" disabled={isGenerating}
+                className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none dark:text-white" />
+              <input value={audience} onChange={e => setAudience(e.target.value)} placeholder="Audience (e.g. Class 10 CBSE)" disabled={isGenerating}
+                className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none dark:text-white" />
+            </div>
+          )}
         </div>
 
         <div className="mb-6">
