@@ -93,7 +93,7 @@ const GenerateQuestionsModal: React.FC<{
             skill: skill || undefined, audience: audience || undefined }),
         });
         if (r.status === 401) throw new Error("Wrong admin secret");
-        if (!r.ok) { setLogs(prev => prev + `failed (${r.status}): ${(await r.text()).slice(0, 200)}\n`); continue; }
+        if (!r.ok) { const err = (await r.text()).slice(0, 200); setLogs(prev => prev + `failed (${r.status}): ${err}\n`); continue; }
         const d = await r.json();
         added += d.saved?.added ?? 0;
         setLogs(prev => prev + `${d.questions.length} valid, ${d.rejected.length} rejected, ${d.saved?.added ?? 0} added` +
@@ -353,27 +353,6 @@ const SyncOperationModal: React.FC<SyncModalProps> = ({
               ? "Uploads local questions using idempotent PATCH requests. Cloud question bank is enriched without duplicate insertion or deleting existing questions."
               : "Downloads cloud questions additively. Uses hash-based deduplication to only insert questions that are missing from your local JSON files."}
           </p>
-        </div>
-
-        <div className="mb-6 space-y-4">
-          <div className="flex gap-2">
-            {(["cloud", "local"] as const).map(e => (
-              <button key={e} type="button" onClick={() => setEngine(e)} disabled={isGenerating}
-                className={`flex-1 p-2 rounded-xl text-sm ${engine === e ? 'bg-teal-600 text-white' : 'bg-slate-200 dark:bg-slate-800'}`}>
-                {e === "cloud" ? "Cloud (outsie + agentcyto KB)" : "Local CLI (dev server only)"}
-              </button>
-            ))}
-          </div>
-          {engine === "cloud" && (
-            <div className="grid md:grid-cols-3 gap-4">
-              <input type="password" value={adminSecret} onChange={e => setAdminSecret(e.target.value)} placeholder="Admin secret" disabled={isGenerating}
-                className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none dark:text-white" />
-              <input value={skill} onChange={e => setSkill(e.target.value)} placeholder="KB skill (physics, history…)" disabled={isGenerating}
-                className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none dark:text-white" />
-              <input value={audience} onChange={e => setAudience(e.target.value)} placeholder="Audience (e.g. Class 10 CBSE)" disabled={isGenerating}
-                className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none dark:text-white" />
-            </div>
-          )}
         </div>
 
         <div className="mb-6">
