@@ -61,7 +61,7 @@ function GeneratePanel({ topics, group, onDone }: { topics: string[]; group: str
             body: JSON.stringify({ topic: t, group, count: n, difficulty, save: true, skill: skill || undefined, audience: audience || undefined }),
           });
           if (r.status === 401) throw new Error("Session expired, sign in again");
-          if (!r.ok) { setLog(l => l + `failed (${r.status}) ${(await r.text()).slice(0, 160)}\n`); continue; }
+          if (!r.ok) { const err = (await r.text()).slice(0, 160); setLog(l => l + `failed (${r.status}) ${err}\n`); continue; }
           const d = await r.json();
           added += d.saved?.added ?? 0;
           setLog(l => l + `${d.questions.length} valid, ${d.rejected.length} rejected, ${d.saved?.added ?? 0} new · ${d.sources?.length ?? 0} KB sources (${d.retrieval_method || "no retrieval"}, skill ${d.skill})\n`);
