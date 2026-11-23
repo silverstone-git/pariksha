@@ -28,6 +28,8 @@ import { Card } from "./components/Card";
 import { Button } from "./components/Button";
 import { AIExamGenerator } from "./components/AIExamGenerator";
 import AdminDashboard from "./admin/AdminDashboard";
+import CloudAdmin from "./admin/CloudAdmin";
+import { isAdminRoute } from "./admin/adminAuth";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { ThemeToggle } from "./components/ThemeToggle";
 
@@ -1811,8 +1813,9 @@ const ResultsScreen: React.FC<{
 
 // --- MAIN APP COMPONENT ---
 export default function App() {
+  // The deployed admin panel is reached at /?admin (no button for students); Google sign-in returns there.
   const [screen, setScreen] = React.useState<"home" | "exam" | "results" | "admin">(
-    "home",
+    isAdminRoute() ? "admin" : "home",
   );
   const [examConfig, setExamConfig] = React.useState<ExamConfig | null>(null);
   const [timerConfig, setTimerConfig] = React.useState({
@@ -1875,11 +1878,13 @@ export default function App() {
   const renderScreen = () => {
     switch (screen) {
       case "admin":
-        if (!isLocalhost()) {
-          setScreen("home");
-          return null;
-        }
-        return <AdminDashboard onBack={() => setScreen("home")} />;
+      {
+        const leave = () => { window.history.replaceState(null, "", window.location.pathname); setScreen("home"); };
+        // Dev server keeps the local-bank dashboard (its tools spawn cli/*.py); everywhere else uses outsie.
+        return import.meta.env.DEV && isLocalhost() && !isAdminRoute()
+          ? <AdminDashboard onBack={leave} />
+          : <CloudAdmin onBack={leave} />;
+      }
       case "exam":
         if (!examConfig) {
           setScreen("home");

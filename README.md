@@ -40,7 +40,11 @@ The `cli/` directory contains powerful scripts for maintaining the question bank
 1. **Install Dependencies**: `npm install`
 2. **Environment Setup**: Create a `.env.development` with `VITE_API_BASE_URL`.
 3. **Run Dev Server**: `npm run dev`
-4. **Access Admin Panel**: Click the **Settings** icon on the home screen to manage the question bank.
+4. **Access Admin Panel**: Click the **Settings** icon on the home screen (dev server) to manage the local question bank.
+
+### Admin on the deployed site
+
+Open `https://pariksha.aryan.cfd/?admin` and sign in with Google. outsie's `POST /admin/session` lets in only a Supabase-verified Google account listed in `OUTSIE_ADMIN_EMAILS` and returns a 2-hour admin token (kept in `sessionStorage`). From there: generate KB-grounded questions per topic or for a whole group, review and delete questions, upload a questions JSON (deduplicated), clear a topic, and create a new group from a topic list. The page has no secret in it; every check happens on the server. Needs `https://pariksha.aryan.cfd/**` in the Supabase project's Auth redirect URLs and the pariksha origin in outsie's CORS list.
 
 ---
 *Built for serious aspirants. 🚀🧪*
