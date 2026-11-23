@@ -44,7 +44,12 @@ The `cli/` directory contains powerful scripts for maintaining the question bank
 
 ### Admin on the deployed site
 
-Open `https://pariksha.aryan.cfd/?admin` and sign in with Google. outsie's `POST /admin/session` lets in only a Supabase-verified Google account listed in `OUTSIE_ADMIN_EMAILS` and returns a 2-hour admin token (kept in `sessionStorage`). From there: generate KB-grounded questions per topic or for a whole group, review and delete questions, upload a questions JSON (deduplicated), clear a topic, and create a new group from a topic list. The page has no secret in it; every check happens on the server. Needs `https://pariksha.aryan.cfd/**` in the Supabase project's Auth redirect URLs and the pariksha origin in outsie's CORS list.
+Open `https://pariksha.aryan.cfd/?admin` and sign in with Google. outsie's `POST /admin/session` lets in only a Supabase-verified Google account listed in `OUTSIE_ADMIN_EMAILS` and returns a 2-hour admin token (kept in `sessionStorage`). Three tabs:
+- **Question bank**: generate KB-grounded questions per topic or group (pick the agentcyto skill), review, edit (live LaTeX preview) and delete questions, add a question by hand, upload a questions JSON (deduplicated), download a topic or whole group as JSON, clear a topic, create a group from a topic list.
+- **Exam types**: patterns (sections of topic/category weights, marking, allowed types, duration, KB skill) stored on outsie. Published ones appear on the home screen next to GATE/CSIR NET. "Top up" generates grounded questions until every topic has enough; "Publish" samples one fixed paper and posts it as a community exam.
+- **Community exams**: rename, delete, and fix questions (bank questions are edited in place; legacy exams' stored JSON is rewritten).
+
+Knowledge-base Markdown is managed in agentcyto's admin page, not here. The page has no secret in it; every check happens on the server. Needs `https://pariksha.aryan.cfd/**` in the Supabase project's Auth redirect URLs and the pariksha origin in outsie's CORS list.
 
 ---
 *Built for serious aspirants. 🚀🧪*
