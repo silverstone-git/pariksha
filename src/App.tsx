@@ -28,6 +28,9 @@ import { Card } from "./components/Card";
 import { Button } from "./components/Button";
 import { AIExamGenerator } from "./components/AIExamGenerator";
 import AdminDashboard from "./admin/AdminDashboard";
+import CloudAdmin from "./admin/CloudAdmin";
+import { isAdminRoute } from "./admin/adminAuth";
+import type { ServerPreset } from "./admin/ExamsAdmin";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { ThemeToggle } from "./components/ThemeToggle";
 
@@ -684,6 +687,32 @@ const AutoGenerateExamModal: React.FC<{
     { id: "BARC_OCES", name: "BARC OCES", desc: "100 Questions | Speed Test Pattern" },
   ];
 
+  // Admin-made exam types (outsie /api/exam_presets): sampled from the bank like the built-ins.
+  const [serverPresets, setServerPresets] = React.useState<ServerPreset[]>([]);
+  React.useEffect(() => {
+    fetch(`${API_BASE_URL}/api/exam_presets`).then(r => (r.ok ? r.json() : [])).then(setServerPresets).catch(() => {});
+  }, []);
+
+  const handleServerPreset = async (p: ServerPreset) => {
+    setIsGenerating(true);
+    try {
+      const config = await generatePresetExam("CUSTOM", { sections: p.sections.map(s => ({ ...s, maxAttempts: s.maxAttempts ?? undefined })) }, p.group);
+      config.name = p.name;
+      config.settings = { ...config.settings!, timerHours: Math.floor(p.duration_minutes / 60), timerMinutes: p.duration_minutes % 60 };
+      const found = (config.sections || []).reduce((a, s) => a + s.questions.length, 0);
+      if (found === 0) {
+        alert("No questions found for this exam type yet.");
+        return;
+      }
+      onExamGenerated(config);
+      onClose();
+    } catch {
+      alert("Could not build this exam. Please try again.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   const PresetConfirmationModal = () => {
     if (!showConfirmation) return null;
     const preset = presets.find(p => p.id === showConfirmation);
@@ -1092,6 +1121,22 @@ const AutoGenerateExamModal: React.FC<{
               </button>
             ))}
             </div>
+            )}
+
+            {serverPresets.some(p => p.group === selectedGroup) && (
+              <div className="grid md:grid-cols-2 gap-4 mb-6 relative z-0">
+                {serverPresets.filter(p => p.group === selectedGroup).map(p => (
+                  <button
+                    key={p.preset_id}
+                    onClick={() => handleServerPreset(p)}
+                    disabled={isGenerating}
+                    className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-left hover:-translate-y-1 hover:shadow-xl hover:border-blue-500 transition-all group disabled:opacity-50"
+                  >
+                    <h3 className="font-bold text-lg group-hover:text-blue-500">{p.name}</h3>
+                    <p className="text-sm text-slate-500">{p.description || `${p.duration_minutes} min`}</p>
+                  </button>
+                ))}
+              </div>
             )}
 
             <PresetConfirmationModal />
@@ -1811,8 +1856,9 @@ const ResultsScreen: React.FC<{
 
 // --- MAIN APP COMPONENT ---
 export default function App() {
+  // The deployed admin panel is reached at /?admin (no button for students); Google sign-in returns there.
   const [screen, setScreen] = React.useState<"home" | "exam" | "results" | "admin">(
-    "home",
+    isAdminRoute() ? "admin" : "home",
   );
   const [examConfig, setExamConfig] = React.useState<ExamConfig | null>(null);
   const [timerConfig, setTimerConfig] = React.useState({
@@ -1875,11 +1921,13 @@ export default function App() {
   const renderScreen = () => {
     switch (screen) {
       case "admin":
-        if (!isLocalhost()) {
-          setScreen("home");
-          return null;
-        }
-        return <AdminDashboard onBack={() => setScreen("home")} />;
+      {
+        const leave = () => { window.history.replaceState(null, "", window.location.pathname); setScreen("home"); };
+        // Dev server keeps the local-bank dashboard (its tools spawn cli/*.py); everywhere else uses outsie.
+        return import.meta.env.DEV && isLocalhost() && !isAdminRoute()
+          ? <AdminDashboard onBack={leave} />
+          : <CloudAdmin onBack={leave} />;
+      }
       case "exam":
         if (!examConfig) {
           setScreen("home");
